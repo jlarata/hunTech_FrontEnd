@@ -68,6 +68,39 @@ h2 {
     border-left: solid 1px white;
 }
 
+.perfil-input.skill {
+    background: #0e2a3a;
+    border: 1px solid #ff0562;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.btn-add-skill {
+    background: transparent;
+    border: 1px solid #ff0562;
+    color: #ff0562;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.perfil-input.textarea {
+    resize: vertical;          /* permite agrandar */
+    min-height: 80px;          /* no quede muy chico */
+    width: 100%;               /* ocupa todo el ancho */
+    background: #0e2a3a;
+    border: 1px solid #ff0562;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-family: inherit;      /* mismo tipo de letra */
+    font-size: 1rem;
+}
+
 @media (max-width: 768px) {
     .perfil-card {
         max-width: 80vw;    

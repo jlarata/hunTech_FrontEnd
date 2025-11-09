@@ -1,5 +1,5 @@
 import { Component,inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormBuilder, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
 
 import { Users} from './../../servicios/users';
 import { User } from './../../models/users/user';
@@ -15,13 +15,55 @@ import { InstitucionEducativa } from './../../models/users/institucion-educativa
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
+
   private _usersService = inject(Users);
+  private fb = inject(FormBuilder);
 
   user: any;
   rol:any;
 
+  profileEditForm = this.fb.group({
+    descripcion: [''],
+    skills: this.fb.array<string>([])
+  });
+
+  enEdicion = false; // mostrar formulario o tarjeta
+
   ngOnInit(): void {
     this.constructAndLoadUserByRole();
+  }
+
+  activarEdicion(): void {
+    this.enEdicion = true;
+    // rellenamos el form con los datos ingresados
+    this.profileEditForm.patchValue({
+      descripcion: this.user.descripcion || ''
+    });
+  }
+
+  guardarCambiosEdicion(): void {
+  if (this.profileEditForm.invalid) return;
+
+    const formValue = this.profileEditForm.value;
+
+    // siempre actualizamos descripción
+    this.user.descripcion = formValue.descripcion;
+
+    // solo actualizamos skills si es desarrollador
+    if (this.user instanceof Desarrollador && formValue.skills) {
+      this.user.skills = (formValue.skills as string[]).filter(s => s.trim() !== '');
+    }
+
+    this.enEdicion = false;
+  }
+
+  get skillsControls(): FormControl[] {
+    return (this.profileEditForm.get('skills') as FormArray).controls as FormControl[];
+  }
+
+  agregarSkill(): void {
+    const skillsArray = this.profileEditForm.get('skills') as FormArray;
+    skillsArray.push(this.fb.control('')); // input vacío
   }
 
   private constructAndLoadUserByRole(): void {
