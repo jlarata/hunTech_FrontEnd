@@ -7,4 +7,20 @@
     <ul class="perfil-details">
         <li>Rol Principal: {{ getTipoUsuario() || 'Esperando rol..' }}</li>
     </ul>
+
+    @if (user?.skills) {
+        <div class="perfil-skills">
+            <div class="perfil-skills-titulo">
+                <h3>Skills</h3>
+            </div>
+            <div class="perfil-skills-skills">
+                <ul class="perfil-details">
+                    @for (skill of user.skills; track skill) {
+                        <li>{{ skill }}</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+    
 </div>

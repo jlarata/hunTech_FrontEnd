@@ -1,4 +1,5 @@
 import { Component,inject } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { Users} from './../../servicios/users';
 import { User } from './../../models/users/user';
@@ -9,7 +10,7 @@ import { InstitucionEducativa } from './../../models/users/institucion-educativa
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -72,11 +73,13 @@ export class ProfileComponent {
         gerente.descripcion = userData.descripcion || "";
         return gerente;
       case 'desarrollador':
+        let skills: string[] =  ['Angular', 'TypeScript']; //valor por defecto
         let desarrollador = new Desarrollador();
         desarrollador.name = nombre;
         desarrollador.email = email;
         desarrollador.descripcion = userData.descripcion || "";
         //skill po esta definida en cognito , si en la db pero actualmente no estoy obteniendo ese dato
+        desarrollador.skills = skills;
         return desarrollador;
       case 'institucion':
         let institucion =  new InstitucionEducativa();
@@ -88,7 +91,7 @@ export class ProfileComponent {
         throw new Error('Rol no reconocido');
     }
   }
-  
+
   //funcion auxiliar para ver de que tipo es ell user que creo, 
   // para verificar mi metodo buildUserByRole//buenoo y ahora para mostrar en el html
   //rol principal

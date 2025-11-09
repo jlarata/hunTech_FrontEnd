@@ -44,6 +44,30 @@ h2 {
     margin-bottom: 0.5rem;
 }
 
+.perfil-skills {
+    display: flex;
+    flex-direction: row;
+}
+
+.perfil-skills-titulo {
+    display: flex;
+    flex-direction: column;
+    padding-right: 2rem;
+    align-items: end;
+    justify-content: center;
+    width: 50%;
+}
+
+.perfil-skills-skills {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+    align-items: start;
+    justify-content: center;
+    width: 50%;
+    border-left: solid 1px white;
+}
+
 @media (max-width: 768px) {
     .perfil-card {
         max-width: 80vw;    
