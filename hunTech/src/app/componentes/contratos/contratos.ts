@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ContratoCard } from '../../models/cards/contrato-card';
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { Contrato } from '../models/contrato';
+import { Contrato } from '../../models/contrato';
 import { RouterModule } from '@angular/router';
 import { ContratoDetail } from '../contrato-detail/contrato-detail';
 
