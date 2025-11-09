@@ -1,4 +1,10 @@
-@let tipo = getTipoUsuario();
-<p>nombre: {{user.name}}</p>
-<p>Tipo: {{tipo}}</p>
-<p>Rol: {{rol}}</p>
+
+<div class="perfil-card">
+    <h2>{{user.name}}</h2>
+    <p class="email">email: {{ user.email }}</p>
+    <p class="bio">Bio: {{ user.descripcion || "Descripcion no ingresada" }}</p>
+
+    <ul class="perfil-details">
+        <li>Rol Principal: {{ getTipoUsuario() || 'Esperando rol..' }}</li>
+    </ul>
+</div>

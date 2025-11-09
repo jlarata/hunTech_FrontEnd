@@ -1,0 +1,65 @@
+.perfil-card {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    background-color: #143447;
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 40vw;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+h2 {
+    margin: 0.5rem;
+    margin-bottom: -2rem;
+    font-size: 3.4rem;
+}
+
+.email {
+    position: relative;
+    font-size: 1.5rem;
+    padding-top: 0.5rem;
+}
+
+/*linea debajo del email*/
+/*con pseudoelemento*/
+.email::before {
+    content: '';
+    position: absolute;
+    width: 55%;
+    border-top: 1px solid #ff0562;
+    bottom: 2.5rem
+}
+
+.perfil-details {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.perfil-details li {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .perfil-card {
+        max-width: 80vw;    
+    }
+
+    .email {
+        position: relative;
+        font-size: 1.5rem;
+        padding-top: 0.5rem;
+    }
+
+    .email::before {
+        content: '';
+        position: absolute;
+        width: 70%;
+        border-top: 1px solid #ff0562;
+        bottom: 2.5rem
+    }
+}

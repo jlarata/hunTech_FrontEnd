@@ -20,9 +20,13 @@ export class ProfileComponent {
   rol:any;
 
   ngOnInit(): void {
+    this.constructAndLoadUserByRole();
+  }
+
+  private constructAndLoadUserByRole(): void {
     this.loadUser();
     this.loadRolUser();
-    this.constructUserByRole()
+    this.constructUserByRole();//esto al final
   }
 
   private constructUserByRole(): void {
@@ -84,7 +88,10 @@ export class ProfileComponent {
         throw new Error('Rol no reconocido');
     }
   }
-  //funcion auxiliar para ver de que tipo es ell user que creo , para verificar mi metodo buildUserByRole
+  
+  //funcion auxiliar para ver de que tipo es ell user que creo, 
+  // para verificar mi metodo buildUserByRole//buenoo y ahora para mostrar en el html
+  //rol principal
   getTipoUsuario(): string {
   if (this.user instanceof Desarrollador) return 'Desarrollador';
   if (this.user instanceof Gerente)       return 'Gerente';
