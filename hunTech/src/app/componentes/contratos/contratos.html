@@ -1,0 +1,37 @@
+@if (from!='gerente') {
+<h1>Contratos disponibles</h1>
+<hr>
+}
+
+
+<div class="contrato-card-container">
+  @for (card of contratosCards; track card.id) {
+  <div class="contrato-card">
+
+
+    <!-- esto por ahora no lo veo implementando <img *ngIf="card.imageUrl" [src]="card.imageUrl" alt="{{ card.title }}" /> -->
+    <!-- si el puesto no está cubierto -->
+    <div *ngIf="!card.esta_ocupado" class="contrato-card-content">
+      <h2 class="contrato-card-titulo"> > {{ card.titulo }}</h2>
+      <p>{{ card.descripcion }}</p>
+      <p *ngIf="card.start_date">Fecha de inicio del contrato: {{ card.start_date }}</p>
+      <p *ngIf="card.end_date">Fecha de finalización del contrato: {{ card.end_date }}</p>
+    </div>
+    <div class="card-button-group">
+      <!--       <a
+        [routerLink]="['/contrato-detail', card.id, card.tipo, card.titulo, card.descripcion, card.start_date, card.end_date]">
+        <button class="btn btn-signup">+</button>
+      </a> -->
+
+
+      <button class="btn btn-signup" (click)="this.setContratoAMostrar(card)">+</button>
+
+
+    </div>
+  </div>
+  }
+  @empty {
+  <div>Lo sentimos =( <br>
+    Parece que no hay contratos disponibles para el criterio elegido.</div>
+  }
+</div>
