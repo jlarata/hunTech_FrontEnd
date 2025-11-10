@@ -1,54 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Contrato } from '../models/contrato';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ContratoResponse } from '../models/contrato';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContratoService {
 
-  /* private contratosUrl = 'api/contratos'; */
-  private contratosUrl = 'api/contratos';
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+  //private _contratosUrl = `https://66ll3g4lt5.execute-api.us-east-1.amazonaws.com/api/`
+  private _contratosUrl = `http://127.0.0.1:3000/api/`
 
-  constructor(private http: HttpClient) { }
+  constructor(private _httpClient: HttpClient) { }
 
-  getContratos(): Observable<Contrato[]> {
-    return this.http.get<Contrato[]>(this.contratosUrl)
-      .pipe(
-        tap(_ => this.log('fetched contratos')),
-        catchError(this.handleError<Contrato[]>('getContratos', []))
-      )
+  getContratos(): Observable<ContratoResponse> {
+    const res = this._httpClient.get<ContratoResponse>(this._contratosUrl + 'contratos');
+    return res
   }
-
-
-  private log(message: string) {
-    console.log(`Contratos Service: ${message}`)
-  }
-
-  /**
-* Handle Http operation that failed.
-* Let the app continue.
-*
-* @param operation - name of the operation that failed
-* @param result - optional value to return as the observable result
-*/
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
-
 }

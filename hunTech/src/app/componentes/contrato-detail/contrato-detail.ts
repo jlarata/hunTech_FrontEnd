@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ContratoDetail {
 
-  @Input() contrato:Contrato;
+  @Input() contrato?:Contrato;
   @Input() from: string = '';
 
   constructor(private route: ActivatedRoute) { }

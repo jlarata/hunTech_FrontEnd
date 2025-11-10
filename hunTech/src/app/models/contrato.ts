@@ -10,3 +10,9 @@ export class Contrato {
     start_date?: string;
     end_date?: string;
 }
+
+export class ContratoResponse {
+    message?: string;
+    count?: number;
+    data: Contrato[] = [];
+}

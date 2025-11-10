@@ -4,9 +4,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { Contrato } from '../../models/contrato';
 import { RouterModule } from '@angular/router';
 import { ContratoDetail } from '../contrato-detail/contrato-detail';
-
-
-
+import { ContratoService } from '../../servicios/contrato';
 
 @Component({
   selector: 'app-contratos',
@@ -16,22 +14,36 @@ import { ContratoDetail } from '../contrato-detail/contrato-detail';
 })
 export class Contratos {
   @Input() from: string = '';
-  constructor(private viewportScroller: ViewportScroller) { }
+  constructor(
+    private _apiService : ContratoService,
+    private viewportScroller: ViewportScroller) { }
 
-
-  contratos = CONTRATOS
+  todosLosContratos: Contrato[] = [];
   contratosCards: ContratoCard[] = [];
 
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
 
   ngOnInit(): void {
-    this.createCards(CONTRATOS);
+    this.mostrarTodosLosContratos();
   }
 
   ngAfterViewChecked() {
-    this.scrollToDetail();
+    //this.scrollToDetail();
   }
+
+  mostrarTodosLosContratos() {
+  this._apiService.getContratos().subscribe({
+    next: (res) => {
+      console.log(`${res.count} ${res.message}`)
+      this.todosLosContratos = res.data
+      this.createCards(this.todosLosContratos)
+    },
+    error: (error: string) => {
+      console.log('desde el componente error '+error)
+    }
+  });
+}
 
   createCards = (contratos: Contrato[]): void => {
     for (let i: number = 0; i < contratos.length; i++) {
@@ -61,12 +73,14 @@ export class Contratos {
         this.contratoAMostrarDetail = contrato;
       }
     }
+    this.scrollToDetail();
   }
 
   /* cuando se abre una tarjeta de detalle de contrato, se scrollea la view */
   scrollToDetail(): void {
     try {
-      this.viewportScroller.scrollToPosition([0, document.body.scrollHeight]);
+      this.viewportScroller.scrollToPosition([0, 0]);
+      //this.viewportScroller.scrollToPosition([0, document.body.scrollHeight]);
     } catch (err) {
       console.error('Error scrolling to bottom:', err);
     }
