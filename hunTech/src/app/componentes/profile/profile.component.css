@@ -1,0 +1,123 @@
+.perfil-card {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    background-color: #143447;
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 40vw;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+h2 {
+    margin: 0.5rem;
+    margin-bottom: -2rem;
+    font-size: 3.4rem;
+}
+
+.email {
+    position: relative;
+    font-size: 1.5rem;
+    padding-top: 0.5rem;
+}
+
+/*linea debajo del email*/
+/*con pseudoelemento*/
+.email::before {
+    content: '';
+    position: absolute;
+    width: 55%;
+    border-top: 1px solid #ff0562;
+    bottom: 2.5rem
+}
+
+.perfil-details {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.perfil-details li {
+    margin-bottom: 0.5rem;
+}
+
+.perfil-skills {
+    display: flex;
+    flex-direction: row;
+}
+
+.perfil-skills-titulo {
+    display: flex;
+    flex-direction: column;
+    padding-right: 2rem;
+    align-items: end;
+    justify-content: center;
+    width: 50%;
+}
+
+.perfil-skills-skills {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+    align-items: start;
+    justify-content: center;
+    width: 50%;
+    border-left: solid 1px white;
+
+}
+
+.perfil-input.skill {
+    background: #0e2a3a;
+    border: 1px solid #ff0562;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    width: 25%;
+}
+
+.btn-add-skill {
+    background: transparent;
+    border: 1px solid #ff0562;
+    color: #ff0562;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.perfil-input.textarea {
+    resize: vertical;          /* permite agrandar */
+    min-height: 80px;          /* no quede muy chico */
+    width: 50%;               /* ocupa todo el ancho */
+    background: #0e2a3a;
+    border: 1px solid #ff0562;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-family: inherit;      /* mismo tipo de letra */
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .perfil-card {
+        max-width: 80vw;    
+    }
+
+    .email {
+        position: relative;
+        font-size: 1.5rem;
+        padding-top: 0.5rem;
+    }
+
+    .email::before {
+        content: '';
+        position: absolute;
+        width: 70%;
+        border-top: 1px solid #ff0562;
+        bottom: 2.5rem
+    }
+}
