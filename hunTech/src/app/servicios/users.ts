@@ -134,4 +134,20 @@ export class Users {
     });
   }
 
+  //segun rol elegido crea user en tabla correspondiente
+  editUser(user: any, role: string): Observable<any> {
+    ///agregar campos que van a ser actualizados en la db
+    const url = `${this._usersUrl}${role}`;
+    const body = { user}; 
+    
+    return this._httpClient.put<any>(url, body).pipe(
+      tap(res => console.log('resultado de editar usuario:', res)),
+      take(1)
+    );
+  }
+
+  //ok y voy a necesitar un get user 
+  // que me traiga los datos actualizados de la db
+  getUserFromDB(): Observable<any> {return of(null);}
+
 }

@@ -64,7 +64,7 @@ h2 {
     padding-left: 1rem;
     align-items: start;
     justify-content: center;
-    width: 50%;
+    width: 80%;
     border-left: solid 1px white;
 
 }
@@ -76,7 +76,7 @@ h2 {
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
     margin-bottom: 0.5rem;
-    width: 25%;
+    width: 30%;
 }
 
 .btn-add-skill {
@@ -92,7 +92,7 @@ h2 {
 .perfil-input.textarea {
     resize: vertical;          /* permite agrandar */
     min-height: 80px;          /* no quede muy chico */
-    width: 50%;               /* ocupa todo el ancho */
+    width: 80%;               /* ocupa todo el ancho */
     background: #0e2a3a;
     border: 1px solid #ff0562;
     color: white;

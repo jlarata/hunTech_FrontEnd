@@ -7,7 +7,7 @@
 
     <!-- MODO LECTURA -->
     @if (!enEdicion) {
-        <h2>{{user.name}}</h2>
+        <h2>{{user.nombre}}</h2>
         <p class="email">email: {{ user.email }}</p>
         <p class="bio">Bio: {{ user.descripcion || "Descripcion no ingresada" }}</p>
 
@@ -35,7 +35,15 @@
     <!-- MODO EDICIÓN (formulario reactivo) -->
     @if (enEdicion) {
         <form [formGroup]="profileEditForm" (ngSubmit)="guardarCambiosEdicion()" class="perfil-card">
-            <div >
+            <div>
+                <label><h3>Nombre</h3></label>
+                <input
+                    type="text"
+                    formControlName="nombre"
+                    class="perfil-input"
+                    
+                />
+            
                 <label><h3>Descripción</h3></label>
                 <textarea
                     formControlName="descripcion"
@@ -43,8 +51,7 @@
                     rows="4"
                     placeholder="Contanos sobre vos...">
                 </textarea>
-            </div>
-            <div >
+        
                 <label><h3>Skills</h3></label>
                 @for (skillCtrl of skillsControls; let i = $index; track i) {
                     <input
