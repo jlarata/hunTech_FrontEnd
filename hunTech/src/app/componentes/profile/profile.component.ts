@@ -35,12 +35,21 @@ export class ProfileComponent {
 
   activarEdicion(): void {
     this.enEdicion = true;
-    // rellenamos el form con los datos previamente ingresados
+    // rellenamos el form con los datos existentes
     this.profileEditForm.patchValue({
-    nombre: this.user.nombre ?? '',
-    descripcion: this.user.descripcion ?? '',
-    skills: this.user.skills ?? []//esto no esta funcionando
-  });
+      nombre: this.user.nombre ?? '',
+      descripcion: this.user.descripcion ?? '',
+      skills: this.user.skills ?? []//esto no esta funcionando
+    });
+
+    // agregar los skills que ya tenemos en edit para que no se borren  al agregar nuevos
+    const skillsArray = this.profileEditForm.get('skills') as FormArray;
+    skillsArray.clear();// vaciamos por si quedo algun dato en memoria de edicion anterior no completada
+    
+    //agregamos un formcontrol por cada skill
+    (this.user.skills as string[] ?? []).forEach(skill =>
+      skillsArray.push(this.fb.control(skill)) 
+    );
   }
 
   guardarCambiosEdicion(): void {
