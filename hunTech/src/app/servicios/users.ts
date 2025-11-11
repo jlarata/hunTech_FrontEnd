@@ -43,7 +43,7 @@ export class Users {
   };
   //poner la ruta de la lambda cuando ande
   //private _usersUrl = `https://66ll3g4lt5.execute-api.us-east-1.amazonaws.com/api/`
-  private _usersUrl = `http://127.0.0.1:3000/api/`
+  private _usersUrl = `http://127.0.0.1:3000/api/user/`
   
   constructor(private _httpClient: HttpClient) {
     this.checkUserExistence();
@@ -68,10 +68,13 @@ export class Users {
         this._email.next(email);//guardamos email obtenido de cognito
         return this.getUserExistByEmail(email);//si hay email buscamos en db
       })
+      
     ).subscribe(result => {
+
       if (result) {
-        this._isExistUser.next(result.existe === 1);
-        this._selectedRole.next(result.tabla);
+        const { existe, tabla } = result.data; 
+        this._isExistUser.next(existe === 1);
+        this._selectedRole.next(tabla);
         
       }
     });
@@ -84,15 +87,9 @@ export class Users {
     this._selectedRole.next(role);
   }
 
-  getUserExistByEmail(email: string): Observable<userExistsByEmailResponse> { 
-    const body = { email: email }; // crear el objeto JSON para enviar como body
+  getUserExistByEmail(email: string): Observable<userExistsByEmailResponse> {
 
-    return this._httpClient.post<any>(this._usersUrl + 'existusuariobyemail', body).pipe(
-      tap(response => console.log('Respuesta completa (getUserExistByEmail):', response)),
-      map(response => response.data as userExistsByEmailResponse), 
-      tap(data => console.log('Data mapeada (getUserExistByEmail):', data)),
-      take(1)
-    );
+    return this._httpClient.get<userExistsByEmailResponse>(this._usersUrl + email)
   }
 
   //segun rol elegido crea user en tabla correspondiente
@@ -101,10 +98,7 @@ export class Users {
     const url = `${this._usersUrl}${role}`;
     const body = { email, role }; 
     
-    return this._httpClient.post<any>(url, body).pipe(
-      tap(res => console.log('resultado de crear usuario:', res)),
-      take(1)
-    );
+    return this._httpClient.post<any>(url, body);
   }
 
   //ejecuta el post a la db para crear el user con el rol seleccionado
@@ -132,6 +126,25 @@ export class Users {
         console.error('Error al crear usuario:', err);
       }
     });
+  }
+
+  //segun rol elegido edita user en tabla correspondiente
+  editUser(user: any, role: string): Observable<any> {
+    ///agregar campos que van a ser actualizados en la db
+    const url = `${this._usersUrl}${role}ByEmail`;
+    const body = { 
+      desarrollador: user,
+      email: this._email
+    }; 
+    
+    return this._httpClient.put<any>(url, body);
+  }
+
+  //ok y voy a necesitar un get user 
+  // que me traiga los datos actualizados de la db
+  getUserByEmail(email: string, role: string): Observable<any> {
+    const url = `${this._usersUrl}userByEmail/${email}/${role}`;
+    return this._httpClient.get<any>(url);
   }
 
 }
