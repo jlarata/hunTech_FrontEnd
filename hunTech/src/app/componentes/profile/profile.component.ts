@@ -61,8 +61,21 @@ export class ProfileComponent {
     if (this.user instanceof Desarrollador && formValue.skills) {
       this.user.skills = (formValue.skills as string[]).filter(s => s.trim() !== '');
     }
+    console.log(this.user);
+      
+    this._usersService.editUser(this.user, this.rol).subscribe({
+      next: (response) => {
+        console.log('Usuario actualizado:', response);
+      },
+      error: (err) => {
+        console.error('Error al actualizar usuario:', err);
+      }
+    });
 
     this.enEdicion = false;
+
+    
+
   }
 
   get skillsControls(): FormControl[] {

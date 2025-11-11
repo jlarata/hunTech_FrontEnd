@@ -6,8 +6,11 @@ export class User {
     name?: string;
 }
 
-export class userExistsByEmailResponse{
-    existe?: number; // 0 o 1
-    tabla: string | null = ""; // nombre de  tabla si existe, null si no
-} 
+export interface userExistsByEmailResponse {
+    message: string;
+    data: {
+        existe: number;      // 0 | 1
+        tabla: string | null;
+    };
+}
 
