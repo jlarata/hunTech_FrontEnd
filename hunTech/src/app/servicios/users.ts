@@ -43,7 +43,7 @@ export class Users {
   };
   //poner la ruta de la lambda cuando ande
   //private _usersUrl = `https://66ll3g4lt5.execute-api.us-east-1.amazonaws.com/api/`
-  private _usersUrl = `http://127.0.0.1:3000/api/user/`
+  private _usersUrl = `http://127.0.0.1:3000/api/`
   
   constructor(private _httpClient: HttpClient) {
     this.checkUserExistence();
@@ -89,7 +89,7 @@ export class Users {
 
   getUserExistByEmail(email: string): Observable<userExistsByEmailResponse> {
 
-    return this._httpClient.get<userExistsByEmailResponse>(this._usersUrl + email)
+    return this._httpClient.get<userExistsByEmailResponse>(`${this._usersUrl}user/${email}`)
   }
 
   //segun rol elegido crea user en tabla correspondiente
@@ -129,15 +129,16 @@ export class Users {
   }
 
   //segun rol elegido edita user en tabla correspondiente
-  editUser(user: any, role: string): Observable<any> {
+  editUser(payload: any, role: string): Observable<any> {
     ///agregar campos que van a ser actualizados en la db
-    const url = `${this._usersUrl}${role}ByEmail`;
-    const body = { 
-      desarrollador: user,
-      email: this._email
-    }; 
+    let email = this._email.getValue()!;
+    const url = `${this._usersUrl}${role}/${email}`;
+
+    let body = {desarrollador: payload}
+
+    console.log( "Esto es el body para edit: ", body);
     
-    return this._httpClient.put<any>(url, body);
+    return this._httpClient.put(url, body);
   }
 
   //ok y voy a necesitar un get user 

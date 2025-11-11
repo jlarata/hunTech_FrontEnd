@@ -42,28 +42,32 @@ export class ProfileComponent {
   }
 
   guardarCambiosEdicion(): void {
-  if (this.profileEditForm.invalid) return;
+    if (this.profileEditForm.invalid) return;
 
     const formValue = this.profileEditForm.value;
+    const payload: any = {};//objeto que va llevar lo que se va a actualizar
 
     // solo actualizamos si el usuario escribió algo nuevo
     if (formValue.nombre?.trim() && formValue.nombre !== this.user.nombre) {
       this.user.nombre = formValue.nombre;
+      payload.nombre = this.user.nombre;
     }
 
     // actualizamos si es distinto de vacio 
     if (formValue.descripcion?.trim() != ""){
       this.user.descripcion = formValue.descripcion;
+      payload.descripcion = this.user.descripcion;
     }
     
-
     // solo actualizamos skills si es desarrollador
     if (this.user instanceof Desarrollador && formValue.skills) {
       this.user.skills = (formValue.skills as string[]).filter(s => s.trim() !== '');
+      payload.skills = this.user.skills;
     }
-    console.log(this.user);
+
+    console.log(payload);
       
-    this._usersService.editUser(this.user, this.rol).subscribe({
+    this._usersService.editUser(payload, this.rol).subscribe({
       next: (response) => {
         console.log('Usuario actualizado:', response);
       },
@@ -73,8 +77,6 @@ export class ProfileComponent {
     });
 
     this.enEdicion = false;
-
-    
 
   }
 
