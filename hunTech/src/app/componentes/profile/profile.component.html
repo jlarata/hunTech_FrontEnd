@@ -12,7 +12,7 @@
         <p class="bio">Bio: {{ user.descripcion || "Descripcion no ingresada" }}</p>
 
         <ul class="perfil-details">
-            <li>Rol Principal: {{ getTipoUsuario() || 'Esperando rol..' }}</li>
+            <li>Rol Principal: {{ user.rol || 'Esperando rol..' }}</li>
         </ul>
 
         @if (user?.skills) {

@@ -30,15 +30,17 @@ export class ProfileComponent {
   enEdicion = false; // mostrar formulario o tarjeta
 
   ngOnInit(): void {
-    this.constructAndLoadUserByRole();
+    this.loadUser();
   }
 
   activarEdicion(): void {
     this.enEdicion = true;
-    // rellenamos el form con los datos ingresados
+    // rellenamos el form con los datos previamente ingresados
     this.profileEditForm.patchValue({
-      descripcion: this.user.descripcion || ''
-    });
+    nombre: this.user.nombre ?? '',
+    descripcion: this.user.descripcion ?? '',
+    skills: this.user.skills ?? []//esto no esta funcionando
+  });
   }
 
   guardarCambiosEdicion(): void {
@@ -70,6 +72,9 @@ export class ProfileComponent {
     this._usersService.editUser(payload, this.rol).subscribe({
       next: (response) => {
         console.log('Usuario actualizado:', response);
+        const dataActualizada = response.data;
+        //actualizamos los datos en el servicio para que esten sincronizados
+        this._usersService.setUser(dataActualizada);//actualiza observable user
       },
       error: (err) => {
         console.error('Error al actualizar usuario:', err);
@@ -89,90 +94,15 @@ export class ProfileComponent {
     skillsArray.push(this.fb.control('')); // input vacío
   }
 
-  private constructAndLoadUserByRole(): void {
-    this.loadUser();
-    this.loadRolUser();
-    this.constructUserByRole();//esto al final
-  }
-
-  private constructUserByRole(): void {
-    if (this.user && this.rol) {
-      try {
-        const userByRole = this.buildUserByRole(this.rol, this.user);
-        this.user = userByRole;
-      } catch (error) {
-        console.error('Error al construir usuario por rol:', error);
-      }
-    }
-  }
-
   private loadUser(): void {
-    // user$ ya tiene el objeto que guardamos enCognito
+    // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
       next: (data) => {
-        this.user = data;   //data de cognito        
+        this.user = data;   //data de cognito  y DB      
       },
       error: (err) => console.error('Error al obtener usuario', err)
     });
   }
-
-  private loadRolUser(): void {
-    // selectedRole$ ya tiene el rol que obtenemos de la db
-    this._usersService.selectedRole$.subscribe({
-      next: (data) => {
-        this.rol = data;   //data de la db       
-      },
-      error: (err) => console.error('Error al obtener rol de usuario', err)
-    });
-  }
-
-  private buildUserByRole(role: string, userData: any): Gerente | Desarrollador | InstitucionEducativa {
-    const nombre = userData.name;
-    const email = userData.email;
-
-    switch (role) {
-      case 'gerente':
-        let gerente = new Gerente();
-        gerente.nombre = nombre;
-        gerente.email = email;
-        gerente.descripcion = userData.descripcion || "";
-        return gerente;
-      case 'desarrollador':
-        let skills: string[] =  ['Angular', 'TypeScript']; //valor por defecto
-        let desarrollador = new Desarrollador();
-        desarrollador.nombre = nombre;
-        desarrollador.email = email;
-        desarrollador.descripcion = userData.descripcion || "";
-        //skill po esta definida en cognito , si en la db pero actualmente no estoy obteniendo ese dato
-        desarrollador.skills = skills;
-        return desarrollador;
-      case 'institucion':
-        let institucion =  new InstitucionEducativa();
-        institucion.nombre = nombre;
-        institucion.email = email;
-        institucion.descripcion = userData.descripcion || "";
-        return institucion;
-      default:
-        throw new Error('Rol no reconocido');
-    }
-  }
-
-  //funcion auxiliar para ver de que tipo es ell user que creo, 
-  // para verificar mi metodo buildUserByRole//buenoo y ahora para mostrar en el html
-  //rol principal
-  getTipoUsuario(): string {
-    if (this.user instanceof Desarrollador) return 'Desarrollador';
-    if (this.user instanceof Gerente)       return 'Gerente';
-    if (this.user instanceof InstitucionEducativa) return 'Institución Educativa';
-    return 'Desconocido';
-  }
-
-  //ok al momento de llegar a la pantalla de perfil ,
-  //  el user ya debio  elegir rol y lo envianos a la db
-
-
-
-
 
 }
 
