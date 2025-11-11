@@ -2,7 +2,6 @@ import { Component,inject } from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
 
 import { Users} from './../../servicios/users';
-import { User } from './../../models/users/user';
 import { Desarrollador } from './../../models/users/desarrollador';
 import { Gerente } from './../../models/users/gerente';
 import { InstitucionEducativa } from './../../models/users/institucion-educativa';
@@ -23,7 +22,8 @@ export class ProfileComponent {
   rol:any;
 
   profileEditForm = this.fb.group({
-    descripcion: [''],
+    nombre:"",
+    descripcion: "",
     skills: this.fb.array<string>([])
   });
 
@@ -46,15 +46,36 @@ export class ProfileComponent {
 
     const formValue = this.profileEditForm.value;
 
-    // siempre actualizamos descripción
-    this.user.descripcion = formValue.descripcion;
+    // solo actualizamos si el usuario escribió algo nuevo
+    if (formValue.nombre?.trim() && formValue.nombre !== this.user.nombre) {
+      this.user.nombre = formValue.nombre;
+    }
+
+    // actualizamos si es distinto de vacio 
+    if (formValue.descripcion?.trim() != ""){
+      this.user.descripcion = formValue.descripcion;
+    }
+    
 
     // solo actualizamos skills si es desarrollador
     if (this.user instanceof Desarrollador && formValue.skills) {
       this.user.skills = (formValue.skills as string[]).filter(s => s.trim() !== '');
     }
+    console.log(this.user);
+      
+    this._usersService.editUser(this.user, this.rol).subscribe({
+      next: (response) => {
+        console.log('Usuario actualizado:', response);
+      },
+      error: (err) => {
+        console.error('Error al actualizar usuario:', err);
+      }
+    });
 
     this.enEdicion = false;
+
+    
+
   }
 
   get skillsControls(): FormControl[] {
@@ -110,14 +131,14 @@ export class ProfileComponent {
     switch (role) {
       case 'gerente':
         let gerente = new Gerente();
-        gerente.name = nombre;
+        gerente.nombre = nombre;
         gerente.email = email;
         gerente.descripcion = userData.descripcion || "";
         return gerente;
       case 'desarrollador':
         let skills: string[] =  ['Angular', 'TypeScript']; //valor por defecto
         let desarrollador = new Desarrollador();
-        desarrollador.name = nombre;
+        desarrollador.nombre = nombre;
         desarrollador.email = email;
         desarrollador.descripcion = userData.descripcion || "";
         //skill po esta definida en cognito , si en la db pero actualmente no estoy obteniendo ese dato
@@ -125,7 +146,7 @@ export class ProfileComponent {
         return desarrollador;
       case 'institucion':
         let institucion =  new InstitucionEducativa();
-        institucion.name = nombre;
+        institucion.nombre = nombre;
         institucion.email = email;
         institucion.descripcion = userData.descripcion || "";
         return institucion;
@@ -138,11 +159,15 @@ export class ProfileComponent {
   // para verificar mi metodo buildUserByRole//buenoo y ahora para mostrar en el html
   //rol principal
   getTipoUsuario(): string {
-  if (this.user instanceof Desarrollador) return 'Desarrollador';
-  if (this.user instanceof Gerente)       return 'Gerente';
-  if (this.user instanceof InstitucionEducativa) return 'Institución Educativa';
-  return 'Desconocido';
-}
+    if (this.user instanceof Desarrollador) return 'Desarrollador';
+    if (this.user instanceof Gerente)       return 'Gerente';
+    if (this.user instanceof InstitucionEducativa) return 'Institución Educativa';
+    return 'Desconocido';
+  }
+
+  //ok al momento de llegar a la pantalla de perfil ,
+  //  el user ya debio  elegir rol y lo envianos a la db
+
 
 
 

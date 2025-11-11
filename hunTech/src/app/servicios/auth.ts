@@ -22,7 +22,7 @@ export class Auth {
   constructor() {
     //invocar a checkAuth() al instanciarservicio
     this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated, userData }) => {
-      console.log('chequeando autenticacion:', isAuthenticated, userData);
+      //console.log('chequeando autenticacion:', isAuthenticated, userData);
       this._isAuthenticated.next(isAuthenticated);
       this._userData.next(userData);
     });
