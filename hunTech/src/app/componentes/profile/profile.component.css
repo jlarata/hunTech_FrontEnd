@@ -18,7 +18,7 @@
   box-shadow: 0 16px 40px rgba(0, 50, 100, 0.25);
 }
 
-/* Botón editar flotante */
+/* Botón editar */
 .btn-edit {
   position: absolute;
   top: 25px;
@@ -41,7 +41,7 @@
   transform: scale(1.1);
 }
 
-/* Título principal */
+/* Título */
 h2 {
   font-size: 2.8rem;
   font-weight: 700;
@@ -70,7 +70,7 @@ h2 {
   margin-right: auto;
 }
 
-/* Detalles listados */
+/* Detalles del perfil */
 .perfil-details {
   list-style: none;
   padding: 0;
@@ -138,7 +138,7 @@ h2 {
   box-shadow: 0 8px 20px rgba(0, 82, 204, 0.5);
 }
 
-/* Inputs estilo moderno */
+/* Inputs  */
 .perfil-input {
   width: 100%;
   padding: 1rem 1.3rem;
@@ -232,7 +232,7 @@ h2 {
   transform: translateY(-3px);
 }
 
-/* Adaptabilidad móvil */
+/* Responsive */
 @media (max-width: 600px) {
   .perfil-card {
     padding: 2rem 2rem;
