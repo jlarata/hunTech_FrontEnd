@@ -1,59 +1,73 @@
-@let isAuth   = (authService.isAuthenticated$ | async);
-@let existUser = (usersService.isExistUser$   | async);
+<!-- Pasé esta lógica al TS.
+ @let isAuth   = (authService.isAuthenticated$ | async);
+@let existUser = (usersService.isExistUser$   | async); -->
 
+@if (!isDataLoaded) {
 
-  <!-- aca esto deberia mostrarse si el user no esta autenticado o si no esta en nuestra db  -->
-@if (!isAuth || !existUser) { 
-  <!-- @if ((true) || (true)) { -->
-    <header>
-      <div class="logo-container">
-        <img src="logo.png" id="logo-principal">
-      </div>
-    </header> 
+<header class="blinking">
+    <h1 class="titulo">
+        hunTech
+    </h1>
+    <div class="logo-container">
+        <img src="../../assets/logo.png" id="logo-principal">
+    </div>
+    <h2 class="subtitulo">Cargando la data de usuario, espere por favor.</h2>
+</header>
+
+} @else { 
+
+<!-- aca esto deberia mostrarse si el user no esta autenticado o si no esta en nuestra db  -->
+@if (!isAuth || !existUser) {
+<!-- @if ((true) || (true)) { -->
+<header>
+  <div class="logo-container">
+    <img src="logo.png" id="logo-principal">
+  </div>
+</header>
 }
 
 <main>
-    <!-- para mostrar contenido de app primero verificamos si esta untenticado -->
-    @if (isAuth) { <!--este es el que vale -->
-    <!-- @if (true) { este lo voy poniendo en true o false por que cognito no anda -->
-      <!-- segundo verificamos si ese email lo tenemos registradoo en la db -->
-      @if (!existUser) { 
-        <div class="descripcion-container">
-          <h2>Selecciona tu rol para terminar el registro:</h2>
+  <!-- para mostrar contenido de app primero verificamos si esta untenticado -->
+  @if (isAuth) { <!--este es el que vale -->
+  <!-- @if (true) { este lo voy poniendo en true o false por que cognito no anda -->
+  <!-- segundo verificamos si ese email lo tenemos registradoo en la db -->
+  @if (!existUser) {
+  <div class="descripcion-container">
+    <h2>Selecciona tu rol para terminar el registro:</h2>
 
-          <select (change)="onRoleChange($event)">
-            <option value="">-- Seleccionar --</option>
-            @for (rol of usersService.availableRoles; track rol) {
-              <option [value]="rol">{{ usersService.roleLabels[rol] }}</option>
-            }
-          </select>
+    <select (change)="onRoleChange($event)">
+      <option value="">-- Seleccionar --</option>
+      @for (rol of usersService.availableRoles; track rol) {
+      <option [value]="rol">{{ usersService.roleLabels[rol] }}</option>
+      }
+    </select>
 
-          <button class="btn btn-add" (click)="usersService.saveUserWithSelectedRole()">Guardar</button>
-        </div>
-      }@else{
-        <!-- si el user existe en nuestra db mostramos el contenido -->
-          <app-navbar></app-navbar>
-          <!-- Content wrapper -->
-          <div class="main-content">
-            <!-- <p>ESTAS LOGEADO! {{(authService.userData$ | async)?.name}}
+    <button class="btn btn-add" (click)="usersService.saveUserWithSelectedRole()">Guardar</button>
+  </div>
+  }@else{
+  <!-- si el user existe en nuestra db mostramos el contenido -->
+  <app-navbar></app-navbar>
+  <!-- Content wrapper -->
+  <div class="main-content">
+    <!-- <p>ESTAS LOGEADO! {{(authService.userData$ | async)?.name}}
             <pre>{{ (authService.userData$ | async) | json }}</pre>
             <p>User existe: {{ existUser}}</p>
             <p>User Rol: {{(usersService.selectedRole$ | async)}}</p></p> -->
-            <router-outlet></router-outlet>
-          </div>
-      }
+    <router-outlet></router-outlet>
+  </div>
+  }
 
-    } @else {
-      <div class="descripcion-container">
-        <h2 class="subtitulo">Debes iniciar sesión</h2>
-        <p>Por favor, inicia sesión para ver el contenido.</p>
-        
-        
-        <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
-        
-        <p class="descripcion-aclaracion">(Serás redirigido a nuestro formulario de AWS para loguearse o registrar cuenta nueva)</p>
-      </div>
-    
-    }
+  } @else {
+  <div class="descripcion-container">
+    <h2 class="subtitulo">Debes iniciar sesión</h2>
+    <p>Por favor, inicia sesión para ver el contenido.</p>
 
+
+    <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
+
+    <p class="descripcion-aclaracion">(Serás redirigido a nuestro formulario de AWS para loguearse o registrar cuenta
+      nueva)</p>
+  </div>
+  }
 </main>
+ } 

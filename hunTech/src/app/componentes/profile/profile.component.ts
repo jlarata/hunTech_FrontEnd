@@ -76,7 +76,7 @@ export class ProfileComponent {
       payload.skills = this.user.skills;
     }
 
-    console.log(payload);
+    //console.log(payload);
       
     this._usersService.editUser(payload, this.user.rol).subscribe({
       next: (response) => {
