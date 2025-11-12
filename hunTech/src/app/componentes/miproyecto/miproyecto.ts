@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { Users } from '../../servicios/users';
 import { ProyectoService } from '../../servicios/miproyecto';
 import { Proyecto } from '../../models/proyectos';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-miproyecto',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './miproyecto.html',
   styleUrl: './miproyecto.css',
 })
