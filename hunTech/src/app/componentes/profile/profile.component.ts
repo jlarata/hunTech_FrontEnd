@@ -71,19 +71,19 @@ export class ProfileComponent {
     }
     
     // solo actualizamos skills si es desarrollador
-    if (this.user instanceof Desarrollador && formValue.skills) {
+    if (this.user.rol == "desarrollador" && formValue.skills) {
       this.user.skills = (formValue.skills as string[]).filter(s => s.trim() !== '');
       payload.skills = this.user.skills;
     }
 
     console.log(payload);
       
-    this._usersService.editUser(payload, this.rol).subscribe({
+    this._usersService.editUser(payload, this.user.rol).subscribe({
       next: (response) => {
         console.log('Usuario actualizado:', response);
         const dataActualizada = response.data;
         //actualizamos los datos en el servicio para que esten sincronizados
-        this._usersService.setUser(dataActualizada);//actualiza observable user
+        this.loadUser();//actualiza observable user
       },
       error: (err) => {
         console.error('Error al actualizar usuario:', err);
