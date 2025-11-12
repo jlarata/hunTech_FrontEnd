@@ -94,7 +94,7 @@ export class Users {
   createUserByRole(email: string, role: string): Observable<any> {
     ///agregar campos que provienen de userdata cognito nombre(nada mas por ahora)
     const url = `${this._usersUrl}${role}`;
-    const body = { email, role, nombre: this._user.getValue()?.name ?? ''}; 
+    const body = { email, nombre: this._user.getValue()?.name ?? ''}; 
     
     return this._httpClient.post<any>(url, body);
   }
@@ -131,8 +131,8 @@ export class Users {
   editUser(payload: any, role: string): Observable<any> {
     ///agregar solo campos que van a ser actualizados en la db
     let email = this._email.getValue()!;
-    const url = `${this._usersUrl}${role}/${email}`;
-
+    const url = `${this._usersUrl}${role}usuario/${email}`;
+    payload.rol = role; //agrego rol al payload
     let body = {desarrollador: payload}
 
     //console.log( "Esto es el body para edit: ", body);
