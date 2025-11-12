@@ -1,19 +1,17 @@
 <!-- Pasé esta lógica al TS.
- @let isAuth   = (authService.isAuthenticated$ | async);
+@let isAuth   = (authService.isAuthenticated$ | async);
 @let existUser = (usersService.isExistUser$   | async); -->
 
 <!-- aca esto deberia mostrarse si el user no esta autenticado o si no esta en nuestra db  -->
-<!-- @if (!isAuth || !existUser) {
-
-<header>
-  <div class="logo-container">
-    <img src="logo.png" id="logo-principal" />
-  </div>
-</header>
+<!-- descomente esto por que sino no se ve el logo al iniciar sesion o cuando hay que elegir rol -->
+@if (!isAuth || !existUser) {
+  <header>
+    <div class="logo-container">
+      <img src="logo.png" id="logo-principal" />
+    </div>
+  </header>
 }
 
-
- -->
 <!-- para mostrar contenido de app primero verificamos si esta auntenticado -->
 <main> 
 @if (isAuth && !existUser) {

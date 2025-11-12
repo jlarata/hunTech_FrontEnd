@@ -153,7 +153,7 @@ export class Users {
 
     this.getUserByEmail(email, role).subscribe({
       next: res => {
-        const db = res.data;          // {nombre, descripcion, skills(cadena strin separada por coma
+        const db = res.data;          // {nombre, descripcion, skills(cadena string separada por coma
         const skillsArray = typeof db.skills === 'string'
           ? db.skills.split(',').map((s: string) => s.trim())
           : db.skills ?? [];
@@ -164,7 +164,7 @@ export class Users {
         const final = {
           ...cognito,//traeme todo lo de cognito
           //y voy viendo cual no es null para construir mi user
-          nombre: db.nombre ?? cognito.nombre,
+          nombre: db.nombre ?? cognito.name,
           descripcion: db.descripcion?? cognito.descripcion,
           skills: skillsArray|| [],
           rol: role

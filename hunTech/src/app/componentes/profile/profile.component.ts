@@ -39,7 +39,7 @@ export class ProfileComponent {
     this.profileEditForm.patchValue({
       nombre: this.user.nombre ?? '',
       descripcion: this.user.descripcion ?? '',
-      skills: this.user.skills ?? []//esto no esta funcionando
+      skills: this.user.skills ?? []
     });
 
     // agregar los skills que ya tenemos en edit para que no se borren  al agregar nuevos
