@@ -131,13 +131,9 @@ export class Users {
   editUser(payload: any, role: string): Observable<any> {
     ///agregar solo campos que van a ser actualizados en la db
     let email = this._email.getValue()!;
-    const url = `${this._usersUrl}${role}usuario/${email}`;
+    const url = `${this._usersUrl}usuario/${email}`;
     payload.rol = role; //agrego rol al payload
-    let body = {desarrollador: payload}
-
-    //console.log( "Esto es el body para edit: ", body);
-    
-    return this._httpClient.put(url, body);
+    return this._httpClient.put(url, payload);
   }
 
   //ok y voy a necesitar un get user 
