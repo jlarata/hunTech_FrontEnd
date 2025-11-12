@@ -2,10 +2,6 @@ import { Component,inject } from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
 
 import { Users} from './../../servicios/users';
-import { Desarrollador } from './../../models/users/desarrollador';
-import { Gerente } from './../../models/users/gerente';
-import { InstitucionEducativa } from './../../models/users/institucion-educativa';
-
 @Component({
   selector: 'app-profile',
   standalone: true,
