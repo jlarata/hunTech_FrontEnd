@@ -4,19 +4,21 @@
 
 <!-- aca esto deberia mostrarse si el user no esta autenticado o si no esta en nuestra db  -->
 <!-- descomente esto por que sino no se ve el logo al iniciar sesion o cuando hay que elegir rol -->
-@if (!isAuth || !existUser) {
-  <header>
-    <div class="logo-container">
-      <img src="logo.png" id="logo-principal" />
-    </div>
-  </header>
-}
+ <!-- HOLA MONI! lo había comentado porque había hecho andar la pantalla de espera
+  ahora que la volví a hacer andar, lo saco. Fijate igual si no teconvence o no anda, metan mano sin miedo. -->
+<!-- @if (!isAuth || !existUser) {
+<header>
+  <div class="logo-container">
+    <img src="logo.png" id="logo-principal" />
+  </div>
+</header>
+} -->
 
 <!-- para mostrar contenido de app primero verificamos si esta auntenticado -->
-<main> 
-@if (isAuth && !existUser) {
-  
-<!--este es el que vale -->
+<main>
+  @if (isAuth && isDataLoaded && !existUser) {
+
+  <!--este es el que vale -->
 
   <!-- @if (true) { este lo voy poniendo en true o false por que cognito no anda -->
   <!-- segundo verificamos si ese email lo tenemos registradoo en la db -->
@@ -33,38 +35,35 @@
     <button class="btn btn-add" (click)="usersService.saveUserWithSelectedRole()">Guardar</button>
   </div>
   }
-  @if (isAuth && existUser){ 
-
-                  @if (!isDataLoaded) {
-                <header class="blinking">
-                  <h1 class="titulo">hunTech</h1>
-                  <div class="logo-container">
-                    <img src="../../assets/logo.png" id="logo-principal" />
-                  </div>
-                  <h2 class="subtitulo">Cargando la data de usuario, espere por favor.</h2>
-                </header>
-                } 
-
-                @else {
-                <!-- si el user existe en nuestra db mostramos el contenido -->
-                <app-navbar></app-navbar>
-                <!-- Content wrapper -->
-                <div class="main-content">
-                <router-outlet></router-outlet>
-                </div>
-                } 
-              }
-    <!-- /////// -->
-    @if (!isAuth) {
-    <div class="descripcion-container">
-      <h2 class="subtitulo">Debes iniciar sesión</h2>
-      <p>Por favor, inicia sesión para ver el contenido.</p>
-      <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
-      <p class="descripcion-aclaracion">
-        (Serás redirigido a nuestro formulario de AWS para loguearse o registrar cuenta nueva)
-      </p>
+  @if (isAuth && !isDataLoaded){
+  <header class="blinking">
+    <h1 class="titulo">hunTech</h1>
+    <div class="logo-container">
+      <img src="../../assets/logo.png" id="logo-principal" />
     </div>
-    <!-- /////// -->
-    } 
-</main>
+    <h2 class="subtitulo">Cargando la data de usuario, espere por favor.</h2>
+  </header>
+  }
 
+  @if (isAuth && existUser && isDataLoaded){
+  <!-- si el user existe en nuestra db mostramos el contenido -->
+  <app-navbar></app-navbar>
+  <!-- Content wrapper -->
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+  }
+
+  <!-- /////// -->
+  @if (!isAuth) {
+  <div class="descripcion-container">
+    <h2 class="subtitulo">Debes iniciar sesión</h2>
+    <p>Por favor, inicia sesión para ver el contenido.</p>
+    <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
+    <p class="descripcion-aclaracion">
+      (Serás redirigido a nuestro formulario de AWS para loguearse o registrar cuenta nueva)
+    </p>
+  </div>
+  <!-- /////// -->
+  }
+</main>
