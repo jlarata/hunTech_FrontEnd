@@ -33,8 +33,8 @@ export class Contratos {
   ngAfterViewChecked() {
     //this.scrollToDetail();
   }
-  //muestra todos los contratios, si es dev filtra los no ocupados
- /* mostrarTodosLosContratos() {
+  //muestra todos los contratios, por las dudas no lo borre
+  /* mostrarTodosLosContratos() {
     this._apiService.getContratos().subscribe({
       next: (res) => {
         console.log(`${res.count} ${res.message}`)
@@ -53,7 +53,8 @@ export class Contratos {
     //esto va a guardar el observable  al que nos vamos a suscribir
     let data;
 
-    if (user.rol === 'desarrollador') {
+    //if (user.rol === 'desarrollador') {
+    if (user.rol === 'dev') {
       data = this._apiService.getContratosLibres();
     }else{
       data = this._apiService.getContratos();
@@ -71,7 +72,6 @@ export class Contratos {
     });
 
   }
-
 
   createCards = (contratos: Contrato[]): void => {
     for (let i: number = 0; i < contratos.length; i++) {
