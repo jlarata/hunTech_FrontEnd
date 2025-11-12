@@ -26,7 +26,7 @@ export class App {
   usersService = inject(Users);
 
   isAuth?: boolean | undefined;
-  existUser?: boolean | undefined;
+  existUser: boolean | undefined;
   isDataLoaded: boolean = false;
 
   ngOnInit(): void {
@@ -42,7 +42,6 @@ export class App {
   }
 
   private loadData(): void {
-    
 
     this.authService.isAuthenticated$.subscribe({
       next: (data) => {
@@ -53,13 +52,15 @@ export class App {
 
     this.usersService.isExistUser$
     .pipe(
-      tap((data) => { if (data) {
+      tap((data) => {
+        if (data != false) {
         this.isDataLoaded = true
       } }
     )
     )
     .subscribe({
       next: (data) => {
+        
         this.existUser = data
       },
       error: (err) => console.error('Error al obtener usuario', err)
