@@ -5,6 +5,7 @@ import { Contrato } from '../../models/contrato';
 import { RouterModule } from '@angular/router';
 import { ContratoDetail } from '../contrato-detail/contrato-detail';
 import { ContratoService } from '../../servicios/contrato';
+import { Users } from '../../servicios/users';
 
 @Component({
   selector: 'app-contratos',
@@ -16,7 +17,8 @@ export class Contratos {
   @Input() from: string = '';
   constructor(
     private _apiService : ContratoService,
-    private viewportScroller: ViewportScroller) { }
+    private viewportScroller: ViewportScroller,
+    private _usersService:Users) { }
 
   todosLosContratos: Contrato[] = [];
   contratosCards: ContratoCard[] = [];
@@ -31,19 +33,45 @@ export class Contratos {
   ngAfterViewChecked() {
     //this.scrollToDetail();
   }
+  //muestra todos los contratios, si es dev filtra los no ocupados
+ /* mostrarTodosLosContratos() {
+    this._apiService.getContratos().subscribe({
+      next: (res) => {
+        console.log(`${res.count} ${res.message}`)
+        this.todosLosContratos= res.data;
+        this.createCards(this.todosLosContratos)
+      },
+      error: (error: string) => {
+        console.log('desde el componente error '+error)
+      }
+    });
+  }*/
 
   mostrarTodosLosContratos() {
-  this._apiService.getContratos().subscribe({
-    next: (res) => {
-      console.log(`${res.count} ${res.message}`)
-      this.todosLosContratos = res.data
-      this.createCards(this.todosLosContratos)
-    },
-    error: (error: string) => {
-      console.log('desde el componente error '+error)
+    let user = this._usersService.getUser();
+    
+    //esto va a guardar el observable  al que nos vamos a suscribir
+    let data;
+
+    if (user.rol === 'desarrollador') {
+      data = this._apiService.getContratosLibres();
+    }else{
+      data = this._apiService.getContratos();
     }
-  });
-}
+
+    data.subscribe({
+      next: (res) => {
+        console.log(`${res.count} ${res.message}`)
+        this.todosLosContratos= res.data;
+        this.createCards(this.todosLosContratos)
+      },
+      error: (error: string) => {
+        console.log('desde el componente error '+error)
+      }
+    });
+
+  }
+
 
   createCards = (contratos: Contrato[]): void => {
     for (let i: number = 0; i < contratos.length; i++) {

@@ -44,6 +44,7 @@ export class Users {
   }
 
   setUser(user: any): void { this._user.next(user); }
+  getUser(): any { return this._user.getValue(); }
 
   //switchmap en vez de map xq estamos usando varios observable, se suscribe al ultimo
   //map para transformar valores en un mismo stream/flujo?

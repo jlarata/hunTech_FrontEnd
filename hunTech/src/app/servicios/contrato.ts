@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ContratoResponse } from '../models/contrato';
@@ -15,6 +15,11 @@ export class ContratoService {
 
   getContratos(): Observable<ContratoResponse> {
     const res = this._httpClient.get<ContratoResponse>(this._contratosUrl + 'contratos');
+    return res
+  }
+  //trae los contratos esta_ocupado = false para los devs
+  getContratosLibres(): Observable<ContratoResponse> {
+    const res = this._httpClient.get<ContratoResponse>(this._contratosUrl + 'contratoslibres');
     return res
   }
 }
