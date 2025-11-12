@@ -1,88 +1,109 @@
-/* body {
-  background-color: #16161a;
-  color: white;
-  font-family: Arial, sans-serif;
-} */
 
 .contrato-detail-container {
-    margin-left: 20vw;
     width: 70vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     margin-left: 220px;
+    
 }
 
 .contrato-card-container {
     display: flex;
     flex-wrap: wrap;
-    margin-left: 15vw;
-    width: 70vw;
+    justify-content: center;
     gap: 1.5rem;
     padding: 2rem;
-    justify-content: center;
-    background-color: #16161a;
+    background-color: #ffffff; 
+    border-radius: 12px;
+     margin-left: 220px;
 }
 
 .contrato-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #143447;
-    border-radius: 8px;
+    background-color: #f5eeee;
+    border-radius: 12px;
     width: 300px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s;
-    color: white;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #221848; 
     opacity: 0;
     transform: translateY(20px);
     animation: fadeSlideIn 0.6s ease-out forwards;
 }
 
-.contrato-card-titulo {
-    color: #ff0562;
-    margin-bottom: 0.5rem;
-}
-
-
 .contrato-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 24px rgba(117, 114, 114, 0.4);
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 25px rgba(34, 24, 72, 0.25); 
 }
 
-/* por ahora sin uso .contrato-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-} */
+.contrato-card-titulo {
+    color: #221848; 
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 2px solid #5a9bd6; 
+    padding-bottom: 0.3rem;
+}
 
 .contrato-card-content {
-
-    padding: 1rem;
+    padding: 1.5rem;
 }
 
 .contrato-card-content h2 {
     margin-top: 0;
     font-size: 1.4rem;
+    color: #221848;
 }
 
 .contrato-card-content p {
     margin: 0.5rem 0 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #2c3e50;
 }
 
 .card-button-group {
-    height: 3rem;
-    margin-left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    justify-content: flex-end;
 }
 
 .card-button-group button {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
     width: 2.5rem;
     height: 2.5rem;
-    font-size: large;
+    font-size: 1.2rem;
     font-weight: bold;
+    background-color: #5a9bd6; 
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+
+.card-button-group button:hover {
+    background-color: #4178be;
+    box-shadow: 0 5px 15px rgba(65, 120, 190, 0.4);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 
 a {
     text-decoration: none;
