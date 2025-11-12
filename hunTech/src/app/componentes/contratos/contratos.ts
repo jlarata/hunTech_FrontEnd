@@ -53,8 +53,8 @@ export class Contratos {
     //esto va a guardar el observable  al que nos vamos a suscribir
     let data;
 
-    //if (user.rol === 'desarrollador') {
-    if (user.rol === 'dev') {
+    if (user.rol === 'desarrollador') {
+    //if (user.rol === 'dev') {//esto era para ver los contratos por que no tenia el enpoint funcionando
       data = this._apiService.getContratosLibres();
     }else{
       data = this._apiService.getContratos();
