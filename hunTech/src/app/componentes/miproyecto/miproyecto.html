@@ -11,5 +11,7 @@
 @if (proyecto?.email_gerente) {<p>email_gerente: {{proyecto?.email_gerente}} </p>} 
 </div>
 
-<button class="btn btn-add" (click)="createProyect(this.user.email)">Agregar Proyecto</button>
+<a class="btn btn-add" routerLink="/formcreateproyect" routerLinkActive="active">
+Agregar Proyecto
+</a>
 </div>
