@@ -1,0 +1,82 @@
+
+<div class="perfil-card">
+    <!-- btn para editar -->
+    @if (!enEdicion) {
+        <button (click)="activarEdicion()" class="btn-edit btn">✏️</button>
+    }
+
+    <!-- MODO LECTURA -->
+    @if (!enEdicion) {
+        <h2>{{user.nombre}}</h2>
+        <p class="email">email: {{ user.email }}</p>
+        <p class="bio">Bio: {{ user.descripcion || "Descripcion no ingresada" }}</p>
+
+        <ul class="perfil-details">
+            <li>Rol Principal: {{ user.rol || 'Esperando rol..' }}</li>
+        </ul>
+
+        @if (user?.skills) {
+            <div class="perfil-skills">
+                <div class="perfil-skills-titulo">
+                    <h3>Skills</h3>
+                </div>
+                <div class="perfil-skills-skills">
+                    <ul class="perfil-details">
+                        @for (skill of user.skills; track skill) {
+                            <li>{{ skill }}</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+
+
+    <!-- MODO EDICIÓN (formulario reactivo) -->
+    @if (enEdicion) {
+        <form [formGroup]="profileEditForm" (ngSubmit)="guardarCambiosEdicion()" class="perfil-card">
+            <div>
+                <label><h3>Nombre</h3></label>
+                <input
+                    type="text"
+                    formControlName="nombre"
+                    class="perfil-input"
+                    
+                />
+            
+                <label><h3>Descripción</h3></label>
+                <textarea
+                    formControlName="descripcion"
+                    class="perfil-input textarea"
+                    rows="4"
+                    placeholder="Contanos sobre vos...">
+                </textarea>
+        
+                <label><h3>Skills</h3></label>
+                @for (skillCtrl of skillsControls; let i = $index; track i) {
+                    <input
+                        type="text"
+                        class="perfil-input skill"
+                        [formControl]="skillCtrl"
+                        placeholder="Ej. Angular"
+                    />
+                }
+                <!-- Botón para agregar más -->
+                <div class="botonera">
+                    <button type="button" class="btn-add-skill" (click)="agregarSkill()">+ Agregar</button>
+                </div>
+                
+            </div>
+                
+            <div class="botonera">
+                <button class="btn-add" type="submit" [disabled]="profileEditForm.invalid">Guardar</button>
+                <button class="btn" type="button" (click)="enEdicion = false">Cancelar</button>
+            </div>
+                
+            
+        </form>
+    }
+</div>   
+
+
+

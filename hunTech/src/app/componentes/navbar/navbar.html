@@ -1,0 +1,29 @@
+<nav class="navbar" [class.mobile-active]="menuActive">
+    <div class="navbar-header">
+        <div class="logo-container">
+            <a class="logo" routerLink="/">
+                <img src="../../assets/logo.png" alt="hunTech logo" id="logo-navbar">
+            </a>
+        </div>
+
+        <!-- Hamburger icon for mobile -->
+        <div class="menu-toggle" (click)="toggleMenu()">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </div>
+
+    <!-- Navigation links -->
+    <div class="logo-container-desktop">
+            <a class="logo" routerLink="/">
+                <img src="../../assets/logo.png" alt="hunTech logo" id="logo-navbar-desktop">
+            </a>
+    </div>
+    <ul class="nav-links" [class.active]="menuActive">
+        <li><a routerLink="/" routerLinkActive="active" (click)="closeMenu()">Home</a></li>
+        <li><a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Buscar Contratos</a></li>
+        <li><a routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">Perfil</a></li>
+        <li><a (click)="authService.logout()">Cerrar sesión</a></li>
+    </ul>
+</nav>
