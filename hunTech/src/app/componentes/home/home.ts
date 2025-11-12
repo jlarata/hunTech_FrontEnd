@@ -8,6 +8,7 @@ import { Users } from '../../servicios/users';
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
+
 export class Home {
 
   private _usersService = inject(Users);
@@ -28,5 +29,4 @@ export class Home {
       error: (err) => console.error('Error al obtener usuario', err)
     });
   }
-
 }

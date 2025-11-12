@@ -95,8 +95,10 @@ export class Users {
     ///agregar campos que provienen de userdata cognito nombre(nada mas por ahora)
     const url = `${this._usersUrl}${role}`;
     const body = { email, nombre: this._user.getValue()?.name ?? ''}; 
-    
+    console.log(body)
+    console.log(url)
     return this._httpClient.post<any>(url, body);
+    
   }
 
   //ejecuta el post a la db para crear el user con el rol seleccionado
@@ -120,6 +122,7 @@ export class Users {
       next: res => {
         console.log('Usuario creado!:', res);
         this._isExistUser.next(true);
+        console.log(email, role)
       },
       error: err => {
         console.error('Error al crear usuario:', err);
