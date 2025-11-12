@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, model, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Contrato } from '../../models/contrato';
 import { CommonModule } from '@angular/common';
 import { ContratoService } from '../../servicios/contrato';
-import { Users } from '../../servicios/users';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contrato-detail',
@@ -14,14 +14,38 @@ import { Users } from '../../servicios/users';
 export class ContratoDetail {
 
   @Input() contrato?:Contrato;
-  @Input() from: string = '';
+  //@Output() contratoChange = new EventEmitter<Contrato>;
 
+  @Input() email:string | undefined;
+  
   constructor(
     private route: ActivatedRoute,
     private _apiService:ContratoService,
-    private _usersService:Users
+    private router:Router
   ) { }
 
-  
+  ngOnInit(): void {
+   
+  }
+
+  postularse(contrato: Contrato, email: string) {    
+    
+    let postulacion = this._apiService.postularseAContrato(contrato.id!.toString(), email)
+
+    postulacion.subscribe({
+      next: (res) => {
+        this.contrato=res.data[0]
+        //this.contratoChange.emit(this.contrato)
+        this.ngOnInit()
+        //this.contratoUpdated=res.data[0];
+      },
+      error: (error: string) => {
+        console.log(error)
+      }
+    });
+
+  }
+
+
 
 }

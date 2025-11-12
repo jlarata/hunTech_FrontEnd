@@ -1,7 +1,7 @@
 import { Injectable} from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { ContratoResponse } from '../models/contrato';
+import { Contrato, ContratoResponse } from '../models/contrato';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +22,11 @@ export class ContratoService {
     const res = this._httpClient.get<ContratoResponse>(this._contratosUrl + 'contratoslibres');
     return res
   }
+
+  postularseAContrato(id:string, email:string): Observable<ContratoResponse> {
+    //console.log('intentando update de contrato id ',id.toString(), 'sumando la postulación de ',email )
+    const res = this._httpClient.put<ContratoResponse>(this._contratosUrl + 'contrato/' + id, {"postulaciones" : email});
+    return res
+  }
+
 }

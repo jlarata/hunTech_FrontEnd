@@ -16,10 +16,11 @@ import { Users } from '../../servicios/users';
 export class Contratos {
   @Input() from: string = '';
   constructor(
-    private _apiService : ContratoService,
+    private _apiService: ContratoService,
     private viewportScroller: ViewportScroller,
-    private _usersService:Users) { }
+    private _usersService: Users) { }
 
+  usuario: any;
   todosLosContratos: Contrato[] = [];
   contratosCards: ContratoCard[] = [];
 
@@ -33,7 +34,7 @@ export class Contratos {
   ngAfterViewChecked() {
     //this.scrollToDetail();
   }
-  //muestra todos los contratios, por las dudas no lo borre
+  //muestra todos los contratos, por las dudas no lo borre
   /* mostrarTodosLosContratos() {
     this._apiService.getContratos().subscribe({
       next: (res) => {
@@ -48,29 +49,31 @@ export class Contratos {
   }*/
 
   mostrarTodosLosContratos() {
-    let user = this._usersService.getUser();
-    
-    //esto va a guardar el observable  al que nos vamos a suscribir
-    let data;
-
-    if (user.rol === 'desarrollador') {
-    //if (user.rol === 'dev') {//esto era para ver los contratos por que no tenia el enpoint funcionando
-      data = this._apiService.getContratosLibres();
-    }else{
-      data = this._apiService.getContratos();
-    }
-
-    data.subscribe({
-      next: (res) => {
-        console.log(`${res.count} ${res.message}`)
-        this.todosLosContratos= res.data;
-        this.createCards(this.todosLosContratos)
-      },
-      error: (error: string) => {
-        console.log('desde el componente error '+error)
+    this.usuario = this._usersService.getUser();
+    if (this.usuario.rol != 'desarrollador') {
+      console.log('no sé cómo llegaste hasta acá pero seguí tu camino fiera.')
+    } else {
+      //esto va a guardar el observable  al que nos vamos a suscribir
+      let data;
+      if (this.usuario.rol === 'desarrollador') {
+        //if (user.rol === 'dev') {//esto era para ver los contratos por que no tenia el enpoint funcionando
+        data = this._apiService.getContratosLibres();
+      } else {
+        data = this._apiService.getContratos();
       }
-    });
 
+      data.subscribe({
+        next: (res) => {
+          console.log(`${res.count} ${res.message}`)
+          this.todosLosContratos = res.data;
+          console.log(this.todosLosContratos)
+          this.createCards(this.todosLosContratos)
+        },
+        error: (error: string) => {
+          console.log('desde el componente error ' + error)
+        }
+      });
+    }
   }
 
   createCards = (contratos: Contrato[]): void => {

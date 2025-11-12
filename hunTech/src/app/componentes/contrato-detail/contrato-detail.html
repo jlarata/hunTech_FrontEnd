@@ -1,29 +1,37 @@
-
 <main class="contrato-main">
-@if (contrato) {
-<div class="contrato-card">
-  <h2>{{contrato.titulo| uppercase}}</h2>
-  <!-- <div><span>id: </span> {{contrato.id}}</div> -->
+  @if (contrato) {
+  <div class="contrato-card">
+    <h2>{{contrato.titulo| uppercase}}</h2>
+    <!-- <div><span>id: </span> {{contrato.id}}</div> -->
 
-  <div class="contrato">
-    <div class="contrato-contents">
-      @if (contrato.tipo) {
-      <div class="contrato-box">Tipo de contrato: <span class="contrato-tipo">{{contrato.tipo}}</span></div>
-      }
-      <div class="contrato-box">Descripción: <span class="contrato-descripcion">{{contrato.descripcion}}</span></div>
+    <div class="contrato">
+      <div class="contrato-contents">
+        @if (contrato.tipo) {
+        <div class="contrato-box">Tipo de contrato: <span class="contrato-tipo">{{contrato.tipo}}</span></div>
+        }
+        <div class="contrato-box">Descripción: <span class="contrato-descripcion">{{contrato.descripcion}}</span></div>
 
-      @if (contrato.start_date) {
-      <div class="contrato-box">Fecha de inicio: <span class="contrato-sd">{{contrato.start_date}}</span></div>
+        @if (contrato.start_date) {
+        <div class="contrato-box">Fecha de inicio: <span class="contrato-sd">{{contrato.start_date}}</span></div>
+        }
+        @if (contrato.end_date){
+        <div class="contrato-box">Fecha de fin: <span class="contrato-ed">{{contrato.end_date}}</span></div>
+        }
+        @if (email) {
+        @if (contrato.postulaciones?.includes(email)) {
+        <button class="btn-add" type="submit" disabled>Ya estás postulado para este contrato.</button>
+        } @else {
+          <button class="btn-add" type="submit" (click)="postularse(contrato, email!)" >Postularme</button>
+        }
+        
       }
-      @if (contrato.end_date){
-      <div class="contrato-box">Fecha de fin: <span class="contrato-ed">{{contrato.end_date}}</span></div>
-      }
-      <button class="btn-add" type="submit" >Postularme</button>
+
+        
+      </div>
     </div>
-  </div>
 
-</div>
-}
-@else {
-<div> no contratos? </div>
-}
+  </div>
+  }
+  @else {
+  <div> no contratos? </div>
+  }
