@@ -2,14 +2,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 }
 
 .contrato-card {
     display: flex;
     flex-direction: column;
     gap: 3rem;
-    background-color: #143447;
-    color: white;
+    background-color: #f5eeee;
+    color: rgb(2, 10, 59);
     padding: 2rem;
     border-radius: 12px;
     max-width: 70vw;
@@ -27,11 +28,11 @@ h2 {
     font-size: 1.2rem;
     font-weight: 900;
     padding-top: 0.5rem;
-    color: #ff0562;
+    color: #090909;
 }
 
 .contrato-descripcion, .contrato-tipo, .contrato-sd, .contrato-ed {
-    color: white;
+    color: rgb(24, 3, 61);
     font-weight: 200;
 }
 

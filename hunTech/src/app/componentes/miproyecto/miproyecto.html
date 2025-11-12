@@ -1,11 +1,15 @@
-<p>miproyecto: </p>
+<div class="proyecto-seccion">
+  <h2 class="proyecto-titulo">Mi Proyecto</h2>
 
+  <div class="proyecto-info">
 @if (proyecto?.nombre) {<p>Nombre: {{proyecto?.nombre}} </p>} 
 @if (proyecto?.description) {<p>Descripcion: {{proyecto?.description}} </p>} 
 @if (proyecto?.info_link) {<p>Info Link: {{proyecto?.info_link}} </p>} 
 @if (proyecto?.buscando_devs) {<p>Buscando Devs?: {{proyecto?.buscando_devs}} </p>} 
+
 @if (proyecto?.description) {<p>Descripcion: {{proyecto?.description}} </p>} 
 @if (proyecto?.email_gerente) {<p>email_gerente: {{proyecto?.email_gerente}} </p>} 
+</div>
 
-
-<button class="btn btn-add" (click)="createProyect(this.user.email)">agregar proyecto</button>
+<button class="btn btn-add" (click)="createProyect(this.user.email)">Agregar Proyecto</button>
+</div>
