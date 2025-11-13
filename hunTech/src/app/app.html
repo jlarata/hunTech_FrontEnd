@@ -55,12 +55,15 @@
   <!-- /////// -->
   @if (!isAuth) {
   <div class="descripcion-container">
-    <h2 class="subtitulo">Debes iniciar sesión</h2>
+    <h1 class="titulo">Bienvenido a HunTech!</h1>
+     <p class="parrafo">¡Tu primer empleo te espera! 🚀</p>
     <p>Por favor, inicia sesión para ver el contenido.</p>
     <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
-    <p class="descripcion-aclaracion">
-      (Serás redirigido a nuestro formulario de AWS para loguearse o registrar cuenta nueva)
-    </p>
+     <ul class="beneficios">
+      <li>Descubre vacantes especialmente para estudiantes y juniors🎯</li>
+      <li>Recibe notificaciones de empresas interesadas en tu perfil🔔</li>
+      <li>Destaca tus habilidades y proyectos directamente a los reclutadores💼</li>
+    </ul>
   </div>
   <!-- /////// -->
   }
