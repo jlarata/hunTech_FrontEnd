@@ -1,44 +1,49 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Proyecto } from '../../models/proyectos';
-import { Users } from '../../servicios/users';
-import { ProyectoService } from '../../servicios/miproyecto';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ContratoService } from '../../servicios/contrato';
+import { Contrato } from '../../models/contrato';
 
 
 @Component({
-  selector: 'app-formcreateproyect',
-  standalone: true,
+  selector: 'app-formcreatecontract',
   imports: [FormsModule, CommonModule],
-  templateUrl: './formcreateproyect.html',
-  styleUrl: './formcreateproyect.css',
+  templateUrl: './formcreatecontract.html',
+  styleUrl: './formcreatecontract.css',
 })
-export class Formcreateproyect {
+export class Formcreatecontract {
 
   constructor(
-    private _apiService: ProyectoService,
+    private _apiService: ContratoService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
 
-  private _usersService = inject(Users);
-
   espost = false;
   esedit = true;
 
-  proyecto: Proyecto = {
-    nombre: '',
-    description: '',
-    info_link: '',
-    buscando_devs: true,//siempre arranca true
-    email_gerente: ''
+  contrato: Contrato = {
+    tipo: "",
+    titulo: "",
+    descripcion: "",
+    tiene_postulaciones: false,
+    //postulaciones: [""],
+    esta_ocupado: false,
+    pasante_email: "",
+    proyecto_id: "",
+    start_date: "",
+    end_date: ""
   }
 
   ngOnInit(): void {
-    const email = this.route.snapshot.paramMap.get('email');
-    console.log(email)
-    if (email) {
+    const pid = this.route.snapshot.paramMap.get('project_id')
+    this.contrato.proyecto_id = pid!
+  }
+
+    // probablemente por project id const email = this.route.snapshot.paramMap.get('email');
+    //console.log(email)
+    /* if (email) {
       // Llamás al servicio para traer el proyecto y precargarlo
       this._apiService.getProyectoPorEmail(email).subscribe({
         next : (res) => {
@@ -50,42 +55,31 @@ export class Formcreateproyect {
     } else {
       this.espost = true;
       this.esedit = false;
-    }
-
-
-    this.loadUser();
-
-  }
-  formularioEnviado = false;
-
+    } */
+    
   enviar(form: NgForm) {
     if (form.invalid) {
       return;
     }
 
     const dataParaEnviar = {
-      ...this.proyecto,
+      ...this.contrato,
     };
+    
 
-    this._apiService.postProyecto(this.proyecto).subscribe({
+    this._apiService.postContrato(dataParaEnviar).subscribe({
       next: (res) => {
         console.log(res.message)
         this.router.navigate(['/miproyecto']);
-
       },
-      error: (error: string) => {
+      error: (error:string) => {
         console.log(error)
       }
     });
-
-
-    //this.formularioEnviado = true;
-    //form.resetForm()
-    //this.formularioEnviado = false;
-
+   
   }
 
-  editar(form: NgForm) {
+  /* editar(form: NgForm) {
     if (form.invalid) {
       return;
     }
@@ -111,9 +105,9 @@ export class Formcreateproyect {
     //this.formularioEnviado = false;
 
   }
+ */
 
-
-  private loadUser(): void {
+  /* private loadUser(): void {
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
       next: (data) => {
@@ -121,6 +115,6 @@ export class Formcreateproyect {
       },
       error: (err) => console.error('Error al obtener usuario', err)
     });
-  }
+  } */
 
 }

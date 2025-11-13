@@ -35,17 +35,6 @@ export class Miproyecto {
     }
   });
 }
-
-createProyect(email:string) { this._apiService.postProyecto(email).subscribe({
-    next: (res) => {
-      console.log(res.message)
-    },
-    error: (error: string) => {
-      console.log(error)
-    }
-  });
-}
-
   async loadUser(): Promise<void> {
   
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay

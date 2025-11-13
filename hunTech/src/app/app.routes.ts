@@ -18,7 +18,22 @@ export const routes: Routes = [
     path: 'miproyecto',
     loadComponent: () => import('./componentes/miproyecto/miproyecto').then((m) => m.Miproyecto),
   },
-  { path: 'formcreateproyect',
-    loadComponent: () => import('./views/formcreateproyect/formcreateproyect').then((m) => m.Formcreateproyect) },
+  {
+    path: 'formcreateproyect',
+    loadComponent: () => import('./views/formcreateproyect/formcreateproyect').then((m) => m.Formcreateproyect)
+  },
+  {
+    path: 'formcreateproyect/:email',
+    loadComponent: () => import('./views/formcreateproyect/formcreateproyect').then((m) => m.Formcreateproyect)
+  },
+  {
+    path: 'formcreatecontract',
+    loadComponent: () => import('./views/formcreatecontract/formcreatecontract').then((m) => m.Formcreatecontract)
+  },
+  {
+    path: 'formcreatecontract/:project_id',
+    loadComponent: () => import('./views/formcreatecontract/formcreatecontract').then((m) => m.Formcreatecontract)
+  },
+
   { path: '**', redirectTo: '' },
 ];

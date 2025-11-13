@@ -92,7 +92,11 @@ h2 {
   color: #0052cc;
   font-weight: 600;
 }
-
+.perfil-mensaje {
+  font-size: 1.1rem;
+  font-weight: 20;
+  color: #003366;
+}
 /* Sección de skills */
 .perfil-skills {
   text-align: center;

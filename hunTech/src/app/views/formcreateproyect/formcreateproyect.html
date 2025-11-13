@@ -1,11 +1,9 @@
-<!-- <div class="container">
-    <form #miFormulario="ngForm" (ngSubmit)="enviar(miFormulario)"> -->
+<div class="container">
+
+    @if (espost){
+        <form #miFormulario="ngForm" (ngSubmit)="enviar(miFormulario)">
         
-
-
-        <!-- NO TENGO NI IDEA DE POR QUÉ NO FUNCIONA EL NGMODEL PARA DESCRIPTION E INFO LINK
-        -->
-        <!-- <div class="mb-3">
+        <div class="mb-3">
             <label for="nombre" class="form-label">Nombre del proyecto</label>
             <input
             type="text"
@@ -15,6 +13,7 @@
             [(ngModel)]="proyecto.nombre"
             required
             minlength="3"
+            maxlength="100"
             #nombre = "ngModel"
             [ngClass]="{
                 'is-invalid': nombre.invalid && nombre.touched,
@@ -30,6 +29,9 @@
         @if (nombre.errors?.['minlength'] && nombre.touched) {
             <div class="text-danger">Mínimo tres caracteres</div>
         }
+        @if (nombre.errors?.['maxlength'] && nombre.touched) {
+            <div class="text-danger">Máximo cien caracteres</div>
+        }
         
 
 
@@ -43,7 +45,8 @@
             [(ngModel)]="proyecto.description"
             required
             minlength="3"
-            #nombre = "ngModel"
+            maxlength="300"
+            #description = "ngModel"
             [ngClass]="{
                 'is-invalid': description.invalid && description.touched,
                 'is-valid': description.valid && description.touched}"
@@ -58,6 +61,10 @@
             <div class="text-danger">Mínimo tres caracteres</div>
         }
 
+        @if (nombre.errors?.['maxlength'] && nombre.touched) {
+            <div class="text-danger">Máximo trescientos caracteres</div>
+        }
+
         <div class="mb-3">
             <label for="info_link" class="form-label">Info Link</label>
             <input
@@ -68,7 +75,7 @@
             [(ngModel)]="proyecto.info_link"
             minlength="3"
             maxlength="100"
-            #nombre = "ngModel"
+            #info_link = "ngModel"
             [ngClass]="{
                 'is-invalid': info_link.invalid && info_link.touched,
                 'is-valid': info_link.valid && info_link.touched}"
@@ -85,4 +92,100 @@
         }
         <button type="submit" class="btn btn-primary" [disabled]="miFormulario.invalid">Enviar</button>
     </form>
-</div> -->
+    }
+
+    @if (esedit) {
+        <form #miFormulario="ngForm" (ngSubmit)="editar(miFormulario)">
+        
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del proyecto</label>
+            <input
+            type="text"
+            class="form-control"
+            id="nombre"
+            name="nombre"
+            [(ngModel)]="proyecto.nombre"
+            required
+            minlength="3"
+            maxlength="100"
+            #nombre = "ngModel"
+            [ngClass]="{
+                'is-invalid': nombre.invalid && nombre.touched,
+                'is-valid': nombre.valid && nombre.touched}"
+            autocomplete="off">
+            </div>
+        
+
+        @if (nombre.errors?.['required'] && nombre.touched) {
+            <div class="text-danger">Nombre requerido</div>
+        }
+        
+        @if (nombre.errors?.['minlength'] && nombre.touched) {
+            <div class="text-danger">Mínimo tres caracteres</div>
+        }
+        @if (nombre.errors?.['maxlength'] && nombre.touched) {
+            <div class="text-danger">Máximo cien caracteres</div>
+        }
+        
+
+
+        <div class="mb-3">
+            <label for="description" class="form-label">descripcion</label>
+            <input
+            type="text"
+            class="form-control"
+            id="description"
+            name="description"
+            [(ngModel)]="proyecto.description"
+            required
+            minlength="3"
+            maxlength="300"
+            #description = "ngModel"
+            [ngClass]="{
+                'is-invalid': description.invalid && description.touched,
+                'is-valid': description.valid && description.touched}"
+            autocomplete="off">
+        </div>
+
+        @if (description.errors?.['required'] && description.touched) {
+            <div class="text-danger">Descripción requerida</div>
+        }
+        
+        @if (description.errors?.['minlength'] && description.touched) {
+            <div class="text-danger">Mínimo tres caracteres</div>
+        }
+
+        @if (nombre.errors?.['maxlength'] && nombre.touched) {
+            <div class="text-danger">Máximo trescientos caracteres</div>
+        }
+
+        <div class="mb-3">
+            <label for="info_link" class="form-label">Info Link</label>
+            <input
+            type="text"
+            class="form-control"
+            id="info_link"
+            name="info_link"
+            [(ngModel)]="proyecto.info_link"
+            minlength="3"
+            maxlength="100"
+            #info_link = "ngModel"
+            [ngClass]="{
+                'is-invalid': info_link.invalid && info_link.touched,
+                'is-valid': info_link.valid && info_link.touched}"
+            autocomplete="off">
+        </div>
+
+        
+        @if (info_link.errors?.['minlength'] && info_link.touched) {
+            <div class="text-danger">Mínimo tres caracteres</div>
+        }
+
+        @if (info_link.errors?.['maxlength'] && info_link.touched) {
+            <div class="text-danger">Máximo cien caracteres</div>
+        }
+        <button type="submit" class="btn btn-primary" [disabled]="miFormulario.invalid">Enviar</button>
+    </form>
+    }
+    
+</div>
