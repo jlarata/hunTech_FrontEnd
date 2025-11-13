@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Users } from './users';
-import { ProyectoResponse } from '../models/proyectos';
+import { Proyecto, ProyectoResponse } from '../models/proyectos';
 
 @Injectable({
   providedIn: 'root',
@@ -33,17 +33,9 @@ export class ProyectoService {
     return res
   }
 
-  postProyecto(email:string): Observable<ProyectoResponse> {
-    const req = {
-      "nombre": "un proyecto de agustin",
-      "description": "tenés ratas? las mato",
-      //"info_link": "https://www.evivo.io",
-      //"buscando_devs": true,
-      "id_gerente": "asdasdasd",
-      "email_gerente": `${email}`
-    }
+  postProyecto(proyecto: Proyecto): Observable<ProyectoResponse> {
+    const req = proyecto;
     const res = this._httpClient.post<ProyectoResponse>(this._proyectosUrl + 'proyecto', req)
-
     return res
   }
 

@@ -1,10 +1,6 @@
 <div class="container">
     <form #miFormulario="ngForm" (ngSubmit)="enviar(miFormulario)">
         
-
-
-        <!-- NO TENGO NI IDEA DE POR QUÉ NO FUNCIONA EL NGMODEL PARA DESCRIPTION E INFO LINK
-          -->
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre del proyecto</label>
             <input
@@ -15,6 +11,7 @@
             [(ngModel)]="proyecto.nombre"
             required
             minlength="3"
+            maxlength="100"
             #nombre = "ngModel"
             [ngClass]="{
                 'is-invalid': nombre.invalid && nombre.touched,
@@ -30,6 +27,9 @@
         @if (nombre.errors?.['minlength'] && nombre.touched) {
             <div class="text-danger">Mínimo tres caracteres</div>
         }
+        @if (nombre.errors?.['maxlength'] && nombre.touched) {
+            <div class="text-danger">Máximo cien caracteres</div>
+        }
         
 
 
@@ -43,7 +43,8 @@
             [(ngModel)]="proyecto.description"
             required
             minlength="3"
-            #nombre = "ngModel"
+            maxlength="300"
+            #description = "ngModel"
             [ngClass]="{
                 'is-invalid': description.invalid && description.touched,
                 'is-valid': description.valid && description.touched}"
@@ -58,6 +59,10 @@
             <div class="text-danger">Mínimo tres caracteres</div>
         }
 
+        @if (nombre.errors?.['maxlength'] && nombre.touched) {
+            <div class="text-danger">Máximo trescientos caracteres</div>
+        }
+
         <div class="mb-3">
             <label for="info_link" class="form-label">Info Link</label>
             <input
@@ -68,7 +73,7 @@
             [(ngModel)]="proyecto.info_link"
             minlength="3"
             maxlength="100"
-            #nombre = "ngModel"
+            #info_link = "ngModel"
             [ngClass]="{
                 'is-invalid': info_link.invalid && info_link.touched,
                 'is-valid': info_link.valid && info_link.touched}"
