@@ -23,6 +23,12 @@ export class ContratoService {
     return res
   }
 
+  //trae los contratos por email gerente
+  getContratosByEmailGerente(emailGerente:string): Observable<ContratoResponse> {
+    const res = this._httpClient.get<ContratoResponse>(`${this._contratosUrl}/${emailGerente}`);
+    return res
+  }
+
   postularseAContrato(id:string, email:string): Observable<ContratoResponse> {
     //console.log('intentando update de contrato id ',id.toString(), 'sumando la postulación de ',email )
     const res = this._httpClient.put<ContratoResponse>(this._contratosUrl + 'contrato/' + id, {"postulaciones" : email});

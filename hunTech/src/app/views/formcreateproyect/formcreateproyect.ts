@@ -6,6 +6,7 @@ import { Proyecto } from '../../models/proyectos';
 
 @Component({
   selector: 'app-formcreateproyect',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './formcreateproyect.html',
   styleUrl: './formcreateproyect.css',
