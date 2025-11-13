@@ -1,59 +1,70 @@
+<!-- Pasé esta lógica al TS.
 @let isAuth   = (authService.isAuthenticated$ | async);
-@let existUser = (usersService.isExistUser$   | async);
+@let existUser = (usersService.isExistUser$   | async); -->
 
+<!-- aca esto deberia mostrarse si el user no esta autenticado o si no esta en nuestra db  -->
+<!-- descomente esto por que sino no se ve el logo al iniciar sesion o cuando hay que elegir rol -->
+ @if (!isAuth || !existUser) {
+<header>
+  <div class="logo-container">
+    <img src="logo.png" id="logo-principal" />
+  </div>
+</header>
+} 
 
-  <!-- aca esto deberia mostrarse si el user no esta autenticado o si no esta en nuestra db  -->
-@if (!isAuth || !existUser) { 
-  <!-- @if ((true) || (true)) { -->
-    <header>
-      <div class="logo-container">
-        <img src="logo.png" id="logo-principal">
-      </div>
-    </header> 
-}
-
+<!-- para mostrar contenido de app primero verificamos si esta auntenticado -->
 <main>
-    <!-- para mostrar contenido de app primero verificamos si esta untenticado -->
-    @if (isAuth) { <!--este es el que vale -->
-    <!-- @if (true) { este lo voy poniendo en true o false por que cognito no anda -->
-      <!-- segundo verificamos si ese email lo tenemos registradoo en la db -->
-      @if (!existUser) { 
-        <div class="descripcion-container">
-          <h2>Selecciona tu rol para terminar el registro:</h2>
+  @if (isAuth && !existUser) {
 
-          <select (change)="onRoleChange($event)">
-            <option value="">-- Seleccionar --</option>
-            @for (rol of usersService.availableRoles; track rol) {
-              <option [value]="rol">{{ usersService.roleLabels[rol] }}</option>
-            }
-          </select>
+  <!--este es el que vale -->
 
-          <button class="btn btn-add" (click)="usersService.saveUserWithSelectedRole()">Guardar</button>
-        </div>
-      }@else{
-        <!-- si el user existe en nuestra db mostramos el contenido -->
-          <app-navbar></app-navbar>
-          <!-- Content wrapper -->
-          <div class="main-content">
-            <!-- <p>ESTAS LOGEADO! {{(authService.userData$ | async)?.name}}
-            <pre>{{ (authService.userData$ | async) | json }}</pre>
-            <p>User existe: {{ existUser}}</p>
-            <p>User Rol: {{(usersService.selectedRole$ | async)}}</p></p> -->
-            <router-outlet></router-outlet>
-          </div>
+  <!-- @if (true) { este lo voy poniendo en true o false por que cognito no anda -->
+  <!-- segundo verificamos si ese email lo tenemos registradoo en la db -->
+  <div class="descripcion-container">
+    <h2>Selecciona tu rol para terminar el registro:</h2>
+
+    <select (change)="onRoleChange($event)">
+      <option value="">-- Seleccionar --</option>
+      @for (rol of usersService.availableRoles; track rol) {
+      <option [value]="rol">{{ usersService.roleLabels[rol] }}</option>
       }
+    </select>
 
-    } @else {
-      <div class="descripcion-container">
-        <h2 class="subtitulo">Debes iniciar sesión</h2>
-        <p>Por favor, inicia sesión para ver el contenido.</p>
-        
-        
-        <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
-        
-        <p class="descripcion-aclaracion">(Serás redirigido a nuestro formulario de AWS para loguearse o registrar cuenta nueva)</p>
-      </div>
-    
-    }
+    <button class="btn btn-add" (click)="usersService.saveUserWithSelectedRole()">Guardar</button>
+  </div>
+  }
+  <!-- @if (isAuth && !isDataLoaded){
+  <header class="blinking">
+    <h1 class="titulo">hunTech</h1>
+    <div class="logo-container">
+      <img src="../../assets/logo.png" id="logo-principal" />
+    </div>
+    <h2 class="subtitulo">Cargando la data de usuario, espere por favor.</h2>
+  </header>
+  } -->
 
+  @if (isAuth && existUser){
+  <!-- si el user existe en nuestra db mostramos el contenido -->
+  <app-navbar></app-navbar>
+  <!-- Content wrapper -->
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+  }
+
+  <!-- /////// -->
+  @if (!isAuth) {
+  <div class="descripcion-container">
+    <h1 class="titulo">Bienvenido a HunTech!</h1>
+     <p class="parrafo">¡Tu primer empleo te espera! 🚀</p>
+    <p>Por favor, inicia sesión para ver el contenido.</p>
+    <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
+     <ul class="beneficios">
+      <li>Descubre vacantes especialmente para estudiantes y juniors🎯</li>
+      <li>Recibe notificaciones de empresas interesadas en tu perfil🔔</li>
+      <li>Destaca tus habilidades y proyectos directamente a los reclutadores💼</li>
+    </ul>
+  </div>
+  <!-- /////// -->
+  }
 </main>

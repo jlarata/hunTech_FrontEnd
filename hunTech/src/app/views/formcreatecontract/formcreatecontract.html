@@ -1,0 +1,99 @@
+<div class="container">
+
+    <!-- @if (espost){ -->
+        <form #miFormulario="ngForm" (ngSubmit)="enviar(miFormulario)">
+        
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo de Desarrollador</label>
+            <input
+            type="text"
+            class="form-control"
+            id="tipo"
+            name="tipo"
+            [(ngModel)]="contrato.tipo"
+            required
+            minlength="3"
+            maxlength="30"
+            #tipo = "ngModel"
+            [ngClass]="{
+                'is-invalid': tipo.invalid && tipo.touched,
+                'is-valid': tipo.valid && tipo.touched}"
+            autocomplete="off">
+            </div>
+        
+
+        @if (tipo.errors?.['required'] && tipo.touched) {
+            <div class="text-danger">Tipo requerido</div>
+        }
+        
+        @if (tipo.errors?.['minlength'] && tipo.touched) {
+            <div class="text-danger">Mínimo tres caracteres</div>
+        }
+        @if (tipo.errors?.['maxlength'] && tipo.touched) {
+            <div class="text-danger">Máximo treinta caracteres</div>
+        }
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título o resumen del Contrato</label>
+            <input
+            type="text"
+            class="form-control"
+            id="titulo"
+            name="titulo"
+            [(ngModel)]="contrato.titulo"
+            required
+            minlength="3"
+            maxlength="60"
+            #titulo = "ngModel"
+            [ngClass]="{
+                'is-invalid': titulo.invalid && titulo.touched,
+                'is-valid': titulo.valid && titulo.touched}"
+            autocomplete="off">
+            </div>
+        
+
+        @if (titulo.errors?.['required'] && titulo.touched) {
+            <div class="text-danger">Titulo requerido</div>
+        }
+        
+        @if (titulo.errors?.['minlength'] && titulo.touched) {
+            <div class="text-danger">Mínimo tres caracteres</div>
+        }
+        @if (titulo.errors?.['maxlength'] && titulo.touched) {
+            <div class="text-danger">Máximo sesenta caracteres</div>
+        }
+
+
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripcion completa del Contrato</label>
+            <input
+            type="text"
+            class="form-control"
+            id="descripcion"
+            name="descripcion"
+            [(ngModel)]="contrato.descripcion"
+            required
+            minlength="30"
+            maxlength="400"
+            #descripcion = "ngModel"
+            [ngClass]="{
+                'is-invalid': descripcion.invalid && descripcion.touched,
+                'is-valid': descripcion.valid && descripcion.touched}"
+            autocomplete="off">
+            </div>
+        
+
+        @if (descripcion.errors?.['required'] && descripcion.touched) {
+            <div class="text-danger">Descripcion requerida</div>
+        }
+        
+        @if (descripcion.errors?.['minlength'] && descripcion.touched) {
+            <div class="text-danger">Mínimo 30 caracteres</div>
+        }
+        @if (descripcion.errors?.['maxlength'] && descripcion.touched) {
+            <div class="text-danger">Máximo 400 caracteres</div>
+        }
+  <button type="submit" class="btn btn-primary" [disabled]="miFormulario.invalid">Enviar</button>
+    </form>
+   <!--  } -->
+</div>

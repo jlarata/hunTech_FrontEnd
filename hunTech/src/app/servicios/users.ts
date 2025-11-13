@@ -44,6 +44,7 @@ export class Users {
   }
 
   setUser(user: any): void { this._user.next(user); }
+  getUser(): any { return this._user.getValue(); }
 
   //switchmap en vez de map xq estamos usando varios observable, se suscribe al ultimo
   //map para transformar valores en un mismo stream/flujo?
@@ -94,9 +95,11 @@ export class Users {
   createUserByRole(email: string, role: string): Observable<any> {
     ///agregar campos que provienen de userdata cognito nombre(nada mas por ahora)
     const url = `${this._usersUrl}${role}`;
-    const body = { email, role, nombre: this._user.getValue()?.name ?? ''}; 
-    
+    const body = { email, nombre: this._user.getValue()?.name ?? ''}; 
+    console.log(body)
+    console.log(url)
     return this._httpClient.post<any>(url, body);
+    
   }
 
   //ejecuta el post a la db para crear el user con el rol seleccionado
@@ -120,6 +123,7 @@ export class Users {
       next: res => {
         console.log('Usuario creado!:', res);
         this._isExistUser.next(true);
+        console.log(email, role)
       },
       error: err => {
         console.error('Error al crear usuario:', err);
@@ -131,13 +135,9 @@ export class Users {
   editUser(payload: any, role: string): Observable<any> {
     ///agregar solo campos que van a ser actualizados en la db
     let email = this._email.getValue()!;
-    const url = `${this._usersUrl}${role}/${email}`;
-
-    let body = {desarrollador: payload}
-
-    //console.log( "Esto es el body para edit: ", body);
-    
-    return this._httpClient.put(url, body);
+    const url = `${this._usersUrl}usuario/${email}`;
+    payload.rol = role; //agrego rol al payload
+    return this._httpClient.put(url, payload);
   }
 
   //ok y voy a necesitar un get user 
@@ -154,7 +154,7 @@ export class Users {
 
     this.getUserByEmail(email, role).subscribe({
       next: res => {
-        const db = res.data;          // {nombre, descripcion, skills(cadena strin separada por coma
+        const db = res.data;          // {nombre, descripcion, skills(cadena string separada por coma
         const skillsArray = typeof db.skills === 'string'
           ? db.skills.split(',').map((s: string) => s.trim())
           : db.skills ?? [];
@@ -165,7 +165,7 @@ export class Users {
         const final = {
           ...cognito,//traeme todo lo de cognito
           //y voy viendo cual no es null para construir mi user
-          nombre: db.nombre ?? cognito.nombre,
+          nombre: db.nombre ?? cognito.name,
           descripcion: db.descripcion?? cognito.descripcion,
           skills: skillsArray|| [],
           rol: role

@@ -22,7 +22,14 @@
     </div>
     <ul class="nav-links" [class.active]="menuActive">
         <li><a routerLink="/" routerLinkActive="active" (click)="closeMenu()">Home</a></li>
-        <li><a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Buscar Contratos</a></li>
+        @if (user.rol == "gerente") {
+            <li><a routerLink="/miproyecto" routerLinkActive="active" (click)="closeMenu()">Mi Proyecto</a></li>
+        }
+
+        @if (user.rol == "desarrollador" || user.rol == "gerente") {
+            <li><a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Buscar Contratos</a></li>
+        }
+        
         <li><a routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">Perfil</a></li>
         <li><a (click)="authService.logout()">Cerrar sesión</a></li>
     </ul>

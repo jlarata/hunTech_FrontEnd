@@ -1,123 +1,258 @@
+/* Contenedor principal del perfil */
 .perfil-card {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    background-color: #143447;
-    color: white;
-    padding: 2rem;
-    border-radius: 12px;
-    max-width: 40vw;
-    margin: 2rem auto;
-    text-align: center;
+  max-width: 650px;
+  margin: 3rem auto;
+  background: #f9fbfd;
+  border-radius: 15px;
+  padding: 3rem 3.5rem;
+  box-shadow: 0 8px 20px rgba(0, 50, 100, 0.1);
+  font-family: 'Roboto', sans-serif;
+  color: #1a1a1a;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
+.perfil-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 16px 40px rgba(0, 50, 100, 0.25);
+}
+
+/* Botón editar */
+.btn-edit {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background-color: #0052cc;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0, 82, 204, 0.4);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 10;
+}
+
+.btn-edit:hover {
+  background-color: #003d99;
+  transform: scale(1.1);
+}
+
+/* Título */
 h2 {
-    margin: 0.5rem;
-    margin-bottom: -2rem;
-    font-size: 3.4rem;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #003366;
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.04em;
 }
 
+/* Email */
 .email {
-    position: relative;
-    font-size: 1.5rem;
-    padding-top: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
 }
 
-/*linea debajo del email*/
-/*con pseudoelemento*/
-.email::before {
-    content: '';
-    position: absolute;
-    width: 55%;
-    border-top: 1px solid #ff0562;
-    bottom: 2.5rem
+/* Biografía */
+.bio {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 2rem;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* Detalles del perfil */
 .perfil-details {
-    list-style: none;
-    padding: 0;
-    margin-top: 1rem;
-    font-size: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  font-size: 1.05rem;
+  color: #333;
+  border-top: 2px solid #d9e3f0;
 }
 
 .perfil-details li {
-    margin-bottom: 0.5rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background-color 0.3s ease;
+  cursor: default;
 }
 
+.perfil-details li:hover {
+  background-color: #e6f0ff;
+  color: #0052cc;
+  font-weight: 600;
+}
+.perfil-mensaje {
+  font-size: 1.1rem;
+  font-weight: 20;
+  color: #003366;
+}
+/* Sección de skills */
 .perfil-skills {
-    display: flex;
-    flex-direction: row;
+  text-align: center;
+  margin-bottom: 2.5rem;
 }
 
-.perfil-skills-titulo {
-    display: flex;
-    flex-direction: column;
-    padding-right: 2rem;
-    align-items: end;
-    justify-content: center;
-    width: 50%;
+.perfil-skills-titulo h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0052cc;
+  margin-bottom: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  user-select: none;
 }
 
-.perfil-skills-skills {
-    display: flex;
-    flex-direction: column;
-    padding-left: 1rem;
-    align-items: start;
-    justify-content: center;
-    width: 80%;
-    border-left: solid 1px white;
+/* Lista de skills */
+.perfil-skills-skills ul {
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 90%;
+}
 
+.perfil-skills-skills li {
+  background-color: #cce0ff;
+  color: #003366;
+  font-weight: 600;
+  padding: 0.6rem 1.3rem;
+  border-radius: 25px;
+  box-shadow: 0 3px 8px rgba(0, 61, 153, 0.2);
+  cursor: default;
+  transition: transform 0.25s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  user-select: none;
+}
+
+.perfil-skills-skills li:hover {
+  background-color: #a6c8ff;
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 82, 204, 0.5);
+}
+
+/* Inputs  */
+.perfil-input {
+  width: 100%;
+  padding: 1rem 1.3rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid #b0c4de;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  color: #222;
+  background-color: #f5f9ff;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.07);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+
+.perfil-input:focus {
+  border-color: #0052cc;
+  box-shadow: 0 0 10px rgba(0, 82, 204, 0.4);
+}
+
+
+.perfil-input.textarea {
+  min-height: 120px;
+  resize: vertical;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90%;
+}
+.perfil-input.skill-input {
+  max-width: 300px;
 }
 
 .perfil-input.skill {
-    background: #0e2a3a;
-    border: 1px solid #ff0562;
-    color: white;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
-    width: 30%;
+  width: auto;
+  max-width: 220px;
+  display: inline-block;
+  margin-right: 0.7rem;
 }
 
+/* Contenedor botones */
+.botonera {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* Botones base */
+.botonera button {
+  padding: 0.85rem 1.8rem;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 5px 18px rgba(0, 82, 204, 0.2);
+  min-width: 140px;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+/* Botones principales (agregar, guardar) */
+.btn-add,
 .btn-add-skill {
-    background: transparent;
-    border: 1px solid #ff0562;
-    color: #ff0562;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
+  background-color: #0052cc;
+  color: white;
+  box-shadow: 0 6px 22px rgba(0, 82, 204, 0.45);
 }
 
-.perfil-input.textarea {
-    resize: vertical;          /* permite agrandar */
-    min-height: 80px;          /* no quede muy chico */
-    width: 80%;               /* ocupa todo el ancho */
-    background: #0e2a3a;
-    border: 1px solid #ff0562;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-family: inherit;      /* mismo tipo de letra */
-    font-size: 1rem;
+.btn-add:hover,
+.btn-add-skill:hover {
+  background-color: #003d99;
+  transform: translateY(-4px);
+  box-shadow: 0 9px 30px rgba(0, 61, 153, 0.65);
 }
 
-@media (max-width: 768px) {
-    .perfil-card {
-        max-width: 80vw;    
-    }
+/* Botón cancelar */
+.btn {
+  background-color: #e9f0ff;
+  border: 2px solid #a8b9db;
+  color: #222;
+  box-shadow: none;
+}
 
-    .email {
-        position: relative;
-        font-size: 1.5rem;
-        padding-top: 0.5rem;
-    }
+.btn:hover {
+  background-color: #c4d2ff;
+  border-color: #0052cc;
+  box-shadow: 0 5px 15px rgba(0, 82, 204, 0.4);
+  transform: translateY(-3px);
+}
 
-    .email::before {
-        content: '';
-        position: absolute;
-        width: 70%;
-        border-top: 1px solid #ff0562;
-        bottom: 2.5rem
-    }
+/* Responsive */
+@media (max-width: 600px) {
+  .perfil-card {
+    padding: 2rem 2rem;
+    margin: 2rem 1rem;
+  }
+
+  .botonera {
+    flex-direction: column;
+  }
+
+  .botonera button {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .perfil-skills-skills ul {
+    justify-content: flex-start;
+  }
 }

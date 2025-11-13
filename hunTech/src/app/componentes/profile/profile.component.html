@@ -1,4 +1,6 @@
-
+<p class="perfil-mensaje">
+  Bienvenido/a {{user.nombre}}! Completa tu perfil para que otros te conozcan mejor!
+</p>
 <div class="perfil-card">
     <!-- btn para editar -->
     @if (!enEdicion) {
@@ -12,10 +14,10 @@
         <p class="bio">Bio: {{ user.descripcion || "Descripcion no ingresada" }}</p>
 
         <ul class="perfil-details">
-            <li>Rol Principal: {{ user.rol || 'Esperando rol..' }}</li>
+            <li>Rol: {{ user.rol || 'Esperando rol..' }}</li>
         </ul>
 
-        @if (user?.skills) {
+        @if (user?.rol == 'desarrollador' && user?.skills?.length > 0) {
             <div class="perfil-skills">
                 <div class="perfil-skills-titulo">
                     <h3>Skills</h3>
@@ -51,20 +53,22 @@
                     rows="4"
                     placeholder="Contanos sobre vos...">
                 </textarea>
-        
-                <label><h3>Skills</h3></label>
-                @for (skillCtrl of skillsControls; let i = $index; track i) {
-                    <input
-                        type="text"
-                        class="perfil-input skill"
-                        [formControl]="skillCtrl"
-                        placeholder="Ej. Angular"
-                    />
+
+                @if (user?.rol == 'desarrollador') {
+                    <label><h3>Skills</h3></label>
+                    @for (skillCtrl of skillsControls; let i = $index; track i) {
+                        <input
+                            type="text"
+                            class="perfil-input skill"
+                            [formControl]="skillCtrl"
+                            placeholder="Ej. Angular"
+                        />
+                    }
+                    <!-- Botón para agregar más -->
+                    <div class="botonera">
+                        <button type="button" class="btn-add-skill" (click)="agregarSkill()">+ Agregar</button>
+                    </div>
                 }
-                <!-- Botón para agregar más -->
-                <div class="botonera">
-                    <button type="button" class="btn-add-skill" (click)="agregarSkill()">+ Agregar</button>
-                </div>
                 
             </div>
                 

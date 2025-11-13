@@ -2,10 +2,6 @@ import { Component,inject } from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
 
 import { Users} from './../../servicios/users';
-import { Desarrollador } from './../../models/users/desarrollador';
-import { Gerente } from './../../models/users/gerente';
-import { InstitucionEducativa } from './../../models/users/institucion-educativa';
-
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -39,7 +35,7 @@ export class ProfileComponent {
     this.profileEditForm.patchValue({
       nombre: this.user.nombre ?? '',
       descripcion: this.user.descripcion ?? '',
-      skills: this.user.skills ?? []//esto no esta funcionando
+      skills: this.user.skills ?? []
     });
 
     // agregar los skills que ya tenemos en edit para que no se borren  al agregar nuevos
@@ -71,19 +67,19 @@ export class ProfileComponent {
     }
     
     // solo actualizamos skills si es desarrollador
-    if (this.user instanceof Desarrollador && formValue.skills) {
+    if (this.user.rol == "desarrollador" && formValue.skills) {
       this.user.skills = (formValue.skills as string[]).filter(s => s.trim() !== '');
       payload.skills = this.user.skills;
     }
 
-    console.log(payload);
+    //console.log(payload);
       
-    this._usersService.editUser(payload, this.rol).subscribe({
+    this._usersService.editUser(payload, this.user.rol).subscribe({
       next: (response) => {
         console.log('Usuario actualizado:', response);
         const dataActualizada = response.data;
         //actualizamos los datos en el servicio para que esten sincronizados
-        this._usersService.setUser(dataActualizada);//actualiza observable user
+        this.loadUser();//actualiza observable user
       },
       error: (err) => {
         console.error('Error al actualizar usuario:', err);
