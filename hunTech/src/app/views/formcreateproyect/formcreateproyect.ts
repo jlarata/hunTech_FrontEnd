@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Proyecto } from '../../models/proyectos';
+import { Users } from '../../servicios/users';
+import { ProyectoService } from '../../servicios/miproyecto';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,20 +14,25 @@ import { Proyecto } from '../../models/proyectos';
   styleUrl: './formcreateproyect.css',
 })
 export class Formcreateproyect {
+
+  constructor(
+    private _apiService: ProyectoService,
+    private router: Router
+  ) { }
+
+  private _usersService = inject(Users);
+
   proyecto: Proyecto = {
     nombre: '',
     description: '',
     info_link: '',
     buscando_devs: true,//siempre arranca true
-    email_gerente: '', // hay que llamar al servicio de usuarios y pedirle el email usando la sesión
-                    //es lo mismo que hacemos en varios otros componentes, como en contratos o perfil.
-                    // ese es el email que tiene que ir en el form
+    email_gerente: ''
   }
 
-
-/* PARA QUE ESTO ANDE ADEMÁS DE LLAMAR AL SERVICIO DE PROYECTOS Y CREAR UNO NUEVO, LUEGO DE ESO HAY UQE 
-PEGARLE UNA REFRESCADA A LA APP PARA QUE VUELVA A PROYECTOS. */
-
+  ngOnInit(): void {
+    this.loadUser();
+  }
   formularioEnviado = false;
 
   enviar(form: NgForm) {
@@ -32,20 +40,48 @@ PEGARLE UNA REFRESCADA A LA APP PARA QUE VUELVA A PROYECTOS. */
       return;
     }
 
-    console.log('Formulario enviado: ', form.value)
+    const dataParaEnviar = {
+      ...this.proyecto,
+    };
 
-    this.formularioEnviado = true;
+    this._apiService.postProyecto(this.proyecto).subscribe({
+      next: (res) => {
+        console.log(res.message)
+        this.router.navigate(['/miproyecto']);
+
+      },
+      error: (error: string) => {
+        console.log(error)
+      }
+    });
+
+    /* .subscribe({
+      next: (res:any) => {
+      console.log(res)
+        //console.log(res.message)
+    },
+    error: (error: string) => {
+      console.log(error)
+    }
+  }) */;
 
 
-    //ESTO NATURALMENTE NO VA, HAY QUE CAMBIARLO POR UNA LLAMADA AL SERVICIO DE PROYECTOS
-    // Y EN EL SERVICIO HAY QUE LLAMAR AL BACKEND Y PEGARLE AL CREATEPROYECT QUE YA FUNCIONA PERFECTO. 
-    // SIGAN EL POSTMAN
-    setTimeout(()=> {
-      form.resetForm()
-      this.formularioEnviado = false;
-      console.log('Formulario reseteado.', form.value)
+    //this.formularioEnviado = true;
+    //form.resetForm()
+    //this.formularioEnviado = false;
 
-    }, 1500)
+  }
+
+
+
+  private loadUser(): void {
+    // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
+    this._usersService.user$.subscribe({
+      next: (data) => {
+        this.proyecto.email_gerente = data.email;   //data de cognito  y DB      
+      },
+      error: (err) => console.error('Error al obtener usuario', err)
+    });
   }
 
 }
