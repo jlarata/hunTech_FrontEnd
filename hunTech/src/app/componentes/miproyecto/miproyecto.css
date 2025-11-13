@@ -1,7 +1,8 @@
 .proyecto-header {
   display: flex;
   justify-content: space-between; 
-  align-items: center;           
+  align-items: center;  
+  justify-content: center;         
   margin-bottom: 1.5rem;
 }
 .proyecto-p {
