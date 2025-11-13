@@ -39,6 +39,12 @@ export class ProyectoService {
     return res
   }
 
+  editProyecto(proyecto: Proyecto): Observable<ProyectoResponse> {
+    const req = proyecto;
+    const res = this._httpClient.put<ProyectoResponse>(this._proyectosUrl+'proyecto/'+proyecto.email_gerente, proyecto)
+    return res
+  }
+
   private loadUser(): void {
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({

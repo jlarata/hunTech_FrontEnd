@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Proyecto } from '../../models/proyectos';
 import { Users } from '../../servicios/users';
 import { ProyectoService } from '../../servicios/miproyecto';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -17,10 +17,14 @@ export class Formcreateproyect {
 
   constructor(
     private _apiService: ProyectoService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   private _usersService = inject(Users);
+
+  espost = false;
+  esedit = true;
 
   proyecto: Proyecto = {
     nombre: '',
@@ -31,7 +35,25 @@ export class Formcreateproyect {
   }
 
   ngOnInit(): void {
+    const email = this.route.snapshot.paramMap.get('email');
+    console.log(email)
+    if (email) {
+      // Llamás al servicio para traer el proyecto y precargarlo
+      this._apiService.getProyectoPorEmail(email).subscribe({
+        next : (res) => {
+          console.log("listo para editar proyecto", this.proyecto)
+          this.proyecto = res.data[0]
+        }, 
+        error: (err) => console.error('Error al cargar proyecto', err)
+      });
+    } else {
+      this.espost = true;
+      this.esedit = false;
+    }
+
+
     this.loadUser();
+
   }
   formularioEnviado = false;
 
@@ -55,16 +77,6 @@ export class Formcreateproyect {
       }
     });
 
-    /* .subscribe({
-      next: (res:any) => {
-      console.log(res)
-        //console.log(res.message)
-    },
-    error: (error: string) => {
-      console.log(error)
-    }
-  }) */;
-
 
     //this.formularioEnviado = true;
     //form.resetForm()
@@ -72,6 +84,32 @@ export class Formcreateproyect {
 
   }
 
+  editar(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+
+    const dataParaEnviar = {
+      ...this.proyecto,
+    };
+
+    this._apiService.editProyecto(this.proyecto).subscribe({
+      next: (res) => {
+        console.log(res.message)
+        this.router.navigate(['/miproyecto']);
+
+      },
+      error: (error: string) => {
+        console.log(error)
+      }
+    });
+
+
+    //this.formularioEnviado = true;
+    //form.resetForm()
+    //this.formularioEnviado = false;
+
+  }
 
 
   private loadUser(): void {
