@@ -6,7 +6,8 @@ export class Contrato {
     tiene_postulaciones?: boolean;
     postulaciones?: string[];
     esta_ocupado?: boolean;
-    pasante_id?: number;
+    pasante_email?: string;
+    proyecto_id?: string;
     start_date?: string;
     end_date?: string;
 }
