@@ -23,6 +23,11 @@ export class ContratoService {
     return res
   }
 
+  //trae los contratos por email gerente
+  getContratosByEmailGerente(emailGerente:string): Observable<ContratoResponse> {
+    const res = this._httpClient.get<ContratoResponse>(`${this._contratosUrl}/${emailGerente}`);
+    return res
+  }
   postContrato(contrato: Contrato): Observable<ContratoResponse> {
     console.log('intento crear contrato ',contrato)  
     const req = contrato;

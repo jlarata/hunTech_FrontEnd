@@ -50,20 +50,21 @@ export class Contratos {
 
   mostrarTodosLosContratos() {
     this.usuario = this._usersService.getUser();
-    if (this.usuario.rol != 'desarrollador') {
-      console.log('no sé cómo llegaste hasta acá pero seguí tu camino fiera.')
-    } else {
+    
       //esto va a guardar el observable  al que nos vamos a suscribir
       let data;
-      if (this.usuario.rol === 'desarrollador') {
+      if (this.usuario.rol === 'desarrollador' ) {
         //if (user.rol === 'dev') {//esto era para ver los contratos por que no tenia el enpoint funcionando
         data = this._apiService.getContratosLibres();
       } else {
-        data = this._apiService.getContratos();
+        data = this._apiService.getContratosByEmailGerente(this.usuario.email);
+        
+        
       }
 
       data.subscribe({
         next: (res) => {
+          console.log("contratos de gerente", res.data);
           console.log(`${res.count} ${res.message}`)
           this.todosLosContratos = res.data;
           console.log(this.todosLosContratos)
@@ -73,7 +74,7 @@ export class Contratos {
           console.log('desde el componente error ' + error)
         }
       });
-    }
+    
   }
 
   createCards = (contratos: Contrato[]): void => {

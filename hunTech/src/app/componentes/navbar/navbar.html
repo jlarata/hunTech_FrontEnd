@@ -25,7 +25,8 @@
         @if (user.rol == "gerente") {
             <li><a routerLink="/miproyecto" routerLinkActive="active" (click)="closeMenu()">Mi Proyecto</a></li>
         }
-        @if (user.rol == "desarrollador") {
+
+        @if (user.rol == "desarrollador" || user.rol == "gerente") {
             <li><a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Buscar Contratos</a></li>
         }
         

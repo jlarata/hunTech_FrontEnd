@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-formcreateproyect',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './formcreateproyect.html',
   styleUrl: './formcreateproyect.css',
