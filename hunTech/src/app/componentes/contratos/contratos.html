@@ -1,6 +1,6 @@
 <div #detailContainer class="contrato-detail-container">
   @if (this.mostrandoContratoDetail) {
-  <app-contrato-detail [contrato]="this.contratoAMostrarDetail!" [email]="this.usuario.email"/>
+  <app-contrato-detail [contrato]="this.contratoAMostrarDetail!" [email]="this.usuario.email" [rol]="this.usuario.rol"/>
   }
 </div>
 

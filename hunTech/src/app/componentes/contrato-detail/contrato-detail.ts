@@ -17,7 +17,10 @@ export class ContratoDetail {
   //@Output() contratoChange = new EventEmitter<Contrato>;
 
   @Input() email:string | undefined;
+  @Input() rol:string | undefined;
   
+  
+
   constructor(
     private route: ActivatedRoute,
     private _apiService:ContratoService,

@@ -17,16 +17,17 @@
         @if (contrato.end_date){
         <div class="contrato-box">Fecha de fin: <span class="contrato-ed">{{contrato.end_date}}</span></div>
         }
-        @if (email) {
+
+        @if (rol == "gerente") {
+        <div class="contrato-box">postulaciones: <span class="contrato-ed">{{contrato.postulaciones}}</span></div>
+        } @else if (email) {
         @if (contrato.postulaciones?.includes(email)) {
         <button class="btn-add" type="submit" disabled>Ya estás postulado para este contrato.</button>
         } @else {
-          <button class="btn-add" type="submit" (click)="postularse(contrato, email!)" >Postularme</button>
+        <button class="btn-add" type="submit" (click)="postularse(contrato, email!)">Postularme</button>
         }
-        
-      }
+        }
 
-        
       </div>
     </div>
 
