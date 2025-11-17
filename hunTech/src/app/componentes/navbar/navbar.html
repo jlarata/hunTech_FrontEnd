@@ -26,8 +26,12 @@
             <li><a routerLink="/miproyecto" routerLinkActive="active" (click)="closeMenu()">Mi Proyecto</a></li>
         }
 
-        @if (user.rol == "desarrollador" || user.rol == "gerente") {
+        @if (user.rol == "desarrollador") {
             <li><a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Buscar Contratos</a></li>
+        }
+
+        @if (user.rol == "gerente") {
+            <li><a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Ver mis Contratos</a></li>
         }
         
         <li><a routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">Perfil</a></li>
