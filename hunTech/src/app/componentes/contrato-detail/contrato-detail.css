@@ -78,11 +78,22 @@ h2 {
 
 .postulacion-btn {
   margin: 0.2rem;
-  background: #e0e7ff;
-  color: #1e3a8a;
   padding: 0.3rem 0.6rem;
   border-radius: 8px;
   cursor: pointer;
+  transition: 0.2s ease;
+}
+.postulacion-btn.seleccionado {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #10b981;
+  font-weight: bold;
+}
+
+.postulacion-btn.no-seleccionado {
+  background: #f3f4f6;
+  color: #6b7280;
+  opacity: 0.6;
 }
 
 button {

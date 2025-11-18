@@ -43,7 +43,8 @@ export class ContratoService {
   }
 
   asignarPostulante(idContrato: string, email: string): Observable<ContratoResponse> {
-  const body = { email: email };
+  const body = { pasante_email: email };
+  console.log("Email recibido desde el service: ", email)
   return this._httpClient.put<ContratoResponse>(
     `${this._contratosUrl}contrato/asignar/${idContrato}`,
     body

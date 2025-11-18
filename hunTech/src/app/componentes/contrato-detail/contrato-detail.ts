@@ -46,6 +46,7 @@ export class ContratoDetail {
 
   asignarPostulante() {
     if (!this.emailSeleccionado || !this.contrato?.id) return;
+console.log("Email que envío:", this.emailSeleccionado);
 
     this._apiService.asignarPostulante(
       this.contrato.id.toString(),
@@ -88,6 +89,4 @@ export class ContratoDetail {
       .map(s => s.trim())
       .filter(s => s.length > 0);
   }
-
-
 }

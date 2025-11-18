@@ -23,7 +23,10 @@
           Postulaciones:
           <div class="postulaciones-list">
             @for (postulante of postulacionesNormalizadas; track $index) {
-            <button class="postulacion-btn" (click)="abrirModal(postulante)">
+            <button class="postulacion-btn" [ngClass]="{
+              'seleccionado': contrato?.pasante_email === postulante,
+              'no-seleccionado': contrato?.pasante_email && contrato?.pasante_email !== postulante
+            }" (click)="abrirModal(postulante)">
               {{ postulante }}
             </button>
             }
