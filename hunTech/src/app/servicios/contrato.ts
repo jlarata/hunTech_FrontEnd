@@ -7,8 +7,6 @@ import { Contrato, ContratoResponse } from '../models/contrato';
   providedIn: 'root'
 })
 export class ContratoService {
-
-  //private _contratosUrl = `https://66ll3g4lt5.execute-api.us-east-1.amazonaws.com/api/`
   //private _contratosUrl = `http://127.0.0.1:3000/api/`
   private _contratosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
 
