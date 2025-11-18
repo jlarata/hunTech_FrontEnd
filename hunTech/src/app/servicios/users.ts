@@ -35,7 +35,7 @@ export class Users {
     desarrollador: 'Desarrollador',
     institucion: 'Institución'
   };
-  
+
   //private _usersUrl = `http://127.0.0.1:3000/api/`
   private _usersUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
   
@@ -82,7 +82,6 @@ export class Users {
 
   // metodoo para actualizar el rol seleccionado
   setSelectedRole(role: string): void {
-    console.log('Rol seleccionado:', role);
     this._selectedRole.next(role);
   }
 
@@ -96,8 +95,6 @@ export class Users {
     ///agregar campos que provienen de userdata cognito nombre(nada mas por ahora)
     const url = `${this._usersUrl}${role}`;
     const body = { email, nombre: this._user.getValue()?.name ?? ''}; 
-    console.log(body)
-    console.log(url)
     return this._httpClient.post<any>(url, body);
     
   }
@@ -121,9 +118,7 @@ export class Users {
 
     this.createUserByRole(email, role).subscribe({
       next: res => {
-        console.log('Usuario creado!:', res);
         this._isExistUser.next(true);
-        console.log(email, role)
       },
       error: err => {
         console.error('Error al crear usuario:', err);
@@ -170,8 +165,6 @@ export class Users {
           skills: skillsArray|| [],
           rol: role
         };
-
-        console.log(final.skills);
         
         this._user.next(final);       // el user resultante
       },

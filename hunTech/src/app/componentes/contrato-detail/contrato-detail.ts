@@ -28,7 +28,7 @@ export class ContratoDetail {
   ) { }
 
   ngOnInit(): void {
-   
+  
   }
 
   postularse(contrato: Contrato, email: string) {    

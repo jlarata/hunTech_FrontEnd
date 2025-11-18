@@ -28,7 +28,6 @@ export class ContratoService {
     return res
   }
   postContrato(contrato: Contrato): Observable<ContratoResponse> {
-    console.log('intento crear contrato ',contrato)  
     const req = contrato;
       const res = this._httpClient.post<ContratoResponse>(this._contratosUrl + 'contrato', req)
       return res
