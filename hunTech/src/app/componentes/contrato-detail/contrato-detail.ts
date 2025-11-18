@@ -13,31 +13,60 @@ import { Router } from '@angular/router';
 })
 export class ContratoDetail {
 
-  @Input() contrato?:Contrato;
+  @Input() contrato?: Contrato;
   //@Output() contratoChange = new EventEmitter<Contrato>;
 
-  @Input() email:string | undefined;
-  @Input() rol:string | undefined;
-  
-  
+  @Input() email: string | undefined;
+  @Input() rol: string | undefined;
+
+  modalVisible = false;
+  emailSeleccionado: string | null = null;
+
+
 
   constructor(
     private route: ActivatedRoute,
-    private _apiService:ContratoService,
-    private router:Router
+    private _apiService: ContratoService,
+    private router: Router
   ) { }
 
-  ngOnInit(): void {
-   
+  abrirModal(email: string) {
+    this.emailSeleccionado = email;
+    this.modalVisible = true;
   }
 
-  postularse(contrato: Contrato, email: string) {    
-    
+  cerrarModal() {
+    this.modalVisible = false;
+    this.emailSeleccionado = null;
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  asignarPostulante() {
+    if (!this.emailSeleccionado || !this.contrato?.id) return;
+
+    this._apiService.asignarPostulante(
+      this.contrato.id.toString(),
+      this.emailSeleccionado
+    )
+      .subscribe({
+        next: (res) => {
+          this.contrato = res.data[0];
+          this.cerrarModal();
+        },
+        error: (e) => console.log(e)
+      });
+  }
+
+  postularse(contrato: Contrato, email: string) {
+
     let postulacion = this._apiService.postularseAContrato(contrato.id!.toString(), email)
 
     postulacion.subscribe({
       next: (res) => {
-        this.contrato=res.data[0]
+        this.contrato = res.data[0]
         //this.contratoChange.emit(this.contrato)
         this.ngOnInit()
         //this.contratoUpdated=res.data[0];
@@ -49,6 +78,16 @@ export class ContratoDetail {
 
   }
 
+  get postulacionesNormalizadas(): string[] {
+    const raw = this.contrato?.postulaciones as unknown as string;
+
+    if (!raw) return [];
+
+    return raw
+      .split(",")
+      .map(s => s.trim())
+      .filter(s => s.length > 0);
+  }
 
 
 }

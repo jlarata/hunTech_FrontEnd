@@ -42,4 +42,12 @@ export class ContratoService {
     return res
   }
 
+  asignarPostulante(idContrato: string, email: string): Observable<ContratoResponse> {
+  const body = { email: email };
+  return this._httpClient.put<ContratoResponse>(
+    `${this._contratosUrl}contrato/asignar/${idContrato}`,
+    body
+  );
+}
+
 }

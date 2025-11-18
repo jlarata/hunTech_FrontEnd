@@ -18,8 +18,17 @@
         <div class="contrato-box">Fecha de fin: <span class="contrato-ed">{{contrato.end_date}}</span></div>
         }
 
-        @if (rol == "gerente") {
-        <div class="contrato-box">postulaciones: <span class="contrato-ed">{{contrato.postulaciones}}</span></div>
+        @if (rol === "gerente") {
+        <div class="contrato-box">
+          Postulaciones:
+          <div class="postulaciones-list">
+            @for (postulante of postulacionesNormalizadas; track $index) {
+            <button class="postulacion-btn" (click)="abrirModal(postulante)">
+              {{ postulante }}
+            </button>
+            }
+          </div>
+        </div>
         } @else if (email) {
         @if (contrato.postulaciones?.includes(email)) {
         <button class="btn-add" type="submit" disabled>Ya estás postulado para este contrato.</button>
@@ -35,4 +44,16 @@
   }
   @else {
   <div> no contratos? </div>
+  }
+  @if (modalVisible) {
+  <div class="modal-backdrop">
+    <div class="modal">
+      <h3>¿Asignar a {{ emailSeleccionado }} al contrato?</h3>
+
+      <div class="modal-actions">
+        <button class="btn-confirm" (click)="asignarPostulante()">Sí, asignar</button>
+        <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
   }
