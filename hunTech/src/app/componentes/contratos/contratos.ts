@@ -41,13 +41,12 @@ export class Contratos {
       } else {
         data = this._apiService.getContratosByEmailGerente(this.usuario.email);
         
-        
       }
 
       data.subscribe({
         next: (res) => {
           this.todosLosContratos = res.data;
-
+          this.createCards(this.todosLosContratos)
         },
         error: (error: string) => {
           console.log('desde el componente error ' + error)
