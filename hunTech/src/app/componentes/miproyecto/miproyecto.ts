@@ -27,7 +27,7 @@ export class Miproyecto {
   mostrarProyecto(email:string) {
   this._apiService.getProyectoPorEmail(email).subscribe({
     next: (res) => {
-      console.log(`${res.count} ${res.message}`)
+      //console.log(`${res.count} ${res.message}`)
       this.proyecto = res.data[0];
     },
     error: (error: string) => {

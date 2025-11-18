@@ -21,11 +21,6 @@ export class ProyectoService {
     this.loadUser();
   }
 
-  /* este no debería ser usado 
-  getProyectos(): Observable<ProyectoResponse> {
-    const res = this._httpClient.get<ProyectoResponse>(this._proyectosUrl + 'proyectos');
-    return res
-  } */
 
   getProyectoPorEmail(email:string): Observable<ProyectoResponse> {
     console.log('buscando proyecto de ',email)
