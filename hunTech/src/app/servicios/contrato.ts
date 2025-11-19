@@ -7,9 +7,8 @@ import { Contrato, ContratoResponse, PostulacionResponse } from '../models/contr
   providedIn: 'root'
 })
 export class ContratoService {
-  //private _contratosUrl = `http://127.0.0.1:3000/api/`
-  private _contratosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
-
+  private _contratosUrl = `http://127.0.0.1:3000/api/`
+  //private _contratosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
   constructor(private _httpClient: HttpClient) { }
 
   getContratos(): Observable<ContratoResponse> {
@@ -38,5 +37,14 @@ export class ContratoService {
     const res = this._httpClient.put<PostulacionResponse>(this._contratosUrl + 'contrato/' + id, {"postulaciones" : email});
     return res
   }
+
+  asignarPostulante(idContrato: string, email: string): Observable<ContratoResponse> {
+  const body = { pasante_email: email };
+  console.log("Email recibido desde el service: ", email)
+  return this._httpClient.put<ContratoResponse>(
+    `${this._contratosUrl}contrato/asignar/${idContrato}`,
+    body
+  );
+}
 
 }
