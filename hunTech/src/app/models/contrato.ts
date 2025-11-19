@@ -17,3 +17,7 @@ export class ContratoResponse {
     count?: number;
     data: Contrato[] = [];
 }
+export class PostulacionResponse {
+    message?: string;
+    data?: Contrato;
+}

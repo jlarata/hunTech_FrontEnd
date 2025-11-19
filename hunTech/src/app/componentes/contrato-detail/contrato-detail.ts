@@ -28,7 +28,7 @@ export class ContratoDetail {
   ) { }
 
   ngOnInit(): void {
-   
+  
   }
 
   postularse(contrato: Contrato, email: string) {    
@@ -37,10 +37,11 @@ export class ContratoDetail {
 
     postulacion.subscribe({
       next: (res) => {
-        this.contrato=res.data[0]
         //this.contratoChange.emit(this.contrato)
-        this.ngOnInit()
+        //comento esto por que no veo que este haciendoo nada
+        //this.ngOnInit()
         //this.contratoUpdated=res.data[0];
+        this.contrato=res.data;
       },
       error: (error: string) => {
         console.log(error)

@@ -1,6 +1,9 @@
-<p class="perfil-mensaje">
-  Bienvenido/a {{user.nombre}}! Completa tu perfil para que otros te conozcan mejor!
-</p>
+@if (!user.nombre || !user.nombre || user.descripcion == null || (user.rol == 'desarrollador' && (!user.skills || user.skills.length == 0))) {
+    <p class="perfil-mensaje">
+        Bienvenido/a {{user.nombre}}! Completa tu perfil para que otros te conozcan mejor!
+    </p>
+}
+
 <div class="perfil-card">
     <!-- btn para editar -->
     @if (!enEdicion) {
