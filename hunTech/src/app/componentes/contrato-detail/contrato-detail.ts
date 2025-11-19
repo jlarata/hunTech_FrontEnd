@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, model, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Contrato } from '../../models/contrato';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,8 @@ export class ContratoDetail {
 
   @Input() contrato?: Contrato;
   //@Output() contratoChange = new EventEmitter<Contrato>;
+
+  @Output() contratoAssigned = new EventEmitter<Contrato | null>();
 
   @Input() email: string | undefined;
   @Input() rol: string | undefined;
@@ -55,6 +57,8 @@ console.log("Email que envío:", this.emailSeleccionado);
       .subscribe({
         next: (res) => {
           this.contrato = res.data[0];
+          // emitir evento para que el componente padre (lista) pueda refrescar
+          this.contratoAssigned.emit(this.contrato ?? null);
           this.cerrarModal();
         },
         error: (e) => console.log(e)

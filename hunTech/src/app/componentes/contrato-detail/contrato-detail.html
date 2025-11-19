@@ -22,18 +22,31 @@
         <div class="contrato-box">
           Postulaciones:
           <div class="postulaciones-list">
-            @for (postulante of postulacionesNormalizadas; track $index) {
-            <button class="postulacion-btn" [ngClass]="{
-              'seleccionado': contrato?.pasante_email === postulante,
-              'no-seleccionado': contrato?.pasante_email && contrato?.pasante_email !== postulante
-            }" (click)="abrirModal(postulante)">
-              {{ postulante }}
-            </button>
+            @if (!contrato.esta_ocupado) {
+              @for (postulante of postulacionesNormalizadas; track $index) {
+              <button class="postulacion-btn" [ngClass]="{
+                'seleccionado': contrato.pasante_email === postulante,
+                'no-seleccionado': contrato.pasante_email && contrato.pasante_email !== postulante
+              }" (click)="abrirModal(postulante)">
+                {{ postulante }}
+              </button>
+              }
+            } @else {
+              @for (postulante of postulacionesNormalizadas; track $index) {
+              <button class="postulacion-btn disabled" [ngClass]="{
+                'seleccionado': contrato.pasante_email === postulante,
+                'no-seleccionado': contrato.pasante_email && contrato.pasante_email !== postulante
+              }" disabled>
+                {{ postulante }}
+              </button>
+              }
             }
           </div>
         </div>
         } @else if (email) {
-        @if (contrato.postulaciones?.includes(email)) {
+        @if (contrato.esta_ocupado) {
+        <div class="contrato-box"><em>Contrato ya asignado. No es posible postular.</em></div>
+        } @else if (contrato.postulaciones?.includes(email)) {
         <button class="btn-add" type="submit" disabled>Ya estás postulado para este contrato.</button>
         } @else {
         <button class="btn-add" type="submit" (click)="postularse(contrato, email!)">Postularme</button>
