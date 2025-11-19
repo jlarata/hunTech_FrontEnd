@@ -7,8 +7,8 @@ import { Contrato, ContratoResponse, PostulacionResponse } from '../models/contr
   providedIn: 'root'
 })
 export class ContratoService {
-  //private _contratosUrl = `http://127.0.0.1:3000/api/`
-  private _contratosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
+  private _contratosUrl = `http://127.0.0.1:3000/api/`
+  //private _contratosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
   constructor(private _httpClient: HttpClient) { }
 
   getContratos(): Observable<ContratoResponse> {
