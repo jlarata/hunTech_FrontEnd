@@ -24,8 +24,6 @@ export class ContratoDetail {
   modalVisible = false;
   emailSeleccionado: string | null = null;
 
-
-
   constructor(
     private route: ActivatedRoute,
     private _apiService: ContratoService,
@@ -68,7 +66,7 @@ console.log("Email que envío:", this.emailSeleccionado);
   postularse(contrato: Contrato, email: string) {
 
     let postulacion = this._apiService.postularseAContrato(contrato.id!.toString(), email);
-    
+
     postulacion.subscribe({
       next: () => {
           // una vez que la postulacion OK
