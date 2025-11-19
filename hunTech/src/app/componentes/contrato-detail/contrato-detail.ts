@@ -67,22 +67,8 @@ console.log("Email que envío:", this.emailSeleccionado);
 
   postularse(contrato: Contrato, email: string) {
 
-    let postulacion = this._apiService.postularseAContrato(contrato.id!.toString(), email)
-
-    //postulacion.subscribe({
-     /* next: (res) => {
-        //this.contratoChange.emit(this.contrato)
-        //comento esto por que no veo que este haciendoo nada
-        //this.ngOnInit()
-        //this.contratoUpdated=res.data[0];
-        this.contrato=res.data;
-
-
-      },
-      error: (error: string) => {
-        console.log(error)
-      }
-    });*/
+    let postulacion = this._apiService.postularseAContrato(contrato.id!.toString(), email);
+    
     postulacion.subscribe({
       next: () => {
           // una vez que la postulacion OK
