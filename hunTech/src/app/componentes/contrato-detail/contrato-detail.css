@@ -35,6 +35,66 @@ h2 {
     color: rgb(24, 3, 61);
     font-weight: 200;
 }
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: #fff;
+  color:#090909;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  z-index: 10000;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.btn-confirm {
+  background-color: #166534;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.btn-cancel {
+  background-color: #991b1b;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.postulacion-btn {
+  margin: 0.2rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.postulacion-btn.seleccionado {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #10b981;
+  font-weight: bold;
+}
+
+.postulacion-btn.no-seleccionado {
+  background: #f3f4f6;
+  color: #6b7280;
+  opacity: 0.6;
+}
 
 button {
     margin-top: 1rem

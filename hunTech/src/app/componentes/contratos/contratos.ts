@@ -23,6 +23,8 @@ export class Contratos {
   usuario: any;
   todosLosContratos: Contrato[] = [];
   contratosCards: ContratoCard[] = [];
+  contratosDisponibles: Contrato[] = [];
+  contratosAsignados: Contrato[] = [];
 
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
@@ -56,8 +58,17 @@ export class Contratos {
   }
 
   createCards = (contratos: Contrato[]): void => {
-    for (let i: number = 0; i < contratos.length; i++) {
-      this.contratosCards[i] = contratos[i]
+    // separar contratos en disponibles (no ocupados) y asignados (esta_ocupado === true)
+    this.contratosDisponibles = [];
+    this.contratosAsignados = [];
+    for (let i = 0; i < contratos.length; i++) {
+      const c = contratos[i];
+      this.contratosCards[i] = c;
+      if (c.esta_ocupado) {
+        this.contratosAsignados.push(c);
+      } else {
+        this.contratosDisponibles.push(c);
+      }
     }
   }
 
@@ -84,6 +95,20 @@ export class Contratos {
       }
     }
     this.scrollToDetail();
+  }
+
+  // recarga la lista cuando un contrato ha sido asignado en el detalle
+  onContratoAssigned(contrato: Contrato | null): void {
+    // volver a pedir los contratos
+    this.mostrarTodosLosContratos();
+    // actualizar el detalle mostrado si nos trajeron el contrato actualizado
+    if (contrato) {
+      this.contratoAMostrarDetail = contrato;
+      this.mostrandoContratoDetail = true;
+    } else {
+      this.contratoAMostrarDetail = undefined;
+      this.mostrandoContratoDetail = false;
+    }
   }
 
   /* cuando se abre una tarjeta de detalle de contrato, se scrollea la view */
