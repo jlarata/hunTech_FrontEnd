@@ -33,43 +33,21 @@ export class Contratos {
     this.mostrarTodosLosContratos();
   }
 
-  ngAfterViewChecked() {
-    //this.scrollToDetail();
-  }
-  //muestra todos los contratos, por las dudas no lo borre
-  /* mostrarTodosLosContratos() {
-    this._apiService.getContratos().subscribe({
-      next: (res) => {
-        console.log(`${res.count} ${res.message}`)
-        this.todosLosContratos= res.data;
-        this.createCards(this.todosLosContratos)
-      },
-      error: (error: string) => {
-        console.log('desde el componente error '+error)
-      }
-    });
-  }*/
-
   mostrarTodosLosContratos() {
     this.usuario = this._usersService.getUser();
     
       //esto va a guardar el observable  al que nos vamos a suscribir
       let data;
       if (this.usuario.rol === 'desarrollador' ) {
-        //if (user.rol === 'dev') {//esto era para ver los contratos por que no tenia el enpoint funcionando
         data = this._apiService.getContratosLibres();
       } else {
         data = this._apiService.getContratosByEmailGerente(this.usuario.email);
-        
         
       }
 
       data.subscribe({
         next: (res) => {
-          console.log("contratos de gerente", res.data);
-          console.log(`${res.count} ${res.message}`)
           this.todosLosContratos = res.data;
-          console.log(this.todosLosContratos)
           this.createCards(this.todosLosContratos)
         },
         error: (error: string) => {

@@ -72,12 +72,9 @@ export class ProfileComponent {
       payload.skills = this.user.skills;
     }
 
-    //console.log(payload);
       
     this._usersService.editUser(payload, this.user.rol).subscribe({
       next: (response) => {
-        console.log('Usuario actualizado:', response);
-        const dataActualizada = response.data;
         //actualizamos los datos en el servicio para que esten sincronizados
         this.loadUser();//actualiza observable user
       },
