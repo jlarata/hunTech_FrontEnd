@@ -71,7 +71,13 @@ export class Contratos {
       const c = contratos[i];
       this.contratosCards[i] = c;
       if (c.esta_ocupado) {
+
+        if (this.usuario.rol === 'desarrollador' &&
+          c.pasante_email !== this.usuario.email) {
+          continue; // si es dev y NO es esta asignado su email al contrato, no lo agregamos
+        }
         this.contratosAsignados.push(c);
+        
       } else {
         this.contratosDisponibles.push(c);
       }
