@@ -1,21 +1,45 @@
-<!-- Pasé esta lógica al TS.
-@let isAuth   = (authService.isAuthenticated$ | async);
-@let existUser = (usersService.isExistUser$   | async); -->
-
 <!-- aca esto deberia mostrarse si el user no esta autenticado o si no esta en nuestra db  -->
 <!-- descomente esto por que sino no se ve el logo al iniciar sesion o cuando hay que elegir rol -->
- @if (!isAuth || !existUser) {
+@if (!isAuth) {
+      <app-spinner></app-spinner>
+
 <header>
   <div class="logo-container">
     <img src="logo.png" id="logo-principal" />
   </div>
 </header>
-} 
+}
 
-<!-- para mostrar contenido de app primero verificamos si esta auntenticado -->
 <main>
-  @if (isAuth && !existUser) {
 
+
+  @if (!isAuth) {
+
+        <app-spinner></app-spinner>
+
+  <div class="descripcion-container">
+    <h1 class="titulo">Bienvenido a HunTech!</h1>
+    <p class="parrafo">¡Tu primer empleo te espera! 🚀</p>
+    <p>Por favor, inicia sesión para ver el contenido.</p>
+    <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
+    <ul class="beneficios">
+      <li>Descubre vacantes especialmente para estudiantes y juniors🎯</li>
+      <li>Recibe notificaciones de empresas interesadas en tu perfil🔔</li>
+      <li>Destaca tus habilidades y proyectos directamente a los reclutadores💼</li>
+    </ul>
+  </div>
+  <!-- /////// -->
+  }
+
+
+
+
+  <!-- para mostrar contenido de app primero verificamos si esta auntenticado -->
+
+  <!-- @if (isAuth && (this.user != undefined)) { -->
+
+  @if (isAuth && (this.usuarioRol == undefined) && isDataLoaded && !existUser) {
+  
   <!--este es el que vale -->
 
   <!-- @if (true) { este lo voy poniendo en true o false por que cognito no anda -->
@@ -32,7 +56,11 @@
 
     <button class="btn btn-add" (click)="usersService.saveUserWithSelectedRole()">Guardar</button>
   </div>
+  
+
   }
+
+
   <!-- @if (isAuth && !isDataLoaded){
   <header class="blinking">
     <h1 class="titulo">hunTech</h1>
@@ -43,28 +71,19 @@
   </header>
   } -->
 
-  @if (isAuth && existUser){
+  @if (isAuth && (this.user != undefined) && existUser){
+  @if (this.user.rol != undefined){
   <!-- si el user existe en nuestra db mostramos el contenido -->
   <app-navbar></app-navbar>
   <!-- Content wrapper -->
   <div class="main-content">
+    <app-spinner></app-spinner>
     <router-outlet></router-outlet>
   </div>
   }
 
-  <!-- /////// -->
-  @if (!isAuth) {
-  <div class="descripcion-container">
-    <h1 class="titulo">Bienvenido a HunTech!</h1>
-     <p class="parrafo">¡Tu primer empleo te espera! 🚀</p>
-    <p>Por favor, inicia sesión para ver el contenido.</p>
-    <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
-     <ul class="beneficios">
-      <li>Descubre vacantes especialmente para estudiantes y juniors🎯</li>
-      <li>Recibe notificaciones de empresas interesadas en tu perfil🔔</li>
-      <li>Destaca tus habilidades y proyectos directamente a los reclutadores💼</li>
-    </ul>
-  </div>
-  <!-- /////// -->
   }
+
+  <!-- /////// -->
+
 </main>

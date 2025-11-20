@@ -165,6 +165,8 @@ export class Users {
           skills: skillsArray|| [],
           rol: role
         };
+
+        //console.log(final.skills);
         
         this._user.next(final);       // el user resultante
       },
@@ -172,5 +174,10 @@ export class Users {
     });
   }
 
+    simpleGetUserData(email:string): Observable<any> {
+      //console.log('buscando usuario con el mail ',email)
+      const res = this._httpClient.get(this._usersUrl +"user/"+email);
+      return res
+    }
 
 }
