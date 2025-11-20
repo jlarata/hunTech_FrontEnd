@@ -26,7 +26,9 @@ export class Contratos {
   todosLosContratos: Contrato[] = [];
   contratosCards: ContratoCard[] = [];
   contratosDisponibles: Contrato[] = [];
+  contratosDisponiblesCopia: Contrato[] = [];//para recuperar despues de filtrar
   contratosAsignados: Contrato[] = [];
+  verContratosNoPostulados: boolean = false;
 
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
@@ -63,6 +65,23 @@ export class Contratos {
     
   }
 
+  toggleContratosDisponiblesNoPostulados(): void {
+    this.verContratosNoPostulados = !this.verContratosNoPostulados;
+
+    if (this.verContratosNoPostulados) {
+      // mostrar solo los que no tengan mi email en array de postulantes
+      this.contratosDisponibles = this.contratosDisponiblesCopia.filter(
+        c => !c.postulaciones?.includes(this.usuario.email)
+      );
+      
+    } else {
+      // volver a mostrar todos
+      this.contratosDisponibles = [...this.contratosDisponiblesCopia];
+    }
+    
+    //this.createCards(contratosFiltrados);
+  }
+
   createCards = (contratos: Contrato[]): void => {
     // separar contratos en disponibles (no ocupados) y asignados (esta_ocupado === true)
     this.contratosDisponibles = [];
@@ -81,6 +100,7 @@ export class Contratos {
       } else {
         this.contratosDisponibles.push(c);
       }
+      this.contratosDisponiblesCopia = this.contratosDisponibles;
     }
   }
 

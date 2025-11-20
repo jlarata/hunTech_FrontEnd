@@ -1,3 +1,10 @@
+<div class="contrato-card-container">
+  @if (usuario.rol == 'desarrollador') {
+    <button class="btn-toggle btn-add" (click)="toggleContratosDisponiblesNoPostulados()">
+      {{ verContratosNoPostulados ? 'Ver todos' : 'Ver solo sin postular' }}
+    </button>
+  }
+</div>
 <div #detailContainer class="contrato-detail-container">
   @if (mostrandoContratoDetail) {
   <app-contrato-detail [contrato]="contratoAMostrarDetail!" [email]="usuario?.email" [rol]="usuario?.rol" (contratoAssigned)="onContratoAssigned($event)"/>
@@ -5,12 +12,10 @@
 </div>
 
 <div class="contrato-card-container">
-
-
-
   <!-- Sección: Contratos disponibles (no ocupados) -->
   @for (card of contratosDisponibles; track card.id) {
   <div class="contrato-card">
+    
     <div class="contrato-card-content">
       
       <h2 class="contrato-card-titulo"> > {{ card.titulo }} <span class="badge-asignado">Pendiente</span></h2>
