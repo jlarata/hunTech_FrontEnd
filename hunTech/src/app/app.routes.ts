@@ -34,6 +34,9 @@ export const routes: Routes = [
     path: 'formcreatecontract/:project_id',
     loadComponent: () => import('./views/formcreatecontract/formcreatecontract').then((m) => m.Formcreatecontract)
   },
+  { path: 'profile/:email',loadComponent: () =>
+      import('./componentes/profile/profile.component').then((m) => m.ProfileComponent)
+  },
 
   { path: '**', redirectTo: '' },
 ];

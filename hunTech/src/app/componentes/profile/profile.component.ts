@@ -2,6 +2,7 @@ import { Component,inject } from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
 
 import { Users} from './../../servicios/users';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -14,8 +15,14 @@ export class ProfileComponent {
   private _usersService = inject(Users);
   private fb = inject(FormBuilder);
 
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
   user: any;
   rol:any;
+  emailUrl: string | null = null;
 
   profileEditForm = this.fb.group({
     nombre:"",
@@ -26,7 +33,19 @@ export class ProfileComponent {
   enEdicion = false; // mostrar formulario o tarjeta
 
   ngOnInit(): void {
-    this.loadUser();
+    //this.loadUserAcount();
+    // viene email por URL
+    this.emailUrl = this.route.snapshot.paramMap.get('email');
+
+    if (this.emailUrl) {
+      // VER PERFIL DE ORIGEN MAIL DE POSTULACIONES → siempre dev(por ahora)
+      this.loadUserDev(this.emailUrl, 'desarrollador');
+      console.log("loaduserDev email: ", this.emailUrl );
+    
+    } else {
+      // PERFIL PROPIO → usamos el rol que ya tenemos guardado
+      this.loadUserAcount();
+    }
   }
 
   activarEdicion(): void {
@@ -76,7 +95,7 @@ export class ProfileComponent {
     this._usersService.editUser(payload, this.user.rol).subscribe({
       next: (response) => {
         //actualizamos los datos en el servicio para que esten sincronizados
-        this.loadUser();//actualiza observable user
+        this.loadUserAcount();//actualiza observable user
       },
       error: (err) => {
         console.error('Error al actualizar usuario:', err);
@@ -96,7 +115,7 @@ export class ProfileComponent {
     skillsArray.push(this.fb.control('')); // input vacío
   }
 
-  private loadUser(): void {
+  private loadUserAcount(): void {
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
       next: (data) => {
@@ -106,8 +125,29 @@ export class ProfileComponent {
     });
   }
 
+  loadUserDev(email?: string, rol?:string): void {
+
+    if (!email) return;
+
+    this._usersService.getUserByEmail(email, rol!).subscribe({
+      next: (response) => {
+        this.user = response.data;
+
+        //normalizar skills a array
+        const skillsArray = typeof this.user.skills === 'string'
+          ? this.user.skills.split(',').map((s: string) => s.trim())
+          : this.user.skills ?? [];
+        
+        this.user.skills = skillsArray;
+        this.user.rol = rol;
+        console.log("loaduserDev: ", this.user );
+      },
+      error: (err) => console.error('Error al obtener usuario dev', err)
+    });
+  }
+
+  volverContratos():void {
+    this.router.navigate(['/contratos']);
+  }
+
 }
-
-
-  
-

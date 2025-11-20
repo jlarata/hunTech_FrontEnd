@@ -101,4 +101,8 @@ console.log("Email que envío:", this.emailSeleccionado);
       .filter(s => s.length > 0);
   }
 
+  verPerfilPostulante():void {
+    this.router.navigate(['/profile', this.emailSeleccionado]);
+  }
+
 }
