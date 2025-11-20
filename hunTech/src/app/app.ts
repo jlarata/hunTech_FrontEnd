@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from './componentes/navbar/navbar';
 import { Users } from './servicios/users';
@@ -43,8 +43,13 @@ export class App {
   constructor(
     private _loaderService: LoadingService,
     protected usersService: Users,
+    private router: Router
   ) { }
 
+  /* true cuando estoy en /profile/:email */
+  get esSoloPerfil(): boolean {
+    return this.router.url.startsWith('/profile/');
+  }
 
   ngOnInit(): void {
     this.loadData();

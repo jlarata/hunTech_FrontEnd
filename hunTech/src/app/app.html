@@ -74,7 +74,10 @@
   @if (isAuth && (this.user != undefined) && existUser){
   @if (this.user.rol != undefined){
   <!-- si el user existe en nuestra db mostramos el contenido -->
-  <app-navbar></app-navbar>
+  <!-- navbar solo si NO estoy en /profile/algo -->
+  @if (!esSoloPerfil) {
+    <app-navbar></app-navbar>
+  }
   <!-- Content wrapper -->
   <div class="main-content">
     <app-spinner></app-spinner>
