@@ -1,5 +1,5 @@
 <div class="contrato-card-container">
-  @if (usuario.rol == 'desarrollador') {
+  @if (usuario.rol == 'desarrollador' && !mostrandoContratoDetail) {
     <button class="btn-toggle btn-add" (click)="toggleContratosDisponiblesNoPostulados()">
       {{ verContratosNoPostulados ? 'Ver todos' : 'Ver solo sin postular' }}
     </button>
