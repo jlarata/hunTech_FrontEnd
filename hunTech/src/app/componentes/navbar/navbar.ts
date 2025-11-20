@@ -19,7 +19,7 @@ export class Navbar {
 
   ngOnInit(): void {
     this.loadUser();
-    console.log(this.user)
+    //console.log(this.user)
   }
   toggleMenu() {
     this.menuActive = !this.menuActive;

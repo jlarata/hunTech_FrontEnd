@@ -3,6 +3,7 @@ import { Users } from '../../servicios/users';
 import { ProyectoService } from '../../servicios/miproyecto';
 import { Proyecto } from '../../models/proyectos';
 import { RouterModule } from '@angular/router';
+import { LoadingService } from '../../servicios/loading-service';
 
 @Component({
   selector: 'app-miproyecto',
@@ -12,7 +13,10 @@ import { RouterModule } from '@angular/router';
 })
 export class Miproyecto {
 
-  constructor(private _apiService : ProyectoService) {}
+  constructor(
+    private _apiService : ProyectoService,
+    private _loaderService : LoadingService
+) {}
   private _usersService = inject(Users);
   user: any;
   proyecto?: Proyecto;
@@ -25,6 +29,7 @@ export class Miproyecto {
 
 
   mostrarProyecto(email:string) {
+    this._loaderService.showLoader()
   this._apiService.getProyectoPorEmail(email).subscribe({
     next: (res) => {
       console.log(`${res.count} ${res.message}`)
@@ -32,6 +37,9 @@ export class Miproyecto {
     },
     error: (error: string) => {
       console.log('desde el componente error '+error)
+    },
+    complete: () => {
+      this._loaderService.hideLoader();
     }
   });
 }

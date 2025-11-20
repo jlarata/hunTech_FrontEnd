@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ContratoDetail } from '../contrato-detail/contrato-detail';
 import { ContratoService } from '../../servicios/contrato';
 import { Users } from '../../servicios/users';
+import { LoadingService } from '../../servicios/loading-service';
 
 @Component({
   selector: 'app-contratos',
@@ -14,11 +15,12 @@ import { Users } from '../../servicios/users';
   styleUrl: './contratos.css'
 })
 export class Contratos {
-  @Input() from: string = '';
   constructor(
     private _apiService: ContratoService,
     private viewportScroller: ViewportScroller,
-    private _usersService: Users) { }
+    private _usersService: Users,
+    private _loaderService: LoadingService
+  ) { }
 
   usuario: any;
   todosLosContratos: Contrato[] = [];
@@ -49,6 +51,7 @@ export class Contratos {
   }*/
 
   mostrarTodosLosContratos() {
+    this._loaderService.showLoader()
     this.usuario = this._usersService.getUser();
     
       //esto va a guardar el observable  al que nos vamos a suscribir
@@ -72,6 +75,9 @@ export class Contratos {
         },
         error: (error: string) => {
           console.log('desde el componente error ' + error)
+        },
+        complete: () => {
+          this._loaderService.hideLoader();
         }
       });
     
