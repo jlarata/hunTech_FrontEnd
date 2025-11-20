@@ -8,8 +8,6 @@ import { Proyecto, ProyectoResponse } from '../models/proyectos';
   providedIn: 'root',
 })
 export class ProyectoService {
-
-  //private _proyectosUrl = `https://66ll3g4lt5.execute-api.us-east-1.amazonaws.com/api/`
   //private _proyectosUrl = `http://127.0.0.1:3000/api/`
   private _proyectosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
 
@@ -23,11 +21,6 @@ export class ProyectoService {
     this.loadUser();
   }
 
-  /* este no debería ser usado 
-  getProyectos(): Observable<ProyectoResponse> {
-    const res = this._httpClient.get<ProyectoResponse>(this._proyectosUrl + 'proyectos');
-    return res
-  } */
 
   getProyectoPorEmail(email:string): Observable<ProyectoResponse> {
     console.log('buscando proyecto de ',email)

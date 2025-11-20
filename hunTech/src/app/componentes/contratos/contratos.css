@@ -145,3 +145,64 @@ a {
         transform: translateY(0);
     }
 }
+
+/* Styles for assigned contracts section */
+.contratos-asignados-section {
+    margin-left: 220px;
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+    background: transparent;
+}
+
+.asignados-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    color: #374151;
+}
+
+.contratos-asignados {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+.contrato-card.asignado {
+    background-color: #f3f4f6; /* gris claro */
+    color: #6b7280; /* texto gris */
+    box-shadow: 0 2px 8px rgba(99, 102, 106, 0.08);
+}
+
+.contrato-card.asignado:hover {
+    /* menos énfasis al hover para asignados */
+    transform: none;
+    box-shadow: 0 4px 10px rgba(99, 102, 106, 0.08);
+}
+
+.contrato-card.asignado .card-button-group button {
+    background-color: #9ca3af; /* boton más neutro */
+    box-shadow: none;
+}
+
+.badge-asignado {
+    background: #e5e7eb;
+    color: #374151;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    margin-left: 0.5rem;
+    font-weight: 600;
+}
+
+.pasante-info {
+    color: #4b5563;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+.no-results {
+    margin-left: 220px;
+    padding: 1rem 2rem;
+    color: #374151;
+}

@@ -25,6 +25,8 @@ export class Contratos {
   usuario: any;
   todosLosContratos: Contrato[] = [];
   contratosCards: ContratoCard[] = [];
+  contratosDisponibles: Contrato[] = [];
+  contratosAsignados: Contrato[] = [];
 
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
@@ -33,23 +35,6 @@ export class Contratos {
     this.mostrarTodosLosContratos();
   }
 
-  ngAfterViewChecked() {
-    //this.scrollToDetail();
-  }
-  //muestra todos los contratos, por las dudas no lo borre
-  /* mostrarTodosLosContratos() {
-    this._apiService.getContratos().subscribe({
-      next: (res) => {
-        console.log(`${res.count} ${res.message}`)
-        this.todosLosContratos= res.data;
-        this.createCards(this.todosLosContratos)
-      },
-      error: (error: string) => {
-        console.log('desde el componente error '+error)
-      }
-    });
-  }*/
-
   mostrarTodosLosContratos() {
     this._loaderService.showLoader()
     this.usuario = this._usersService.getUser();
@@ -57,20 +42,15 @@ export class Contratos {
       //esto va a guardar el observable  al que nos vamos a suscribir
       let data;
       if (this.usuario.rol === 'desarrollador' ) {
-        //if (user.rol === 'dev') {//esto era para ver los contratos por que no tenia el enpoint funcionando
         data = this._apiService.getContratosLibres();
       } else {
         data = this._apiService.getContratosByEmailGerente(this.usuario.email);
-        
         
       }
 
       data.subscribe({
         next: (res) => {
-          console.log("contratos de gerente", res.data);
-          console.log(`${res.count} ${res.message}`)
           this.todosLosContratos = res.data;
-          console.log(this.todosLosContratos)
           this.createCards(this.todosLosContratos)
         },
         error: (error: string) => {
@@ -84,8 +64,17 @@ export class Contratos {
   }
 
   createCards = (contratos: Contrato[]): void => {
-    for (let i: number = 0; i < contratos.length; i++) {
-      this.contratosCards[i] = contratos[i]
+    // separar contratos en disponibles (no ocupados) y asignados (esta_ocupado === true)
+    this.contratosDisponibles = [];
+    this.contratosAsignados = [];
+    for (let i = 0; i < contratos.length; i++) {
+      const c = contratos[i];
+      this.contratosCards[i] = c;
+      if (c.esta_ocupado) {
+        this.contratosAsignados.push(c);
+      } else {
+        this.contratosDisponibles.push(c);
+      }
     }
   }
 
@@ -112,6 +101,20 @@ export class Contratos {
       }
     }
     this.scrollToDetail();
+  }
+
+  // recarga la lista cuando un contrato ha sido asignado en el detalle
+  onContratoAssigned(contrato: Contrato | null): void {
+    // volver a pedir los contratos
+    this.mostrarTodosLosContratos();
+    // actualizar el detalle mostrado si nos trajeron el contrato actualizado
+    if (contrato) {
+      this.contratoAMostrarDetail = contrato;
+      this.mostrandoContratoDetail = true;
+    } else {
+      this.contratoAMostrarDetail = undefined;
+      this.mostrandoContratoDetail = false;
+    }
   }
 
   /* cuando se abre una tarjeta de detalle de contrato, se scrollea la view */

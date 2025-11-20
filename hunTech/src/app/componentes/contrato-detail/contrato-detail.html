@@ -18,10 +18,35 @@
         <div class="contrato-box">Fecha de fin: <span class="contrato-ed">{{contrato.end_date}}</span></div>
         }
 
-        @if (rol == "gerente") {
-        <div class="contrato-box">postulaciones: <span class="contrato-ed">{{contrato.postulaciones}}</span></div>
+        @if (rol === "gerente") {
+        <div class="contrato-box">
+          Postulaciones:
+          <div class="postulaciones-list">
+            @if (!contrato.esta_ocupado) {
+              @for (postulante of postulacionesNormalizadas; track $index) {
+              <button class="postulacion-btn" [ngClass]="{
+                'seleccionado': contrato.pasante_email === postulante,
+                'no-seleccionado': contrato.pasante_email && contrato.pasante_email !== postulante
+              }" (click)="abrirModal(postulante)">
+                {{ postulante }}
+              </button>
+              }
+            } @else {
+              @for (postulante of postulacionesNormalizadas; track $index) {
+              <button class="postulacion-btn disabled" [ngClass]="{
+                'seleccionado': contrato.pasante_email === postulante,
+                'no-seleccionado': contrato.pasante_email && contrato.pasante_email !== postulante
+              }" disabled>
+                {{ postulante }}
+              </button>
+              }
+            }
+          </div>
+        </div>
         } @else if (email) {
-        @if (contrato.postulaciones?.includes(email)) {
+        @if (contrato.esta_ocupado) {
+        <div class="contrato-box"><em>Contrato ya asignado. No es posible postular.</em></div>
+        } @else if (contrato.postulaciones?.includes(email)) {
         <button class="btn-add" type="submit" disabled>Ya estás postulado para este contrato.</button>
         } @else {
         <button class="btn-add" type="submit" (click)="postularse(contrato, email!)">Postularme</button>
@@ -35,4 +60,17 @@
   }
   @else {
   <div> no contratos? </div>
+  }
+  @if (modalVisible) {
+  <div class="modal-backdrop">
+    <div class="modal">
+      <h3>¿Asignar a {{ emailSeleccionado }} al contrato?</h3>
+
+      <div class="modal-actions">
+        <button class="btn" (click)="verPerfilPostulante()">Ver perfil</button>
+        <button class="btn-add" (click)="asignarPostulante()">Sí, asignar</button>
+        <button class="btn-delete" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
   }

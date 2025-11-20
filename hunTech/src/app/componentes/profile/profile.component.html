@@ -1,10 +1,17 @@
-<p class="perfil-mensaje">
-  Bienvenido/a {{user.nombre}}! Completa tu perfil para que otros te conozcan mejor!
-</p>
+@if (!user.nombre || !user.nombre || user.descripcion == null || (user.rol == 'desarrollador' && (!user.skills || user.skills.length == 0))) {
+    <p class="perfil-mensaje">
+        Bienvenido/a {{user.nombre}}! Completa tu perfil para que otros te conozcan mejor!
+    </p>
+}
+
 <div class="perfil-card">
     <!-- btn para editar -->
-    @if (!enEdicion) {
+    @if (!enEdicion && !emailUrl) {
         <button (click)="activarEdicion()" class="btn-edit btn">✏️</button>
+    }
+
+    @if (emailUrl) {
+        <button (click)="volverContratos()" class="btn-edit btn">Volver</button>
     }
 
     <!-- MODO LECTURA -->
