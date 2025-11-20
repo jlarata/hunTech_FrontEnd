@@ -6,8 +6,12 @@
 
 <div class="perfil-card">
     <!-- btn para editar -->
-    @if (!enEdicion) {
+    @if (!enEdicion && !emailUrl) {
         <button (click)="activarEdicion()" class="btn-edit btn">✏️</button>
+    }
+
+    @if (emailUrl) {
+        <button (click)="volverContratos()" class="btn-edit btn">Volver</button>
     }
 
     <!-- MODO LECTURA -->
