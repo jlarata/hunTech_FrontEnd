@@ -18,6 +18,21 @@
     text-align: left;
 }
 
+.contrato-card.asignado {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.contrato-card.asignado.asignado-dev {
+  background-color: #ecfdf5;
+  color: #065f46;
+}
+
+.contrato-card.pendiente {
+  background-color: #fff7ed;
+  color: #92400e;
+}
+
 h2 {
     margin: 0.5rem;
     margin-bottom: -2rem;
@@ -62,7 +77,6 @@ h2 {
   margin-top: 1.5rem;
 }
 
-/*  .btn-confirm,.btn-cancel no se estarian usando, pero no estoy segura asi que los dejo*/
 .btn-confirm {
   background-color: #166534;
   color: white;

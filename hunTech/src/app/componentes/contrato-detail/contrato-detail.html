@@ -1,6 +1,10 @@
 <main class="contrato-main">
   @if (contrato) {
-  <div class="contrato-card">
+  <div class="contrato-card" [ngClass]="{ 
+    'asignado': contrato?.esta_ocupado, 
+    'asignado-dev': contrato?.esta_ocupado && rol === 'desarrollador',
+    'pendiente': !contrato?.esta_ocupado && (email ? postulacionesNormalizadas.includes(email) : false),
+  }">
     <h2>{{contrato.titulo| uppercase}}</h2>
     <!-- <div><span>id: </span> {{contrato.id}}</div> -->
 
@@ -46,7 +50,7 @@
         } @else if (email) {
         @if (contrato.esta_ocupado) {
         <div class="contrato-box"><em>Contrato ya asignado. No es posible postular.</em></div>
-        } @else if (contrato.postulaciones?.includes(email)) {
+        } @else if (email ? (contrato.postulaciones?.includes(email) ?? false) : false) {
         <button class="btn-add" type="submit" disabled>Ya estás postulado para este contrato.</button>
         } @else {
         <button class="btn-add" type="submit" (click)="postularse(contrato, email!)">Postularme</button>
