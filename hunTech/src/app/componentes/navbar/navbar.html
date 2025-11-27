@@ -21,20 +21,40 @@
             </a>
     </div>
     <ul class="nav-links" [class.active]="menuActive">
-        <li><a routerLink="/" routerLinkActive="active" (click)="closeMenu()">Home</a></li>
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Home</a></li>
         @if (user.rol == "gerente") {
-            <li><a routerLink="/miproyecto" routerLinkActive="active" (click)="closeMenu()">Mi Proyecto</a></li>
+            <li><a routerLink="/miproyecto" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Mi Proyecto</a></li>
         }
 
-        @if (user.rol == "desarrollador") {
-            <li><a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Buscar Contratos</a></li>
-        }
+                @if (user.rol == "desarrollador") {
+                        <li class="nav-item-with-dropdown" [class.show-dropdown]="isOnContratos">
+                            <a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Buscar Contratos</a>
+                            <ul class="dropdown-menu" *ngIf="isOnContratos">
+                                <li><a (click)="navigateToFragment('sin-postular')" [class.active]="activeFragment==='sin-postular'">Sin postular</a></li>
+                                <li><a (click)="navigateToFragment('pendientes')" [class.active]="activeFragment==='pendientes'">Pendientes</a></li>
+                                <li><a (click)="navigateToFragment('asignados')" [class.active]="activeFragment==='asignados'">Asignados</a></li>
+                            </ul>
+                        </li>
+                }
 
-        @if (user.rol == "gerente") {
-            <li><a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Ver mis Contratos</a></li>
-        }
+                @if (user.rol == "gerente") {
+                    <li class="nav-item-with-dropdown" [class.show-dropdown]="isOnContratos">
+                        <a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Ver mis Contratos</a>
+                        <ul class="dropdown-menu" *ngIf="isOnContratos">
+                            <li><a [routerLink]="['/contratos']" [fragment]="'sin-postular'" (click)="closeMenu()">Sin postular</a></li>
+                            <li><a [routerLink]="['/contratos']" [fragment]="'pendientes'" (click)="closeMenu()">Pendientes</a></li>
+                            <li><a [routerLink]="['/contratos']" [fragment]="'asignados'" (click)="closeMenu()">Asignados</a></li>
+                        </ul>
+                    </li>
+                }
         
-        <li><a routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">Perfil</a></li>
+        <li><a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Perfil</a></li>
         <li><a (click)="authService.logout()">Cerrar sesión</a></li>
     </ul>
+    <!-- Mobile-only subindex row shown when on /contratos -->
+    <div class="navbar-subindex" *ngIf="isOnContratos">
+        <a class="subindex-btn" (click)="navigateToFragment('sin-postular')" [class.active]="activeFragment==='sin-postular'">Sin postular</a>
+        <a class="subindex-btn" (click)="navigateToFragment('pendientes')" [class.active]="activeFragment==='pendientes'">Pendientes</a>
+        <a class="subindex-btn" (click)="navigateToFragment('asignados')" [class.active]="activeFragment==='asignados'">Asignados</a>
+    </div>
 </nav>

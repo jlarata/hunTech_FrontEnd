@@ -1,208 +1,91 @@
 
 .contrato-detail-container {
-    width: 70vw;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-     margin-left: 220px;
-    
+  width: 70vw;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-left: 220px;
 }
 
 .contrato-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 2rem;
-    background-color: #ffffff; 
-    border-radius: 12px;
-     margin-left: 220px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  margin-left: 220px;
+  box-sizing: border-box;
 }
 
 .contrato-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #f5eeee;
-    border-radius: 12px;
-    width: 300px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: #221848; 
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeSlideIn 0.6s ease-out forwards;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f5eeee;
+  border-radius: 12px;
+  width: 300px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #221848;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideIn 0.6s ease-out forwards;
 }
 
 .contrato-card:hover {
-    transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 12px 25px rgba(34, 24, 72, 0.25); 
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 12px 25px rgba(34, 24, 72, 0.25);
 }
 
-.contrato-card-titulo {
-    color: #221848; 
-    font-weight: 700;
-    font-size: 1.3rem;
-    margin-bottom: 0.75rem;
-    border-bottom: 2px solid #5a9bd6; 
-    padding-bottom: 0.3rem;
-}
+.contrato-card-titulo { color: #221848; font-weight: 700; font-size: 1.3rem; margin-bottom: 0.75rem; border-bottom: 2px solid #5a9bd6; padding-bottom: 0.3rem; }
+.contrato-card-content { padding: 1.5rem; }
+.contrato-card-content h2 { margin-top: 0; font-size: 1.4rem; color: #221848; }
+.contrato-card-content p { margin: 0.5rem 0 0; font-size: 1rem; line-height: 1.5; color: #2c3e50; }
 
-.contrato-card-content {
-    padding: 1.5rem;
-}
+.card-button-group { display: flex; gap: 0.5rem; padding: 1rem; justify-content: flex-end; }
+.card-button-group button { display: flex; justify-content: center; align-items: center; border-radius: 50%; width: 2.5rem; height: 2.5rem; font-size: 1.2rem; font-weight: bold; background-color: #5a9bd6; color: #fff; border: none; cursor: pointer; transition: all 0.3s ease; }
+.card-button-group button:hover { background-color: #4178be; box-shadow: 0 5px 15px rgba(65,120,190,0.4); transform: translateY(-2px); }
 
-.contrato-card-content h2 {
-    margin-top: 0;
-    font-size: 1.4rem;
-    color: #221848;
-}
+@keyframes fadeSlideIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
 
-.contrato-card-content p {
-    margin: 0.5rem 0 0;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #2c3e50;
-}
+a { text-decoration: none; }
 
-.card-button-group {
-    display: flex;
-    gap: 0.5rem;
-    padding: 1rem;
-    justify-content: flex-end;
-}
+.contratos-asignados-section, .contratos-pendientes-section, .contratos-index, .no-results { margin-left: 220px; }
+.contratos-asignados-section { margin-top: 2rem; padding: 1.5rem 2rem; background: transparent; }
+.contratos-pendientes-section { margin-top: 1.5rem; padding: 1.5rem 2rem; background: transparent; }
+.contratos-pendientes, .contratos-asignados { display: flex; flex-wrap: wrap; gap: 1rem; padding-bottom: 1rem; justify-content: flex-start; }
+.asignados-header { font-size: 1.25rem; font-weight: 700; margin: 0 0 1rem 0; color: #374151; }
+.no-results { padding: 1rem 2rem; color: #374151; }
 
-.card-button-group button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    background-color: #5a9bd6; 
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+.badge-asignado { background: #e5e7eb; color: #374151; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; font-weight: 600; }
+.pasante-info { color: #4b5563; font-style: italic; margin-top: 0.5rem; }
 
-.card-button-group button:hover {
-    background-color: #4178be;
-    box-shadow: 0 5px 15px rgba(65, 120, 190, 0.4);
-    transform: translateY(-2px);
-}
+.contrato-card.asignado { background-color: #f3f4f6; color: #6b7280; box-shadow: 0 2px 8px rgba(99,102,106,0.08); }
+.contrato-card.asignado:hover { transform: none; box-shadow: 0 4px 10px rgba(99,102,106,0.08); }
+.contrato-card.asignado .card-button-group button { background-color: #9ca3af; box-shadow: none; }
 
-@keyframes fadeSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+.contrato-card.asignado.asignado-dev { background-color: #ecfdf5; color: #065f46; box-shadow: 0 6px 18px rgba(16,185,129,0.08); }
+.contrato-card.asignado.asignado-dev .contrato-card-titulo { border-bottom-color: #10b981; }
+.contrato-card.asignado.asignado-dev .badge-asignado { background: #bbf7d0; color: #065f46; }
+.contrato-card.asignado.asignado-dev .card-button-group button { background-color: #10b981; }
+.contrato-card.asignado.asignado-dev .card-button-group button:hover { background-color: #059669; }
 
+.contrato-card.pendiente { background-color: #fff7ed; color: #92400e; box-shadow: 0 4px 12px rgba(249,115,22,0.06); }
+.contrato-card.pendiente .contrato-card-titulo { border-bottom-color: #f59e0b; }
+.badge-pendiente { background: #fff4e6; color: #92400e; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; font-weight: 700; }
+.contrato-card.pendiente .card-button-group button { background-color: #f59e0b; }
+.contrato-card.pendiente .card-button-group button:hover { background-color: #d97706; }
 
-a {
-    text-decoration: none;
-}
-
+/* ajustes para mobile */
 @media (max-width: 768px) {
+  .contrato-detail-container { margin-left: 0; width: 100%; padding: 0 1rem; box-sizing: border-box; margin-top: 64px; }
+  .contrato-card-container { margin: 0 auto; width: calc(100% - 2rem); padding: 1rem; gap: 1rem; box-sizing: border-box; justify-content: center; }
+  .contrato-card { width: 100%; }
 
-    .contrato-card-container {
-        display: flex;
-        flex-wrap: wrap;
-        margin-left: 5vw;
-        width: 90vw;
-        gap: 1.5rem;
-        padding: 1rem;
-        justify-content: center;
-        /* background-color: #16161a; */
-    }
+  .contratos-asignados-section, .contratos-pendientes-section, .contratos-index, .no-results { margin-left: 0; width: 100%; padding: 0.75rem 1rem; box-sizing: border-box; }
+  .contratos-pendientes, .contratos-asignados { justify-content: center; }
 
-    .contrato-card {
-        /* background-color: #143447; */
-        border-radius: 8px;
-        width: 90vw;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        transition: transform 0.3s;
-        color: white;
-    }
-
-    .contrato-detail-container {
-    margin-left: 5vw;
-    width: 90vw;
-}
-
-}
-
-@keyframes fadeSlideIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Styles for assigned contracts section */
-.contratos-asignados-section {
-    margin-left: 220px;
-    margin-top: 2rem;
-    padding: 1.5rem 2rem;
-    background: transparent;
-}
-
-.asignados-header {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0 0 1rem 0;
-    color: #374151;
-}
-
-.contratos-asignados {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding-bottom: 1rem;
-}
-
-.contrato-card.asignado {
-    background-color: #f3f4f6; /* gris claro */
-    color: #6b7280; /* texto gris */
-    box-shadow: 0 2px 8px rgba(99, 102, 106, 0.08);
-}
-
-.contrato-card.asignado:hover {
-    /* menos énfasis al hover para asignados */
-    transform: none;
-    box-shadow: 0 4px 10px rgba(99, 102, 106, 0.08);
-}
-
-.contrato-card.asignado .card-button-group button {
-    background-color: #9ca3af; /* boton más neutro */
-    box-shadow: none;
-}
-
-.badge-asignado {
-    background: #e5e7eb;
-    color: #374151;
-    font-size: 0.75rem;
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    margin-left: 0.5rem;
-    font-weight: 600;
-}
-
-.pasante-info {
-    color: #4b5563;
-    font-style: italic;
-    margin-top: 0.5rem;
-}
-
-.no-results {
-    margin-left: 220px;
-    padding: 1rem 2rem;
-    color: #374151;
+  .contratos-index { position: sticky; top: 64px; }
+  .index-nav { gap: 0.4rem; }
 }

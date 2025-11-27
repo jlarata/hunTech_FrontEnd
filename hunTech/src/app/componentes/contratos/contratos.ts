@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ContratoCard } from '../../models/cards/contrato-card';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { Contrato } from '../../models/contrato';
@@ -19,7 +20,8 @@ export class Contratos {
     private _apiService: ContratoService,
     private viewportScroller: ViewportScroller,
     private _usersService: Users,
-    private _loaderService: LoadingService
+    private _loaderService: LoadingService,
+    private route: ActivatedRoute
   ) { }
 
   usuario: any;
@@ -28,14 +30,21 @@ export class Contratos {
   contratosDisponibles: Contrato[] = [];
   contratosDisponiblesCopia: Contrato[] = [];//para recuperar despues de filtrar
   contratosAsignados: Contrato[] = [];
+  contratosPendientes: Contrato[] = [];
   verContratosNoPostulados: boolean = false;
 
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
 
   ngOnInit(): void {
+    // capture fragment (if user navigated with a fragment like #pendientes)
+    this.route.fragment.subscribe((f) => {
+      this.pendingFragment = f ?? undefined;
+    });
     this.mostrarTodosLosContratos();
   }
+
+  pendingFragment?: string | undefined;
 
   mostrarTodosLosContratos() {
     this._loaderService.showLoader()
@@ -54,6 +63,12 @@ export class Contratos {
         next: (res) => {
           this.todosLosContratos = res.data;
           this.createCards(this.todosLosContratos)
+          // if user navigated with fragment, scroll after rendering
+          if (this.pendingFragment) {
+            // small delay to allow DOM update
+            setTimeout(() => this.scrollToSection(this.pendingFragment!), 50);
+            this.pendingFragment = undefined;
+          }
         },
         error: (error: string) => {
           console.log('desde el componente error ' + error)
@@ -83,25 +98,42 @@ export class Contratos {
   }
 
   createCards = (contratos: Contrato[]): void => {
-    // separar contratos en disponibles (no ocupados) y asignados (esta_ocupado === true)
+    // separar contratos en disponibles (no ocupados), pendientes (postulaciones del usuario) y asignados
     this.contratosDisponibles = [];
     this.contratosAsignados = [];
+    this.contratosPendientes = [];
     for (let i = 0; i < contratos.length; i++) {
       const c = contratos[i];
       this.contratosCards[i] = c;
-      if (c.esta_ocupado) {
 
-        if (this.usuario.rol === 'desarrollador' &&
-          c.pasante_email !== this.usuario.email) {
-          continue; // si es dev y NO es esta asignado su email al contrato, no lo agregamos
+      // contratos ocupados van a asignados
+      if (c.esta_ocupado) {
+        // los desarrolladores solo ven asignados que les pertenecen
+        if (this.usuario?.rol === 'desarrollador' && c.pasante_email !== this.usuario.email) {
+          continue;
         }
         this.contratosAsignados.push(c);
-        
+        continue;
+      }
+
+      // normalizar postulaciones a array de strings (puede venir como string con comas o como array)
+      let postulacionesArr: string[] = [];
+      if (typeof (c.postulaciones as any) === 'string') {
+        postulacionesArr = ((c.postulaciones as unknown) as string).split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
+      } else if (Array.isArray(c.postulaciones)) {
+        postulacionesArr = c.postulaciones as unknown as string[];
+      }
+
+      const userEmail = this.usuario?.email;
+      if (userEmail && postulacionesArr.includes(userEmail)) {
+        this.contratosPendientes.push(c);
       } else {
         this.contratosDisponibles.push(c);
       }
-      this.contratosDisponiblesCopia = this.contratosDisponibles;
     }
+
+    // copia para filtros
+    this.contratosDisponiblesCopia = [...this.contratosDisponibles];
   }
 
   toggleMuestraContratoDetail = (): void => {
@@ -140,6 +172,21 @@ export class Contratos {
     } else {
       this.contratoAMostrarDetail = undefined;
       this.mostrandoContratoDetail = false;
+    }
+  }
+
+  // scroll a una sección por id (uso scrollIntoView para comportamiento smooth)
+  scrollToSection(sectionId: string): void {
+    try {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        // fallback
+        this.viewportScroller.scrollToPosition([0, 0]);
+      }
+    } catch (err) {
+      console.error('Error scrolling to section', err);
     }
   }
 
