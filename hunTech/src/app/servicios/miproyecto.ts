@@ -9,7 +9,8 @@ import { Proyecto, ProyectoResponse } from '../models/proyectos';
 })
 export class ProyectoService {
   //private _proyectosUrl = `http://127.0.0.1:3000/api/`
-  private _proyectosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
+  //private _proyectosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
+  private _proyectosUrl = `https://backend-huntech.vercel.app/api/`
 
   private _usersService = inject(Users);
   user: any;
