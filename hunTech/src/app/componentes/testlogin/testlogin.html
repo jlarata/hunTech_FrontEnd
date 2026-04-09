@@ -1,0 +1,57 @@
+<div style="color: black;">
+    <div *ngIf="user$ | async as user; else loggedOut">
+  <h2>Bienvenidx de nuevo, {{ user.email }}!</h2>
+  
+  <div class="user-card">
+    <p><strong>Tu ID:</strong> {{ user.id }}</p>
+    <p><strong>Último Login:</strong> {{ user.last_sign_in_at | date:'medium' }}</p>
+  </div>
+
+  <div *ngIf="user.role === 'authenticated'" class="badge">
+    ✓ Cuenta verificada 
+  </div>
+
+  <div *ngIf="user.email === 'arielwdev@gmail.com'" class="admin-panel">
+    <h3>Admin Tools -aparentemente los usuarios pueden ser authenticados y tener admin-panel privilegios por defecto</h3>
+    <button>Manage Users</button>
+  </div>
+
+  <button (click)="logout()">Sign Out</button>
+</div>
+
+<ng-template #loggedOut>
+  <div class="guest-view">
+    <h2>Por favor loguea</h2>
+    
+    <form (submit)="handleLogin($event)">
+      <input type="login_email" [(ngModel)]="login_email" name="email" placeholder="Email" required />
+      <input type="login_password" [(ngModel)]="login_password" name="password" placeholder="Password" required />
+      <button type="login_submit" [disabled]="loading">Login</button>
+    </form>
+
+  </div>
+
+  <div>
+    <h2>O crea una cuenta nueva con usuario y contraseña (recibirás un mail para confirmar)</h2>
+    <div>
+    <div *ngIf="!confirmationSent; else checkEmail">
+      <form (submit)="handleSignUp($event)">
+        <input type="signup_email" [(ngModel)]="signup_email" name="email" placeholder="Email" required />
+        <input type="signup_password" [(ngModel)]="signup_password" name="password" placeholder="Password" required />
+        <button type="signup_submit" [disabled]="loading">Register</button>
+      </form>
+    </div>
+
+    <ng-template #checkEmail>
+      <div class="alert alert-success">
+        <h3>Verify your email!</h3>
+        <p>We've sent a confirmation link to <strong>{{ signup_email }}</strong>. Please check your inbox to activate your account.</p>
+      </div>
+    </ng-template> 
+</div>
+  </div>
+</ng-template>
+
+
+
+
