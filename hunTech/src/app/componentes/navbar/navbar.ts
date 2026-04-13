@@ -1,8 +1,12 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Auth } from '../../servicios/auth';
-import { Users } from '../../servicios/users';
+/* import { Auth } from '../../servicios/auth';
+ */import { Users } from '../../servicios/users';
+import { AuthService } from '../../servicios/AuthService';
+import { User } from '@supabase/supabase-js';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-navbar',
@@ -12,19 +16,28 @@ import { Users } from '../../servicios/users';
   styleUrls: ['./navbar.css'],
 })
 export class Navbar {
-  private _usersService = inject(Users);
-  user: any;
+  user$: Observable<User | null>;
+  /* private _usersService = inject(Users); */
+  /* user: any; */
   rol: any;
   menuActive = false;
 
-  authService = inject(Auth);
+  /* authService = inject(Auth); */
   private router = inject(Router);
   isOnContratos = false;
   private _subs: any;
   activeFragment?: string | null = null;
 
+  constructor(
+      private authService: AuthService
+    ) {
+      // Assign the observable from the service
+      this.user$ = this.authService.user$;
+     }
+
   ngOnInit(): void {
-    this.loadUser();
+    /* this.loadUser(); */
+    
     // detect when route is /contratos to show the embedded index
     this.isOnContratos = this.router.url?.startsWith('/contratos');
     this._subs = this.router.events.subscribe((ev: any) => {
@@ -70,7 +83,13 @@ export class Navbar {
     });
   }
 
-  private loadUser(): void {
+
+  logout() {
+    this.authService.signOut();
+  }
+
+
+  /* private loadUser(): void {
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
       next: (data) => {
@@ -86,5 +105,5 @@ export class Navbar {
       error: (err) => console.error('Error al obtener el rol', err),
     });
 
-  }
+  } */
 }

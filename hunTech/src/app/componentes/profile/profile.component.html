@@ -10,9 +10,9 @@
         <button (click)="activarEdicion()" class="btn-edit btn">✏️</button>
     }
 
-    @if (emailUrl) {
+   <!--  @if (emailUrl) {
         <button (click)="volverContratos()" class="btn-edit btn">Volver</button>
-    }
+    } -->
 
     <!-- MODO LECTURA -->
     @if (!enEdicion) {
@@ -42,7 +42,7 @@
 
 
     <!-- MODO EDICIÓN (formulario reactivo) -->
-    @if (enEdicion) {
+    <!-- @if (enEdicion) {
         <form [formGroup]="profileEditForm" (ngSubmit)="guardarCambiosEdicion()" class="perfil-card">
             <div>
                 <label><h3>Nombre</h3></label>
@@ -71,7 +71,7 @@
                             placeholder="Ej. Angular"
                         />
                     }
-                    <!-- Botón para agregar más -->
+                    ////////////Botón para agregar más
                     <div class="botonera">
                         <button type="button" class="btn-add-skill" (click)="agregarSkill()">+ Agregar</button>
                     </div>
@@ -86,7 +86,7 @@
                 
             
         </form>
-    }
+    } -->
 </div>   
 
 

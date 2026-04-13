@@ -7,7 +7,7 @@ import {
   AuthResponse
 } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 const supabase = createClient('https://your-project.supabase.co', 'sb_publishable_... or anon key')
 
@@ -59,10 +59,10 @@ export class AuthService {
     return await this.supabase.auth.signUp({
       email,
       password,
-      options: {
+      /* options: {
         // Optional: Redirect the user back to a specific page after they click the link
         emailRedirectTo: 'http://localhost:4200/login'
-      }
+      } */
     });
   }
 
@@ -83,8 +83,6 @@ export class AuthService {
     await this.supabase.auth.signOut();
   }
 
-  
-
   /**
    * Listener for auth state changes (Login, Logout, etc.)
    * Useful for updating UI reactively
@@ -92,5 +90,11 @@ export class AuthService {
   authChanges(callback: (event: any, session: Session | null) => void) {
     return this.supabase.auth.onAuthStateChange(callback);
   }
+
+  get userEmail$(): Observable<string | null> {
+  return this.currentUser.asObservable().pipe(
+    map(user => user?.email ?? null)
+  );
+}
 }
 

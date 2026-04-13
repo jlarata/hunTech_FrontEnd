@@ -1,8 +1,8 @@
-import { User } from "./user";
+import { Usuario } from "./usuario";
 
-export class Desarrollador extends User {
+export class Desarrollador extends Usuario {
     //nombre: string;
-    apellido?: string;
+    //apellido?: string;
     fecha_nacimiento?: string;
     rol?: string; //validar con select en form.
     skills?: string[] //validar igualmenmte con un select?

@@ -1,5 +1,5 @@
-import { User } from "./user";
+import { Usuario } from "./usuario";
 
-export class Gerente extends User {
+export class Gerente extends Usuario {
     id_proyecto?: string;    
 }

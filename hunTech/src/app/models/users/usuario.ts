@@ -1,8 +1,9 @@
-export class User {
+export class Usuario {
     id?: string;
     email?: string;
     descripcion?: string;
     nombre?: string;
+    apellido?: string;
     name?: string;
 }
 

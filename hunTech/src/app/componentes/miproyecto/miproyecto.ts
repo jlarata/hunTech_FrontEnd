@@ -21,11 +21,11 @@ export class Miproyecto {
   user: any;
   proyecto?: Proyecto;
 
-  async ngOnInit(): Promise<void> {
+  /* async ngOnInit(): Promise<void> {
     await this.loadUser()
     this.mostrarProyecto(this.user.email)
 
-  }
+  } */
 
 
   mostrarProyecto(email:string) {
@@ -43,7 +43,7 @@ export class Miproyecto {
     }
   });
 }
-  async loadUser(): Promise<void> {
+  /* async loadUser(): Promise<void> {
   
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
@@ -52,5 +52,5 @@ export class Miproyecto {
       },
       error: (err) => console.error('Error al obtener usuario', err),
     });
-  }
+  } */
 }

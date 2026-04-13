@@ -64,7 +64,8 @@
 
         <li><a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
                 (click)="closeMenu()">Perfil</a></li>
-        <li><a (click)="authService.logout()">Cerrar sesión</a></li>
+        
+        <li><a (click)="logout()">Cerrar sesión</a></li>
     </ul>
     <!-- Mobile-only subindex row shown when on /contratos -->
     <div class="navbar-subindex" *ngIf="isOnContratos">

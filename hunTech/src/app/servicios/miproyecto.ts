@@ -18,9 +18,9 @@ export class ProyectoService {
 
   constructor(private _httpClient: HttpClient) { }
 
-  ngOnInit(): void {
+ /*  ngOnInit(): void {
     this.loadUser();
-  }
+  } */
 
 
   getProyectoPorEmail(email:string): Observable<ProyectoResponse> {
@@ -41,7 +41,7 @@ export class ProyectoService {
     return res
   }
 
-  private loadUser(): void {
+/*   private loadUser(): void {
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
       next: (data) => {
@@ -57,6 +57,6 @@ export class ProyectoService {
       error: (err) => console.error('Error al obtener el rol', err),
     });
 
-  }
+  } */
 
 }

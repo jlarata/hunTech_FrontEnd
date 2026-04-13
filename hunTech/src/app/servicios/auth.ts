@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+/* import { Injectable, inject } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client'; 
 import { BehaviorSubject } from 'rxjs';
 
@@ -46,3 +46,4 @@ export class Auth {
   }
 
 }
+ */

@@ -14,28 +14,103 @@
     <img src="logo.png" id="logo-principal" />
   </div>
 </header>
-}
+} -->
 
 
 
 
-  @if (!isAuth) {
+  <div *ngIf="user$ | async as user; else loggedOut">
 
+    <div *ngIf="usuarioRol != ''; else noRoleYet">
+
+      <div class=" main-content">
         <app-spinner></app-spinner>
+        <app-navbar></app-navbar>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
 
-  <div class="descripcion-container">
-    <h1 class="titulo">Bienvenido a HunTech!</h1>
-    <p class="parrafo">¡Tu primer empleo te espera! 🚀</p>
-    <p>Por favor, inicia sesión para ver el contenido.</p>
-    <button class="btn btn-add" (click)="authService.login()">Iniciar Sesión</button>
-    <ul class="beneficios">
-      <li>Descubre vacantes especialmente para estudiantes y juniors🎯</li>
-      <li>Recibe notificaciones de empresas interesadas en tu perfil🔔</li>
-      <li>Destaca tus habilidades y proyectos directamente a los reclutadores💼</li>
-    </ul>
+    <ng-template #noRoleYet>
+
+      <div class="descripcion-container" style="color:black">
+        <h3 class="titulo">¡Ya casi estamos! Completa tu perfil para continuar:</h3>
+
+        <div class="form-group">
+          <label for="role">Selecciona tu rol:</label>
+          <select id="role" [(ngModel)]="selectedRole" class="form-control">
+            <option value="" disabled selected>-- Elige una opción --</option>
+            <option value="desarrollador">Desarrollador</option>
+            <option value="gerente">Gerente</option>
+            <option value="institucion">Institución Educativa</option>
+          </select>
+        </div>
+
+        <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
+          {{ loading ? 'Creando...' : 'Confirmar y Empezar' }}
+        </button>
+      </div>
+
+
+    </ng-template>
+
   </div>
-  
-  } -->
+
+  <ng-template #loggedOut>
+    <div class="guest-view">
+
+      <app-spinner></app-spinner>
+
+      <div class="descripcion-container">
+        <h1 class="titulo">Bienvenido a HunTech!</h1>
+        <p class="parrafo">¡Tu primer empleo te espera! 🚀</p>
+        <div>
+          <p>Por favor, inicia sesión para ver el contenido.</p>
+
+          <form (submit)="handleLogin($event)">
+            <input type="login_email" [(ngModel)]="login_email" name="email" placeholder="Email" required />
+            <input type="login_password" [(ngModel)]="login_password" name="password" placeholder="Password" required />
+            <button type="login_submit" [disabled]="loading" class="btn btn-add">Iniciar Sesión</button>
+          </form>
+        </div>
+
+
+        <div>
+          <p>O crea una cuenta nueva con usuario y contraseña (recibirás un mail para confirmar)</p>
+          <div>
+            <div *ngIf="!confirmationSent; else checkEmail">
+              <form (submit)="handleSignUp($event)">
+                <input type="signup_email" [(ngModel)]="signup_email" name="email" placeholder="Email" required />
+                <input type="signup_password" [(ngModel)]="signup_password" name="password" placeholder="Password"
+                  required />
+                <button type="signup_submit" [disabled]="loading">Register</button>
+              </form>
+            </div>
+
+            <ng-template #checkEmail>
+              <div class="alert alert-success">
+                <h3>Verify your email!</h3>
+                <p>We've sent a confirmation link to <strong>{{ signup_email }}</strong>. Please check your inbox to
+                  activate your account.</p>
+              </div>
+            </ng-template>
+          </div>
+
+        </div>
+
+
+
+        <ul class="beneficios">
+          <li>Descubre vacantes personalizadas para estudiantes y juniors🎯</li>
+          <li>Recibe notificaciones de empresas interesadas en tu perfil🔔</li>
+          <li>Destaca tus habilidades y proyectos directamente a los reclutadores💼</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </ng-template>
+
+
 
   <!--   @if (isAuth && (this.usuarioRol == undefined) && isDataLoaded && !existUser) {
   
@@ -54,9 +129,9 @@
   } -->
 
 
-  
 
-<!--   @if (isAuth && (this.user != undefined) && existUser){
+
+  <!--   @if (isAuth && (this.user != undefined) && existUser){
   @if (this.user.rol != undefined){
    si el user existe en nuestra db mostramos el contenido
    navbar solo si NO estoy en /profile/algo 
@@ -70,12 +145,8 @@
   </div>
   }} -->
 
-  <div class="main-content">
-    <app-spinner></app-spinner>
-    <app-navbar></app-navbar>
-    <router-outlet></router-outlet>
-  </div>
-  
+
+
 
 
 

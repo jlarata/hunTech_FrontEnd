@@ -36,17 +36,17 @@ export class Contratos {
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
 
-  ngOnInit(): void {
+  /* ngOnInit(): void {
     // capture fragment (if user navigated with a fragment like #pendientes)
     this.route.fragment.subscribe((f) => {
       this.pendingFragment = f ?? undefined;
     });
     this.mostrarTodosLosContratos();
-  }
+  } */
 
   pendingFragment?: string | undefined;
 
-  mostrarTodosLosContratos() {
+  /* mostrarTodosLosContratos() {
     this._loaderService.showLoader()
     this.usuario = this._usersService.getUser();
     
@@ -78,7 +78,7 @@ export class Contratos {
         }
       });
     
-  }
+  } */
 
   toggleContratosDisponiblesNoPostulados(): void {
     this.verContratosNoPostulados = !this.verContratosNoPostulados;
@@ -162,7 +162,7 @@ export class Contratos {
   }
 
   // recarga la lista cuando un contrato ha sido asignado en el detalle
-  onContratoAssigned(contrato: Contrato | null): void {
+  /* onContratoAssigned(contrato: Contrato | null): void {
     // volver a pedir los contratos
     this.mostrarTodosLosContratos();
     // actualizar el detalle mostrado si nos trajeron el contrato actualizado
@@ -173,7 +173,7 @@ export class Contratos {
       this.contratoAMostrarDetail = undefined;
       this.mostrandoContratoDetail = false;
     }
-  }
+  } */
 
   // scroll a una sección por id (uso scrollIntoView para comportamiento smooth)
   scrollToSection(sectionId: string): void {

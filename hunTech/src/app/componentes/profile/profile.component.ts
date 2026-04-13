@@ -32,7 +32,7 @@ export class ProfileComponent {
 
   enEdicion = false; // mostrar formulario o tarjeta
 
-  ngOnInit(): void {
+  /* ngOnInit(): void {
     //this.loadUserAcount();
     // viene email por URL
     this.emailUrl = this.route.snapshot.paramMap.get('email');
@@ -46,7 +46,7 @@ export class ProfileComponent {
       // PERFIL PROPIO → usamos el rol que ya tenemos guardado
       this.loadUserAcount();
     }
-  }
+  } */
 
   activarEdicion(): void {
     this.enEdicion = true;
@@ -66,7 +66,7 @@ export class ProfileComponent {
       skillsArray.push(this.fb.control(skill)) 
     );
   }
-
+/* 
   guardarCambiosEdicion(): void {
     if (this.profileEditForm.invalid) return;
 
@@ -105,7 +105,7 @@ export class ProfileComponent {
     this.enEdicion = false;
 
   }
-
+ */
   get skillsControls(): FormControl[] {
     return (this.profileEditForm.get('skills') as FormArray).controls as FormControl[];
   }
@@ -115,7 +115,7 @@ export class ProfileComponent {
     skillsArray.push(this.fb.control('')); // input vacío
   }
 
-  private loadUserAcount(): void {
+  /* private loadUserAcount(): void {
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
       next: (data) => {
@@ -148,6 +148,6 @@ export class ProfileComponent {
 
   volverContratos():void {
     this.router.navigate(['/contratos']);
-  }
+  } */
 
 }

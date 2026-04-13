@@ -35,7 +35,7 @@ export class Formcreateproyect {
     email_gerente: ''
   }
 
-  ngOnInit(): void {
+  /* ngOnInit(): void {
     const email = this.route.snapshot.paramMap.get('email');
     console.log(email)
     if (email) {
@@ -55,7 +55,8 @@ export class Formcreateproyect {
 
     this.loadUser();
 
-  }
+  } */
+ 
   formularioEnviado = false;
 
   enviar(form: NgForm) {
@@ -113,7 +114,7 @@ export class Formcreateproyect {
   }
 
 
-  private loadUser(): void {
+  /* private loadUser(): void {
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
       next: (data) => {
@@ -121,6 +122,6 @@ export class Formcreateproyect {
       },
       error: (err) => console.error('Error al obtener usuario', err)
     });
-  }
+  } */
 
 }
