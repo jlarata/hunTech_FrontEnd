@@ -1,153 +1,77 @@
-import { Component,inject } from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, FormControl, FormArray, FormsModule } from '@angular/forms';
 
-import { Users} from './../../servicios/users';
+import { Users } from './../../servicios/users';
 import { ActivatedRoute, Router } from '@angular/router';
+import { lastValueFrom, Observable } from 'rxjs';
+import { User } from '@supabase/supabase-js';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
 
-  private _usersService = inject(Users);
   private fb = inject(FormBuilder);
+  usuarioLogueado: any;
+  perfil: any = null;
+  rolActual: string = '';
+  isEditing: boolean = false;
+  loading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private usersService: Users
+  ) { }
 
-  user: any;
-  rol:any;
-  emailUrl: string | null = null;
+  ngOnInit() {
+    // Suscripción para tener la data siempre actualizada
+    this.usersService.userProfile$.subscribe(data => {
+      if (data) {
+        this.perfil = { ...data }; // Copia para editar sin afectar el estado global antes de tiempo
+        // Determina el rol (esto lo saca de la tabla que devolvió la API en app.ts)
+        this.rolActual = data.rol || '';
 
-  profileEditForm = this.fb.group({
-    nombre:"",
-    descripcion: "",
-    skills: this.fb.array<string>([])
-  });
-
-  enEdicion = false; // mostrar formulario o tarjeta
-
-  /* ngOnInit(): void {
-    //this.loadUserAcount();
-    // viene email por URL
-    this.emailUrl = this.route.snapshot.paramMap.get('email');
-
-    if (this.emailUrl) {
-      // VER PERFIL DE ORIGEN MAIL DE POSTULACIONES → siempre dev(por ahora)
-      this.loadUserDev(this.emailUrl, 'desarrollador');
-      console.log("loaduserDev email: ", this.emailUrl );
-    
-    } else {
-      // PERFIL PROPIO → usamos el rol que ya tenemos guardado
-      this.loadUserAcount();
-    }
-  } */
-
-  activarEdicion(): void {
-    this.enEdicion = true;
-    // rellenamos el form con los datos existentes
-    this.profileEditForm.patchValue({
-      nombre: this.user.nombre ?? '',
-      descripcion: this.user.descripcion ?? '',
-      skills: this.user.skills ?? []
-    });
-
-    // agregar los skills que ya tenemos en edit para que no se borren  al agregar nuevos
-    const skillsArray = this.profileEditForm.get('skills') as FormArray;
-    skillsArray.clear();// vaciamos por si quedo algun dato en memoria de edicion anterior no completada
-    
-    //agregamos un formcontrol por cada skill
-    (this.user.skills as string[] ?? []).forEach(skill =>
-      skillsArray.push(this.fb.control(skill)) 
-    );
-  }
-/* 
-  guardarCambiosEdicion(): void {
-    if (this.profileEditForm.invalid) return;
-
-    const formValue = this.profileEditForm.value;
-    const payload: any = {};//objeto que va llevar lo que se va a actualizar
-
-    // solo actualizamos si el usuario escribió algo nuevo
-    if (formValue.nombre?.trim() && formValue.nombre !== this.user.nombre) {
-      this.user.nombre = formValue.nombre;
-      payload.nombre = this.user.nombre;
-    }
-
-    // actualizamos si es distinto de vacio 
-    if (formValue.descripcion?.trim() != ""){
-      this.user.descripcion = formValue.descripcion;
-      payload.descripcion = this.user.descripcion;
-    }
-    
-    // solo actualizamos skills si es desarrollador
-    if (this.user.rol == "desarrollador" && formValue.skills) {
-      this.user.skills = (formValue.skills as string[]).filter(s => s.trim() !== '');
-      payload.skills = this.user.skills;
-    }
-
-      
-    this._usersService.editUser(payload, this.user.rol).subscribe({
-      next: (response) => {
-        //actualizamos los datos en el servicio para que esten sincronizados
-        this.loadUserAcount();//actualiza observable user
-      },
-      error: (err) => {
-        console.error('Error al actualizar usuario:', err);
+        console.log("Rol detectado en Perfil:", this.rolActual);
       }
     });
-
-    this.enEdicion = false;
-
-  }
- */
-  get skillsControls(): FormControl[] {
-    return (this.profileEditForm.get('skills') as FormArray).controls as FormControl[];
   }
 
-  agregarSkill(): void {
-    const skillsArray = this.profileEditForm.get('skills') as FormArray;
-    skillsArray.push(this.fb.control('')); // input vacío
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
   }
 
-  /* private loadUserAcount(): void {
-    // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
-    this._usersService.user$.subscribe({
-      next: (data) => {
-        this.user = data;   //data de cognito  y DB      
-      },
-      error: (err) => console.error('Error al obtener usuario', err)
-    });
+  async handleUpdate() {
+    if (!this.rolActual) return alert("Error: No se detectó el rol del usuario");
+
+    try {
+      this.loading = true;
+      
+      // El email lo saca del objeto perfil que ya está cargado
+      const email = this.perfil.email; 
+      // Llama al servicio pasando los 3 parámetros: rol, email y el objeto de datos
+      // Envia el objeto perfil completo (que además tiene el email, un poco de redundancia)
+      await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
+
+      this.isEditing = false;
+      alert('Perfil actualizado');
+    } catch (error) {
+      console.error('Error en PUT:', error);
+      alert('Hubo un error al guardar los cambios');
+    } finally {
+      this.loading = false;
+    }
   }
 
-  loadUserDev(email?: string, rol?:string): void {
-
-    if (!email) return;
-
-    this._usersService.getUserByEmail(email, rol!).subscribe({
-      next: (response) => {
-        this.user = response.data;
-
-        //normalizar skills a array
-        const skillsArray = typeof this.user.skills === 'string'
-          ? this.user.skills.split(',').map((s: string) => s.trim())
-          : this.user.skills ?? [];
-        
-        this.user.skills = skillsArray;
-        this.user.rol = rol;
-        console.log("loaduserDev: ", this.user );
-      },
-      error: (err) => console.error('Error al obtener usuario dev', err)
-    });
+  // Helper para saber si el perfil está vacío
+  get isProfileEmpty(): boolean {
+    if (!this.perfil) return true;
+    return !this.perfil.nombre || this.perfil.nombre === '';
   }
-
-  volverContratos():void {
-    this.router.navigate(['/contratos']);
-  } */
-
 }
+
+

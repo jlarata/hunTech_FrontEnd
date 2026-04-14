@@ -21,7 +21,6 @@ import { Usuario } from './models/users/usuario';
     CommonModule,
     Spinner,
     FormsModule,
-    CommonModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
@@ -32,7 +31,7 @@ export class App {
   userEmail: string | null = null;
   private authSub?: Subscription;
   selectedRole: string = ''; // Almacena la opción del select
-  usuarioRol: string = ''; //almacenaremos aquí la opción que llega de la bbdd
+  usuarioRol: string = ''; // almacenaremos aquí la opción que llega de la bbdd
 
   login_email = '';
   login_password = '';
@@ -43,25 +42,6 @@ export class App {
 
   title = 'hunTech';
 
-  /* isAuth?: boolean | undefined;
-  existUser: boolean | undefined;
-  */
-
-/*   isDataLoaded: boolean = false;
- */
-/*   usuario: Usuario = {
-    id: '',
-    email: '',
-    descripcion: '',
-    nombre: '',
-    name: '',
-    apellido: ''
-  }; */
-   
-
-  /* user: any;
-  authUser?: boolean;
-  roleUser?: boolean; */
 
   constructor(
     /* private _loaderService: LoadingService, */
@@ -69,12 +49,9 @@ export class App {
     private router: Router,
     private authService: AuthService
   ) {
-    // Assign the observable from the service
+    // Asigna el observable del servicio
     this.user$ = this.authService.user$;
-
   }
-
-
 
 
   /* true cuando estoy en /profile/:email */
@@ -100,13 +77,23 @@ export class App {
       if (email) {
         const usuarioExistente = await this.checkUserExists(email);
         if (usuarioExistente.data.existe == 1) {
-          //En caso de que el usuario exista en por lo menos una tabla, lo busca en esa tabla correspondiente y trae la data
-          const usuarioHalladoEnBBDD = await this.getUser(email, usuarioExistente.data.tabla)
-          //y modificamos la siguiente variable para decidir el comportamiento del template:
+          //esto es inmediato y para manejar la visualización (o no) del formulario de selección de rol
           this.usuarioRol = usuarioExistente.data.tabla
-          console.log("Usuario hallado en BBDD: ", usuarioHalladoEnBBDD)
+
+          // debug --> console.log("Usuario hallado en BBDD: ", this.usuarioRol)
+
+          // Ahora bien, en caso de que el usuario exista en por lo menos una tabla, lo busca en esa tabla correspondiente y trae la data
+          const usuarioHalladoEnBBDD = await this.getUser(email, usuarioExistente.data.tabla)
+          // Y guarda todo el objeto (nombre, rol, id, etc) en el BehaviorSubject
+          // para que pueda ser leído por los componentes
+          this.usersService.setUserProfile({
+            ...usuarioHalladoEnBBDD,
+            email: email,                    // <--- Vital para el PUT
+            rol: usuarioExistente.data.tabla // <--- Vital para el renderizado del HTML
+          })
         } else {
-          console.log("Usuario no hallado ", usuarioExistente)
+          this.usuarioRol = ''; // fuerza que sea vacio para que se vea el formulario
+          console.log("Usuario no hallado, mostrando selector de rol")
         }
       }
     });
@@ -127,7 +114,7 @@ export class App {
     try {
       // Convertimos el observable en promesa para poder usar await
       const res = await lastValueFrom(this.usersService.getUsuarioByEmailAndTable(email, table));
-      return res
+      return res.data
     } catch (error) {
       console.error('Error obteniendo usuarios:', error);
       throw error;
@@ -150,13 +137,25 @@ export class App {
         const usuarioExistente = await this.checkUserExists(data.user.email)
 
         if (usuarioExistente.data.existe == 1) {
-          //En caso de que el usuario exista en una tabla, lo busca en la tabla correspondiente
+          //esto es inmediato y para manejar la visualización (o no) del formulario de selección de rol
+          this.usuarioRol = usuarioExistente.data.tabla;
+
+          //Ahora bien, en caso de que el usuario exista en una tabla, lo busca en la tabla correspondiente
           //debug --> console.log("Usuario hallado en tabla: ", hallado.data.tabla)
           const usuarioHalladoEnBBDD = await this.getUser(data.user.email, usuarioExistente.data.tabla)
-          console.log("Usuario hallado en BBDD: ", usuarioHalladoEnBBDD)
-        } /* else {
-          console.log("Usuario no hallado che ", usuarioExistente)
-        } */
+
+          // Y guarda todo el objeto (nombre, rol, id, etc) en el BehaviorSubject
+          // para que pueda ser leído por los componentes
+          this.usersService.setUserProfile({
+            ...usuarioHalladoEnBBDD,
+            email: data.user.email, // <--- Vital para el PUT, Usamos el mail de Supabase
+            rol: usuarioExistente.data.tabla // <--- Vital para el renderizado del HTML
+            /* rol: usuarioExistente.data.tabla */
+          })
+
+        } else {
+          this.usuarioRol = '';
+        }
       }
     } catch (error: any) {
       alert(error.error_description || error.message);
@@ -185,103 +184,27 @@ export class App {
     }
   }
 
-async handleCreateUser() {
+  async handleCreateUser() {
     if (!this.selectedRole) return alert('Por favor selecciona un rol');
 
     try {
       this.loading = true;
       // 1. Llamamos al servicio
       await lastValueFrom(this.usersService.createUserByRole(this.userEmail!, this.selectedRole));
-      
+
       console.log('Usuario creado con éxito');
-      
+
       // 2. RECARGAR: Volvemos a ejecutar la carga inicial
       // Ahora checkUserExists devolverá 1 y se mostrará el template correcto
       await this.inicializarDatos();
-      
+
     } catch (error) {
       console.error('Error al crear:', error);
       alert('No se pudo crear el perfil');
     } finally {
       this.loading = false;
     }
-  }/*  */
-
-
-
-/*      onRoleChange(event: Event): void {
-      const select = event.target as HTMLSelectElement;
-      const value = select.value;
-      this.usersService.setSelectedRole(value);
-    } */
-   
-
-  /* private loadData(): void {
-
-    // this.authService.isAuthenticated$.subscribe({
-    //  next: (data) => {
-    //    this.isAuth = data
-    //    this.loadUser();
-    //  },
-    //  error: (err) => console.error('Error al obtener usuario', err)
-    //}) 
-
-    this.usersService.isExistUser$
-    .pipe(
-      tap((data) => {
-        if (data != false) {
-        this.isDataLoaded = true
-      } }
-    )
-    )
-    .subscribe({
-      next: (data) => {        
-        this.existUser = data
-      },
-      error: (err) => console.error('Error al obtener usuario', err)
-    })
-
-  } */
-
-  /* private loadUser(): void {
-    // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
-    this.usersService.user$.subscribe({
-      next: async (data) => {
-        this.user = data; //data de cognito  y DB
-        this.endLoading(this.user.email);
-      },
-      error: (err) => console.error('Error al obtener usuario', err),
-    });
-
-    this.usersService.selectedRole$.subscribe({
-      next: (data) => {
-        this.user.rol = data; //data de cognito  y DB
-      },
-      error: (err) => console.error('Error al obtener el rol', err),
-    });
-
-  } */
-
-  /* private async endLoading(email: string) {
-    //this._loaderService.showLoader()
-    this.usersService.simpleGetUserData(email).subscribe({
-      next: (res) => {
-        this.usuario = res;
-        this.usuarioRol = this.user.rol;
-        
-        //console.log("logeado", this.usuarioRol)
-      },
-      error: (error: string) => {
-        console.log('404' + error)
-        this.isDataLoaded = true;
-      },
-      complete: () => {
-
-      //  this._loaderService.hideLoader()
-      }
-    });
-  } */
-
+  }
 }
 
 
