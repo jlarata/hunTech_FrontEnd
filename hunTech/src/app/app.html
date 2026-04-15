@@ -1,22 +1,10 @@
 <main>
-  <!-- aca esto deberia mostrarse si el user no esta autenticado o si no esta en nuestra db  -->
-  <!-- descomente esto por que sino no se ve el logo al iniciar sesion o cuando hay que elegir rol -->
 
-  <!-- UPDATE 03 de abril 2026
- estoy comentando todo lo que sigue para puentear la autenticación hasta que resolvamos eso
- Nótese que el funcionamiento de la app se verá afectado de manera importante (i.e. el componente del propio perfil, o el de postulaciones) -->
+@if (cargandoData) {
+    
+    <app-spinner></app-spinner>
 
-  <!-- @if (!isAuth) {
-      <app-spinner></app-spinner>
-
-<header>
-  <div class="logo-container">
-    <img src="logo.png" id="logo-principal" />
-  </div>
-</header>
-} -->
-
-
+  }
 
 
   <div *ngIf="user$ | async as user; else loggedOut">
@@ -24,7 +12,6 @@
     <div *ngIf="usuarioRol && usuarioRol !== ''; else noRoleYet">
 
       <div class="main-content">
-        <app-spinner></app-spinner>
         <app-navbar></app-navbar>
         <router-outlet></router-outlet>
       </div>
@@ -56,7 +43,7 @@
   <ng-template #loggedOut>
     <div class="guest-view">
 
-      <app-spinner></app-spinner>
+      <!-- <app-spinner></app-spinner> -->
 
       <div class="descripcion-container">
         <h1 class="titulo">Bienvenido a HunTech!</h1>

@@ -37,9 +37,6 @@ export const routes: Routes = [
   { path: 'profile/:email',loadComponent: () =>
       import('./componentes/profile/profile.component').then((m) => m.ProfileComponent)
   },
-  { path: 'testlogin',loadComponent: () =>
-      import('./componentes/testlogin/testlogin').then((m) => m.Testlogin)
-  },
 
   { path: '**', redirectTo: '' },
 ];

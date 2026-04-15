@@ -41,6 +41,10 @@ export class App {
   confirmationSent = false;
 
   title = 'hunTech';
+  // La variable loading la usa el template para renderizar algunos botones o no, de manera diferente, esta otra variable cargandoData la usa para
+  // renderizar el spinner mientras se carga la data (i.e. la página espera hasta saber quien sos exactamente antes de mostrarte algo que no debería
+  // como el selector de rol)
+  cargandoData = false;
 
 
   constructor(
@@ -65,6 +69,7 @@ export class App {
   }
 
   async inicializarDatos() {
+    this.cargandoData = true;
     //Suscripto al servicio de authservice: si está logueado, va a buscar el mail de logueo
     this.authSub = this.authService.userEmail$.pipe(
       // el pipe, la función distinctUntilChanged y el filter que sigue son todos para evitar la duplicación de logs de angular.
@@ -97,6 +102,7 @@ export class App {
         }
       }
     });
+    this.cargandoData = false;
   }
 
   async checkUserExists(email: string) {
@@ -125,6 +131,7 @@ export class App {
   async handleLogin(event: Event) {
     event.preventDefault();
     this.loading = true;
+    this.cargandoData = true;
 
     try {
       //Primero loguea
@@ -162,11 +169,14 @@ export class App {
     } finally {
       this.loading = false;
     }
+    this.cargandoData = false;
   }
 
+  // Handler de creación de user para auth
   async handleSignUp(event: Event) {
     event.preventDefault();
     this.loading = true;
+    this.cargandoData = true;
 
     try {
       const { data, error } = await this.authService.signUp(this.signup_email, this.signup_password);
@@ -182,9 +192,12 @@ export class App {
     } finally {
       this.loading = false;
     }
+    this.cargandoData = false;
   }
 
+  // Handler de creación de user de tabla (dev, gerente, etc.)
   async handleCreateUser() {
+    this.cargandoData = true;
     if (!this.selectedRole) return alert('Por favor selecciona un rol');
 
     try {
@@ -204,6 +217,7 @@ export class App {
     } finally {
       this.loading = false;
     }
+    this.cargandoData = false;
   }
 }
 
