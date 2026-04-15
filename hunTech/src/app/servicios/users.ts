@@ -88,7 +88,9 @@ export class Users {
       throw new Error("Rol no válido para actualización");
     }
 
-    const url = `${this.USERSURL}${segment}/${email}`;
+    /* bueno, lo había armado así porque olvidé que en el back habíamos refinado un super método para todos los casos
+    const url = `${this.USERSURL}${segment}/${email}`; */
+    const url = `${this.USERSURL}usuario/${email}`;
     console.log("uRL: ", url)
 
     /* const body = {

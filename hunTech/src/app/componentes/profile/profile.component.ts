@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormControl, FormArray, FormsModule } from '@angular/forms';
-
 import { Users } from './../../servicios/users';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lastValueFrom, Observable } from 'rxjs';
-import { User } from '@supabase/supabase-js';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-profile',
   standalone: true,
