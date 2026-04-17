@@ -31,7 +31,7 @@
     </div>
 
     <ng-template #noRoleYet>
-
+ 
       <div class="descripcion-container" style="color:black">
         <h3 class="titulo">¡Ya casi estamos! Completa tu perfil para continuar:</h3>
 
@@ -53,60 +53,84 @@
 
   </div>
 
-  <ng-template #loggedOut>
-    <div class="guest-view">
+ <ng-template #loggedOut>
 
-      <app-spinner></app-spinner>
+  <div class="guest-container">
 
-      <div class="descripcion-container">
-        <h1 class="titulo">Bienvenido a HunTech!</h1>
-        <p class="parrafo">¡Tu primer empleo te espera! 🚀</p>
-        <div>
-          <p>Por favor, inicia sesión para ver el contenido.</p>
+    <nav class="navbar">
+  <div class="logo">HUNTECH</div>
+  <ul class="nav-links">
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Sobre Nosotros</a></li>
+    <li><a href="#">Ayuda</a></li>
+  </ul>
+</nav>
+    <!-- HERO -->
+    <section class="hero">
 
-          <form (submit)="handleLogin($event)">
-            <input type="login_email" [(ngModel)]="login_email" name="email" placeholder="Email" required />
-            <input type="login_password" [(ngModel)]="login_password" name="password" placeholder="Password" required />
-            <button type="login_submit" [disabled]="loading" class="btn btn-add">Iniciar Sesión</button>
-          </form>
-        </div>
+      
+      <div class="hero-left">
+       <h1>Encontrá tu primer trabajo en <span class="highlight">tecnología</span></h1>
 
-
-        <div>
-          <p>O crea una cuenta nueva con usuario y contraseña (recibirás un mail para confirmar)</p>
-          <div>
-            <div *ngIf="!confirmationSent; else checkEmail">
-              <form (submit)="handleSignUp($event)">
-                <input type="signup_email" [(ngModel)]="signup_email" name="email" placeholder="Email" required />
-                <input type="signup_password" [(ngModel)]="signup_password" name="password" placeholder="Password"
-                  required />
-                <button type="signup_submit" [disabled]="loading">Register</button>
-              </form>
-            </div>
-
-            <ng-template #checkEmail>
-              <div class="alert alert-success">
-                <h3>Verify your email!</h3>
-                <p>We've sent a confirmation link to <strong>{{ signup_email }}</strong>. Please check your inbox to
-                  activate your account.</p>
-              </div>
-            </ng-template>
-          </div>
-
-        </div>
-
-
+        <p>
+          Conectamos desarrolladores con oportunidades reales 🚀
+        </p>
 
         <ul class="beneficios">
-          <li>Descubre vacantes personalizadas para estudiantes y juniors🎯</li>
-          <li>Recibe notificaciones de empresas interesadas en tu perfil🔔</li>
-          <li>Destaca tus habilidades y proyectos directamente a los reclutadores💼</li>
+          <li>🎯 Vacantes personalizadas</li>
+          <li>🔔 Notificaciones de empresas</li>
+          <li>💼 Mostrá tus proyectos</li>
         </ul>
       </div>
 
-    </div>
+      
+      <div class="hero-right">
 
-  </ng-template>
+        <div class="card">
+
+          <h2>Iniciar sesión</h2>
+
+          <form (ngSubmit)="handleLogin($event)">
+            <input [(ngModel)]="login_email" name="login_email" placeholder="Email" required />
+            <input [(ngModel)]="login_password" name="login_password" type="password" placeholder="Password" required />
+           <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            <button type="submit" [disabled]="loading">Entrar</button>
+          
+  
+          </form>
+
+          <div class="divider">o</div>
+
+          <!-- REGISTRO -->
+          <div *ngIf="!confirmationSent; else checkEmail">
+
+            <h2>Registrate</h2>
+
+            <form (ngSubmit)="handleSignUp($event)">
+              <input [(ngModel)]="signup_email" name="signup_email" placeholder="Email" required />
+              <input [(ngModel)]="signup_password" name="signup_password" type="password" placeholder="Password" required />
+              <button type="submit" [disabled]="loading">Registrarse</button>
+              
+            </form>
+
+          </div>
+
+          <ng-template #checkEmail>
+            <div class="success-box">
+              <h3>Revisá tu email 📩</h3>
+              <p>Te enviamos un link a <strong>{{ signup_email }}</strong></p>
+            </div>
+          </ng-template>
+
+        </div> 
+      </div> 
+
+    </section> 
+
+  
+  </div> 
+</ng-template>
+
 
 
 
@@ -142,10 +166,6 @@
     <router-outlet></router-outlet>
   </div>
   }} -->
-
-
-
-
 
 
 </main>
