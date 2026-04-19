@@ -8,7 +8,11 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -49,9 +53,9 @@ export class ProfileComponent {
 
     try {
       this.loading = true;
-      
+
       // El email lo saca del objeto perfil que ya está cargado
-      const email = this.perfil.email; 
+      const email = this.perfil.email;
       // Llama al servicio pasando los 3 parámetros: rol, email y el objeto de datos
       // Envia el objeto perfil completo (que además tiene el email, un poco de redundancia)
       await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));

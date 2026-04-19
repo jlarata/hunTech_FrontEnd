@@ -11,20 +11,21 @@ import { LoadingService } from '../../servicios/loading-service';
 
 @Component({
   selector: 'app-contratos',
-  imports: [CommonModule, RouterModule, ContratoDetail],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ContratoDetail],
   templateUrl: './contratos.html',
   styleUrl: './contratos.css'
 })
-export class Contratos {
-  constructor(
-    private _apiService: ContratoService,
-    private viewportScroller: ViewportScroller,
-    private _usersService: Users,
-    private _loaderService: LoadingService,
-    private route: ActivatedRoute
-  ) { }
 
-  usuario: any;
+export class Contratos {
+
+  usuarioLogueado: any;
+  perfil: any = null;
+  rolActual: string = '';
+  loading: boolean = false;
+
   todosLosContratos: Contrato[] = [];
   contratosCards: ContratoCard[] = [];
   contratosDisponibles: Contrato[] = [];
@@ -36,49 +37,67 @@ export class Contratos {
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
 
-  /* ngOnInit(): void {
-    // capture fragment (if user navigated with a fragment like #pendientes)
-    this.route.fragment.subscribe((f) => {
-      this.pendingFragment = f ?? undefined;
-    });
-    this.mostrarTodosLosContratos();
-  } */
-
   pendingFragment?: string | undefined;
 
-  /* mostrarTodosLosContratos() {
-    this._loaderService.showLoader()
-    this.usuario = this._usersService.getUser();
-    
-      //esto va a guardar el observable  al que nos vamos a suscribir
-      let data;
-      if (this.usuario.rol === 'desarrollador' ) {
-        data = this._apiService.getContratosLibres();
-      } else {
-        data = this._apiService.getContratosByEmailGerente(this.usuario.email);
-        
-      }
+  constructor(
+    private _apiService: ContratoService,
+    private viewportScroller: ViewportScroller,
+    private _usersService: Users,
+    private _loaderService: LoadingService,
+    private route: ActivatedRoute,
 
-      data.subscribe({
-        next: (res) => {
-          this.todosLosContratos = res.data;
-          this.createCards(this.todosLosContratos)
-          // if user navigated with fragment, scroll after rendering
-          if (this.pendingFragment) {
-            // small delay to allow DOM update
-            setTimeout(() => this.scrollToSection(this.pendingFragment!), 50);
-            this.pendingFragment = undefined;
-          }
-        },
-        error: (error: string) => {
-          console.log('desde el componente error ' + error)
-        },
-        complete: () => {
-          this._loaderService.hideLoader();
+    private usersService: Users
+  ) { }
+
+
+
+
+  ngOnInit() {
+    // Suscripción para tener la data siempre actualizada
+    this.usersService.userProfile$.subscribe(data => {
+      if (data) {
+        this.perfil = { ...data }; // Copia para editar sin afectar el estado global antes de tiempo
+        // Determina el rol (esto lo saca de la tabla que devolvió la API en app.ts)
+        this.rolActual = data.rol || '';
+
+        //console.log("Rol detectado en Perfil:", this.rolActual);
+      }
+    });
+    this.mostrarTodosLosContratos();
+  }
+
+  mostrarTodosLosContratos() {
+    this._loaderService.showLoader()
+
+    //esto va a guardar el observable  al que nos vamos a suscribir
+    let data;
+    if (this.rolActual === 'desarrollador') {
+      data = this._apiService.getContratosLibres();
+    } else {
+      data = this._apiService.getContratosByEmailGerente(this.perfil.email);
+
+    }
+
+    data.subscribe({
+      next: (res) => {
+        this.todosLosContratos = res.data;
+        this.createCards(this.todosLosContratos)
+        // if user navigated with fragment, scroll after rendering
+        if (this.pendingFragment) {
+          // small delay to allow DOM update
+          setTimeout(() => this.scrollToSection(this.pendingFragment!), 50);
+          this.pendingFragment = undefined;
         }
-      });
-    
-  } */
+      },
+      error: (error: string) => {
+        console.log('desde el componente contratos error ' + error)
+      },
+      complete: () => {
+        this._loaderService.hideLoader();
+      }
+    });
+
+  }
 
   toggleContratosDisponiblesNoPostulados(): void {
     this.verContratosNoPostulados = !this.verContratosNoPostulados;
@@ -86,14 +105,14 @@ export class Contratos {
     if (this.verContratosNoPostulados) {
       // mostrar solo los que no tengan mi email en array de postulantes
       this.contratosDisponibles = this.contratosDisponiblesCopia.filter(
-        c => !c.postulaciones?.includes(this.usuario.email)
+        c => !c.postulaciones?.includes(this.perfil.email)
       );
-      
+
     } else {
       // volver a mostrar todos
       this.contratosDisponibles = [...this.contratosDisponiblesCopia];
     }
-    
+
     //this.createCards(contratosFiltrados);
   }
 
@@ -109,9 +128,14 @@ export class Contratos {
       // contratos ocupados van a asignados
       if (c.esta_ocupado) {
         // los desarrolladores solo ven asignados que les pertenecen
-        if (this.usuario?.rol === 'desarrollador' && c.pasante_email !== this.usuario.email) {
+
+        if (this.rolActual === 'desarrollador' && c.pasante_email !== this.perfil.email) {
+          /*         if (this.rolActual === 'desarrollador' && c.pasante_email !== this.usuario.email) { */
           continue;
         }
+        /* viejo método if (this.usuario?.rol === 'desarrollador' && c.pasante_email !== this.usuario.email) {
+          continue;
+        } */
         this.contratosAsignados.push(c);
         continue;
       }
@@ -124,7 +148,8 @@ export class Contratos {
         postulacionesArr = c.postulaciones as unknown as string[];
       }
 
-      const userEmail = this.usuario?.email;
+      /* const userEmail = this.usuario?.email; */
+      const userEmail = this.perfil.email;
       if (userEmail && postulacionesArr.includes(userEmail)) {
         this.contratosPendientes.push(c);
       } else {
@@ -162,7 +187,7 @@ export class Contratos {
   }
 
   // recarga la lista cuando un contrato ha sido asignado en el detalle
-  /* onContratoAssigned(contrato: Contrato | null): void {
+  onContratoAssigned(contrato: Contrato | null): void {
     // volver a pedir los contratos
     this.mostrarTodosLosContratos();
     // actualizar el detalle mostrado si nos trajeron el contrato actualizado
@@ -173,7 +198,7 @@ export class Contratos {
       this.contratoAMostrarDetail = undefined;
       this.mostrandoContratoDetail = false;
     }
-  } */
+  }
 
   // scroll a una sección por id (uso scrollIntoView para comportamiento smooth)
   scrollToSection(sectionId: string): void {
