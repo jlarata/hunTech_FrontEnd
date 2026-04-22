@@ -17,27 +17,46 @@
       </div>
     </div>
 
-    <ng-template #noRoleYet>
- 
-      <div class="descripcion-container" style="color:black">
-        <h3 class="titulo">¡Ya casi estamos! Completa tu perfil para continuar:</h3>
 
-        <div class="form-group">
-          <label for="role">Selecciona tu rol:</label>
-          <select id="role" [(ngModel)]="selectedRole" class="form-control">
-            <option value="" disabled selected>-- Elige una opción --</option>
-            <option value="desarrollador">Desarrollador</option>
-            <option value="gerente">Gerente</option>
-            <option value="institucion">Institución Educativa</option>
-          </select>
-        </div>
+  <ng-template #noRoleYet>
+  <div class="descripcion-container">
+    
+    <div class="logo-header-global">
+    <div class="logo-with-pulse">
+      <span class="logo-text">HUNTECH</span>
+        <span class="status-pulse"></span>
+    </div>
+    </div>
+ <hr class="header-divider">
 
+    <div class="card">
+      <h3 class="titulo">Bienvenido a Huntech</h3>
+      <p class="subtitulo">
+     Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
+      </p>
+
+      <div class="form-group">
+        <label for="role" class="label-pro">Selecciona tu rol *</label>
+        <select id="role" [(ngModel)]="selectedRole" class="form-control">
+          <option value="" disabled selected>-- Elige una opción --</option>
+          <option value="desarrollador">Desarrollador</option>
+          <option value="gerente">Empresa / Reclutador</option>
+          <option value="institucion">Institución Educativa</option>
+        </select>
+      </div>
+
+      <div class="actions">
         <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
-          {{ loading ? 'Creando...' : 'Confirmar y Empezar' }}
+          {{ loading ? 'Guardando...' : 'Salvar' }}
+        </button>
+
+        <button type="button" (click)="logout()" class="btn-secondary">
+          Cancelar
         </button>
       </div>
-    </ng-template>
-
+    </div>
+  </div>
+</ng-template>
   </div>
 
  <ng-template #loggedOut>

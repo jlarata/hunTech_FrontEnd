@@ -4,6 +4,181 @@ html, body {
   height: 100%;
   width: 100%;
 }
+
+.descripcion-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffffcf; 
+  padding: 20px;
+  width: 100%;
+}
+
+
+.logo-header-global {
+  position: absolute;
+  top: 40px;
+  left: 60px;
+  z-index: 10;
+  min-width: 150px;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #000;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.header-divider {
+ position: absolute;
+  top: 85px; 
+  left: 0;
+  width: 100%; 
+  border: 0;
+  height: 0.7px;
+  background-color: #300a6e;
+  margin: 0;
+  z-index: 5;
+}
+
+.card {
+  background: white;
+  padding: 48px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  width: 100%;
+  max-width: 550px;
+}
+
+.titulo {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.logo-with-pulse {
+  display: flex;
+  align-items: center; 
+  gap: 12px; 
+}
+.status-pulse {
+  position: relative;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-color: #c10a28; 
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-pulse::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #7c69a3;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.subtitulo {
+  font-size: 1rem;
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.form-control {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #1f2937;
+  transition: all 0.2s ease;
+  margin-bottom: 24px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-primary {
+  background-color: #300a6d; 
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+   background-color: #ffffff;
+  border-color: #000000;
+  color: #000000;
+   border: 1px solid #0e3d83;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #1f2937;
+  border: 1px solid #0e3d83;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  background-color: #300a6e;
+  border-color: #000000;
+   border: 1px solid #ffffff;
+  color: #ffffff;
+}
 .navbar {
   position: absolute;
   top: 0;
@@ -64,7 +239,7 @@ letter-spacing: -0.02em;
   font-weight: 900;
   letter-spacing: 2px;
   color: #1a1a1b;
-  font-family: 'Inter', sans-serif; /* O la que estés usando */
+  font-family: 'Inter', sans-serif; 
 }
 
 .nav-links {
@@ -97,7 +272,6 @@ letter-spacing: -0.02em;
   align-items: stretch;
 }
 
-/* LADO IZQUIERDO: Texto y Branding */
 .hero-left {
   flex: 1.2;
   background-color: #ffffff;
@@ -108,7 +282,7 @@ letter-spacing: -0.02em;
 }
 
 .hero-left h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem); /* Tamaño fluido */
+  font-size: clamp(2.5rem, 5vw, 4rem); 
   color: #1a1a1b;
   line-height: 1.1;
   margin-bottom: 20px;
@@ -151,12 +325,13 @@ letter-spacing: -0.02em;
 
 .card {
   background: white;
-  padding: 30px;
+  padding: 35px;
   border-radius: 24px; 
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 410px;
-
+  border: 1px solid #c10a28;
+  box-shadow: 0 10px 25px rgba(124, 105, 163, 0.1); 
 }
 
 .card h2 {
@@ -217,7 +392,6 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* DIVIDER */
 .divider {
   text-align: center;
   margin: 30px 0;
@@ -248,7 +422,6 @@ button:disabled {
 }
 
 .highlight {
- /* background: linear-gradient(120deg, #FFDE59 0%, #FFDE59 100%); */
   background-repeat: no-repeat;
   background-size: 100% 30%;
   background-position: 0 85%;

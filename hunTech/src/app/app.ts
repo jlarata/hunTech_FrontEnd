@@ -172,7 +172,6 @@ export class App {
     this.cargandoData = false;
   }
 
-  // Handler de creación de user para auth
   async handleSignUp(event: Event) {
     event.preventDefault();
     this.loading = true;
@@ -183,7 +182,6 @@ export class App {
 
       if (error) throw error;
 
-      // If email confirmation is ON, session will be null, and user might be present
       if (data.user && !data.session) {
         this.confirmationSent = true;
       }
@@ -195,20 +193,16 @@ export class App {
     this.cargandoData = false;
   }
 
-  // Handler de creación de user de tabla (dev, gerente, etc.)
   async handleCreateUser() {
     this.cargandoData = true;
     if (!this.selectedRole) return alert('Por favor selecciona un rol');
 
     try {
       this.loading = true;
-      // 1. Llamamos al servicio
       await lastValueFrom(this.usersService.createUserByRole(this.userEmail!, this.selectedRole));
 
       console.log('Usuario creado con éxito');
 
-      // 2. RECARGAR: Volvemos a ejecutar la carga inicial
-      // Ahora checkUserExists devolverá 1 y se mostrará el template correcto
       await this.inicializarDatos();
 
     } catch (error) {
@@ -219,10 +213,27 @@ export class App {
     }
     this.cargandoData = false;
   }
+  async logout() {
+    this.cargandoData = true;
+    try {
+      await this.authService.signOut(); 
+      
+    
+      this.usuarioRol = '';
+      this.selectedRole = '';
+      this.userEmail = null;
+      
+   
+      this.router.navigate(['/']); 
+      
+      console.log("Sesión cerrada correctamente");
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    } finally {
+      this.cargandoData = false;
+    }
+  }
 }
-
-
-
 
 
 
