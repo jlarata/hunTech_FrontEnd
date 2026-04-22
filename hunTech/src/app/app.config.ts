@@ -10,7 +10,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     //cognito credenciales---cambiar a un .env
-    provideAuth({
+    /* provideAuth({
       config: {
         authority: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_wgGrEInFW',
         clientId: 'j43do4joohlecc0dpm6af9in1',
@@ -18,6 +18,6 @@ export const appConfig: ApplicationConfig = {
         responseType: 'code',
         redirectUrl: window.location.origin
       },
-    }),
+    }), */
   ]
 };

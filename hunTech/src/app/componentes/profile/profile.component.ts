@@ -1,116 +1,154 @@
-import { Component,inject } from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Users } from './../../servicios/users';
+import { ActivatedRoute, Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
-import { Users} from './../../servicios/users';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent {
-
-  private _usersService = inject(Users);
+export class ProfileComponent implements OnInit {
   private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private usersService = inject(Users);
 
-  user: any;
-  rol:any;
+  // Variables de Estado
+  perfil: any = null;
+  rolActual: string = '';
+  isEditing: boolean = false;
+  loading: boolean = false;
+  
+  // --- VARIABLE PARA EL ARCHIVO CV ---
+  archivoSeleccionado: File | null = null;
 
-  profileEditForm = this.fb.group({
-    nombre:"",
-    descripcion: "",
-    skills: this.fb.array<string>([])
-  });
+  // --- VARIABLES PARA HABILIDADES ---
+  mostrandoFormulario: boolean = false;
+  nuevaHabilidad = {
+    nombre: '',
+    nivel: 'principiante'
+  };
 
-  enEdicion = false; // mostrar formulario o tarjeta
+  // --- IDIOMAS ---
+  mostrandoFormIdioma: boolean = false;
+  nuevoIdioma = {
+    nombre: '',
+    nivel: 'A1 - Principiante'
+  };
 
-  ngOnInit(): void {
-    this.loadUser();
-  }
+  // CONTROL DE NAVEGACIÓN
+  seccionActiva: string = 'info'; 
 
-  activarEdicion(): void {
-    this.enEdicion = true;
-    // rellenamos el form con los datos existentes
-    this.profileEditForm.patchValue({
-      nombre: this.user.nombre ?? '',
-      descripcion: this.user.descripcion ?? '',
-      skills: this.user.skills ?? []
-    });
-
-    // agregar los skills que ya tenemos en edit para que no se borren  al agregar nuevos
-    const skillsArray = this.profileEditForm.get('skills') as FormArray;
-    skillsArray.clear();// vaciamos por si quedo algun dato en memoria de edicion anterior no completada
-    
-    //agregamos un formcontrol por cada skill
-    (this.user.skills as string[] ?? []).forEach(skill =>
-      skillsArray.push(this.fb.control(skill)) 
-    );
-  }
-
-  guardarCambiosEdicion(): void {
-    if (this.profileEditForm.invalid) return;
-
-    const formValue = this.profileEditForm.value;
-    const payload: any = {};//objeto que va llevar lo que se va a actualizar
-
-    // solo actualizamos si el usuario escribió algo nuevo
-    if (formValue.nombre?.trim() && formValue.nombre !== this.user.nombre) {
-      this.user.nombre = formValue.nombre;
-      payload.nombre = this.user.nombre;
-    }
-
-    // actualizamos si es distinto de vacio 
-    if (formValue.descripcion?.trim() != ""){
-      this.user.descripcion = formValue.descripcion;
-      payload.descripcion = this.user.descripcion;
-    }
-    
-    // solo actualizamos skills si es desarrollador
-    if (this.user.rol == "desarrollador" && formValue.skills) {
-      this.user.skills = (formValue.skills as string[]).filter(s => s.trim() !== '');
-      payload.skills = this.user.skills;
-    }
-
-    //console.log(payload);
-      
-    this._usersService.editUser(payload, this.user.rol).subscribe({
-      next: (response) => {
-        console.log('Usuario actualizado:', response);
-        const dataActualizada = response.data;
-        //actualizamos los datos en el servicio para que esten sincronizados
-        this.loadUser();//actualiza observable user
-      },
-      error: (err) => {
-        console.error('Error al actualizar usuario:', err);
+  ngOnInit() {
+    this.usersService.userProfile$.subscribe(data => {
+      if (data) {
+       
+        this.perfil = { 
+          ...data,
+          habilidades: data.habilidades || [],
+          idiomas: data.idiomas || [],
+          empresa_nombre: data.empresa_nombre || '',
+          web_empresa: data.web_empresa || '',
+          descripcion_empresa: data.descripcion_empresa || '',
+          ubicacion_empresa: data.ubicacion_empresa || ''
+        };
+        
+        this.rolActual = data.rol || '';
+        console.log("Rol detectado en Perfil:", this.rolActual);
       }
     });
-
-    this.enEdicion = false;
-
   }
 
-  get skillsControls(): FormControl[] {
-    return (this.profileEditForm.get('skills') as FormArray).controls as FormControl[];
+  // --- MÉTODOS PARA EL ARCHIVO ---
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.archivoSeleccionado = file;
+      console.log("Currículum listo para subir:", file.name);
+    }
   }
 
-  agregarSkill(): void {
-    const skillsArray = this.profileEditForm.get('skills') as FormArray;
-    skillsArray.push(this.fb.control('')); // input vacío
+  borrarArchivo() {
+    this.archivoSeleccionado = null;
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+    console.log("Archivo quitado");
   }
 
-  private loadUser(): void {
-    // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
-    this._usersService.user$.subscribe({
-      next: (data) => {
-        this.user = data;   //data de cognito  y DB      
-      },
-      error: (err) => console.error('Error al obtener usuario', err)
-    });
+  // --- HABILIDADES ---
+  eliminarHabilidad(indice: number) {
+    this.perfil.habilidades.splice(indice, 1);
   }
 
+  guardarHabilidad() {
+    if (this.nuevaHabilidad.nombre.trim() !== '') {
+      this.perfil.habilidades.push({ ...this.nuevaHabilidad });
+      this.nuevaHabilidad = { nombre: '', nivel: 'principiante' };
+      this.mostrandoFormulario = false;
+    }
+  }
+
+  // --- IDIOMAS ---
+  guardarIdioma() {
+    if (this.nuevoIdioma.nombre.trim() !== '') {
+      this.perfil.idiomas.push({ ...this.nuevoIdioma });
+      this.nuevoIdioma = { nombre: '', nivel: 'A1 - Principiante' };
+      this.mostrandoFormIdioma = false;
+    }
+  }
+
+  eliminarIdioma(indice: number) {
+    this.perfil.idiomas.splice(indice, 1);
+  }
+
+  // --- NAVEGACIÓN Y EDICIÓN ---
+  cambiarSeccion(seccion: string) {
+    this.seccionActiva = seccion;
+    this.isEditing = false; 
+    this.mostrandoFormulario = false; 
+    this.mostrandoFormIdioma = false;
+  }
+
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
+    if (!this.isEditing) {
+      this.mostrandoFormulario = false;
+      this.mostrandoFormIdioma = false;
+    }
+  }
+
+  async handleUpdate() {
+    if (!this.rolActual) return alert("Error: No se detectó el rol del usuario");
+
+    try {
+      this.loading = true;
+      const email = this.perfil.email; 
+      
+      await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
+
+      this.isEditing = false;
+      this.mostrandoFormulario = false;
+      this.mostrandoFormIdioma = false;
+      alert('Perfil actualizado con éxito');
+    } catch (error) {
+      console.error('Error en PUT:', error);
+      alert('Hubo un error al guardar los cambios');
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  get isProfileEmpty(): boolean {
+    if (!this.perfil) return true;
+    return !this.perfil.nombre || this.perfil.nombre === '';
+  }
 }
 
-
-  
 

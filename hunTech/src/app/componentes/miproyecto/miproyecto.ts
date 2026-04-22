@@ -3,6 +3,7 @@ import { Users } from '../../servicios/users';
 import { ProyectoService } from '../../servicios/miproyecto';
 import { Proyecto } from '../../models/proyectos';
 import { RouterModule } from '@angular/router';
+import { LoadingService } from '../../servicios/loading-service';
 
 @Component({
   selector: 'app-miproyecto',
@@ -12,30 +13,37 @@ import { RouterModule } from '@angular/router';
 })
 export class Miproyecto {
 
-  constructor(private _apiService : ProyectoService) {}
+  constructor(
+    private _apiService : ProyectoService,
+    private _loaderService : LoadingService
+) {}
   private _usersService = inject(Users);
   user: any;
   proyecto?: Proyecto;
 
-  async ngOnInit(): Promise<void> {
+  /* async ngOnInit(): Promise<void> {
     await this.loadUser()
     this.mostrarProyecto(this.user.email)
 
-  }
+  } */
 
 
   mostrarProyecto(email:string) {
+    this._loaderService.showLoader()
   this._apiService.getProyectoPorEmail(email).subscribe({
     next: (res) => {
-      console.log(`${res.count} ${res.message}`)
+      //console.log(`${res.count} ${res.message}`)
       this.proyecto = res.data[0];
     },
     error: (error: string) => {
       console.log('desde el componente error '+error)
+    },
+    complete: () => {
+      this._loaderService.hideLoader();
     }
   });
 }
-  async loadUser(): Promise<void> {
+  /* async loadUser(): Promise<void> {
   
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({
@@ -44,5 +52,5 @@ export class Miproyecto {
       },
       error: (err) => console.error('Error al obtener usuario', err),
     });
-  }
+  } */
 }
