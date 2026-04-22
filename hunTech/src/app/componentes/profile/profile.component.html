@@ -1,76 +1,270 @@
-<div class="descripcion-container" *ngIf="perfil" style="color:black">
-
-    <div class="main-content" style="color:black">
-        <div class="profile-header">
-            <h1 class="titulo">Mi Perfil ({{ rolActual | titlecase }})</h1>
-
-            <div *ngIf="isProfileEmpty && !isEditing" class="alert-info">
-                <p>🚀 ¡Tu perfil está vacío! Complétalo para destacar ante los demás.</p>
-            </div>
-
-            <button class="btn-primary" (click)="toggleEdit()">
-                {{ isEditing ? 'Cancelar' : 'Editar Perfil' }}
-            </button>
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="main-content">
-
-    <div *ngIf="!isEditing" class="profile-details">
-        <p><strong>Email:</strong> {{ perfil.email }}</p>
-        <p><strong>Nombre:</strong> {{ perfil.nombre || '---' }}</p>
-
-        <ng-container [ngSwitch]="rolActual">
-            <div *ngSwitchCase="'desarrollador'">
-                <p><strong>Apellido:</strong> {{ perfil.apellido || '---' }}</p>
-                <p><strong>Descripción:</strong> {{ perfil.descripcion || 'Sin descripción' }}</p>
-                <p><strong>Skills:</strong> {{ perfil.skills || 'No especificadas' }}</p>
-                <p><strong>Fecha Nacimiento:</strong> {{ perfil.fecha_nacimiento || '---' }}</p>
-            </div>
-
-            <div *ngSwitchCase="'gerente'">
-                <p><strong>Descripción:</strong> {{ perfil.descripcion || 'Sin descripción' }}</p>
-            </div>
-        </ng-container>
-    </div>
+<div class="dashboard-wrapper" *ngIf="perfil">
   
-
-    <form *ngIf="isEditing" (submit)="handleUpdate()" class="profile-form">
-
-        <div class="form-group">
-            <label>Nombre:</label>
-            <input type="text" [(ngModel)]="perfil.nombre" name="nombre" class="form-control" required>
-        </div>
-
-        <div *ngIf="rolActual === 'desarrollador'">
-            <div class="form-group">
-                <label>Apellido:</label>
-                <input type="text" [(ngModel)]="perfil.apellido" name="apellido" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Fecha Nacimiento:</label>
-                <input type="date" [(ngModel)]="perfil.fecha_nacimiento" name="fecha_nacimiento" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Skills:</label>
-                <textarea [(ngModel)]="perfil.skills" name="skills" class="form-control"
-                    placeholder="Ej: Angular, TypeScript, SQL"></textarea>
-            </div>
-        </div>
-
-        <div *ngIf="rolActual === 'desarrollador' || rolActual === 'gerente'">
-            <div class="form-group">
-                <label>Descripción:</label>
-                <textarea [(ngModel)]="perfil.descripcion" name="descripcion" class="form-control"></textarea>
-            </div>
-        </div>
-
-        <button type="submit" [disabled]="loading" class="btn btn-add">
-            {{ loading ? 'Guardando...' : 'Guardar Cambios' }}
-        </button>
-    </form>
+  <aside class="sidebar">
+    <div class="card">
+      <h3 class="sidebar-title">Mi estatus</h3>
+      <p class="sidebar-text">¿Estás disponible para recibir oportunidades?</p>
+      <div class="status-selector">
+        <span class="dot" [ngClass]="perfil.disponible ? 'dot-green' : 'dot-red'"></span>
+        <select class="clean-select" [(ngModel)]="perfil.disponible" (change)="handleUpdate()">
+          <option [ngValue]="false">No disponible</option>
+          <option [ngValue]="true">Disponible</option>
+        </select>
+      </div>
     </div>
 
+    <nav class="card menu-card">
+      <ul class="nav-list">
+        <li (click)="cambiarSeccion('info')" [class.active]="seccionActiva === 'info'">
+          Información personal
+        </li>
+        <ng-container *ngIf="rolActual === 'desarrollador'">
+          <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
+           Agregar Portfolio
+          </li>
+          <li (click)="cambiarSeccion('habilidades')" [class.active]="seccionActiva === 'habilidades'">
+            Habilidades y experiencia
+          </li>
+          <li (click)="cambiarSeccion('idiomas')" [class.active]="seccionActiva === 'idiomas'">
+            Idiomas
+          </li>
+         
+        </ng-container>
+        <li *ngIf="rolActual === 'gerente'" (click)="cambiarSeccion('ofertas')" [class.active]="seccionActiva === 'ofertas'">
+          Mis ofertas
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <div [ngSwitch]="seccionActiva">
+      
+      <section *ngSwitchCase="'info'">
+    <div class="card resume-upload-card" *ngIf="rolActual === 'desarrollador'">
+  <div class="upload-header">
+    <span class="icon-sparkle">✨</span>
+    <h2 class="upload-title">Aumenta tus oportunidades subiendo tu currículum</h2>
+  </div>
+  <p class="upload-subtitle">Tu currículum nos ayuda a llenar tu perfil con tu experiencia, habilidades y educación.</p>
+  
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="circle-icon">👥</div>
+      <p>Incrementa tu visibilidad ante reclutadores</p>
+    </div>
+    <div class="feature-item">
+      <div class="circle-icon">💼</div>
+      <p>Destaca tus logros y experiencia</p>
+    </div>
+    <div class="feature-item">
+      <div class="circle-icon">🎉</div>
+      <p>Solicita empleos más rápido</p>
+    </div>
+  </div>
+
+  <input 
+    type="file" 
+    #fileInput 
+    (change)="onFileSelected($event)" 
+    accept=".pdf,.doc,.docx" 
+    style="display: none;">
+
+  <button class="btn-upload" (click)="fileInput.click()">
+    ✨ Subí tu curriculum ✨
+  </button>
+<div *ngIf="archivoSeleccionado" class="file-status-container">
+  <span class="file-info">
+    📄 {{ archivoSeleccionado.name }}
+  </span>
+  <button type="button" class="btn-remove-cv" (click)="borrarArchivo()">
+    ✕
+  </button>
+  <p *ngIf="archivoSeleccionado" style="margin-top: 10px; font-size: 0.9em; color: #666;">
+    📄 {{ archivoSeleccionado.name }}
+  </p>
+</div>
+  </div>
+
+        <div class="card profile-card">
+          <div class="profile-top">
+            <div class="user-meta">
+              <div class="avatar">👤</div>
+              <div class="user-names">
+                <h3 class="user-h3">
+                  {{ perfil.nombre || '¿Cómo te llamas?' }} {{ perfil.apellido }}
+                  <span class="badge-new" *ngIf="isProfileEmpty">Casi terminado</span>
+                </h3>
+                <p class="role-tag">{{ rolActual | titlecase }}</p>
+              </div>
+            </div>
+            <button class="btn-edit-blue" (click)="toggleEdit()">
+              {{ isEditing ? '✕ Cancelar' : '✎ Edición' }}
+            </button>
+          </div>
+
+          <hr class="line-divider">
+
+          <div *ngIf="!isEditing" class="data-grid">
+            <div class="data-item"><strong>📧</strong> {{ perfil.email }}</div>
+            <div class="data-item"><strong>🎂</strong> {{ perfil.fecha_nacimiento || 'No llenado' }}</div>
+            <div class="data-item"><strong>📞</strong> {{ perfil.telefono || 'No llenado' }}</div>
+            <div class="data-item"><strong>💼</strong> {{ perfil.posicion || 'No llenado' }}</div>
+            <div class="data-item"><strong>⚧️</strong> {{ perfil.genero ? (perfil.genero === 'mujer' ? 'Mujer' : perfil.genero === 'hombre' ? 'Hombre' : 'Prefiero no decirlo') : 'No llenado' }}</div>
+          </div>
+
+          <form *ngIf="isEditing" (submit)="handleUpdate()" class="form-container">
+            <div class="form-grid">
+              <div class="input-group">
+                <label>Nombre</label>
+                <input type="text" [(ngModel)]="perfil.nombre" name="nombre" class="custom-input" placeholder="Escribe tu nombre">
+              </div>
+              <div class="input-group">
+                <label>Apellido</label>
+                <input type="text" [(ngModel)]="perfil.apellido" name="apellido" class="custom-input" placeholder="Escribe tu apellido">
+              </div>
+            </div>
+            <div class="gender-section">
+              <label class="field-label">Género</label>
+              <div class="gender-options">
+                <label class="radio-item"><input type="radio" name="genero" value="mujer" [(ngModel)]="perfil.genero"><span>Soy mujer</span></label>
+                <label class="radio-item"><input type="radio" name="genero" value="hombre" [(ngModel)]="perfil.genero"><span>Soy hombre</span></label>
+                <label class="radio-item custom-input-radio"><input type="radio" name="genero" value="otro" [(ngModel)]="perfil.genero"><span>Prefiero no decirlo</span></label>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="input-container">
+                <label class="field-label required-field">Correo electrónico</label>
+                <input type="email" [(ngModel)]="perfil.email" name="email" class="custom-input">
+              </div>
+              <div class="input-container">
+                <label class="field-label">Teléfono</label>
+                <input type="tel" [(ngModel)]="perfil.telefono" name="telefono" class="custom-input">
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="input-group">
+                <label>Fecha de nacimiento</label>
+                <input type="date" [(ngModel)]="perfil.fecha_nacimiento" name="fecha_nacimiento" class="custom-input">
+              </div>
+              <div class="input-container">
+                <label class="field-label required-field">Puesto Actual</label>
+                <input type="text" [(ngModel)]="perfil.posicion" name="posicion" class="custom-input">
+              </div>
+            </div>
+            <button type="submit" [disabled]="loading" class="btn-save">Guardar</button>
+          </form>
+        </div>
+        </section>
+
+      <section class="card section-container" *ngSwitchCase="'portfolio'">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Agrega tu portfolio 💼</h2>
+            <p class="section-subtitle">Los perfiles con portfolio reciben hasta un 70% más de interés por parte de los reclutadores. ¡No te quedes afuera!</p>
+          </div>
+          <button class="btn-add">+ Añadir</button>
+        </div>
+      </section>
+
+      <section class="card section-container" *ngSwitchCase="'habilidades'">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Habilidades y experiencia</h2>
+            <p>Añade tus conocimientos para que los reclutadores te encuentren.</p>
+          </div>
+          <button *ngIf="isEditing && !mostrandoFormulario" class="btn-edit-blue" (click)="toggleEdit()">✕ Cancelar</button>
+          <button *ngIf="!isEditing" class="btn-edit-blue" (click)="toggleEdit()">✎ Añadir habilidades</button>
+        </div>
+
+        <div *ngIf="isEditing" class="edit-content">
+          <div class="skills-list-preview" *ngIf="perfil?.habilidades?.length > 0">
+            <div *ngFor="let hab of perfil.habilidades; let i = index" class="skill-tag">
+              {{ hab.nombre }} <span>({{ hab.nivel }})</span>
+              <button class="btn-remove" (click)="eliminarHabilidad(i)">✕</button>
+            </div>
+          </div>
+          <div *ngIf="!mostrandoFormulario" class="empty-state">
+            <button class="btn-add" (click)="mostrandoFormulario = true">+ Añadir habilidad</button>
+          </div>
+          <div *ngIf="mostrandoFormulario" class="skill-form">
+            <div class="form-grid">
+              <div class="input-group">
+                <label>Habilidad:</label>
+                <input type="text" [(ngModel)]="nuevaHabilidad.nombre" name="habNombre" class="custom-input" placeholder="Ej: JavaScript">
+              </div>
+              <div class="input-group">
+                <label>Nivel:</label>
+                <select [(ngModel)]="nuevaHabilidad.nivel" name="habNivel" class="custom-input">
+                  <option value="principiante">Principiante</option>
+                  <option value="intermedio">Intermedio</option>
+                  <option value="avanzado">Avanzado</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn-save" (click)="guardarHabilidad()">Añadir</button>
+              <button type="button" class="btn-cancel-link" (click)="mostrandoFormulario = false">Volver</button>
+            </div>
+          </div>
+          <div class="final-actions" *ngIf="perfil?.habilidades?.length > 0 && !mostrandoFormulario">
+             <button class="btn-save" (click)="handleUpdate()">Salvar cambios en perfil</button>
+          </div>
+        </div>
+      </section>
+
+     <section class="card section-container" *ngSwitchCase="'idiomas'">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Idiomas</h2>
+      <p class="section-subtitle">Añade los idiomas que dominas para expandir tus oportunidades profesionales.</p>
+    </div>
+    <button *ngIf="!isEditing" class="btn-edit-blue" (click)="isEditing = true">✎ Añadir idiomas</button>
+    <button *ngIf="isEditing && !mostrandoFormIdioma" class="btn-edit-blue" (click)="isEditing = false"> Volver</button>
+  </div>
+
+  <div *ngIf="isEditing" class="edit-content">
+    
+    <div class="skills-list-preview" *ngIf="perfil?.idiomas?.length > 0">
+      <div *ngFor="let idioma of perfil.idiomas; let i = index" class="skill-tag">
+        {{ idioma.nombre }} <span>({{ idioma.nivel }})</span>
+        <button class="btn-remove" (click)="eliminarIdioma(i)">✕</button>
+      </div>
+    </div>
+
+    <div *ngIf="!mostrandoFormIdioma" class="empty-state">
+      <button class="btn-add" (click)="mostrandoFormIdioma = true">+ Añadir un idioma</button>
+    </div>
+
+    <div *ngIf="mostrandoFormIdioma" class="skill-form">
+      <div class="form-grid">
+        <div class="input-group">
+          <label>Idioma:</label>
+          <input type="text" [(ngModel)]="nuevoIdioma.nombre" name="idiomaNombre" class="custom-input" placeholder="Ej: Inglés, Alemán...">
+        </div>
+        <div class="input-group">
+          <label>Nivel de fluidez:</label>
+          <select [(ngModel)]="nuevoIdioma.nivel" name="idiomaNivel" class="custom-input">
+            <option value="A1 - Principiante">A1 - Principiante</option>
+            <option value="A2 - Básico">A2 - Básico</option>
+            <option value="B1 - Intermedio">B1 - Intermedio</option>
+            <option value="B2 - Intermedio Alto">B2 - Intermedio Alto</option>
+            <option value="C1 - Avanzado">C1 - Avanzado</option>
+            <option value="C2 - Nativo / Bilingüe">C2 - Nativo / Bilingüe</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" (click)="guardarIdioma()">Agregar a la lista</button>
+        <button type="button" class="btn-cancel-link" (click)="mostrandoFormIdioma = false">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="final-actions" *ngIf="perfil?.idiomas?.length > 0 && !mostrandoFormIdioma" style="margin-top: 20px;">
+       <button class="btn-save" (click)="handleUpdate()">Salvar cambios en perfil</button>
+    </div>
+  </div>
+</section>
+
+    </div> </main>
 </div>
