@@ -34,17 +34,31 @@ export class ProfileComponent implements OnInit {
     nivel: 'principiante'
   };
 
+  // --- IDIOMAS ---
+  mostrandoFormIdioma: boolean = false;
+  nuevoIdioma = {
+    nombre: '',
+    nivel: 'A1 - Principiante'
+  };
+
   // CONTROL DE NAVEGACIÓN
   seccionActiva: string = 'info'; 
 
   ngOnInit() {
     this.usersService.userProfile$.subscribe(data => {
       if (data) {
-        this.perfil = { ...data };
+       
+        this.perfil = { 
+          ...data,
+          habilidades: data.habilidades || [],
+          idiomas: data.idiomas || [],
+          empresa_nombre: data.empresa_nombre || '',
+          web_empresa: data.web_empresa || '',
+          descripcion_empresa: data.descripcion_empresa || '',
+          ubicacion_empresa: data.ubicacion_empresa || ''
+        };
+        
         this.rolActual = data.rol || '';
-        if (!this.perfil.habilidades) {
-          this.perfil.habilidades = [];
-        }
         console.log("Rol detectado en Perfil:", this.rolActual);
       }
     });
@@ -71,7 +85,6 @@ export class ProfileComponent implements OnInit {
   // --- HABILIDADES ---
   eliminarHabilidad(indice: number) {
     this.perfil.habilidades.splice(indice, 1);
-    console.log("Habilidad eliminada. Lista actual:", this.perfil.habilidades);
   }
 
   guardarHabilidad() {
@@ -79,8 +92,20 @@ export class ProfileComponent implements OnInit {
       this.perfil.habilidades.push({ ...this.nuevaHabilidad });
       this.nuevaHabilidad = { nombre: '', nivel: 'principiante' };
       this.mostrandoFormulario = false;
-      console.log("Habilidad añadida temporalmente:", this.perfil.habilidades);
     }
+  }
+
+  // --- IDIOMAS ---
+  guardarIdioma() {
+    if (this.nuevoIdioma.nombre.trim() !== '') {
+      this.perfil.idiomas.push({ ...this.nuevoIdioma });
+      this.nuevoIdioma = { nombre: '', nivel: 'A1 - Principiante' };
+      this.mostrandoFormIdioma = false;
+    }
+  }
+
+  eliminarIdioma(indice: number) {
+    this.perfil.idiomas.splice(indice, 1);
   }
 
   // --- NAVEGACIÓN Y EDICIÓN ---
@@ -88,51 +113,29 @@ export class ProfileComponent implements OnInit {
     this.seccionActiva = seccion;
     this.isEditing = false; 
     this.mostrandoFormulario = false; 
+    this.mostrandoFormIdioma = false;
   }
 
   toggleEdit() {
     this.isEditing = !this.isEditing;
-    if (this.isEditing) {
-      this.mostrandoFormulario = true;
-    } else {
+    if (!this.isEditing) {
       this.mostrandoFormulario = false;
+      this.mostrandoFormIdioma = false;
     }
   }
-// ---  IDIOMAS ---
-mostrandoFormIdioma: boolean = false;
-nuevoIdioma = {
-  nombre: '',
-  nivel: 'A1 - Principiante'
-};
 
-guardarIdioma() {
-  if (this.nuevoIdioma.nombre.trim() !== '') {
-    
-    if (!this.perfil.idiomas) {
-      this.perfil.idiomas = [];
-    }
-    this.perfil.idiomas.push({ ...this.nuevoIdioma });
-    
-    // Resetear formulario
-    this.nuevoIdioma = { nombre: '', nivel: 'A1 - Principiante' };
-    this.mostrandoFormIdioma = false;
-    console.log("Idioma añadido:", this.perfil.idiomas);
-  }
-}
-
-eliminarIdioma(indice: number) {
-  this.perfil.idiomas.splice(indice, 1);
-}
   async handleUpdate() {
     if (!this.rolActual) return alert("Error: No se detectó el rol del usuario");
 
     try {
       this.loading = true;
       const email = this.perfil.email; 
+      
       await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
 
       this.isEditing = false;
       this.mostrandoFormulario = false;
+      this.mostrandoFormIdioma = false;
       alert('Perfil actualizado con éxito');
     } catch (error) {
       console.error('Error en PUT:', error);
@@ -146,6 +149,6 @@ eliminarIdioma(indice: number) {
     if (!this.perfil) return true;
     return !this.perfil.nombre || this.perfil.nombre === '';
   }
-} 
+}
 
 

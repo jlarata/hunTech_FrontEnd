@@ -16,11 +16,11 @@
     <nav class="card menu-card">
       <ul class="nav-list">
         <li (click)="cambiarSeccion('info')" [class.active]="seccionActiva === 'info'">
-          Información personal
+          {{ rolActual === 'gerente' ? 'Datos de Perfil' : 'Información personal' }}
         </li>
         <ng-container *ngIf="rolActual === 'desarrollador'">
           <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
-           Agregar Portfolio
+            Agregar Portfolio
           </li>
           <li (click)="cambiarSeccion('habilidades')" [class.active]="seccionActiva === 'habilidades'">
             Habilidades y experiencia
@@ -28,8 +28,12 @@
           <li (click)="cambiarSeccion('idiomas')" [class.active]="seccionActiva === 'idiomas'">
             Idiomas
           </li>
-         
         </ng-container>
+        
+        <li *ngIf="rolActual === 'gerente'" (click)="cambiarSeccion('empresa')" [class.active]="seccionActiva === 'empresa'">
+          Datos de la Empresa
+        </li>
+
         <li *ngIf="rolActual === 'gerente'" (click)="cambiarSeccion('ofertas')" [class.active]="seccionActiva === 'ofertas'">
           Mis ofertas
         </li>
@@ -41,58 +45,38 @@
     <div [ngSwitch]="seccionActiva">
       
       <section *ngSwitchCase="'info'">
-    <div class="card resume-upload-card" *ngIf="rolActual === 'desarrollador'">
-  <div class="upload-header">
-    <span class="icon-sparkle">✨</span>
-    <h2 class="upload-title">Aumenta tus oportunidades subiendo tu currículum</h2>
-  </div>
-  <p class="upload-subtitle">Tu currículum nos ayuda a llenar tu perfil con tu experiencia, habilidades y educación.</p>
-  
-  <div class="features-grid">
-    <div class="feature-item">
-      <div class="circle-icon">👥</div>
-      <p>Incrementa tu visibilidad ante reclutadores</p>
-    </div>
-    <div class="feature-item">
-      <div class="circle-icon">💼</div>
-      <p>Destaca tus logros y experiencia</p>
-    </div>
-    <div class="feature-item">
-      <div class="circle-icon">🎉</div>
-      <p>Solicita empleos más rápido</p>
-    </div>
-  </div>
+        <div class="card resume-upload-card" *ngIf="rolActual === 'desarrollador'">
+          <div class="upload-header">
+            <span class="icon-sparkle">✨</span>
+            <h2 class="upload-title">Aumenta tus oportunidades subiendo tu currículum</h2>
+          </div>
+          <p class="upload-subtitle">Tu currículum nos ayuda a llenar tu perfil automáticamente.</p>
+          
+          <div class="features-grid">
+            <div class="feature-item"><div class="circle-icon">👥</div><p>Más visibilidad</p></div>
+            <div class="feature-item"><div class="circle-icon">💼</div><p>Destaca logros</p></div>
+            <div class="feature-item"><div class="circle-icon">🎉</div><p>Aplica rápido</p></div>
+          </div>
 
-  <input 
-    type="file" 
-    #fileInput 
-    (change)="onFileSelected($event)" 
-    accept=".pdf,.doc,.docx" 
-    style="display: none;">
+          <input type="file" #fileInput (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" style="display: none;">
 
-  <button class="btn-upload" (click)="fileInput.click()">
-    ✨ Subí tu curriculum ✨
-  </button>
-<div *ngIf="archivoSeleccionado" class="file-status-container">
-  <span class="file-info">
-    📄 {{ archivoSeleccionado.name }}
-  </span>
-  <button type="button" class="btn-remove-cv" (click)="borrarArchivo()">
-    ✕
-  </button>
-  <p *ngIf="archivoSeleccionado" style="margin-top: 10px; font-size: 0.9em; color: #666;">
-    📄 {{ archivoSeleccionado.name }}
-  </p>
-</div>
-  </div>
+          <button class="btn-upload" (click)="fileInput.click()">
+            ✨ Subí tu curriculum ✨
+          </button>
+          
+          <div *ngIf="archivoSeleccionado" class="file-status-container">
+            <span class="file-info">📄 {{ archivoSeleccionado.name }}</span>
+            <button type="button" class="btn-remove-cv" (click)="borrarArchivo()">✕</button>
+          </div>
+        </div>
 
         <div class="card profile-card">
           <div class="profile-top">
             <div class="user-meta">
-              <div class="avatar">👤</div>
+              <div class="avatar">{{ rolActual === 'gerente' ? '🏢' : '👤' }}</div>
               <div class="user-names">
                 <h3 class="user-h3">
-                  {{ perfil.nombre || '¿Cómo te llamas?' }} {{ perfil.apellido }}
+                  {{ rolActual === 'gerente' ? (perfil.empresa_nombre || 'Empresa') : (perfil.nombre + ' ' + perfil.apellido) }}
                   <span class="badge-new" *ngIf="isProfileEmpty">Casi terminado</span>
                 </h3>
                 <p class="role-tag">{{ rolActual | titlecase }}</p>
@@ -107,31 +91,43 @@
 
           <div *ngIf="!isEditing" class="data-grid">
             <div class="data-item"><strong>📧</strong> {{ perfil.email }}</div>
-            <div class="data-item"><strong>🎂</strong> {{ perfil.fecha_nacimiento || 'No llenado' }}</div>
             <div class="data-item"><strong>📞</strong> {{ perfil.telefono || 'No llenado' }}</div>
-            <div class="data-item"><strong>💼</strong> {{ perfil.posicion || 'No llenado' }}</div>
-            <div class="data-item"><strong>⚧️</strong> {{ perfil.genero ? (perfil.genero === 'mujer' ? 'Mujer' : perfil.genero === 'hombre' ? 'Hombre' : 'Prefiero no decirlo') : 'No llenado' }}</div>
+            
+            <ng-container *ngIf="rolActual === 'desarrollador'">
+              <div class="data-item"><strong>🎂</strong> {{ perfil.fecha_nacimiento || 'No llenado' }}</div>
+              <div class="data-item"><strong>💼</strong> {{ perfil.posicion || 'No llenado' }}</div>
+              <div class="data-item"><strong>⚧️</strong> {{ perfil.genero || 'No llenado' }}</div>
+            </ng-container>
+
+            <ng-container *ngIf="rolActual === 'gerente'">
+              <div class="data-item"><strong>🌐</strong> {{ perfil.web_empresa || 'Web no definida' }}</div>
+              <div class="data-item"><strong>👤</strong> {{ perfil.nombre }} {{ perfil.apellido }} (Contacto)</div>
+            </ng-container>
           </div>
 
           <form *ngIf="isEditing" (submit)="handleUpdate()" class="form-container">
+            <div *ngIf="rolActual === 'gerente'" class="form-grid">
+              <div class="input-group">
+                <label>Nombre de la Empresa</label>
+                <input type="text" [(ngModel)]="perfil.empresa_nombre" name="empresa_nombre" class="custom-input">
+              </div>
+              <div class="input-group">
+                <label>Sitio Web</label>
+                <input type="url" [(ngModel)]="perfil.web_empresa" name="web_empresa" class="custom-input">
+              </div>
+            </div>
+
             <div class="form-grid">
               <div class="input-group">
-                <label>Nombre</label>
-                <input type="text" [(ngModel)]="perfil.nombre" name="nombre" class="custom-input" placeholder="Escribe tu nombre">
+                <label>{{ rolActual === 'gerente' ? 'Nombre del Responsable' : 'Nombre' }}</label>
+                <input type="text" [(ngModel)]="perfil.nombre" name="nombre" class="custom-input">
               </div>
               <div class="input-group">
                 <label>Apellido</label>
-                <input type="text" [(ngModel)]="perfil.apellido" name="apellido" class="custom-input" placeholder="Escribe tu apellido">
+                <input type="text" [(ngModel)]="perfil.apellido" name="apellido" class="custom-input">
               </div>
             </div>
-            <div class="gender-section">
-              <label class="field-label">Género</label>
-              <div class="gender-options">
-                <label class="radio-item"><input type="radio" name="genero" value="mujer" [(ngModel)]="perfil.genero"><span>Soy mujer</span></label>
-                <label class="radio-item"><input type="radio" name="genero" value="hombre" [(ngModel)]="perfil.genero"><span>Soy hombre</span></label>
-                <label class="radio-item custom-input-radio"><input type="radio" name="genero" value="otro" [(ngModel)]="perfil.genero"><span>Prefiero no decirlo</span></label>
-              </div>
-            </div>
+
             <div class="form-grid">
               <div class="input-container">
                 <label class="field-label required-field">Correo electrónico</label>
@@ -142,20 +138,32 @@
                 <input type="tel" [(ngModel)]="perfil.telefono" name="telefono" class="custom-input">
               </div>
             </div>
-            <div class="form-grid">
-              <div class="input-group">
-                <label>Fecha de nacimiento</label>
-                <input type="date" [(ngModel)]="perfil.fecha_nacimiento" name="fecha_nacimiento" class="custom-input">
+
+            <ng-container *ngIf="rolActual === 'desarrollador'">
+              <div class="gender-section">
+                <label class="field-label">Género</label>
+                <div class="gender-options">
+                  <label class="radio-item"><input type="radio" name="genero" value="mujer" [(ngModel)]="perfil.genero"><span>Mujer</span></label>
+                  <label class="radio-item"><input type="radio" name="genero" value="hombre" [(ngModel)]="perfil.genero"><span>Hombre</span></label>
+                  <label class="radio-item"><input type="radio" name="genero" value="otro" [(ngModel)]="perfil.genero"><span>Otro</span></label>
+                </div>
               </div>
-              <div class="input-container">
-                <label class="field-label required-field">Puesto Actual</label>
-                <input type="text" [(ngModel)]="perfil.posicion" name="posicion" class="custom-input">
+              <div class="form-grid">
+                <div class="input-group">
+                  <label>Fecha de nacimiento</label>
+                  <input type="date" [(ngModel)]="perfil.fecha_nacimiento" name="fecha_nacimiento" class="custom-input">
+                </div>
+                <div class="input-group">
+                  <label>Puesto Actual</label>
+                  <input type="text" [(ngModel)]="perfil.posicion" name="posicion" class="custom-input">
+                </div>
               </div>
-            </div>
-            <button type="submit" [disabled]="loading" class="btn-save">Guardar</button>
+            </ng-container>
+
+            <button type="submit" [disabled]="loading" class="btn-save">Guardar Perfil</button>
           </form>
         </div>
-        </section>
+      </section>
 
       <section class="card section-container" *ngSwitchCase="'portfolio'">
         <div class="section-header">
@@ -208,7 +216,7 @@
             </div>
           </div>
           <div class="final-actions" *ngIf="perfil?.habilidades?.length > 0 && !mostrandoFormulario">
-             <button class="btn-save" (click)="handleUpdate()">Salvar cambios en perfil</button>
+             <button class="btn-save" (click)="handleUpdate()">Guardar</button>
           </div>
         </div>
       </section>
@@ -261,10 +269,22 @@
     </div>
 
     <div class="final-actions" *ngIf="perfil?.idiomas?.length > 0 && !mostrandoFormIdioma" style="margin-top: 20px;">
-       <button class="btn-save" (click)="handleUpdate()">Salvar cambios en perfil</button>
+       <button class="btn-save" (click)="handleUpdate()">Guardar</button>
     </div>
   </div>
 </section>
 
-    </div> </main>
+
+      <section class="card section-container" *ngSwitchCase="'empresa'">
+        <h2 class="section-title">Datos Detallados de la Empresa 🏢</h2>
+        <p>Gestiona aquí la cultura y beneficios corporativos.</p>
+      </section>
+
+      <section class="card section-container" *ngSwitchCase="'ofertas'">
+        <h2 class="section-title">Mis Ofertas Activas 🚀</h2>
+        <button class="btn-add">+ Nueva Oferta</button>
+      </section>
+
+    </div>
+  </main>
 </div>
