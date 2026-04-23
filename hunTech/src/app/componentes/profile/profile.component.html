@@ -152,16 +152,16 @@
               <div class="feature-item"><div class="circle-icon">🎉</div><p>Solicitá empleos más rápido</p></div>
             </div>
 
-            <input type="file" #fileInput (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" style="display: none;">
+            <input type="file" #fileInputCV (change)="onCVSelected($event)" accept=".pdf,.doc,.docx" style="display: none;">
 
-            <button class="btn-upload" (click)="fileInput.click()">
+            <button class="btn-upload" (click)="fileInputCV.click()">
                Subí tu curriculum 
             </button>
 
-            <div *ngIf="archivoSeleccionado" class="file-status-container">
-              <span class="file-info">📄 {{ archivoSeleccionado.name }}</span>
-              <button type="button" class="btn-remove-cv" (click)="borrarArchivo()">✕</button>
-            </div>
+           <div *ngIf="archivoCV" class="file-status-container">
+  <span class="file-info">📄 {{ archivoCV.name }}</span>
+  <button type="button" class="btn-remove-cv" (click)="borrarArchivo('cv')">✕</button>
+</div>
           </div>
 
         </div> </ng-container>
@@ -174,10 +174,11 @@
           </div>
           <input type="file" #fileInputPortfolio (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" style="display: none;">
           <button class="btn-add" (click)="fileInputPortfolio.click()">+ Añadir</button>
-           <div *ngIf="archivoSeleccionado" class="file-status-container">
-              <span class="file-info">📄 {{ archivoSeleccionado.name }}</span>
-              <button type="button" class="btn-remove-cv" (click)="borrarArchivo()">✕</button>
-            </div>
+          
+          <div *ngIf="archivoSeleccionado" class="file-status-container">
+  <span class="file-info">📄 {{ archivoSeleccionado.name }}</span>
+  <button type="button" class="btn-remove-cv" (click)="borrarArchivo('portfolio')">✕</button>
+</div>
         </div>
       </section>
 

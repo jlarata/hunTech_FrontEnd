@@ -33,7 +33,6 @@
   /*margin-bottom: 20px; */
 }
 
-/*Sidebar*/
 .sidebar {
   width: 280px;
 }
@@ -114,7 +113,7 @@
 }
 .nav-item.active { color: #000; font-weight: bold; }
 
-/*Contenido Principal*/
+
 .main-content { flex: 1; }
 
 .resume-upload-card {
