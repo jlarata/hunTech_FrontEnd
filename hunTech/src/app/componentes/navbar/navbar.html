@@ -55,46 +55,35 @@
   </li>
 }
 
- <!--gerente-->
-          @if (rolActual == "gerente"){
-<li class="nav-item-gerente">
-    <a class="btn-halo" routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">
-        <span class="material-icons-outlined">business_center</span>
-        Ver mis Contratos
-    </a>
-    
-    <ul class="dropdown-menu-gerente">
-        <li>
-            <a [routerLink]="['/contratos']" [fragment]="'sin-postular'" (click)="closeMenu()">
-                <span class="material-icons-outlined">find_in_page</span>
-                Sin postular
-            </a>
-        </li>
-        <li>
-            <a [routerLink]="['/contratos']" [fragment]="'pendientes'" (click)="closeMenu()">
-                <span class="material-icons-outlined">pending_actions</span>
-                Pendientes
-            </a>
-        </li>
-        <li>
-            <a [routerLink]="['/contratos']" [fragment]="'asignados'" (click)="closeMenu()">
-                <span class="material-icons-outlined">task_alt</span>
-                Asignados
-            </a>
-        </li>
-    </ul>
-</li>
-}
-            
-            <li><a  class="btn-halo" routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                    (click)="closeMenu()">
-                    <span class="material-icons-outlined">account_circle</span>
-            Perfil</a></li>
+            @if (isgests){
+            <li>
+                <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="closeMenu()">Admin Dashboard</a>
+            </li>
+            }
+
+            @if (rolActual == "gerente"){
+            <li class="nav-item-with-dropdown" [class.show-dropdown]="isOnContratos">
+                <a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Ver mis Contratos</a>
+                <ul class="dropdown-menu" *ngIf="isOnContratos">
+                    <li><a [routerLink]="['/contratos']" [fragment]="'sin-postular'" (click)="closeMenu()">Sin
+                            postular</a>
+                    </li>
+                    <li><a [routerLink]="['/contratos']" [fragment]="'pendientes'" (click)="closeMenu()">Pendientes</a>
+                    </li>
+                    <li><a [routerLink]="['/contratos']" [fragment]="'asignados'" (click)="closeMenu()">Asignados</a>
+                    </li>
+                </ul>
+            </li>
+            }
+            <li><a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="closeMenu()">Perfil</a></li>
 
             <li><a class="btn-sesion" (click)="logout()">
                 <span class="material-icons-outlined">power_settings_new</span>
                 Cerrar Sesión</a></li>
         </ul>
+
         <!-- Mobile-only subindex row shown when on /contratos -->
         <div class="navbar-subindex" *ngIf="isOnContratos">
             <a class="subindex-btn" (click)="navigateToFragment('sin-postular')"
