@@ -39,7 +39,6 @@ export class Navbar {
 
   async ngOnInit(): Promise<void> {
     await this.inicializarDatos();
-
     // Detect si se está navegando /contratos para mostrar el index embebido
     this.isOnContratos = this.router.url?.startsWith('/contratos');
     this._subs = this.router.events.subscribe((ev: any) => {
