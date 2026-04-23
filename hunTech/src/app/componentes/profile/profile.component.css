@@ -1,3 +1,4 @@
+
 /*Contenedor Principal*/
 
   .dashboard-wrapper {
@@ -8,18 +9,28 @@
   min-height: 100vh;
   font-family: sans-serif;
   color: #000000 !important;
-  margin-left: 250px; 
+  margin-left: 150px; 
   width: calc(100% - 250px); 
   box-sizing: border-box;
 }
 
+
+/* --- EL CONTENEDOR DE LAS CARDS --- */
+.info-section {
+  display: flex !important;
+  flex-direction: column; 
+  gap: 25px; /* Este GAP es el que da el espacio real entre las cards */
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
 /*cards*/
 .card {
   background: #ffffff;
   border: 1px solid #e1e1e1;
   border-radius: 8px;
   padding: 20px;
-  margin-bottom: 20px;
+  /*margin-bottom: 20px; */
 }
 
 /*Sidebar*/
@@ -73,7 +84,7 @@
 
 .nav-list li.active {
   background-color: #fafafa;
-  border-left: 4px solid #ff2d2b; 
+  border-left: 4px solid #26a22c; 
   font-weight: bold;
   color: #000;
 }
@@ -91,9 +102,17 @@
 
 .resume-upload-card {
   text-align: center;
-  padding: 40px !important;
-  border: 1px solid #e1e1e1;
-  margin-bottom: 30px;
+  padding: 40px;
+  border: 1.5px dashed #e5e7eb;
+  background: #ffffff;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  margin: 0;
+} 
+
+.resume-upload-card:hover {
+  border-color: #ef5350; 
+  background-color: #fffafb;
 }
 
 .upload-header {
@@ -105,13 +124,14 @@
 }
 
 .upload-title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
-  margin: 0;
+  color: #111827;
+  margin-bottom: 10px;
 }
 
 .upload-subtitle {
-  color: #666;
+  color: #6b7280;
   margin-bottom: 30px;
 }
 
@@ -132,7 +152,7 @@
  .btn-edit-blue, 
  .btn-save,
  .btn-upload, .btn-add, .btn-cancel-link {
-  background: #300a6e;
+  background: #c10a28;
   color: white;
   border: none;
   padding: 12px 25px;
@@ -170,7 +190,7 @@
 
 .circle-icon {
   width: 55px; height: 55px;
-  background: #dddddb;
+  background: #f2f3ab;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -227,10 +247,11 @@
   }
 
 .data-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+ display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  margin-top: 15px;
 }
 
 

@@ -1,120 +1,310 @@
+/* --- 1. NAVBAR (EL CONTENEDOR PADRE) --- */
 .navbar {
-  /* Sidebar - Desktop */
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 220px;
-  background-color: #2c3e50;
+  top: 0; left: 0; 
+  width: 100%;
+  height: 85px; 
+  background-color: #ffffff;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 2rem 0;
-  box-shadow: 3px 0 12px rgba(0, 0, 0, 0.25);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
-  z-index: 1000;
-  user-select: none;
+  justify-content: space-between; /* Mantiene logo a la izq y links a la derecha */
+  padding: 0 5%;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  z-index: 2000;
+  box-sizing: border-box;
+  overflow: visible; 
 }
 
-.logo-container { width: 100%; display: flex; justify-content: flex-start; padding-left: 1.8rem; margin-bottom: 3.5rem; }
-#logo-navbar { height: 58px; width: auto; transition: transform 0.3s ease; cursor: pointer; }
-#logo-navbar:hover { transform: scale(1.05); }
-.logo-container-desktop { display: none; }
-
-.nav-links { list-style: none; padding: 0; margin: 0; width: 100%; display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; padding-left: 1.8rem; }
-.nav-links li { width: 100%; }
-.nav-links > li > a { display: flex; align-items: center; color: #ecf0f1; font-size: 1rem; font-weight: 600; text-decoration: none; padding: 0.75rem 1.2rem; border-radius: 10px; transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; }
-.nav-links > li > a::before { content: ""; display: inline-block; width: 26px; height: 26px; margin-right: 1rem; background-color: #34495e; border-radius: 6px; flex-shrink: 0; transition: background-color 0.3s ease; }
-.nav-links > li > a:hover, .nav-links > li > a.active { background-color: #3498db; color: #ffffff; }
-.nav-links > li > a.active::before { background-color: #ffffff; }
-
-.menu-toggle { display: none; }
-
-/* Hide mobile-only subindex by default (desktop); shown in mobile media query */
-.navbar-subindex { display: none; }
-
-/* Dropdown for Buscar Contratos (desktop) - render as subindices in the flow */
-.nav-item-with-dropdown { position: relative; width: 100%; }
-.nav-item-with-dropdown .dropdown-menu {
-  /* Keep it in the document flow so it doesn't overlap other items */
-  position: static;
-  transform: none;
-  background: transparent;
-  color: inherit;
-  min-width: 0;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;
-  display: none;
-  z-index: 1;
-  width: auto;
-  margin: 0.25rem 0 0 0;
+/* --- LOGO HUNTECH --- */
+.logo-header-global {
+  display: flex;
+  align-items: center;
+  flex: 1; /* Ocupa su espacio a la izquierda */
 }
-.nav-item-with-dropdown:hover .dropdown-menu,
-.nav-item-with-dropdown.show-dropdown .dropdown-menu { display: flex; flex-direction: column; }
-.nav-item-with-dropdown .dropdown-menu li { list-style: none; }
-.nav-item-with-dropdown .dropdown-menu li a {
-  display: block;
-  color: #ecf0f1; /* inherit from navbar */
-  padding: 0.35rem 1.2rem;
+
+.logo-text {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #000;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  margin-right: 12px;
+}
+
+.logo-with-pulse {
+  display: flex;
+  align-items: center;
+}
+
+.status-pulse {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  background-color: #52ce36; 
+  border-radius: 50%;
+}
+
+.status-pulse::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: #52ce36;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* --- 2. LOS LINKS (CENTRO Y DERECHA) --- */
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  padding: 0; margin: 0;
+  gap: 20px;
+  align-items: center;
+  flex: 3; /* Le damos más espacio para que pueda empujar elementos */
+  overflow: visible !important;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
+}
+
+/* EL TRUCO FINAL: El último li (Cerrar Sesión) se va a la derecha */
+.nav-links li:last-child {
+  margin-left: auto; 
+}
+
+/* --- 3. ICONOS --- */
+.material-icons-outlined {
+  font-size: 20px;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* --- 4. BOTONES CON HALO (Home, Buscar, Perfil) --- */
+.btn-halo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  color: #201f1f;
+  text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
+  border-radius: 50px;
+  background-color: white;
+  z-index: 10;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid #ef5350 !important;
+}
+
+.btn-halo::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%; width: 100%; height: 100%;
+  background-color: rgba(239, 83, 80, 0.15); 
+  border-radius: 50px;
+  z-index: -1;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+.btn-halo:hover::after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.15); 
+}
+
+.btn-halo:hover {
+  transform: translateY(-2px);
+  color: #ef5350;
+}
+
+/* --- 5. BOTÓN CERRAR SESIÓN (A la derecha y con salto) --- */
+.btn-sesion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  color: #000000;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
   border-radius: 8px;
-  margin: 0 0.5rem 0.25rem 0.5rem;
-  background: rgba(255,255,255,0.02);
-}
-.nav-item-with-dropdown .dropdown-menu li a:hover { background: rgba(255,255,255,0.06); }
-
-/* Active/pressed state for subindex buttons (desktop & mobile) */
-.nav-item-with-dropdown .dropdown-menu li a.active,
-.subindex-btn.active {
-  background: rgba(255,255,255,0.12);
-  color: #ffffff;
 }
 
-/* Mobile: move navbar to top */
+.btn-sesion:hover {
+  color: #d84848;
+  background-color: rgba(239, 83, 80, 0.05);
+}
+
+.btn-sesion:active {
+  transform: translateY(-5px); /* Efecto de salto al tocar */
+}
+
+/* menu de buscar empleo en desarrolladores*/
+.nav-item-with-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Estado inicial del menú: Oculto */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%; 
+  transform: translateX(-50%) translateY(10px); 
+  min-width: 200px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 10px 0;
+  list-style: none;
+  margin: 0;
+  z-index: 3000;
+  
+  /* Visibilidad */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none; /* Evita que estorbe cuando está oculto */
+
+}
+
+/* EL TRUCO: Al pasar el mouse por el LI, mostramos el UL */
+.nav-item-with-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Estilo de los links internos para que se vean como tu foto de referencia */
+.dropdown-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #4b5563;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f3f4f6;
+  color: #ef5350; /* Rojo HunTech */
+}
+
+.dropdown-menu li a .material-icons-outlined {
+  font-size: 20px;
+  color: #9ca3af; /* Iconos gris suave como en la foto */
+}
+
+.dropdown-menu li a:hover .material-icons-outlined {
+  color: #ef5350;
+}
+
+
+/*ver mis contratos- gerentes/empresas*/
+.nav-item-gerente {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Estado inicial del menú: Oculto */
+.dropdown-menu-gerente {
+  position: absolute;
+  top: 100%;
+  left: 50%; 
+  transform: translateX(-50%) translateY(10px); 
+  min-width: 200px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 10px 0;
+  list-style: none;
+  margin: 0;
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none; 
+
+}
+.nav-item-gerente:hover .dropdown-menu-gerente {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.dropdown-menu-gerente li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #4b5563;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.dropdown-menu-gerente li a:hover {
+  background-color: #f3f4f6;
+  color: #300a6e; 
+}
+
+.dropdown-menu-gerente li a .material-icons-outlined {
+  font-size: 20px;
+  color: #9ca3af; /* Iconos gris suave como en la foto */
+}
+
+.dropdown-menu-gerente li a:hover .material-icons-outlined {
+  color: #0b00cf;
+}
+/* --- OTROS --- */
+main { padding-top: 100px; }
+
 @media (max-width: 768px) {
-  .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 64px;
-    width: 100%;
-    flex-direction: row;
-    padding: 0.5rem 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    z-index: 2000; /* ensure navbar sits above content */
-  }
+  .navbar { height: auto; flex-direction: column; padding: 15px; }
+  .nav-links { display: none; flex-direction: column; width: 100%; }
+  .nav-links.active { display: flex; }
+  .nav-links li:last-child { margin-left: 0; }
+}
 
-  .logo-container { display: flex; align-items: center; padding-left: 0; margin-bottom: 0; flex: 0 0 auto; margin-right: 0.6rem; z-index:2100; }
-  #logo-navbar { height: 40px; display: block; }
+/* --- LOGO Y OTROS --- */
+.logo-container-desktop { flex: 1; }
+#logo-navbar-desktop { height: 40px; }
+.logo-container, .navbar-header { display: none; }
+main { padding-top: 100px; }
 
-  .logo-container-desktop { display: none; }
-
-  /* Center nav items in mobile */
-  /* place logo to the left, nav items flow to the right of it in a single row */
-  .nav-links { display: flex; flex: 1 1 auto; flex-direction: row; flex-wrap: nowrap; gap: 0.6rem; justify-content: flex-start; padding-left: 0.25rem; align-items: center; margin: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .nav-links li { display: inline-block; }
-  .nav-links > li > a { padding: 0.35rem 0.6rem; font-size: 0.95rem; white-space: nowrap; display: inline-flex; align-items: center; }
-  .nav-links > li > a::before { display: none; }
-
-  .menu-toggle { display: flex; flex-direction: column; justify-content: space-between; width: 28px; height: 22px; cursor: pointer; margin-left: 0.6rem; flex: 0 0 auto; }
-  .menu-toggle .bar { height: 3.5px; width: 100%; background-color: #2c3e50; border-radius: 3px; transition: all 0.3s ease; }
-
-  /* On mobile: hide the desktop dropdown menu (we use the separate .navbar-subindex row instead) */
-    .nav-item-with-dropdown .dropdown-menu { display: none !important; }
-    .nav-item-with-dropdown .dropdown-menu li a { padding: 0.4rem 0.6rem; color: #ecf0f1; display: inline-block; }
-
-  /* Mobile-only subindex row inside navbar below main links */
-  .navbar-subindex { display: none; }
-  .subindex-btn { display: inline-flex; padding: 0.3rem 0.6rem; margin: 0 0.35rem; border-radius: 999px; background: rgba(255,255,255,0.06); color: #ecf0f1; font-weight: 600; text-decoration: none; }
-  .subindex-btn:hover { background: rgba(255,255,255,0.12); }
-
-    /* Ensure navbar is above content and allow horizontal scroll if items overflow */
-    .navbar { overflow: visible; }
-    .nav-links { overflow-x: auto; }
-
-    .navbar-subindex { display: flex; gap: 0.5rem; justify-content: center; position: absolute; left: 0; right: 0; top: 64px; padding: 0.35rem 0; background: #2c3e50; z-index: 1999; }
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .navbar { height: auto; flex-direction: column; padding: 10px; }
+  .nav-links { display: none; flex-direction: column; gap: 10px; }
+  .nav-links.active { display: flex; }
 }
