@@ -18,14 +18,15 @@ export class ProfileComponent implements OnInit {
   private router = inject(Router);
   private usersService = inject(Users);
 
-  // Variables de Estado
+  
   perfil: any = null;
   rolActual: string = '';
   isEditing: boolean = false;
   loading: boolean = false;
-  
-  // --- VARIABLE PARA EL ARCHIVO CV ---
-  archivoSeleccionado: File | null = null;
+
+  // --- VARIABLES PARA ARCHIVOS ---
+  archivoCV: File | null = null;            // Para el Currículum
+  archivoSeleccionado: File | null = null; // Para el Portfolio
 
   // --- VARIABLES PARA HABILIDADES ---
   mostrandoFormulario: boolean = false;
@@ -42,13 +43,12 @@ export class ProfileComponent implements OnInit {
   };
 
   // CONTROL DE NAVEGACIÓN
-  seccionActiva: string = 'info'; 
+  seccionActiva: string = 'info';
 
   ngOnInit() {
     this.usersService.userProfile$.subscribe(data => {
       if (data) {
-       
-        this.perfil = { 
+        this.perfil = {
           ...data,
           habilidades: data.habilidades || [],
           idiomas: data.idiomas || [],
@@ -57,29 +57,36 @@ export class ProfileComponent implements OnInit {
           descripcion_empresa: data.descripcion_empresa || '',
           ubicacion_empresa: data.ubicacion_empresa || ''
         };
-        
         this.rolActual = data.rol || '';
-        console.log("Rol detectado en Perfil:", this.rolActual);
       }
     });
   }
 
-  // --- MÉTODOS PARA EL ARCHIVO ---
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
+  // --- MÉTODOS PARA ARCHIVOS ---
+
+  // Para el Currículum (Input #fileInputCV)
+  onCVSelected(event: any) {
+    const file = event.target.files[0];
     if (file) {
-      this.archivoSeleccionado = file;
-      console.log("Currículum listo para subir:", file.name);
+      this.archivoCV = file;
     }
   }
 
-  borrarArchivo() {
-    this.archivoSeleccionado = null;
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = '';
+  // Para el Portfolio (Input #fileInputPortfolio)
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.archivoSeleccionado = file;
     }
-    console.log("Archivo quitado");
+  }
+
+  // Función de borrar única para ambos
+  borrarArchivo(tipo: string) {
+    if (tipo === 'cv') {
+      this.archivoCV = null;
+    } else {
+      this.archivoSeleccionado = null;
+    }
   }
 
   // --- HABILIDADES ---
@@ -111,8 +118,8 @@ export class ProfileComponent implements OnInit {
   // --- NAVEGACIÓN Y EDICIÓN ---
   cambiarSeccion(seccion: string) {
     this.seccionActiva = seccion;
-    this.isEditing = false; 
-    this.mostrandoFormulario = false; 
+    this.isEditing = false;
+    this.mostrandoFormulario = false;
     this.mostrandoFormIdioma = false;
   }
 
@@ -129,13 +136,9 @@ export class ProfileComponent implements OnInit {
 
     try {
       this.loading = true;
-      const email = this.perfil.email; 
-      
+      const email = this.perfil.email;
       await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
-
       this.isEditing = false;
-      this.mostrandoFormulario = false;
-      this.mostrandoFormIdioma = false;
       alert('Perfil actualizado con éxito');
     } catch (error) {
       console.error('Error en PUT:', error);
@@ -150,5 +153,3 @@ export class ProfileComponent implements OnInit {
     return !this.perfil.nombre || this.perfil.nombre === '';
   }
 }
-
-

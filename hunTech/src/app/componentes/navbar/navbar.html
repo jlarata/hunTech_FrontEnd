@@ -1,12 +1,16 @@
 <main>
 
     <nav class="navbar" [class.mobile-active]="menuActive">
-        <div class="navbar-header">
-            <div class="logo-container">
-                <a class="logo" routerLink="/">
-                    <img src="../../assets/logo.png" alt="hunTech logo" id="logo-navbar">
-                </a>
+        <div class="logo-container-desktop">
+        <a class="logo" routerLink="/">
+            <div class="logo-with-pulse">
+                <span class="logo-text">HUNTECH</span>
+                <span class="status-pulse"></span>
             </div>
+        </a>
+    </div>
+ <hr class="header-divider">
+
 
             <!-- Hamburger icon for mobile -->
             <div class="menu-toggle" (click)="toggleMenu()">
@@ -14,56 +18,82 @@
                 <span class="bar"></span>
                 <span class="bar"></span>
             </div>
-        </div>
 
         <!-- Navigation links -->
-        <div class="logo-container-desktop">
-            <a class="logo" routerLink="/">
-                <img src="../../assets/logo.png" alt="hunTech logo" id="logo-navbar-desktop">
-            </a>
-        </div>
+    
+       
         <ul class="nav-links" [class.active]="menuActive">
-            <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                    (click)="closeMenu()">Home</a></li>
+            <li><a class="btn-halo" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="closeMenu()"><span class="material-icons-outlined">home</span>
+                    home
+                    </a></li>
 
-            @if (rolActual == "gerente"){
-            <li><a routerLink="/miproyecto" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                    (click)="closeMenu()">Mi Proyecto</a></li>
-            }
 
-            @if (rolActual == "desarrollador"){
-            <li class="nav-item-with-dropdown" [class.show-dropdown]="isOnContratos">
-                <a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Buscar Contratos</a>
-                <ul class="dropdown-menu" *ngIf="isOnContratos">
-                    <li><a (click)="navigateToFragment('sin-postular')"
-                            [class.active]="activeFragment==='sin-postular'">Sin
-                            postular</a></li>
-                    <li><a (click)="navigateToFragment('pendientes')"
-                            [class.active]="activeFragment==='pendientes'">Pendientes</a></li>
-                    <li><a (click)="navigateToFragment('asignados')"
-                            [class.active]="activeFragment==='asignados'">Asignados</a></li>
-                </ul>
-            </li>
-            }
+         @if (rolActual == "desarrollador"){
+  <li class="nav-item-with-dropdown"> <a class="btn-halo" routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">
+          <span class="material-icons-outlined">search</span>
+          Buscar Empleo
+      </a>
+      
+      <ul class="dropdown-menu">
+          <li>
+            <a (click)="navigateToFragment('sin-postular')" [class.active]="activeFragment==='sin-postular'">
+              <span class="material-icons-outlined">assignment_late</span> Sin postular
+            </a>
+          </li>
+          <li>
+            <a (click)="navigateToFragment('pendientes')" [class.active]="activeFragment==='pendientes'">
+              <span class="material-icons-outlined">history</span> Pendientes
+            </a>
+          </li>
+          <li>
+            <a (click)="navigateToFragment('asignados')" [class.active]="activeFragment==='asignados'">
+              <span class="material-icons-outlined">assignment_turned_in</span> Asignados
+            </a>
+          </li>
+      </ul>
+  </li>
+}
 
-            @if (rolActual == "gerente"){
-            <li class="nav-item-with-dropdown" [class.show-dropdown]="isOnContratos">
-                <a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Ver mis Contratos</a>
-                <ul class="dropdown-menu" *ngIf="isOnContratos">
-                    <li><a [routerLink]="['/contratos']" [fragment]="'sin-postular'" (click)="closeMenu()">Sin
-                            postular</a>
-                    </li>
-                    <li><a [routerLink]="['/contratos']" [fragment]="'pendientes'" (click)="closeMenu()">Pendientes</a>
-                    </li>
-                    <li><a [routerLink]="['/contratos']" [fragment]="'asignados'" (click)="closeMenu()">Asignados</a>
-                    </li>
-                </ul>
-            </li>
-            }
-            <li><a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                    (click)="closeMenu()">Perfil</a></li>
+ <!--gerente-->
+          @if (rolActual == "gerente"){
+<li class="nav-item-gerente">
+    <a class="btn-halo" routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">
+        <span class="material-icons-outlined">business_center</span>
+        Ver mis Contratos
+    </a>
+    
+    <ul class="dropdown-menu-gerente">
+        <li>
+            <a [routerLink]="['/contratos']" [fragment]="'sin-postular'" (click)="closeMenu()">
+                <span class="material-icons-outlined">find_in_page</span>
+                Sin postular
+            </a>
+        </li>
+        <li>
+            <a [routerLink]="['/contratos']" [fragment]="'pendientes'" (click)="closeMenu()">
+                <span class="material-icons-outlined">pending_actions</span>
+                Pendientes
+            </a>
+        </li>
+        <li>
+            <a [routerLink]="['/contratos']" [fragment]="'asignados'" (click)="closeMenu()">
+                <span class="material-icons-outlined">task_alt</span>
+                Asignados
+            </a>
+        </li>
+    </ul>
+</li>
+}
+            
+            <li><a  class="btn-halo" routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="closeMenu()">
+                    <span class="material-icons-outlined">account_circle</span>
+            Perfil</a></li>
 
-            <li><a (click)="logout()">Cerrar sesión</a></li>
+            <li><a class="btn-sesion" (click)="logout()">
+                <span class="material-icons-outlined">power_settings_new</span>
+                Cerrar Sesión</a></li>
         </ul>
         <!-- Mobile-only subindex row shown when on /contratos -->
         <div class="navbar-subindex" *ngIf="isOnContratos">
