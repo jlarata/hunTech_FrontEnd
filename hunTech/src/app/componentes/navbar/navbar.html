@@ -46,6 +46,13 @@
             </li>
             }
 
+            @if (isgests){
+            <li>
+                <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    (click)="closeMenu()">Admin Dashboard</a>
+            </li>
+            }
+
             @if (rolActual == "gerente"){
             <li class="nav-item-with-dropdown" [class.show-dropdown]="isOnContratos">
                 <a routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">Ver mis Contratos</a>
@@ -65,6 +72,7 @@
 
             <li><a (click)="logout()">Cerrar sesión</a></li>
         </ul>
+
         <!-- Mobile-only subindex row shown when on /contratos -->
         <div class="navbar-subindex" *ngIf="isOnContratos">
             <a class="subindex-btn" (click)="navigateToFragment('sin-postular')"
