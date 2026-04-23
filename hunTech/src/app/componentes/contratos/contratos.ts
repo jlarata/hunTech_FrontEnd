@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContratoCard } from '../../models/cards/contrato-card';
 import { CommonModule, ViewportScroller } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Contrato } from '../../models/contrato';
 import { RouterModule } from '@angular/router';
 import { ContratoDetail } from '../contrato-detail/contrato-detail';
@@ -14,6 +15,7 @@ import { LoadingService } from '../../servicios/loading-service';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     ContratoDetail],
   templateUrl: './contratos.html',
   styleUrl: './contratos.css'
@@ -36,6 +38,8 @@ export class Contratos {
 
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
+
+  busqueda: string = '';
 
   pendingFragment?: string | undefined;
 
@@ -99,6 +103,18 @@ export class Contratos {
 
   }
 
+  filtrarContratos(): void {
+    const term = this.busqueda.toLowerCase().trim();
+    if (!term) {
+      this.createCards(this.todosLosContratos);
+      return;
+    }
+    const filtrados = this.todosLosContratos.filter(c =>
+      c.titulo?.toLowerCase().includes(term)
+    );
+    this.createCards(filtrados);
+  }
+
   toggleContratosDisponiblesNoPostulados(): void {
     this.verContratosNoPostulados = !this.verContratosNoPostulados;
 
@@ -159,6 +175,15 @@ export class Contratos {
 
     // copia para filtros
     this.contratosDisponiblesCopia = [...this.contratosDisponibles];
+
+    // Auto-seleccionar el primer contrato disponible por defecto
+    if (!this.mostrandoContratoDetail) {
+      const primerContrato = this.contratosDisponibles[0] || this.contratosPendientes[0] || this.contratosAsignados[0];
+      if (primerContrato) {
+        this.contratoAMostrarDetail = primerContrato;
+        this.mostrandoContratoDetail = true;
+      }
+    }
   }
 
   toggleMuestraContratoDetail = (): void => {
@@ -166,24 +191,8 @@ export class Contratos {
   }
 
   setContratoAMostrar = (contrato: Contrato) => {
-
-    /* si es la primera vez que tocás el botón */
-    if (this.contratoAMostrarDetail == undefined) {
-      this.contratoAMostrarDetail = contrato;
-      this.toggleMuestraContratoDetail();
-    } else {
-      /* si no es la primera vez, puede ser que */
-      /* a) estás clickeando en el mismo contrato que ya se está mostrando */
-      if (this.contratoAMostrarDetail.id == contrato.id) {
-        this.contratoAMostrarDetail = undefined;
-        this.toggleMuestraContratoDetail();
-      }
-      /* b) caso contrario, solo querés que cambie el contrato que muestra el detalle */
-      else {
-        this.contratoAMostrarDetail = contrato;
-      }
-    }
-    this.scrollToDetail();
+    this.contratoAMostrarDetail = contrato;
+    this.mostrandoContratoDetail = true;
   }
 
   // recarga la lista cuando un contrato ha sido asignado en el detalle
