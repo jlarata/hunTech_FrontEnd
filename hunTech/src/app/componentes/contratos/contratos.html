@@ -1,93 +1,90 @@
-<!-- <div #detailContainer class="contrato-detail-container">
-  @if (mostrandoContratoDetail) {
-  <app-contrato-detail [contrato]="contratoAMostrarDetail!" [email]="usuario.email" [rol]="usuario.rol" (contratoAssigned)="onContratoAssigned($event)"/>
-  }
-</div> -->
-
-<div #detailContainer class="contrato-detail-container">
-  @if (mostrandoContratoDetail) {
-  <app-contrato-detail [contrato]="contratoAMostrarDetail!" [email]="perfil.email" [rol]="rolActual" (contratoAssigned)="onContratoAssigned($event)"/>
-  }
-</div>
-
-<div id="sin-postular" class="contrato-card-container">
-  <!-- Sección: Contratos disponibles (no ocupados) -->
-  @for (card of contratosDisponibles; track card.id) {
-  <div class="contrato-card">
-    
-    <div class="contrato-card-content">
-      
-      <h2 class="contrato-card-titulo"> > {{ card.titulo }}</h2>
-      <p>{{ card.descripcion }}</p>
-      @if (card.start_date) {
-      <p>Fecha de inicio del contrato: {{ card.start_date }}</p>
-      }
-      @if (card.end_date) {
-      <p>Fecha de finalización del contrato: {{ card.end_date }}</p>
-      }
+<div class="contratos-split-layout">
+  <!-- Panel izquierdo: lista scrolleable de contratos -->
+  <aside class="contratos-list-panel">
+    <div class="search-box">
+      <input type="text" class="search-input" placeholder="Buscar por título..." [(ngModel)]="busqueda" (input)="filtrarContratos()" />
     </div>
-    <div class="card-button-group">
-      <button class="btn btn-signup" (click)="setContratoAMostrar(card)">+</button>
+    <!-- Contratos disponibles -->
+    @for (card of contratosDisponibles; track card.id) {
+    <div class="contrato-card-item" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id}" (click)="setContratoAMostrar(card)">
+      <div class="card-item-header">
+        <h3 class="card-item-titulo">{{ card.titulo }}</h3>
+        <span class="badge badge-disponible">Disponible</span>
+      </div>
+      <p class="card-item-descripcion">{{ card.descripcion }}</p>
+      <div class="card-item-meta">
+        @if (card.start_date) {
+        <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
+        }
+        @if (card.end_date) {
+        <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
+        }
+      </div>
     </div>
-  </div>
-  }
-</div>
+    }
 
-<!-- Sección separada para contratos asignados (aparece debajo en escritorio) -->
-  @if ((contratosPendientes).length > 0) {
-<section id="pendientes" class="contratos-pendientes-section">
-  <h3 class="pendientes-header">Pendientes</h3>
-  <div class="contratos-pendientes">
+    <!-- Contratos pendientes -->
+    @if (contratosPendientes.length > 0) {
+    <div class="section-divider"><span>Pendientes</span></div>
     @for (card of contratosPendientes; track card.id) {
-    <div class="contrato-card pendiente" [ngClass]="{'pendiente-dev': rolActual === 'desarrollador'}">
-      <div class="contrato-card-content">
-        <h2 class="contrato-card-titulo"> > {{ card.titulo }} <span class="badge-pendiente">Pendiente</span></h2>
-        <p>{{ card.descripcion }}</p>
+    <div class="contrato-card-item pendiente" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id, 'pendiente-dev': rolActual === 'desarrollador'}" (click)="setContratoAMostrar(card)">
+      <div class="card-item-header">
+        <h3 class="card-item-titulo">{{ card.titulo }}</h3>
+        <span class="badge badge-pendiente">Pendiente</span>
+      </div>
+      <p class="card-item-descripcion">{{ card.descripcion }}</p>
+      <div class="card-item-meta">
         @if (card.start_date) {
-        <p>Fecha de inicio del contrato: {{ card.start_date }}</p>
+        <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
         }
         @if (card.end_date) {
-        <p>Fecha de finalización del contrato: {{ card.end_date }}</p>
+        <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
         }
-      </div>
-      <div class="card-button-group">
-        <button class="btn btn-signup" (click)="setContratoAMostrar(card)">+</button>
       </div>
     </div>
     }
-  </div>
-</section>
-}
+    }
 
-  @if ((contratosAsignados).length > 0) {
-<section id="asignados" class="contratos-asignados-section">
-  <h3 class="asignados-header">Contratos asignados</h3>
-  <div class="contratos-asignados">
+    <!-- Contratos asignados -->
+    @if (contratosAsignados.length > 0) {
+    <div class="section-divider"><span>Asignados</span></div>
     @for (card of contratosAsignados; track card.id) {
-    <div class="contrato-card asignado" [ngClass]="{'asignado-dev': rolActual === 'desarrollador'}">
-      <div class="contrato-card-content">
-        <h2 class="contrato-card-titulo"> > {{ card.titulo }} <span class="badge-asignado">Asignado</span></h2>
-        <p>{{ card.descripcion }}</p>
-        @if (card.pasante_email) {
-        <p class="pasante-info">Pasante asignado: {{ card.pasante_email }}</p>
-        }
+    <div class="contrato-card-item asignado" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id, 'asignado-dev': rolActual === 'desarrollador'}" (click)="setContratoAMostrar(card)">
+      <div class="card-item-header">
+        <h3 class="card-item-titulo">{{ card.titulo }}</h3>
+        <span class="badge badge-asignado">Asignado</span>
+      </div>
+      <p class="card-item-descripcion">{{ card.descripcion }}</p>
+      @if (card.pasante_email) {
+      <p class="card-item-pasante">👤 {{ card.pasante_email }}</p>
+      }
+      <div class="card-item-meta">
         @if (card.start_date) {
-        <p>Fecha de inicio del contrato: {{ card.start_date }}</p>
+        <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
         }
         @if (card.end_date) {
-        <p>Fecha de finalización del contrato: {{ card.end_date }}</p>
+        <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
         }
-      </div>
-      <div class="card-button-group">
-        <button class="btn btn-signup" (click)="setContratoAMostrar(card)">+</button>
       </div>
     </div>
     }
-  </div>
-</section>
-}
+    }
 
-@if ((contratosDisponibles.length) === 0 && (contratosPendientes.length) === 0 && (contratosAsignados.length) === 0) {
-<div class="no-results">Lo sentimos =( <br>
-  Parece que no hay contratos disponibles para el criterio elegido.</div>
-}
+    @if (contratosDisponibles.length === 0 && contratosPendientes.length === 0 && contratosAsignados.length === 0) {
+    <div class="no-results">Lo sentimos =( <br> Parece que no hay contratos disponibles.</div>
+    }
+  </aside>
+
+  <!-- Panel derecho: detalle del contrato seleccionado -->
+  <section class="contrato-detail-panel">
+    @if (mostrandoContratoDetail && contratoAMostrarDetail) {
+    <app-contrato-detail [contrato]="contratoAMostrarDetail!" [email]="perfil.email" [rol]="rolActual" (contratoAssigned)="onContratoAssigned($event)"/>
+    } @else {
+    <div class="detail-placeholder">
+      <div class="placeholder-icon">📋</div>
+      <h3>Seleccioná un contrato</h3>
+      <p>Elegí un contrato de la lista para ver sus detalles</p>
+    </div>
+    }
+  </section>
+</div>

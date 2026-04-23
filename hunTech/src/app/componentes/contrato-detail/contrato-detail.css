@@ -1,21 +1,20 @@
 .contrato-main {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    
+    align-items: stretch;
+    height: 100%;
 }
 
 .contrato-card {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
-    background-color: #f5eeee;
+    gap: 1.5rem;
+    background-color: #ffffff;
     color: rgb(2, 10, 59);
-    padding: 2rem;
-    border-radius: 12px;
-    max-width: 70vw;
-    margin: 2rem auto;
+    padding: 2rem 2.5rem;
     text-align: left;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .contrato-card.asignado {
@@ -34,9 +33,12 @@
 }
 
 h2 {
-    margin: 0.5rem;
-    margin-bottom: -2rem;
-    font-size: 2rem;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    color: #191919;
+    border-bottom: 2px solid #0a66c2;
+    padding-bottom: 0.5rem;
 }
 
 .contrato-box {
@@ -117,8 +119,8 @@ button {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .contrato-card {
-        max-width: 80vw;
+        padding: 1.5rem 1rem;
     }
 }
