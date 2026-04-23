@@ -4,7 +4,7 @@
   .dashboard-wrapper {
   display: flex;
   gap: 25px;
-  background-color: #f6f6f2;
+  background-color: #f5f5f5;
   padding: 30px;
   min-height: 100vh;
   font-family: sans-serif;
@@ -19,7 +19,7 @@
 .info-section {
   display: flex !important;
   flex-direction: column; 
-  gap: 25px; /* Este GAP es el que da el espacio real entre las cards */
+  gap: 25px; 
   width: 100%;
   padding: 0;
   margin: 0;
@@ -38,9 +38,26 @@
   width: 280px;
 }
 
-.sidebar-title { font-size: 1.1rem; margin-bottom: 10px; color: #000; }
-.sidebar-text { font-size: 0.85rem; color: #555; line-height: 1.4; }
+.sidebar-title, .section-title { 
+  font-size: 1.3rem;
+   margin-bottom: 10px; 
+   color: #300a6e; 
+   font-weight: bold;
+   gap:12px;
+  }
 
+.sidebar-text{ 
+  font-size: 0.85rem; 
+  color: #555;
+   line-height: 1.4; 
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 5px;
+    gap:12px;
+  }
 .status-selector {
   display: flex;
   align-items: center;
@@ -126,7 +143,7 @@
 .upload-title {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #111827;
+  color: #300a6e;
   margin-bottom: 10px;
 }
 
@@ -170,7 +187,8 @@
 .btn-upload:hover, 
 .btn-save:hover,
 .btn-add-main:hover,
-.btn-cancel-link:hover {
+.btn-cancel-link:hover,
+.btn-add:hover {
   background-color: #4f3d8e;
 }
 .btn-remove, .btn-remove-cv {

@@ -105,14 +105,14 @@
   background-color: white;
   z-index: 10;
   transition: all 0.3s ease;
-  border-bottom: 2px solid #ef5350 !important;
+  border-bottom: 2px solid #0800cf !important;
 }
 
 .btn-halo::after {
   content: '';
   position: absolute;
   top: 50%; left: 50%; width: 100%; height: 100%;
-  background-color: rgba(239, 83, 80, 0.15); 
+  background-color: rgba(154, 143, 218, 0.15); 
   border-radius: 50px;
   z-index: -1;
   opacity: 0;
@@ -127,7 +127,7 @@
 
 .btn-halo:hover {
   transform: translateY(-2px);
-  color: #ef5350;
+  color: #300a6e;
 }
 
 /* --- 5. BOTÓN CERRAR SESIÓN (A la derecha y con salto) --- */

@@ -172,7 +172,12 @@
             <h2 class="section-title">Agrega tu portfolio 💼</h2>
             <p class="section-subtitle">Los perfiles con portfolio reciben hasta un 70% más de interés por parte de los reclutadores. ¡No te quedes afuera!</p>
           </div>
-          <button class="btn-add">+ Añadir</button>
+          <input type="file" #fileInputPortfolio (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" style="display: none;">
+          <button class="btn-add" (click)="fileInputPortfolio.click()">+ Añadir</button>
+           <div *ngIf="archivoSeleccionado" class="file-status-container">
+              <span class="file-info">📄 {{ archivoSeleccionado.name }}</span>
+              <button type="button" class="btn-remove-cv" (click)="borrarArchivo()">✕</button>
+            </div>
         </div>
       </section>
 
@@ -180,7 +185,7 @@
         <div class="section-header">
           <div>
             <h2 class="section-title">Habilidades y experiencia</h2>
-            <p>Añade tus conocimientos para que los reclutadores te encuentren.</p>
+            <p class="section-subtitle">Añade tus conocimientos para que los reclutadores te encuentren.</p>
           </div>
           <button *ngIf="isEditing && !mostrandoFormulario" class="btn-edit-blue" (click)="toggleEdit()">✕ Cancelar</button>
           <button *ngIf="!isEditing" class="btn-edit-blue" (click)="toggleEdit()">✎ Añadir habilidades</button>
