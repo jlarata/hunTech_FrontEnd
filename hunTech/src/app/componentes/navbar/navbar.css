@@ -1,25 +1,32 @@
-/* --- 1. NAVBAR (EL CONTENEDOR PADRE) --- */
 .navbar {
   position: fixed;
-  top: 0; left: 0; 
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 85px; 
+  height: 85px;
   background-color: #ffffff;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Mantiene logo a la izq y links a la derecha */
+  justify-content: space-between;
   padding: 0 5%;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
   z-index: 2000;
   box-sizing: border-box;
-  overflow: visible; 
+  overflow: visible;
+  transition: all 0.3s ease;
 }
 
-/* --- LOGO HUNTECH --- */
-.logo-header-global {
+.logo-container-desktop {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  flex: 1; /* Ocupa su espacio a la izquierda */
+  z-index: 2100;
+}
+
+.logo {
+  text-decoration: none;
 }
 
 .logo-text {
@@ -41,14 +48,17 @@
   position: relative;
   width: 12px;
   height: 12px;
-  background-color: #52ce36; 
+  background-color: #52ce36;
   border-radius: 50%;
 }
 
 .status-pulse::after {
   content: "";
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: #52ce36;
   border-radius: 50%;
   opacity: 0.6;
@@ -56,19 +66,62 @@
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(3); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
 }
 
-/* --- 2. LOS LINKS (CENTRO Y DERECHA) --- */
+/* MENU TOGGLE  */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  z-index: 2200;
+  background: rgba(11, 0, 207, 0.05);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(11, 0, 207, 0.1);
+}
+
+.menu-toggle:hover {
+  background: rgba(11, 0, 207, 0.1);
+  transform: scale(1.05);
+}
+
+.menu-toggle:active {
+  transform: scale(0.95);
+}
+
+.bar {
+  width: 24px;
+  height: 2.5px;
+  background-color: #0b00cf;
+  border-radius: 4px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
 .nav-links {
   display: flex;
   flex-direction: row;
   list-style: none;
-  padding: 0; margin: 0;
+  padding: 0;
+  margin: 0;
   gap: 20px;
   align-items: center;
-  flex: 3; /* Le damos más espacio para que pueda empujar elementos */
+  flex: 1;
+  justify-content: flex-end;
   overflow: visible !important;
 }
 
@@ -77,12 +130,18 @@
   align-items: center;
 }
 
-/* EL TRUCO FINAL: El último li (Cerrar Sesión) se va a la derecha */
-.nav-links li:last-child {
-  margin-left: auto; 
+
+@media (min-width: 993px) {
+  .nav-links {
+    width: 100%;
+  }
+
+
+  .nav-links li:first-child {
+    margin-right: auto;
+  }
 }
 
-/* --- 3. ICONOS --- */
 .material-icons-outlined {
   font-size: 20px;
   line-height: 1;
@@ -90,7 +149,7 @@
   vertical-align: middle;
 }
 
-/* --- 4. BOTONES CON HALO (Home, Buscar, Perfil) --- */
+/*btn-halo*/
 .btn-halo {
   position: relative;
   display: inline-flex;
@@ -108,41 +167,36 @@
   border-bottom: 2px solid #0800cf !important;
 }
 
-.btn-halo::after {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%; width: 100%; height: 100%;
-  background-color: rgba(154, 143, 218, 0.15); 
-  border-radius: 50px;
-  z-index: -1;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.5);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-}
-
-.btn-halo:hover::after {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1.15); 
-}
-
 .btn-halo:hover {
   transform: translateY(-2px);
   color: #300a6e;
+  background-color: #f8f9fa;
 }
 
-/* --- 5. BOTÓN CERRAR SESIÓN (A la derecha y con salto) --- */
+.btn-back {
+  background-color: transparent;
+  border: none;
+  color: #201f1f;
+  margin-right: 15px;
+}
+
+/*  BOTÓN CERRAR SESIÓN  */
 .btn-sesion {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 15px;
-  color: #000000;
-  font-weight: 600;
-  font-size: 0.95rem;
+  gap: 10px;
+  padding: 10px 22px;
+  color: #c21717;
+  font-weight: 700;
+  font-size: 1.1rem;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-radius: 8px;
+  border-radius: 10px;
+}
+
+.btn-sesion .material-icons-outlined {
+  font-size: 24px;
 }
 
 .btn-sesion:hover {
@@ -150,52 +204,37 @@
   background-color: rgba(239, 83, 80, 0.05);
 }
 
-.btn-sesion:active {
-  transform: translateY(-5px); /* Efecto de salto al tocar */
-}
 
-/* menu de buscar empleo en desarrolladores*/
 .nav-item-with-dropdown {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
-/* Estado inicial del menú: Oculto */
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 50%; 
-  transform: translateX(-50%) translateY(10px); 
+  left: 0;
+  transform: translateY(10px);
   min-width: 200px;
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   padding: 10px 0;
   list-style: none;
   margin: 0;
   z-index: 3000;
-  
-  /* Visibilidad */
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none; /* Evita que estorbe cuando está oculto */
-
+  transition: all 0.3s ease;
+  pointer-events: none;
 }
 
-/* EL TRUCO: Al pasar el mouse por el LI, mostramos el UL */
 .nav-item-with-dropdown:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
 }
 
-/* Estilo de los links internos para que se vean como tu foto de referencia */
 .dropdown-menu li a {
   display: flex;
   align-items: center;
@@ -205,106 +244,121 @@
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
-  transition: background 0.2s;
-  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .dropdown-menu li a:hover {
-  background-color: #f3f4f6;
-  color: #ef5350; /* Rojo HunTech */
-}
+  background-color: rgba(11, 0, 207, 0.05);
+  color: #0b00cf;
 
-.dropdown-menu li a .material-icons-outlined {
-  font-size: 20px;
-  color: #9ca3af; /* Iconos gris suave como en la foto */
 }
 
 .dropdown-menu li a:hover .material-icons-outlined {
-  color: #ef5350;
-}
-
-
-/*ver mis contratos- gerentes/empresas*/
-.nav-item-gerente {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-/* Estado inicial del menú: Oculto */
-.dropdown-menu-gerente {
-  position: absolute;
-  top: 100%;
-  left: 50%; 
-  transform: translateX(-50%) translateY(10px); 
-  min-width: 200px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  padding: 10px 0;
-  list-style: none;
-  margin: 0;
-  z-index: 3000;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none; 
-
-}
-.nav-item-gerente:hover .dropdown-menu-gerente {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
-}
-.dropdown-menu-gerente li a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  color: #4b5563;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: background 0.2s;
-  cursor: pointer;
-}
-
-.dropdown-menu-gerente li a:hover {
-  background-color: #f3f4f6;
-  color: #300a6e; 
-}
-
-.dropdown-menu-gerente li a .material-icons-outlined {
-  font-size: 20px;
-  color: #9ca3af; /* Iconos gris suave como en la foto */
-}
-
-.dropdown-menu-gerente li a:hover .material-icons-outlined {
   color: #0b00cf;
 }
-/* --- OTROS --- */
-main { padding-top: 100px; }
 
-@media (max-width: 768px) {
-  .navbar { height: auto; flex-direction: column; padding: 15px; }
-  .nav-links { display: none; flex-direction: column; width: 100%; }
-  .nav-links.active { display: flex; }
-  .nav-links li:last-child { margin-left: 0; }
+
+@media (max-width: 1200px) {
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background-color: #ffffff;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 80px 20px 40px 20px;
+    gap: 10px;
+    transition: right 0.4s ease-in-out;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: flex;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+
+  .mobile-active .bar:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  .mobile-active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-active .bar:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .btn-halo,
+  .btn-sesion {
+    width: 100%;
+    padding: 12px 15px;
+    justify-content: flex-start;
+    border-radius: 8px;
+    border-bottom: none !important;
+    background-color: #f8f9fa;
+  }
+
+
+  .dropdown-menu {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+    background-color: #ffffff;
+    width: 100%;
+    pointer-events: auto;
+    margin-top: 5px;
+    padding-left: 15px;
+    border-left: 2px solid #0b00cf;
+    display: none;
+
+  }
+
+
+  .nav-item-with-dropdown:active .dropdown-menu,
+  .nav-item-with-dropdown:hover .dropdown-menu,
+  .nav-item-with-dropdown:focus-within .dropdown-menu {
+    display: block;
+    transform: none;
+  }
+
+  .dropdown-menu li a {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
 }
 
-/* --- LOGO Y OTROS --- */
-.logo-container-desktop { flex: 1; }
-#logo-navbar-desktop { height: 40px; }
-.logo-container, .navbar-header { display: none; }
-main { padding-top: 100px; }
+.navbar-subindex {
+  display: none;
+}
 
-/* --- RESPONSIVE --- */
-@media (max-width: 768px) {
-  .navbar { height: auto; flex-direction: column; padding: 10px; }
-  .nav-links { display: none; flex-direction: column; gap: 10px; }
-  .nav-links.active { display: flex; }
+@media (max-width: 992px) {
+  .navbar-subindex {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+main {
+  padding-top: 100px;
 }
