@@ -40,6 +40,9 @@ export class Contratos {
   contratoAMostrarDetail: Contrato | undefined;
 
   busqueda: string = '';
+  filtroModalidad: string = '';
+  filtroSeniority: string = '';
+  drawerAbierto: boolean = false;
 
   pendingFragment?: string | undefined;
 
@@ -104,14 +107,33 @@ export class Contratos {
 
   filtrarContratos(): void {
     const term = this.busqueda.toLowerCase().trim();
-    if (!term) {
-      this.createCards(this.todosLosContratos);
-      return;
+    let filtrados = [...this.todosLosContratos];
+
+    if (term) {
+      filtrados = filtrados.filter(c =>
+        c.titulo?.toLowerCase().includes(term)
+      );
     }
-    const filtrados = this.todosLosContratos.filter(c =>
-      c.titulo?.toLowerCase().includes(term)
-    );
+
+    if (this.filtroModalidad) {
+      filtrados = filtrados.filter(c =>
+        c.modalidad?.toLowerCase() === this.filtroModalidad.toLowerCase()
+      );
+    }
+
+    if (this.filtroSeniority) {
+      filtrados = filtrados.filter(c =>
+        c.seniority_deseado?.includes(this.filtroSeniority)
+      );
+    }
+
     this.createCards(filtrados);
+  }
+
+  limpiarFiltros(): void {
+    this.filtroModalidad = '';
+    this.filtroSeniority = '';
+    this.filtrarContratos();
   }
 
   toggleContratosDisponiblesNoPostulados(): void {

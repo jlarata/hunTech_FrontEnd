@@ -15,12 +15,14 @@
   min-width: 360px;
   max-width: 450px;
   overflow-y: auto;
-  padding: 1.5rem 1rem;
+  padding: 1rem 0.75rem;
+  padding-bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
   border-right: 1px solid rgba(226, 232, 240, 0.8);
   background: #ffffff;
+  position: relative;
 }
 
 
@@ -69,6 +71,90 @@
   background: #ffffff;
   box-shadow: 0 0 0 4px rgba(48, 10, 110, 0.05);
 }
+
+/* --- Filtros bar --- */
+.filtros-bar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 0.25rem 0.5rem;
+  align-items: center;
+}
+
+.filtro-select {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.82rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f3f2ef;
+  color: #374151;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  color-scheme: light;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b5cf6' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  padding-right: 2rem;
+}
+
+.filtro-select option {
+  background: #ffffff;
+  color: #374151;
+  border-radius: 6px;
+}
+
+.filtro-select:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+  background-color: #fff;
+}
+
+.filtro-clear {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.filtro-clear:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+/* --- Tag modalidad/seniority en cards --- */
+.tag-modalidad {
+  background: #ede9fe;
+  color: #6d28d9;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.68rem;
+  text-transform: capitalize;
+}
+
+.tag-seniority {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.68rem;
+}
+
+/* --- Tarjeta de contrato (item de la lista) --- */
 
 .contrato-card-item {
   display: flex;
@@ -203,6 +289,82 @@
   color: #94a3b8;
 }
 
+/* --- Drawer flotante inferior --- */
+.drawer-bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  margin: 0 -0.75rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.drawer-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: #f8f9fa;
+  border: none;
+  border-radius: 12px 12px 0 0;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+  transition: background 0.15s;
+}
+
+.drawer-toggle:hover {
+  background: #eef1f5;
+}
+
+.drawer-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drawer-count {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.pendiente-count {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.asignado-count {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.drawer-chevron {
+  font-size: 0.7rem;
+  color: #999;
+  transition: transform 0.2s;
+}
+
+.drawer-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.drawer-open .drawer-content {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.drawer-open .drawer-content::-webkit-scrollbar { width: 4px; }
+.drawer-open .drawer-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+
+/* --- Panel derecho: detalle --- */
 
 .contrato-detail-panel {
   flex: 1;

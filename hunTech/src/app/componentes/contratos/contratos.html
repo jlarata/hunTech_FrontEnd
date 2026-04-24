@@ -4,6 +4,29 @@
     <div class="search-box">
       <input type="text" class="search-input" placeholder="Buscar por título..." [(ngModel)]="busqueda" (input)="filtrarContratos()" />
     </div>
+
+    <!-- Filtros -->
+    <div class="filtros-bar">
+      <select class="filtro-select" [(ngModel)]="filtroModalidad" (change)="filtrarContratos()">
+        <option value="">Modalidad</option>
+        <option value="remoto">Remoto</option>
+        <option value="presencial">Presencial</option>
+        <option value="hibrido">Híbrido</option>
+      </select>
+
+      <select class="filtro-select" [(ngModel)]="filtroSeniority" (change)="filtrarContratos()">
+        <option value="">Seniority</option>
+        <option value="Trainee">Trainee</option>
+        <option value="Junior">Junior</option>
+        <option value="Semisenior">Semisenior</option>
+        <option value="Senior">Senior</option>
+      </select>
+
+      @if (filtroModalidad || filtroSeniority) {
+        <button class="filtro-clear" (click)="limpiarFiltros()">✕</button>
+      }
+    </div>
+
     <!-- Contratos disponibles -->
     @for (card of contratosDisponibles; track card.id) {
     <div class="contrato-card-item" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id}" (click)="setContratoAMostrar(card)">
@@ -13,6 +36,12 @@
       </div>
       <p class="card-item-descripcion">{{ card.descripcion }}</p>
       <div class="card-item-meta">
+        @if (card.modalidad) {
+        <span class="meta-tag tag-modalidad">{{ card.modalidad }}</span>
+        }
+        @if (card.seniority_deseado && card.seniority_deseado.length) {
+        <span class="meta-tag tag-seniority">{{ card.seniority_deseado.join(', ') }}</span>
+        }
         @if (card.start_date) {
         <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
         }
@@ -21,57 +50,87 @@
         }
       </div>
     </div>
-    }
-
-    <!-- Contratos pendientes -->
-    @if (contratosPendientes.length > 0) {
-    <div class="section-divider"><span>Pendientes</span></div>
-    @for (card of contratosPendientes; track card.id) {
-    <div class="contrato-card-item pendiente" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id, 'pendiente-dev': rolActual === 'desarrollador'}" (click)="setContratoAMostrar(card)">
-      <div class="card-item-header">
-        <h3 class="card-item-titulo">{{ card.titulo }}</h3>
-        <span class="badge badge-pendiente">Pendiente</span>
-      </div>
-      <p class="card-item-descripcion">{{ card.descripcion }}</p>
-      <div class="card-item-meta">
-        @if (card.start_date) {
-        <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
-        }
-        @if (card.end_date) {
-        <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
-        }
-      </div>
-    </div>
-    }
-    }
-
-    <!-- Contratos asignados -->
-    @if (contratosAsignados.length > 0) {
-    <div class="section-divider"><span>Asignados</span></div>
-    @for (card of contratosAsignados; track card.id) {
-    <div class="contrato-card-item asignado" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id, 'asignado-dev': rolActual === 'desarrollador'}" (click)="setContratoAMostrar(card)">
-      <div class="card-item-header">
-        <h3 class="card-item-titulo">{{ card.titulo }}</h3>
-        <span class="badge badge-asignado">Asignado</span>
-      </div>
-      <p class="card-item-descripcion">{{ card.descripcion }}</p>
-      @if (card.pasante_email) {
-      <p class="card-item-pasante">👤 {{ card.pasante_email }}</p>
-      }
-      <div class="card-item-meta">
-        @if (card.start_date) {
-        <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
-        }
-        @if (card.end_date) {
-        <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
-        }
-      </div>
-    </div>
-    }
     }
 
     @if (contratosDisponibles.length === 0 && contratosPendientes.length === 0 && contratosAsignados.length === 0) {
     <div class="no-results">Lo sentimos =( <br> Parece que no hay contratos disponibles.</div>
+    }
+
+    <!-- Drawer flotante inferior: Pendientes + Asignados -->
+    @if (contratosPendientes.length > 0 || contratosAsignados.length > 0) {
+    <div class="drawer-bottom" [ngClass]="{'drawer-open': drawerAbierto}">
+      <button class="drawer-toggle" (click)="drawerAbierto = !drawerAbierto">
+        <span class="drawer-toggle-label">
+          Mis postulaciones
+          @if (contratosPendientes.length > 0) {
+          <span class="drawer-count pendiente-count">{{ contratosPendientes.length }} pend.</span>
+          }
+          @if (contratosAsignados.length > 0) {
+          <span class="drawer-count asignado-count">{{ contratosAsignados.length }} asig.</span>
+          }
+        </span>
+        <span class="drawer-chevron">{{ drawerAbierto ? '▼' : '▲' }}</span>
+      </button>
+
+      <div class="drawer-content">
+        @if (contratosPendientes.length > 0) {
+        <div class="section-divider"><span>Pendientes</span></div>
+        @for (card of contratosPendientes; track card.id) {
+        <div class="contrato-card-item pendiente" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id, 'pendiente-dev': rolActual === 'desarrollador'}" (click)="setContratoAMostrar(card)">
+          <div class="card-item-header">
+            <h3 class="card-item-titulo">{{ card.titulo }}</h3>
+            <span class="badge badge-pendiente">Pendiente</span>
+          </div>
+          <p class="card-item-descripcion">{{ card.descripcion }}</p>
+          <div class="card-item-meta">
+            @if (card.modalidad) {
+            <span class="meta-tag tag-modalidad">{{ card.modalidad }}</span>
+            }
+            @if (card.seniority_deseado && card.seniority_deseado.length) {
+            <span class="meta-tag tag-seniority">{{ card.seniority_deseado.join(', ') }}</span>
+            }
+            @if (card.start_date) {
+            <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
+            }
+            @if (card.end_date) {
+            <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
+            }
+          </div>
+        </div>
+        }
+        }
+
+        @if (contratosAsignados.length > 0) {
+        <div class="section-divider"><span>Asignados</span></div>
+        @for (card of contratosAsignados; track card.id) {
+        <div class="contrato-card-item asignado" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id, 'asignado-dev': rolActual === 'desarrollador'}" (click)="setContratoAMostrar(card)">
+          <div class="card-item-header">
+            <h3 class="card-item-titulo">{{ card.titulo }}</h3>
+            <span class="badge badge-asignado">Asignado</span>
+          </div>
+          <p class="card-item-descripcion">{{ card.descripcion }}</p>
+          @if (card.pasante_email) {
+          <p class="card-item-pasante">👤 {{ card.pasante_email }}</p>
+          }
+          <div class="card-item-meta">
+            @if (card.modalidad) {
+            <span class="meta-tag tag-modalidad">{{ card.modalidad }}</span>
+            }
+            @if (card.seniority_deseado && card.seniority_deseado.length) {
+            <span class="meta-tag tag-seniority">{{ card.seniority_deseado.join(', ') }}</span>
+            }
+            @if (card.start_date) {
+            <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
+            }
+            @if (card.end_date) {
+            <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
+            }
+          </div>
+        </div>
+        }
+        }
+      </div>
+    </div>
     }
   </aside>
 
