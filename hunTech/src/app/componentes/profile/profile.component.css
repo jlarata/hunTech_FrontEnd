@@ -199,7 +199,7 @@
 .btn-edit-blue,
 .btn-save,
 .btn-upload,
-.btn-add {
+.btn-add, .btn-cancel-link {
   background: linear-gradient(135deg, #300a6e 0%, #4f3d8e 100%);
   color: white;
   border: none;
@@ -219,7 +219,8 @@
 
 .btn-edit-blue:hover,
 .btn-save:hover,
-.btn-add:hover {
+.btn-add:hover,
+.btn-cancel-link:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(48, 10, 110, 0.3);
   filter: brightness(1.1);
@@ -432,7 +433,13 @@ label {
   box-sizing: border-box;
   transition: border-color 0.2s, box-shadow 0.2s;
   background-color: #ffffff;
+  color: #000000;
   font-family: inherit;
+}
+
+.custom-input option {
+  background-color: #ffffff;
+  color: #000000;
 }
 
 .textarea-grande {
@@ -457,6 +464,16 @@ label {
   margin-bottom: 20px;
   padding: 10px;
   border-bottom: 1px solid #eee;
+}
+
+.skill-tag {
+  background: #0f6e8e;
+  color: #1976d2;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid #bbdefb;
 }
 
 .skill-tag {
