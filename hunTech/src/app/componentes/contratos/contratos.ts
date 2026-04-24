@@ -63,8 +63,7 @@ export class Contratos {
     // Suscripción para tener la data siempre actualizada
     this.usersService.userProfile$.subscribe(data => {
       if (data) {
-        this.perfil = { ...data }; // Copia para editar sin afectar el estado global antes de tiempo
-        // Determina el rol (esto lo saca de la tabla que devolvió la API en app.ts)
+        this.perfil = { ...data }; 
         this.rolActual = data.rol || '';
 
         //console.log("Rol detectado en Perfil:", this.rolActual);
@@ -89,9 +88,9 @@ export class Contratos {
       next: (res) => {
         this.todosLosContratos = res.data;
         this.createCards(this.todosLosContratos)
-        // if user navigated with fragment, scroll after rendering
+       
         if (this.pendingFragment) {
-          // small delay to allow DOM update
+         
           setTimeout(() => this.scrollToSection(this.pendingFragment!), 50);
           this.pendingFragment = undefined;
         }
@@ -141,13 +140,13 @@ export class Contratos {
     this.verContratosNoPostulados = !this.verContratosNoPostulados;
 
     if (this.verContratosNoPostulados) {
-      // mostrar solo los que no tengan mi email en array de postulantes
+      
       this.contratosDisponibles = this.contratosDisponiblesCopia.filter(
         c => !c.postulaciones?.includes(this.perfil.email)
       );
 
     } else {
-      // volver a mostrar todos
+   
       this.contratosDisponibles = [...this.contratosDisponiblesCopia];
     }
 
@@ -231,14 +230,14 @@ export class Contratos {
     }
   }
 
-  // scroll a una sección por id (uso scrollIntoView para comportamiento smooth)
+  // scroll a una sección por id 
   scrollToSection(sectionId: string): void {
     try {
       const el = document.getElementById(sectionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
-        // fallback
+        
         this.viewportScroller.scrollToPosition([0, 0]);
       }
     } catch (err) {

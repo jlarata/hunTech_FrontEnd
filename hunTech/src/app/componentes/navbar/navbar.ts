@@ -28,18 +28,21 @@ export class Navbar {
   perfil: any = null;
   rolActual: string = '';
 
+  isDropdownDesarrolladorOpen = false;
+  isDropdownGerenteOpen = false;
+
   constructor(
     private authService: AuthService,
     private usersService: Users
   ) {
-    // Assign the observable from the service
+
     this.user$ = this.authService.user$;
     this.gests = environment.gests;
   }
 
   async ngOnInit(): Promise<void> {
     await this.inicializarDatos();
-    // Detect si se está navegando /contratos para mostrar el index embebido
+
     this.isOnContratos = this.router.url?.startsWith('/contratos');
     this._subs = this.router.events.subscribe((ev: any) => {
       if (ev instanceof NavigationEnd) {
@@ -56,21 +59,20 @@ export class Navbar {
 
   async inicializarDatos() {
     this.usersService.userProfile$.pipe(
-      // 1. Wait for valid profile data
+
       filter(data => !!data),
       tap(data => {
-        // Usa tap para "side effects" como asignar variables
+
         this.perfil = { ...data };
         this.rolActual = data.rol || '';
       })
     ).subscribe({
       next: (data) => {
-        // La data 'pasa' mediante tap al bloque de suscripción:
         if (this.gests.includes(data.email)) {
           this.isgests = true;
-          //console.log("Debug: autorizado")
+
         } else {
-          //console.log("Intentando entrar al dashboard sin autorización");
+
         }
       },
       error: (err) => {
@@ -93,12 +95,23 @@ export class Navbar {
     this.menuActive = false;
   }
 
+  goBack() {
+    window.history.back();
+  }
+
+  toggleDropdownDesarrollador() {
+    this.isDropdownDesarrolladorOpen = !this.isDropdownDesarrolladorOpen;
+  }
+
+  toggleDropdownGerente() {
+    this.isDropdownGerenteOpen = !this.isDropdownGerenteOpen;
+  }
+
   navigateToFragment(fragment: string) {
-    // Navigate to /contratos with fragment and attempt to smooth-scroll to target
     this.router.navigate(['/contratos'], { fragment }).then(() => {
       this.activeFragment = fragment;
       this.closeMenu();
-      // small delay to let target render if needed
+
       setTimeout(() => {
         try {
           const el = document.getElementById(fragment);
@@ -112,7 +125,8 @@ export class Navbar {
     });
   }
 
-  logout() {
-    this.authService.signOut();
+  async logout() {
+    await this.authService.signOut();
+    window.location.href = '/';
   }
 }

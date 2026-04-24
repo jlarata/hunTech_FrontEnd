@@ -1,90 +1,94 @@
 <main>
 
-@if (cargandoData) {
-    
-    <app-spinner></app-spinner>
+  @if (cargandoData) {
+
+  <app-spinner></app-spinner>
 
   }
 
+  @if (userEmail) {
 
-  <div *ngIf="user$ | async as user; else loggedOut">
-
-    <ng-container *ngIf="!cargandoData">
-  <div *ngIf="usuarioRol && usuarioRol !== ''; else noRoleYet">
+  <!-- <div *ngIf="user$ | async as user; else loggedOut"> -->
+  <div>
+    @if (usuarioRol && usuarioRol !== '') {
+    <div>
 
       <div class="main-content">
         <app-navbar></app-navbar>
         <router-outlet></router-outlet>
       </div>
     </div>
+    }
+    @else {
+    <div class="descripcion-container">
 
-
-  <ng-template #noRoleYet>
-  <div class="descripcion-container">
-    
-    <div class="logo-header-global">
-    <div class="logo-with-pulse">
-      <span class="logo-text">HUNTECH</span>
-        <span class="status-pulse"></span>
-    </div>
-    </div>
- <hr class="header-divider">
-
-    <div class="card">
-      <h3 class="titulo">Bienvenido a Huntech</h3>
-      <p class="subtitulo">
-     Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
-      </p>
-
-      <div class="form-group">
-        <label for="role" class="label-pro">Selecciona tu rol *</label>
-        <select id="role" [(ngModel)]="selectedRole" class="form-control">
-          <option value="" disabled selected>-- Elige una opción --</option>
-          <option value="desarrollador">Desarrollador</option>
-          <option value="gerente">Empresa / Reclutador</option>
-          <option value="institucion">Institución Educativa</option>
-        </select>
+      <div class="logo-header-global">
+        <div class="logo-with-pulse">
+          <span class="logo-text">HUNTECH</span>
+          <span class="status-pulse"></span>
+        </div>
       </div>
+      <hr class="header-divider">
 
-      <div class="actions">
-        <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
-          {{ loading ? 'Guardando...' : 'Salvar' }}
-        </button>
+      <div class="card">
+        <h3 class="titulo">Bienvenido a Huntech</h3>
+        <p class="subtitulo">
+          Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
+        </p>
 
-        <button type="button" (click)="logout()" class="btn-secondary">
-          Cancelar
-        </button>
+        <div class="form-group">
+          <label for="role" class="label-pro">Selecciona tu rol *</label>
+          <select id="role" [(ngModel)]="selectedRole" class="form-control">
+            <option value="" disabled selected>-- Elige una opción --</option>
+            <option value="desarrollador">Desarrollador</option>
+            <option value="gerente">Empresa / Reclutador</option>
+            <option value="institucion">Institución Educativa</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
+            {{ loading ? 'Guardando...' : 'Salvar' }}
+          </button>
+
+          <button type="button" (click)="logout()" class="btn-secondary">
+            Cancelar
+          </button>
+        </div>
       </div>
     </div>
+    }
   </div>
-</ng-template>
-  </ng-container>
-  </div>
+  }
 
- <ng-template #loggedOut>
-
+  @else {
   <div class="guest-container">
 
-    <nav class="navbar">
-       <div class="logo-with-pulse">
-      <span class="logo">HUNTECH</span>
+    <nav class="navbar guest-nav">
+      <div class="logo-with-pulse">
+        <span class="logo">HUNTECH</span>
         <span class="status-pulse"></span>
-    </div>
-  <ul class="nav-links">
-    <li><a href="#">Inicio</a></li>
-    <li><a href="#">Sobre Nosotros</a></li>
-    <li><a href="#">Ayuda</a></li>
-  </ul>
-</nav>
+      </div>
+      <!--<ul class="nav-links">
+        <li><a class="nav-btn" (click)="scrollTo('hero-left')"></a></li>
+        <li><a class="nav-btn" href="#"></a></li>
+        <li><a class="nav-btn" href="#"></a></li>
+      </ul>-->
+      <div class="nav-auth-buttons">
+        <button class="btn-guest-login" (click)="scrollTo('card-login')">Iniciar Sesión</button>
+        <button class="btn-guest-register" (click)="scrollTo('card-register')">Registrate</button>
+      </div>
+    </nav>
     <!-- HERO -->
     <section class="hero">
 
-      
       <div class="hero-left">
-       <h1>Encontrá tu primer trabajo en <span class="highlight">tecnología</span></h1>
-
-        <p>
-          Conectamos desarrolladores con oportunidades reales 🚀
+        <div class="hero-badge">
+          <span>🚀</span> Impulsando el futuro IT
+        </div>
+        <h1>Encontrá tu primer trabajo en <span class="highlight">tecnología</span></h1>
+        <p class="hero-description">
+          Conectamos desarrolladores con <span class="text-gradient">oportunidades reales</span> 🚀
         </p>
 
         <ul class="beneficios">
@@ -94,89 +98,45 @@
         </ul>
       </div>
 
-      
-      <div class="hero-right">
 
+      <div class="hero-right">
         <div class="card">
 
-          <h2>Iniciar sesión</h2>
-
-          <form (ngSubmit)="handleLogin($event)">
-            <input [(ngModel)]="login_email" name="login_email" placeholder="Email" required />
-            <input [(ngModel)]="login_password" name="login_password" type="password" placeholder="Password" required />
-           <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
-            <button type="submit" [disabled]="loading">Entrar</button>
-          
-  
-          </form>
+          <div id="card-login" class="card-section">
+            <h2>Iniciar sesión</h2>
+            <form (ngSubmit)="handleLogin($event)">
+              <input [(ngModel)]="login_email" name="login_email" placeholder="Email" required />
+              <input [(ngModel)]="login_password" name="login_password" type="password" placeholder="Password"
+                required />
+              <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+              <button type="submit" [disabled]="loading">Entrar</button>
+            </form>
+          </div>
 
           <div class="divider">o</div>
 
-          <!-- REGISTRO -->
-          <div *ngIf="!confirmationSent; else checkEmail">
-
+          <!-- SECCIÓN REGISTRO -->
+          <div id="card-register" class="card-section" *ngIf="!confirmationSent; else checkEmail">
             <h2>Registrate</h2>
-
             <form (ngSubmit)="handleSignUp($event)">
               <input [(ngModel)]="signup_email" name="signup_email" placeholder="Email" required />
-              <input [(ngModel)]="signup_password" name="signup_password" type="password" placeholder="Password" required />
+              <input [(ngModel)]="signup_password" name="signup_password" type="password" placeholder="Password"
+                required />
               <button type="submit" [disabled]="loading">Registrarse</button>
-              
             </form>
-
           </div>
-
           <ng-template #checkEmail>
             <div class="success-box">
               <h3>Revisá tu email 📩</h3>
               <p>Te enviamos un link a <strong>{{ signup_email }}</strong></p>
             </div>
           </ng-template>
-
-        </div> 
-      </div> 
-
-    </section> 
-
-  
-  </div> 
-</ng-template>
-
-
-
-
-  <!--   @if (isAuth && (this.usuarioRol == undefined) && isDataLoaded && !existUser) {
-  
-  <div class="descripcion-container">
-    <h2>Selecciona tu rol para terminar el registro:</h2>
-
-    <select (change)="onRoleChange($event)">
-      <option value="">-- Seleccionar --</option>
-      @for (rol of usersService.availableRoles; track rol) {
-      <option [value]="rol">{{ usersService.roleLabels[rol] }}</option>
-      }
-    </select>
-
-    <button class="btn btn-add" (click)="usersService.saveUserWithSelectedRole()">Guardar</button>
+        </div>
+      </div>
+    </section>
   </div>
-  } -->
 
-
-
-
-  <!--   @if (isAuth && (this.user != undefined) && existUser){
-  @if (this.user.rol != undefined){
-   si el user existe en nuestra db mostramos el contenido
-   navbar solo si NO estoy en /profile/algo 
-  @if (!esSoloPerfil) {
-  <app-navbar></app-navbar>
   }
-   Content wrapper
-  <div class="main-content">
-    <app-spinner></app-spinner>
-    <router-outlet></router-outlet>
-  </div>
-  }} -->
 
 
 </main>
