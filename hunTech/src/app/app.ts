@@ -101,8 +101,8 @@ export class App {
           console.log("Usuario no hallado, mostrando selector de rol")
         }
       }
+      this.cargandoData = false;
     });
-    this.cargandoData = false;
   }
 
   async checkUserExists(email: string) {
