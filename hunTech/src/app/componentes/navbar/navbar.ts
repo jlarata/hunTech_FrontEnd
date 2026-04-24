@@ -112,7 +112,8 @@ export class Navbar {
     });
   }
 
-  logout() {
-    this.authService.signOut();
+  async logout() {
+    await this.authService.signOut();
+    this.router.navigate(['/']);
   }
 }
