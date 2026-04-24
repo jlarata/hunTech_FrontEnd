@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   private router = inject(Router);
   private usersService = inject(Users);
 
-  
+
   perfil: any = null;
   rolActual: string = '';
   isEditing: boolean = false;
@@ -44,6 +44,7 @@ export class ProfileComponent implements OnInit {
 
   // CONTROL DE NAVEGACIÓN
   seccionActiva: string = 'info';
+  isSidebarOpen: boolean = false;
 
   ngOnInit() {
     this.usersService.userProfile$.subscribe(data => {
@@ -64,7 +65,7 @@ export class ProfileComponent implements OnInit {
 
   // --- MÉTODOS PARA ARCHIVOS ---
 
-  // Para el Currículum (Input #fileInputCV)
+  // Para el Currículum 
   onCVSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -72,7 +73,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  // Para el Portfolio (Input #fileInputPortfolio)
+  // Para el Portfolio 
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -80,7 +81,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  // Función de borrar única para ambos
+  // Función de borrar 
   borrarArchivo(tipo: string) {
     if (tipo === 'cv') {
       this.archivoCV = null;
@@ -128,6 +129,17 @@ export class ProfileComponent implements OnInit {
     if (!this.isEditing) {
       this.mostrandoFormulario = false;
       this.mostrandoFormIdioma = false;
+    }
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  soloNumeros(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
     }
   }
 
