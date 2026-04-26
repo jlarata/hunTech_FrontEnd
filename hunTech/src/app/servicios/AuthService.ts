@@ -84,6 +84,15 @@ export class AuthService {
   }
 
   /**
+   * Send a password reset email
+   */
+  async resetPassword(email: string) {
+    return await this.supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+  }
+
+  /**
    * Listener for auth state changes (Login, Logout, etc.)
    * Useful for updating UI reactively
    */

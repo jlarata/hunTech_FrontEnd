@@ -75,8 +75,8 @@
         <li><a class="nav-btn" href="#"></a></li>
       </ul>-->
       <div class="nav-auth-buttons">
-        <button class="btn-guest-login" (click)="scrollTo('card-login')">Iniciar Sesión</button>
-        <button class="btn-guest-register" (click)="scrollTo('card-register')">Registrate</button>
+        <button class="btn-guest-login" (click)="toggleLoginModal()">Iniciar Sesión</button>
+        <button class="btn-guest-register" (click)="toggleRegisterModal()">Registrate</button>
       </div>
     </nav>
     <!-- HERO -->
@@ -84,56 +84,213 @@
 
       <div class="hero-left">
         <div class="hero-badge">
-          <span>🚀</span> Impulsando el futuro IT
+          Impulsando el futuro IT
         </div>
         <h1>Encontrá tu primer trabajo en <span class="highlight">tecnología</span></h1>
         <p class="hero-description">
-          Conectamos desarrolladores con <span class="text-gradient">oportunidades reales</span> 🚀
+          Conectamos desarrolladores con <span class="text-highlight">oportunidades reales</span> 🚀
         </p>
 
         <ul class="beneficios">
-          <li>🎯 Vacantes personalizadas</li>
-          <li>🔔 Notificaciones de empresas</li>
-          <li>💼 Mostrá tus proyectos</li>
+          <li><span class="beneficio-icon">🎯</span> Vacantes personalizadas</li>
+          <li><span class="beneficio-icon">🔔</span> Notificaciones de empresas</li>
+          <li><span class="beneficio-icon">💼</span> Mostrá tus proyectos</li>
         </ul>
       </div>
-
-
       <div class="hero-right">
-        <div class="card">
-
-          <div id="card-login" class="card-section">
-            <h2>Iniciar sesión</h2>
-            <form (ngSubmit)="handleLogin($event)">
-              <input [(ngModel)]="login_email" name="login_email" placeholder="Email" required />
-              <input [(ngModel)]="login_password" name="login_password" type="password" placeholder="Password"
-                required />
-              <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
-              <button type="submit" [disabled]="loading">Entrar</button>
-            </form>
-          </div>
-
-          <div class="divider">o</div>
-
-          <!-- SECCIÓN REGISTRO -->
-          <div id="card-register" class="card-section" *ngIf="!confirmationSent; else checkEmail">
-            <h2>Registrate</h2>
-            <form (ngSubmit)="handleSignUp($event)">
-              <input [(ngModel)]="signup_email" name="signup_email" placeholder="Email" required />
-              <input [(ngModel)]="signup_password" name="signup_password" type="password" placeholder="Password"
-                required />
-              <button type="submit" [disabled]="loading">Registrarse</button>
-            </form>
-          </div>
-          <ng-template #checkEmail>
-            <div class="success-box">
-              <h3>Revisá tu email 📩</h3>
-              <p>Te enviamos un link a <strong>{{ signup_email }}</strong></p>
-            </div>
-          </ng-template>
+        <div class="tags-cloud">
+          <div class="floating-tag tag-1"><span>💻</span> Desarrollador Frontend</div>
+          <div class="floating-tag tag-2"><span>🗄️</span> Desarrollador Backend</div>
+          <div class="floating-tag tag-3"><span>🛠️</span> Desarrollador Full Stack</div>
+          <div class="floating-tag tag-4"><span>⚙️</span> Analista en Sistemas</div>
+          <div class="floating-tag tag-5"><span>📊</span> Analista de Datos</div>
+          <div class="floating-tag tag-6"><span>🔍</span> QA Tester</div>
+          <div class="floating-tag tag-7"><span>🛡️</span> Analista en Ciberseguridad</div>
+          <div class="floating-tag tag-8"><span>♾️</span> DevOps</div>
         </div>
       </div>
     </section>
+
+    <!-- SECCIÓN DE CARACTERÍSTICAS (TALENTO) -->
+    <section class="features-section">
+      <div class="circulo-flecha">
+        <span class="flecha-icon">↓</span>
+      </div>
+      <div class="features-container">
+        <div class="features-grid">
+
+          <!-- Lado Izquierdo: estudiantes -->
+          <div class="feature-columna">
+            <span class="feature-tag">¿Sos estudiante?</span>
+            <h2 class="feature-title"> Diseñado para quienes buscan su primera <span
+                class="text-highlight">oportunidad</span>
+            </h2>
+
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-icon ">🚀</div>
+                <div class="feature-text">
+                  <p>Impulsamos tu carrera: Somos el motor para que pases de la teoría a la práctica en empresas que
+                    apuestan por tu talento.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon ">📚</div>
+                <div class="feature-text">
+                  <p>Encontrá vacantes con horarios flexibles y modalidades pensadas para que puedas trabajar sin
+                    descuidar tu estudio.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon">👋</div>
+                <div class="feature-text">
+                  <p>Creamos un proceso simple: cargás tu info una vez y te postulás a las
+                    mejores vacantes con un toque.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lado Derecho: empresas -->
+          <div class="feature-columna empresa-columna">
+            <span class="feature-tag">¿Buscás talento?</span>
+            <h2 class="feature-title">Encontrá el talento que tu empresa <span class="text-highlight">necesita</span>
+            </h2>
+
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-icon">📈</div>
+                <div class="feature-text">
+                  <p>Conecta con una comunidad de candidatos comprometidos para tu empresa.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon ">🏗️</div>
+                <div class="feature-text">
+                  <p>Creá ofertas de empleo fácil y rápido con Huntech.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon ">⚡</div>
+                <div class="feature-text">
+                  <p>Visualizá a todos tus candidatos en un solo lugar. Una forma limpia y ordenada de seguir tus
+                    procesos de selección.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MODALES DE AUTENTICACIÓN -->
+    @if (showLoginModal) {
+    <div class="modal-overlay" (click)="closeModals()">
+      <div class="modal-card card" (click)="$event.stopPropagation()">
+        <button class="btn-close" (click)="closeModals()">&times;</button>
+        <div class="card-section">
+          <h2>Iniciar sesión</h2>
+          <form (ngSubmit)="handleLogin($event)">
+            <div class="input-group">
+              <label>Email</label>
+              <input [(ngModel)]="login_email" name="login_email" placeholder="Tu email" required />
+            </div>
+            <div class="input-group">
+              <label>Contraseña</label>
+              <input [(ngModel)]="login_password" name="login_password" type="password" placeholder="Tu contraseña"
+                required />
+            </div>
+            <a class="forgot-password" (click)="toggleForgotPasswordModal()" role="button">
+              ¿Olvidaste tu contraseña?
+            </a>
+            <button type="submit" [disabled]="loading" class="btn-submit">
+              {{ loading ? 'Ingresando...' : 'Entrar' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    }
+
+    @if (showRegisterModal) {
+    <div class="modal-overlay" (click)="closeModals()">
+      <div class="modal-card card" (click)="$event.stopPropagation()">
+        <button class="btn-close" (click)="closeModals()">&times;</button>
+
+        @if (!confirmationSent) {
+        <div class="card-section">
+          <h2>Creá tu cuenta</h2>
+          <p class="modal-subtitle">Unite a la comunidad Huntech</p>
+          <form (ngSubmit)="handleSignUp($event)">
+            <div class="input-group">
+              <label>Email</label>
+              <input [(ngModel)]="signup_email" name="signup_email" placeholder="Email" required />
+            </div>
+            <div class="input-group">
+              <label>Contraseña</label>
+              <input [(ngModel)]="signup_password" name="signup_password" type="password"
+                placeholder="Crea una contraseña" required />
+            </div>
+            <button type="submit" [disabled]="loading" class="btn-submit">
+              {{ loading ? 'Registrando...' : 'Registrarse' }}
+            </button>
+          </form>
+        </div>
+        } @else {
+        <div class="confirmacion-box">
+          <div class="confirmacion-icon">📩</div>
+          <h3>¡Casi listo!</h3>
+          <p>Te enviamos un link de confirmación a:</p>
+          <div class="email-badge">{{ signup_email }}</div>
+          <p class="confirmacion-hint">Revisá tu bandeja de entrada y spam.</p>
+          <button class="btn-primary" (click)="closeModals()">Entendido</button>
+        </div>
+        }
+      </div>
+    </div>
+    }
+
+    @if (showForgotPasswordModal) {
+    <div class="modal-overlay" (click)="closeModals()">
+      <div class="modal-card card" (click)="$event.stopPropagation()">
+        <button class="btn-close" (click)="closeModals()">&times;</button>
+
+        @if (!resetSent) {
+        <div class="card-section">
+          <h2>Recuperar contraseña</h2>
+          <p class="modal-subtitle">Ingresá tu email y te enviaremos los pasos a seguir.</p>
+          <form (ngSubmit)="handleResetPassword($event)">
+            <div class="input-group">
+              <label>Email</label>
+              <input [(ngModel)]="reset_email" name="reset_email" placeholder="Ingresá tu email" required />
+            </div>
+            <button type="submit" [disabled]="loading" class="btn-submit">
+              {{ loading ? 'Enviando...' : 'Enviar' }}
+            </button>
+            <div class="modal-footer">
+              <a (click)="toggleLoginModal()" class="back-to-login" role="button">
+                Volver al inicio de sesión
+              </a>
+            </div>
+          </form>
+        </div>
+        } @else {
+        <div class="success-box">
+          <div class="success-icon">📧</div>
+          <h3>¡Email enviado!</h3>
+          <p>Revisá tu bandeja de entrada. Te enviamos un link para reestablecer tu contraseña.</p>
+          <button class="btn-primary" (click)="closeModals()">Cerrar</button>
+        </div>
+        }
+      </div>
+    </div>
+    }
   </div>
 
   }

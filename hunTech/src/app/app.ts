@@ -39,6 +39,11 @@ export class App {
   signup_password = '';
   loading = false;
   confirmationSent = false;
+  showLoginModal = false;
+  showRegisterModal = false;
+  showForgotPasswordModal = false;
+  reset_email = '';
+  resetSent = false;
 
   title = 'hunTech';
 
@@ -135,7 +140,7 @@ export class App {
       if (error) throw error;
 
       if (data.user?.email) {
-
+        this.closeModals();
         const usuarioExistente = await this.checkUserExists(data.user.email)
 
         if (usuarioExistente.data.existe == 1) {
@@ -177,9 +182,10 @@ export class App {
 
       if (data.user && !data.session) {
         this.confirmationSent = true;
+
       }
     } catch (error: any) {
-      alert(error.message || 'An error occurred during sign up.');
+      alert(error.message || 'Hubo problemas al crear tu cuenta');
     } finally {
       this.loading = false;
     }
@@ -233,6 +239,46 @@ export class App {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  toggleLoginModal() {
+    this.showLoginModal = !this.showLoginModal;
+    this.showRegisterModal = false;
+    this.showForgotPasswordModal = false;
+  }
+
+  toggleRegisterModal() {
+    this.showRegisterModal = !this.showRegisterModal;
+    this.showLoginModal = false;
+  }
+
+  closeModals() {
+    this.showLoginModal = false;
+    this.showRegisterModal = false;
+    this.showForgotPasswordModal = false;
+    this.confirmationSent = false;
+    this.resetSent = false;
+  }
+
+  toggleForgotPasswordModal() {
+    this.showForgotPasswordModal = !this.showForgotPasswordModal;
+    this.showLoginModal = false;
+    this.showRegisterModal = false;
+    this.resetSent = false;
+  }
+
+  async handleResetPassword(event: Event) {
+    event.preventDefault();
+    this.loading = true;
+    try {
+      const { error } = await this.authService.resetPassword(this.reset_email);
+      if (error) throw error;
+      this.resetSent = true;
+    } catch (error: any) {
+      alert(error.message || 'Error al enviar el correo de recuperación');
+    } finally {
+      this.loading = false;
     }
   }
 }
