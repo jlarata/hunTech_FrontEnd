@@ -1,5 +1,4 @@
 <main>
-
   @if (cargandoData) {
 
   <app-spinner></app-spinner>
@@ -75,6 +74,10 @@
         <li><a class="nav-btn" href="#"></a></li>
       </ul>-->
       <div class="nav-auth-buttons">
+        <button class="btn-theme-toggle" (click)="toggleModoOscuro()"
+          [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
+          <span class="toggle-icon">{{ isModoOscuro ? '☀️' : '🌙' }}</span>
+        </button>
         <button class="btn-guest-login" (click)="toggleLoginModal()">Iniciar Sesión</button>
         <button class="btn-guest-register" (click)="toggleRegisterModal()">Registrate</button>
       </div>
@@ -88,7 +91,7 @@
         </div>
         <h1>Encontrá tu primer trabajo en <span class="highlight">tecnología</span></h1>
         <p class="hero-description">
-          Conectamos desarrolladores con <span class="text-highlight">oportunidades reales</span> 🚀
+          Conectamos desarrolladores con <span class="text-highlight">oportunidades reales</span>
         </p>
 
         <ul class="beneficios">

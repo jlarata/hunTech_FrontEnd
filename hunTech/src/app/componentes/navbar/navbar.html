@@ -103,9 +103,15 @@
       </li>
 
       <li>
+        <button class="btn-theme-toggle-nav" (click)="toggleModoOscuro()" 
+                [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
+          {{ isModoOscuro ? '☀️' : '🌙' }}
+        </button>
+      </li>
+
+      <li>
         <a class="btn-sesion" (click)="logout()">
           <span class="material-icons-outlined">power_settings_new</span>
-
         </a>
       </li>
     </ul>

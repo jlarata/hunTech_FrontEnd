@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from './componentes/navbar/navbar';
@@ -23,9 +23,12 @@ import { Usuario } from './models/users/usuario';
     FormsModule,
   ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class App {
+  isModoOscuro: boolean = false;
+  private canvas?: HTMLCanvasElement;
 
   user$: Observable<User | null>;
   userEmail: string | null = null;
@@ -68,7 +71,27 @@ export class App {
 
   async ngOnInit() {
     this.userEmail = this.authService.getCurrentUser()?.email || '';
+    this.checkInitialTheme();
     await this.inicializarDatos()
+  }
+
+  checkInitialTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.isModoOscuro = true;
+      document.body.classList.add('dark-theme');
+    }
+  }
+
+  toggleModoOscuro() {
+    this.isModoOscuro = !this.isModoOscuro;
+    if (this.isModoOscuro) {
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   async inicializarDatos() {
