@@ -76,7 +76,8 @@
       <div class="nav-auth-buttons">
         <button class="btn-theme-toggle" (click)="toggleModoOscuro()"
           [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
-          <span class="toggle-icon">{{ isModoOscuro ? '☀️' : '🌙' }}</span>
+          <span class="material-icons-outlined toggle-icon" style="font-size: 20px; line-height: 1;">{{ isModoOscuro ?
+            'light_mode' : 'dark_mode' }}</span>
         </button>
         <button class="btn-guest-login" (click)="toggleLoginModal()">Iniciar Sesión</button>
         <button class="btn-guest-register" (click)="toggleRegisterModal()">Registrate</button>
@@ -95,21 +96,25 @@
         </p>
 
         <ul class="beneficios">
-          <li><span class="beneficio-icon">🎯</span> Vacantes personalizadas</li>
-          <li><span class="beneficio-icon">🔔</span> Notificaciones de empresas</li>
-          <li><span class="beneficio-icon">💼</span> Mostrá tus proyectos</li>
+          <li><span class="material-icons-outlined beneficio-icon">track_changes</span> Vacantes personalizadas</li>
+          <li><span class="material-icons-outlined beneficio-icon">notifications_active</span> Notificaciones de
+            empresas</li>
+          <li><span class="material-icons-outlined beneficio-icon">business_center</span> Mostrá tus proyectos</li>
         </ul>
       </div>
       <div class="hero-right">
         <div class="tags-cloud">
-          <div class="floating-tag tag-1"><span>💻</span> Desarrollador Frontend</div>
-          <div class="floating-tag tag-2"><span>🗄️</span> Desarrollador Backend</div>
-          <div class="floating-tag tag-3"><span>🛠️</span> Desarrollador Full Stack</div>
-          <div class="floating-tag tag-4"><span>⚙️</span> Analista en Sistemas</div>
-          <div class="floating-tag tag-5"><span>📊</span> Analista de Datos</div>
-          <div class="floating-tag tag-6"><span>🔍</span> QA Tester</div>
-          <div class="floating-tag tag-7"><span>🛡️</span> Analista en Ciberseguridad</div>
-          <div class="floating-tag tag-8"><span>♾️</span> DevOps</div>
+          <div class="floating-tag tag-1"><span class="material-icons-outlined">web</span> Desarrollador Frontend</div>
+          <div class="floating-tag tag-2"><span class="material-icons-outlined">storage</span> Desarrollador Backend
+          </div>
+          <div class="floating-tag tag-3"><span class="material-icons-outlined">layers</span> Desarrollador Full Stack
+          </div>
+          <div class="floating-tag tag-4"><span class="material-icons-outlined">memory</span> Analista en Sistemas</div>
+          <div class="floating-tag tag-5"><span class="material-icons-outlined">analytics</span> Analista de Datos</div>
+          <div class="floating-tag tag-6"><span class="material-icons-outlined">bug_report</span> QA Tester</div>
+          <div class="floating-tag tag-7"><span class="material-icons-outlined">security</span> Analista en
+            Ciberseguridad</div>
+          <div class="floating-tag tag-8"><span class="material-icons-outlined">all_inclusive</span> DevOps</div>
         </div>
       </div>
     </section>
@@ -131,7 +136,7 @@
 
             <div class="feature-list">
               <div class="feature-item">
-                <div class="feature-icon ">🚀</div>
+                <div class="feature-icon fi-1"><span class="material-icons-outlined">rocket_launch</span></div>
                 <div class="feature-text">
                   <p>Impulsamos tu carrera: Somos el motor para que pases de la teoría a la práctica en empresas que
                     apuestan por tu talento.</p>
@@ -139,7 +144,7 @@
               </div>
 
               <div class="feature-item">
-                <div class="feature-icon ">📚</div>
+                <div class="feature-icon fi-2"><span class="material-icons-outlined">school</span></div>
                 <div class="feature-text">
                   <p>Encontrá vacantes con horarios flexibles y modalidades pensadas para que puedas trabajar sin
                     descuidar tu estudio.</p>
@@ -147,7 +152,7 @@
               </div>
 
               <div class="feature-item">
-                <div class="feature-icon">👋</div>
+                <div class="feature-icon fi-3"><span class="material-icons-outlined">touch_app</span></div>
                 <div class="feature-text">
                   <p>Creamos un proceso simple: cargás tu info una vez y te postulás a las
                     mejores vacantes con un toque.</p>
@@ -164,21 +169,21 @@
 
             <div class="feature-list">
               <div class="feature-item">
-                <div class="feature-icon">📈</div>
+                <div class="feature-icon fi-4"><span class="material-icons-outlined">trending_up</span></div>
                 <div class="feature-text">
                   <p>Conecta con una comunidad de candidatos comprometidos para tu empresa.</p>
                 </div>
               </div>
 
               <div class="feature-item">
-                <div class="feature-icon ">🏗️</div>
+                <div class="feature-icon fi-5"><span class="material-icons-outlined">domain_add</span></div>
                 <div class="feature-text">
                   <p>Creá ofertas de empleo fácil y rápido con Huntech.</p>
                 </div>
               </div>
 
               <div class="feature-item">
-                <div class="feature-icon ">⚡</div>
+                <div class="feature-icon fi-6"><span class="material-icons-outlined">bolt</span></div>
                 <div class="feature-text">
                   <p>Visualizá a todos tus candidatos en un solo lugar. Una forma limpia y ordenada de seguir tus
                     procesos de selección.</p>
@@ -192,7 +197,7 @@
       </div>
     </section>
 
-    <!-- MODALES DE AUTENTICACIÓN -->
+    <!-- AUTENTICACIÓN -->
     @if (showLoginModal) {
     <div class="modal-overlay" (click)="closeModals()">
       <div class="modal-card card" (click)="$event.stopPropagation()">
@@ -295,6 +300,88 @@
     </div>
     }
   </div>
+
+  <!--  LIBRO -->
+  @if (!userEmail) {
+  <div class="mini-book-wrapper">
+
+    <!-- LIBRO -->
+    <div class="mini-book-scene">
+      <div class="mini-book">
+
+        <!-- PÁGINA IZQUIERDA -->
+        <div class="mini-page mini-left-page" [style.background]="bookPages[bookSpreads[bookSpread][0]].bg">
+          <div class="mini-page-inner">
+            <div class="mini-page-num">{{ bookSpreads[bookSpread][0] + 1 }}</div>
+            <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread][0]].label }}</p>
+            <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread][0]].title }}</h4>
+            <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread][0]].body }}</p>
+          </div>
+        </div>
+
+
+        <div class="mini-spine"></div>
+
+        <!-- SECCIÓN DERECHA -->
+        <div class="mini-right-section">
+
+          <!-- Página de fondo (siguiente spread - derecha) -->
+          <div class="mini-page mini-right-bg" *ngIf="bookSpread < bookSpreads.length - 1"
+            [style.background]="bookPages[bookSpreads[bookSpread + 1][1]].bg">
+            <div class="mini-page-inner">
+              <div class="mini-page-num right">{{ bookSpreads[bookSpread + 1][1] + 1 }}</div>
+              <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread + 1][1]].label }}</p>
+              <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread + 1][1]].title }}</h4>
+              <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread + 1][1]].body }}</p>
+            </div>
+          </div>
+
+          <!-- PÁGINA QUE SE VOLTEA -->
+          <div class="mini-flip-page" [class.mini-flip-forward]="bookFlipState === 'forward'">
+
+            <!-- Cara front: página derecha actual -->
+            <div class="mini-flip-face mini-front" [style.background]="bookPages[bookSpreads[bookSpread][1]].bg">
+              <div class="mini-page-inner">
+                <div class="mini-page-num right">{{ bookSpreads[bookSpread][1] + 1 }}</div>
+                <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread][1]].label }}</p>
+                <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread][1]].title }}</h4>
+                <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread][1]].body }}</p>
+              </div>
+            </div>
+
+            <!-- Cara back: próxima página izquierda -->
+            <div class="mini-flip-face mini-back" *ngIf="bookSpread < bookSpreads.length - 1"
+              [style.background]="bookPages[bookSpreads[bookSpread + 1][0]].bg">
+              <div class="mini-page-inner mirrored">
+                <div class="mini-page-num">{{ bookSpreads[bookSpread + 1][0] + 1 }}</div>
+                <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread + 1][0]].label }}</p>
+                <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread + 1][0]].title }}</h4>
+                <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread + 1][0]].body }}</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /mini-right-section -->
+
+      </div>
+    </div>
+
+    <!-- NAVEGACIÓN INFERIOR -->
+    <div class="mini-book-nav">
+      <button class="mini-nav-btn" (click)="bookPrev()" [disabled]="bookSpread === 0 || bookAnimating">
+        <span class="material-icons-outlined">chevron_left</span>
+      </button>
+      <span class="mini-nav-text">{{ bookSpread + 1 }} / {{ bookSpreads.length }}</span>
+      <button class="mini-nav-btn" (click)="bookNext()"
+        [disabled]="bookSpread >= bookSpreads.length - 1 || bookAnimating">
+        <span class="material-icons-outlined">chevron_right</span>
+      </button>
+    </div>
+
+  </div>
+  } <!-- aca termina el libro :0 -->
+
 
   }
 

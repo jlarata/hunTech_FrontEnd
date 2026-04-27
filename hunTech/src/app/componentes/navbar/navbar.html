@@ -1,12 +1,17 @@
 <main>
   <nav class="navbar" [class.mobile-active]="menuActive">
-    <div class="logo-container-desktop">
-      <a class="logo" routerLink="/">
-        <div class="logo-with-pulse">
-          <span class="logo-text">HUNTECH</span>
-          <span class="status-pulse"></span>
-        </div>
+    <div class="navbar-left">
+      <a class="btn-halo btn-back" (click)="goBack()">
+        <span class="material-icons-outlined">arrow_back</span>
       </a>
+      <div class="logo-container-desktop">
+        <a class="logo" routerLink="/">
+          <div class="logo-with-pulse">
+            <span class="logo-text">HUNTECH</span>
+            <span class="status-pulse"></span>
+          </div>
+        </a>
+      </div>
     </div>
 
     <hr class="header-divider" />
@@ -20,18 +25,13 @@
 
 
     <ul class="nav-links" [class.active]="menuActive">
-      <li>
-        <a class="btn-halo btn-back" (click)="goBack()">
-          <span class="material-icons-outlined">arrow_back</span>
 
-        </a>
-      </li>
 
       <li>
         <a class="btn-halo" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           (click)="closeMenu()">
           <span class="material-icons-outlined">home</span>
-          home
+          Inicio
         </a>
       </li>
 
@@ -103,9 +103,9 @@
       </li>
 
       <li>
-        <button class="btn-theme-toggle-nav" (click)="toggleModoOscuro()" 
-                [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
-          {{ isModoOscuro ? '☀️' : '🌙' }}
+        <button class="btn-theme-toggle-nav" (click)="toggleModoOscuro()"
+          [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
+          <span class="material-icons-outlined">{{ isModoOscuro ? 'light_mode' : 'dark_mode' }}</span>
         </button>
       </li>
 

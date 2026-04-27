@@ -33,7 +33,7 @@
   padding: 28px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 120%;
+  width: 100%;
   max-width: 800px;
 }
 
@@ -44,6 +44,9 @@
 .sidebar {
   width: 320px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 .sidebar-title,
@@ -151,8 +154,7 @@
   margin-left: 20px;
 }
 
-.resume-upload-card,
-.section-container {
+.resume-upload-card {
   text-align: center;
   padding: 40px;
   border: 1.5px dashed var(--border-color);
@@ -160,7 +162,7 @@
   border-radius: 16px;
   transition: all 0.3s ease;
   margin: 0;
-  width: 120%;
+  width: 100%;
   max-width: 800px;
 }
 
@@ -263,16 +265,27 @@
 }
 
 .circle-icon {
-  width: 55px;
-  height: 55px;
-  background: var(--bg-secondary);
+  width: 65px;
+  height: 65px;
+  min-width: 65px;
+  min-height: 65px;
+  flex-shrink: 0;
+  background: #ede9fe;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 10px;
-  font-size: 1.4rem;
+  margin: 0 auto 15px;
+  font-size: 1.6rem;
   color: var(--accent-primary);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover .circle-icon {
+  background: var(--accent-primary);
+  color: white;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(48, 10, 110, 0.15);
 }
 
 .profile-top {
@@ -329,9 +342,9 @@
 
 .data-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   margin-top: 20px;
 }
 
@@ -644,4 +657,21 @@ label {
   .sidebar-text {
     font-size: 0.8rem;
   }
+}
+
+.data-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  word-break: break-word;
+}
+
+.data-icon {
+  font-size: 18px;
+  color: var(--accent-primary);
+  opacity: 0.8;
+}
+
+.menu-card {
+  padding: 16px;
 }

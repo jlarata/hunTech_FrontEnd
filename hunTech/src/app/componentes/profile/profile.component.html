@@ -52,7 +52,10 @@
           <div class="card profile-card">
             <div class="profile-top">
               <div class="user-meta">
-                <div class="avatar">{{ rolActual === 'gerente' ? '🏢' : '👤' }}</div>
+                <div class="avatar">
+                  <span class="material-icons-outlined" style="font-size: 32px;">{{ rolActual === 'gerente' ? 'business'
+                    : 'person' }}</span>
+                </div>
                 <div class="user-names">
                   <h3 class="user-h3">
                     {{ rolActual === 'gerente' ? (perfil.empresa_nombre || 'Empresa') : (perfil.nombre + ' ' +
@@ -62,28 +65,38 @@
                   <p class="role-tag">{{ rolActual | titlecase }}</p>
                 </div>
               </div>
-              <button class="btn-edit-blue" (click)="toggleEdit()">
-                {{ isEditing ? '✕ Cancelar' : '✎ Edición' }}
+              <button class="btn-edit-blue" (click)="toggleEdit()"
+                style="display: flex; align-items: center; gap: 6px;">
+                <span class="material-icons-outlined" style="font-size: 18px;">{{ isEditing ? 'close' : 'edit' }}</span>
+                {{ isEditing ? 'Cancelar' : 'Edición' }}
               </button>
             </div>
 
             <hr class="line-divider">
 
             <div *ngIf="!isEditing" class="data-grid">
-              <div class="data-item"><strong>✉️</strong> {{ perfil.email }}</div>
-              <div class="data-item"><strong>📱</strong> {{ perfil.telefono || 'Vacío' }}</div>
+              <div class="data-item"><span class="material-icons-outlined data-icon">email</span> {{ perfil.email }}
+              </div>
+              <div class="data-item"><span class="material-icons-outlined data-icon">smartphone</span> {{
+                perfil.telefono || 'Vacío' }}</div>
 
               <ng-container *ngIf="rolActual === 'desarrollador'">
-                <div class="data-item"><strong>🗓️</strong> {{ perfil.fecha_nacimiento || 'Vacío' }}</div>
-                <div class="data-item"><strong>🚀</strong> {{ perfil.posicion || 'Vacío' }}</div>
-                <div class="data-item"><strong>✨</strong> {{ perfil.genero || 'Vacío' }}</div>
+                <div class="data-item"><span class="material-icons-outlined data-icon">calendar_month</span> {{
+                  perfil.fecha_nacimiento || 'Vacío' }}</div>
+                <div class="data-item"><span class="material-icons-outlined data-icon">work_outline</span> {{
+                  perfil.posicion || 'Vacío' }}</div>
+                <div class="data-item"><span class="material-icons-outlined data-icon">auto_awesome</span> {{
+                  perfil.genero || 'Vacío' }}</div>
               </ng-container>
 
               <ng-container *ngIf="rolActual === 'gerente'">
-                <div class="data-item"><strong>🔗</strong> {{ perfil.web_empresa || 'Web no definida' }}</div>
-                <div class="data-item"><strong>👤</strong> {{ perfil.nombre }} {{ perfil.apellido }} (Contacto)</div>
+                <div class="data-item"><span class="material-icons-outlined data-icon">link</span> {{ perfil.web_empresa
+                  || 'Web no definida' }}</div>
+                <div class="data-item"><span class="material-icons-outlined data-icon">person_outline</span> {{
+                  perfil.nombre }} {{ perfil.apellido }} (Contacto)</div>
               </ng-container>
-              <div class="data-item-full" *ngIf="perfil.descripcion"><strong>📝</strong> {{ perfil.descripcion }}</div>
+              <div class="data-item-full" *ngIf="perfil.descripcion" style="display: flex; gap: 8px;"><span
+                  class="material-icons-outlined data-icon">description</span> {{ perfil.descripcion }}</div>
             </div>
 
             <form *ngIf="isEditing" (submit)="handleUpdate()" class="form-container">
@@ -122,7 +135,7 @@
                 <div class="input-container">
                   <label class="field-label">Teléfono</label>
                   <input type="tel" [(ngModel)]="perfil.telefono" name="telefono" class="custom-input" pattern="[0-9]*"
-                    inputmode="numeric" placeholder="" (keypress)="soloNumeros($event)">
+                    inputmode="numeric" maxlength="10" placeholder="Ej: 1123456789" (keypress)="soloNumeros($event)">
                 </div>
               </div>
 
@@ -149,7 +162,9 @@
                     <input type="text" [(ngModel)]="perfil.posicion" name="posicion" class="custom-input">
                   </div>
                   <div class="form-group-full">
-                    <label class="label-pro">📝Descripcion Personal</label>
+                    <label class="label-pro" style="display: flex; align-items: center; gap: 4px;"><span
+                        class="material-icons-outlined" style="font-size: 16px;">description</span> Descripcion
+                      Personal</label>
                     <textarea [(ngModel)]="perfil.descripcion" name="descripcion" class="textarea-grande"
                       placeholder="Contanos tu historia profesional..." rows="8" maxlength="500">
                     </textarea>
@@ -165,22 +180,24 @@
           </div>
           <div class="card resume-upload-card" *ngIf="rolActual === 'desarrollador' && !isEditing">
             <div class="upload-header">
-              <span class="icon-sparkle">✨</span>
-              <h2 class="upload-title">Aumenta tus oportunidades subiendo tu currículum</h2>
+              <h3 class="upload-title" style="display: flex; align-items: center; gap: 8px;">
+                <span class="material-icons-outlined">auto_awesome</span> Aumenta tus oportunidades subiendo tu
+                currículum
+              </h3>
             </div>
             <p class="upload-subtitle">Tu currículum nos ayuda a llenar tu perfil automáticamente.</p>
 
             <div class="features-grid">
               <div class="feature-item">
-                <div class="circle-icon">👥</div>
+                <div class="circle-icon"><span class="material-icons-outlined">people</span></div>
                 <p>Incrementá tu visibilidad</p>
               </div>
               <div class="feature-item">
-                <div class="circle-icon">💼</div>
+                <div class="circle-icon"><span class="material-icons-outlined">work</span></div>
                 <p>Destacá tus logros y experiencia</p>
               </div>
               <div class="feature-item">
-                <div class="circle-icon">🎉</div>
+                <div class="circle-icon"><span class="material-icons-outlined">celebration</span></div>
                 <p>Solicitá empleos más rápido</p>
               </div>
             </div>
@@ -192,9 +209,11 @@
               Subí tu curriculum
             </button>
 
-            <div *ngIf="archivoCV" class="file-status-container">
-              <span class="file-info">📄 {{ archivoCV.name }}</span>
-              <button type="button" class="btn-remove-cv" (click)="borrarArchivo('cv')">✕</button>
+            <div *ngIf="archivoCV" class="selected-file">
+              <span class="file-info" style="display: flex; align-items: center; gap: 8px;"><span
+                  class="material-icons-outlined" style="font-size: 18px;">description</span> {{ archivoCV.name
+                }}</span>
+              <button (click)="borrarArchivo('cv')" class="btn-remove">Eliminar</button>
             </div>
           </div>
 
@@ -204,7 +223,8 @@
       <section class="card section-container" *ngSwitchCase="'portfolio'">
         <div class="section-header">
           <div>
-            <h2 class="section-title">Agrega tu portfolio 💼</h2>
+            <h2 class="section-title" style="display: flex; align-items: center; gap: 10px;">Agrega tu portfolio <span
+                class="material-icons-outlined">work_outline</span></h2>
             <p class="section-subtitle">Los perfiles con portfolio reciben hasta un 70% más de interés por parte de los
               reclutadores. ¡No te quedes afuera!</p>
           </div>
@@ -212,9 +232,11 @@
             style="display: none;">
           <button class="btn-add" (click)="fileInputPortfolio.click()">+ Añadir</button>
 
-          <div *ngIf="archivoSeleccionado" class="file-status-container">
-            <span class="file-info">📄 {{ archivoSeleccionado.name }}</span>
-            <button type="button" class="btn-remove-cv" (click)="borrarArchivo('portfolio')">✕</button>
+          <div *ngIf="archivoSeleccionado" class="selected-file">
+            <span class="file-info" style="display: flex; align-items: center; gap: 8px;"><span
+                class="material-icons-outlined" style="font-size: 18px;">description</span> {{ archivoSeleccionado.name
+              }}</span>
+            <button (click)="borrarArchivo('portfolio')" class="btn-remove-cv">Eliminar</button>
           </div>
         </div>
       </section>
@@ -222,25 +244,23 @@
       <section class="card section-container" *ngSwitchCase="'habilidades'">
         <div class="section-header">
           <div>
-            <h2 class="section-title">Habilidades y experiencia</h2>
+            <h2 class="section-title">Habilidades</h2>
             <p class="section-subtitle">Añade tus conocimientos para que los reclutadores te encuentren.</p>
           </div>
-          <button *ngIf="isEditing && !mostrandoFormulario" class="btn-edit-blue" (click)="toggleEdit()">✕
-            Cancelar</button>
-          <button *ngIf="!isEditing" class="btn-edit-blue" (click)="toggleEdit()">✎ Añadir habilidades</button>
+          <button *ngIf="!isEditing" class="btn-edit-blue" (click)="toggleEdit()"
+            style="display: flex; align-items: center; gap: 6px;">
+            <span class="material-icons-outlined" style="font-size: 18px;">edit</span> Añadir habilidades
+          </button>
         </div>
 
         <div *ngIf="isEditing" class="edit-content">
           <div class="skills-list-preview" *ngIf="perfil?.habilidades?.length > 0">
             <div *ngFor="let hab of perfil.habilidades; let i = index" class="skill-tag">
               {{ hab.nombre }} <span>({{ hab.nivel }})</span>
-              <button class="btn-remove" (click)="eliminarHabilidad(i)">✕</button>
+              <button class="btn-remove" (click)="eliminarHabilidad(i); handleUpdate()">✕</button>
             </div>
           </div>
-          <div *ngIf="!mostrandoFormulario" class="empty-state">
-            <button class="btn-add" (click)="mostrandoFormulario = true">+ Añadir habilidad</button>
-          </div>
-          <div *ngIf="mostrandoFormulario" class="skill-form">
+          <div class="skill-form">
             <div class="form-grid">
               <div class="input-group">
                 <label>Habilidad:</label>
@@ -257,12 +277,9 @@
               </div>
             </div>
             <div class="form-actions">
-              <button class="btn-save" (click)="guardarHabilidad()">Añadir</button>
-              <button type="button" class="btn-cancel-link" (click)="mostrandoFormulario = false">Volver</button>
+              <button class="btn-save" (click)="guardarHabilidad(); handleUpdate()">Guardar</button>
+              <button type="button" class="btn-cancel-link" (click)="toggleEdit()">Cancelar</button>
             </div>
-          </div>
-          <div class="final-actions" *ngIf="perfil?.habilidades?.length > 0 && !mostrandoFormulario">
-            <button class="btn-save" (click)="handleUpdate()">Guardar</button>
           </div>
         </div>
       </section>
@@ -273,24 +290,21 @@
             <h2 class="section-title">Idiomas</h2>
             <p class="section-subtitle">Añade los idiomas que dominas para expandir tus oportunidades profesionales.</p>
           </div>
-          <button *ngIf="!isEditing" class="btn-edit-blue" (click)="isEditing = true">✎ Añadir idiomas</button>
-          <button *ngIf="isEditing && !mostrandoFormIdioma" class="btn-edit-blue" (click)="isEditing = false">
-            Volver</button>
+          <button *ngIf="!isEditing" class="btn-edit-blue" (click)="toggleEdit()"
+            style="display: flex; align-items: center; gap: 6px;">
+            <span class="material-icons-outlined" style="font-size: 18px;">edit</span> Añadir idiomas
+          </button>
         </div>
 
         <div *ngIf="isEditing" class="edit-content">
           <div class="skills-list-preview" *ngIf="perfil?.idiomas?.length > 0">
             <div *ngFor="let idioma of perfil.idiomas; let i = index" class="skill-tag">
               {{ idioma.nombre }} <span>({{ idioma.nivel }})</span>
-              <button class="btn-remove" (click)="eliminarIdioma(i)">✕</button>
+              <button class="btn-remove" (click)="eliminarIdioma(i); handleUpdate()">✕</button>
             </div>
           </div>
 
-          <div *ngIf="!mostrandoFormIdioma" class="empty-state">
-            <button class="btn-add" (click)="mostrandoFormIdioma = true">+ Añadir un idioma</button>
-          </div>
-
-          <div *ngIf="mostrandoFormIdioma" class="skill-form">
+          <div class="skill-form">
             <div class="form-grid">
               <div class="input-group">
                 <label>Idioma:</label>
@@ -310,24 +324,22 @@
               </div>
             </div>
             <div class="form-actions">
-              <button class="btn-save" (click)="guardarIdioma()">Agregar a la lista</button>
-              <button type="button" class="btn-cancel-link" (click)="mostrandoFormIdioma = false">Cancelar</button>
+              <button class="btn-save" (click)="guardarIdioma(); handleUpdate()">Guardar</button>
+              <button type="button" class="btn-cancel-link" (click)="toggleEdit()">Cancelar</button>
             </div>
-          </div>
-
-          <div class="final-actions" *ngIf="perfil?.idiomas?.length > 0 && !mostrandoFormIdioma"
-            style="margin-top: 20px;">
-            <button class="btn-save" (click)="handleUpdate()">Guardar</button>
           </div>
         </div>
       </section>
 
       <section class="card section-container" *ngSwitchCase="'empresa'">
-        <h2 class="section-title">Datos Detallados de la Empresa 🏢</h2>
+        <h2 class="section-title" style="display: flex; align-items: center; gap: 10px;">Datos Detallados de la Empresa
+          <span class="material-icons-outlined">business</span>
+        </h2>
       </section>
 
       <section class="card section-container" *ngSwitchCase="'ofertas'">
-        <h2 class="section-title">Mis Ofertas Activas 🚀</h2>
+        <h2 class="section-title" style="display: flex; align-items: center; gap: 10px;">Mis Ofertas Activas <span
+            class="material-icons-outlined">rocket_launch</span></h2>
         <button class="btn-add">+ Nueva Oferta</button>
       </section>
 
