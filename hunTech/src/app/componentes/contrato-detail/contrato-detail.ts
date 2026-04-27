@@ -88,14 +88,25 @@ export class ContratoDetail {
   }
 
   get postulacionesNormalizadas(): string[] {
-    const raw = this.contrato?.postulaciones as unknown as string;
+    const raw = this.contrato?.postulaciones as unknown;
 
     if (!raw) return [];
 
-    return raw
-      .split(",")
-      .map(s => s.trim())
-      .filter(s => s.length > 0);
+    // Puede venir como array (ya normalizado en el padre) o como string CSV (legacy).
+    if (Array.isArray(raw)) {
+      return (raw as unknown[])
+        .map(s => String(s).trim())
+        .filter(s => s.length > 0);
+    }
+
+    if (typeof raw === 'string') {
+      return raw
+        .split(',')
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+    }
+
+    return [];
   }
 
   verPerfilPostulante(): void {
