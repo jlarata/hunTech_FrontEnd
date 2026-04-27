@@ -60,19 +60,31 @@ export class Contratos {
 
 
   ngOnInit() {
-    // Suscripción para tener la data siempre actualizada
+    // Suscripción para tener la data siempre actualizada.
+    // Esperamos a tener perfil cargado antes de pedir los contratos,
+    // porque sino this.perfil.email es null y el filtro de postulaciones falla.
+    let lastEmail: string | undefined;
+    let lastRol: string | undefined;
     this.usersService.userProfile$.subscribe(data => {
-      if (data) {
-        this.perfil = { ...data }; 
-        this.rolActual = data.rol || '';
+      if (!data) return;
+      this.perfil = { ...data };
+      this.rolActual = data.rol || '';
 
-        //console.log("Rol detectado en Perfil:", this.rolActual);
+      // Solo refrescamos si cambió algo relevante para evitar loops
+      if (data.email !== lastEmail || this.rolActual !== lastRol) {
+        lastEmail = data.email;
+        lastRol = this.rolActual;
+        this.mostrarTodosLosContratos();
       }
     });
-    this.mostrarTodosLosContratos();
   }
 
   mostrarTodosLosContratos() {
+    // Sin perfil cargado no podemos clasificar postulaciones, esperamos.
+    if (!this.perfil || !this.perfil.email) {
+      return;
+    }
+
     this._loaderService.showLoader()
 
     //esto va a guardar el observable  al que nos vamos a suscribir
@@ -86,7 +98,13 @@ export class Contratos {
 
     data.subscribe({
       next: (res) => {
-        this.todosLosContratos = res.data;
+        // Normalizamos campos que el backend a veces devuelve como string
+        // separado por comas en vez de array (rompe los .join / .includes).
+        this.todosLosContratos = (res.data || []).map(c => ({
+          ...c,
+          seniority_deseado: this.toArray(c.seniority_deseado),
+          postulaciones: this.toArray(c.postulaciones as any),
+        }));
         this.createCards(this.todosLosContratos)
        
         if (this.pendingFragment) {
@@ -122,8 +140,9 @@ export class Contratos {
     }
 
     if (this.filtroSeniority) {
+      const sel = this.filtroSeniority.toLowerCase();
       filtrados = filtrados.filter(c =>
-        c.seniority_deseado?.includes(this.filtroSeniority)
+        (c.seniority_deseado || []).some(s => String(s).toLowerCase().includes(sel))
       );
     }
 
@@ -197,13 +216,25 @@ export class Contratos {
     // copia para filtros
     this.contratosDisponiblesCopia = [...this.contratosDisponibles];
 
-    // Auto-seleccionar el primer contrato disponible por defecto
-    if (!this.mostrandoContratoDetail) {
-      const primerContrato = this.contratosDisponibles[0] || this.contratosPendientes[0] || this.contratosAsignados[0];
-      if (primerContrato) {
-        this.contratoAMostrarDetail = primerContrato;
-        this.mostrandoContratoDetail = true;
-      }
+    // Auto-seleccionar / re-sincronizar el contrato del panel derecho.
+    // Si ya había uno seleccionado, intentamos mantener el mismo (por id)
+    // — importante porque al recargar todosLosContratos se crean objetos nuevos
+    // y la referencia anterior queda huérfana. Si no aparece (filtrado), usamos
+    // el primer contrato visible.
+    const previo = this.contratoAMostrarDetail;
+    const visibles = [...this.contratosDisponibles, ...this.contratosPendientes, ...this.contratosAsignados];
+    let nuevoSeleccionado = previo ? visibles.find(c => c.id === previo.id) : undefined;
+
+    if (!nuevoSeleccionado) {
+      nuevoSeleccionado = visibles[0];
+    }
+
+    if (nuevoSeleccionado) {
+      this.contratoAMostrarDetail = nuevoSeleccionado;
+      this.mostrandoContratoDetail = true;
+    } else {
+      this.contratoAMostrarDetail = undefined;
+      this.mostrandoContratoDetail = false;
     }
   }
 
@@ -253,6 +284,18 @@ export class Contratos {
     } catch (err) {
       console.error('Error scrolling to bottom:', err);
     }
+  }
+
+  /** Convierte un valor que puede venir como string CSV, array o null en array de strings limpios. */
+  private toArray(value: unknown): string[] {
+    if (!value) return [];
+    if (Array.isArray(value)) {
+      return value.map(v => String(v).trim()).filter(v => v.length > 0);
+    }
+    if (typeof value === 'string') {
+      return value.split(',').map(s => s.trim()).filter(s => s.length > 0);
+    }
+    return [];
   }
 }
 
