@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from './componentes/navbar/navbar';
@@ -23,9 +23,12 @@ import { Usuario } from './models/users/usuario';
     FormsModule,
   ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class App {
+  isModoOscuro: boolean = false;
+  private canvas?: HTMLCanvasElement;
 
   user$: Observable<User | null>;
   userEmail: string | null = null;
@@ -39,10 +42,42 @@ export class App {
   signup_password = '';
   loading = false;
   confirmationSent = false;
-
+  showLoginModal = false;
+  showRegisterModal = false;
+  showForgotPasswordModal = false;
+  reset_email = '';
+  resetSent = false;
   title = 'hunTech';
 
   cargandoData = true;
+
+  /* ---- MINI LIBRO 3D ---- */
+  bookSpread = 0;
+  bookFlipState: 'idle' | 'forward' = 'idle';
+  bookAnimating = false;
+  bookSpreads = [[0, 1], [2, 3]];
+  bookPages = [
+    { label: 'HunTech', title: '¿Qué es HunTech?', body: 'Nuestro objetivo es facilitar el contacto con empresas que valoran la innovación, la curiosidad y el potencial de los estudiantes de IT.', bg: '#f5f3ff' },
+    { label: 'Para vos', title: 'Tu perfil, tu marca', body: 'Completá tu perfil y destacate ante cientos de reclutadores activos.', bg: '#eff6ff' },
+    { label: 'Empresas', title: 'Talento a un click', body: 'Publicá ofertas y encontrá al desarrollador que tu equipo necesita.', bg: '#f0fdf4' },
+    { label: 'Comunidad', title: 'Crecé con nosotros', body: 'Accedé a recursos y una comunidad de profesionales de tecnología.', bg: '#fff7ed' }
+  ];
+  bookNext() {
+    if (this.bookSpread >= this.bookSpreads.length - 1 || this.bookAnimating) return;
+    this.bookAnimating = true;
+    this.bookFlipState = 'forward';
+    setTimeout(() => {
+      this.bookSpread++;
+      this.bookFlipState = 'idle';
+      setTimeout(() => { this.bookAnimating = false; }, 50);
+    }, 650);
+  }
+  bookPrev() {
+    if (this.bookSpread <= 0 || this.bookAnimating) return;
+    this.bookAnimating = true;
+    this.bookSpread--;
+    setTimeout(() => { this.bookAnimating = false; }, 100);
+  }
 
 
   constructor(
@@ -62,12 +97,32 @@ export class App {
   }
 
   async ngOnInit() {
+
     //this.userEmail = this.authService.getCurrentUser()?.email || '';
    
     // Pausamos la ejecucion hasta que Supabase lea la sesion del navegador
     await this.authService.session; 
-    
+    this.checkInitialTheme();
     await this.inicializarDatos();
+  }
+
+  checkInitialTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.isModoOscuro = true;
+      document.body.classList.add('dark-theme');
+    }
+  }
+
+  toggleModoOscuro() {
+    this.isModoOscuro = !this.isModoOscuro;
+    if (this.isModoOscuro) {
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   async inicializarDatos() {
@@ -86,6 +141,7 @@ export class App {
         if (usuarioExistente.data.existe == 1) {
 
           this.usuarioRol = usuarioExistente.data.tabla
+          this.closeModals(); //acá lo pusimos en la call moni celes ariel
 
           // debug --> console.log("Usuario hallado en BBDD: ", this.usuarioRol)
 
@@ -142,8 +198,9 @@ export class App {
       const { data, error } = await this.authService.signIn(this.login_email, this.login_password);
       if (error) throw error;
 
-      /*if (data.user?.email) {
 
+      /*if (data.user?.email) {
+          this.closeModals(); //aca lo puso originalmente nadine,
         const usuarioExistente = await this.checkUserExists(data.user.email)
 
         if (usuarioExistente.data.existe == 1) {
@@ -186,9 +243,10 @@ export class App {
 
       if (data.user && !data.session) {
         this.confirmationSent = true;
+
       }
     } catch (error: any) {
-      alert(error.message || 'An error occurred during sign up.');
+      alert(error.message || 'Hubo problemas al crear tu cuenta');
     } finally {
       this.loading = false;
     }
@@ -242,6 +300,46 @@ export class App {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  toggleLoginModal() {
+    this.showLoginModal = !this.showLoginModal;
+    this.showRegisterModal = false;
+    this.showForgotPasswordModal = false;
+  }
+
+  toggleRegisterModal() {
+    this.showRegisterModal = !this.showRegisterModal;
+    this.showLoginModal = false;
+  }
+
+  closeModals() {
+    this.showLoginModal = false;
+    this.showRegisterModal = false;
+    this.showForgotPasswordModal = false;
+    this.confirmationSent = false;
+    this.resetSent = false;
+  }
+
+  toggleForgotPasswordModal() {
+    this.showForgotPasswordModal = !this.showForgotPasswordModal;
+    this.showLoginModal = false;
+    this.showRegisterModal = false;
+    this.resetSent = false;
+  }
+
+  async handleResetPassword(event: Event) {
+    event.preventDefault();
+    this.loading = true;
+    try {
+      const { error } = await this.authService.resetPassword(this.reset_email);
+      if (error) throw error;
+      this.resetSent = true;
+    } catch (error: any) {
+      alert(error.message || 'Error al enviar el correo de recuperación');
+    } finally {
+      this.loading = false;
     }
   }
 }

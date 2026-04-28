@@ -30,6 +30,7 @@ export class Navbar {
 
   isDropdownDesarrolladorOpen = false;
   isDropdownGerenteOpen = false;
+  isModoOscuro = false;
 
   constructor(
     private authService: AuthService,
@@ -44,6 +45,12 @@ export class Navbar {
     await this.inicializarDatos();
 
     this.isOnContratos = this.router.url?.startsWith('/contratos');
+    
+    // Inicializar tema
+    const savedTheme = localStorage.getItem('theme');
+    this.isModoOscuro = savedTheme === 'dark';
+    this.updateThemeClass();
+
     this._subs = this.router.events.subscribe((ev: any) => {
       if (ev instanceof NavigationEnd) {
         this.isOnContratos = ev.urlAfterRedirects?.startsWith('/contratos');
@@ -128,5 +135,19 @@ export class Navbar {
   async logout() {
     await this.authService.signOut();
     window.location.href = '/';
+  }
+
+  toggleModoOscuro() {
+    this.isModoOscuro = !this.isModoOscuro;
+    localStorage.setItem('theme', this.isModoOscuro ? 'dark' : 'light');
+    this.updateThemeClass();
+  }
+
+  private updateThemeClass() {
+    if (this.isModoOscuro) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
   }
 }
