@@ -9,7 +9,7 @@ import {
 import { environment } from '../environments/environment';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
-const supabase = createClient('https://your-project.supabase.co', 'sb_publishable_... or anon key')
+//const supabase = createClient('https://your-project.supabase.co', 'sb_publishable_... or anon key')
 
 @Injectable({
   providedIn: 'root',

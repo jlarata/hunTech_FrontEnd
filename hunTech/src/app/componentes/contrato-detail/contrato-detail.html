@@ -1,9 +1,9 @@
 <main class="contrato-main">
   @if (contrato) {
   <div class="contrato-card" [ngClass]="{ 
-    'asignado': contrato?.esta_ocupado, 
-    'asignado-dev': contrato?.esta_ocupado && rol === 'desarrollador',
-    'pendiente': !contrato?.esta_ocupado && (email ? postulacionesNormalizadas.includes(email) : false),
+    'asignado': contrato.esta_ocupado, 
+    'asignado-dev': contrato.esta_ocupado && rol === 'desarrollador',
+    'pendiente': !contrato.esta_ocupado && (email ? postulacionesNormalizadas.includes(email) : false),
   }">
     <h2>{{contrato.titulo| uppercase}}</h2>
     <!-- <div><span>id: </span> {{contrato.id}}</div> -->

@@ -49,7 +49,7 @@ export class App {
   resetSent = false;
   title = 'hunTech';
 
-  cargandoData = false;
+  cargandoData = true;
 
   /* ---- MINI LIBRO 3D ---- */
   bookSpread = 0;
@@ -97,9 +97,13 @@ export class App {
   }
 
   async ngOnInit() {
-    this.userEmail = this.authService.getCurrentUser()?.email || '';
+
+    //this.userEmail = this.authService.getCurrentUser()?.email || '';
+   
+    // Pausamos la ejecucion hasta que Supabase lea la sesion del navegador
+    await this.authService.session; 
     this.checkInitialTheme();
-    await this.inicializarDatos()
+    await this.inicializarDatos();
   }
 
   checkInitialTheme() {
@@ -122,20 +126,22 @@ export class App {
   }
 
   async inicializarDatos() {
-    this.cargandoData = true;
+    //this.cargandoData = true;
 
     this.authSub = this.authService.userEmail$.pipe(
 
-      distinctUntilChanged(),
-      filter(email => email !== null)
+      distinctUntilChanged()
+      //,filter(email => email !== null)
 
     ).subscribe(async email => {
+      this.cargandoData = true;
       this.userEmail = email;
       if (email) {
         const usuarioExistente = await this.checkUserExists(email);
         if (usuarioExistente.data.existe == 1) {
 
           this.usuarioRol = usuarioExistente.data.tabla
+          this.closeModals(); //acá lo pusimos en la call moni celes ariel
 
           // debug --> console.log("Usuario hallado en BBDD: ", this.usuarioRol)
 
@@ -151,6 +157,9 @@ export class App {
           this.usuarioRol = '';
           console.log("Usuario no hallado, mostrando selector de rol")
         }
+      }else {
+        //para cuando no hay sesión activa
+        this.usuarioRol = '';
       }
       this.cargandoData = false;
     });
@@ -189,8 +198,9 @@ export class App {
       const { data, error } = await this.authService.signIn(this.login_email, this.login_password);
       if (error) throw error;
 
-      if (data.user?.email) {
-        this.closeModals();
+
+      /*if (data.user?.email) {
+          this.closeModals(); //aca lo puso originalmente nadine,
         const usuarioExistente = await this.checkUserExists(data.user.email)
 
         if (usuarioExistente.data.existe == 1) {
@@ -211,13 +221,14 @@ export class App {
         } else {
           this.usuarioRol = '';
         }
-      }
+      }*/
     } catch (error: any) {
       alert(error.error_description || error.message);
+      this.cargandoData = false;
     } finally {
       this.loading = false;
     }
-    this.cargandoData = false;
+    //this.cargandoData = false;
   }
 
   async handleSignUp(event: Event) {

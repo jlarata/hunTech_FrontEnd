@@ -3,65 +3,67 @@
 
   <app-spinner></app-spinner>
 
-  }
+  }@else {
 
-  @if (userEmail) {
+  
 
-  <!-- <div *ngIf="user$ | async as user; else loggedOut"> -->
-  <div>
-    @if (usuarioRol && usuarioRol !== '') {
+    @if (userEmail) {
+
+    <!-- <div *ngIf="user$ | async as user; else loggedOut"> -->
     <div>
+      @if (usuarioRol && usuarioRol !== '') {
+      <div>
 
-      <div class="main-content">
-        <app-navbar></app-navbar>
-        <router-outlet></router-outlet>
+        <div class="main-content">
+          <app-navbar></app-navbar>
+          <router-outlet></router-outlet>
+        </div>
       </div>
+      }
+      @else {
+      <div class="descripcion-container">
+
+        <div class="logo-header-global">
+          <div class="logo-with-pulse">
+            <span class="logo-text">HUNTECH</span>
+            <span class="status-pulse"></span>
+          </div>
+        </div>
+        <hr class="header-divider">
+
+        <div class="card">
+          <h3 class="titulo">Bienvenido a Huntech</h3>
+          <p class="subtitulo">
+            Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
+          </p>
+
+          <div class="form-group">
+            <label for="role" class="label-pro">Selecciona tu rol *</label>
+            <select id="role" [(ngModel)]="selectedRole" class="form-control">
+              <option value="" disabled selected>-- Elige una opción --</option>
+              <option value="desarrollador">Desarrollador</option>
+              <option value="gerente">Empresa / Reclutador</option>
+              <option value="institucion">Institución Educativa</option>
+            </select>
+          </div>
+
+          <div class="actions">
+            <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
+              {{ loading ? 'Guardando...' : 'Salvar' }}
+            </button>
+
+            <button type="button" (click)="logout()" class="btn-secondary">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+      }
     </div>
     }
+
     @else {
-    <div class="descripcion-container">
-
-      <div class="logo-header-global">
-        <div class="logo-with-pulse">
-          <span class="logo-text">HUNTECH</span>
-          <span class="status-pulse"></span>
-        </div>
-      </div>
-      <hr class="header-divider">
-
-      <div class="card">
-        <h3 class="titulo">Bienvenido a Huntech</h3>
-        <p class="subtitulo">
-          Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
-        </p>
-
-        <div class="form-group">
-          <label for="role" class="label-pro">Selecciona tu rol *</label>
-          <select id="role" [(ngModel)]="selectedRole" class="form-control">
-            <option value="" disabled selected>-- Elige una opción --</option>
-            <option value="desarrollador">Desarrollador</option>
-            <option value="gerente">Empresa / Reclutador</option>
-            <option value="institucion">Institución Educativa</option>
-          </select>
-        </div>
-
-        <div class="actions">
-          <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
-            {{ loading ? 'Guardando...' : 'Salvar' }}
-          </button>
-
-          <button type="button" (click)="logout()" class="btn-secondary">
-            Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
-    }
-  </div>
-  }
-
-  @else {
-  <div class="guest-container">
+    <div class="guest-container">
 
     <nav class="navbar guest-nav">
       <div class="logo-with-pulse">
@@ -383,6 +385,7 @@
   } <!-- aca termina el libro :0 -->
 
 
+    }
   }
 
 
