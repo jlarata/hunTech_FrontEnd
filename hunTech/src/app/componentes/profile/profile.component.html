@@ -125,7 +125,8 @@
               <div class="form-grid">
                 <div class="input-container">
                   <label class="field-label required-field">Correo electrónico</label>
-                  <input type="email" [(ngModel)]="perfil.email" name="email" class="custom-input"
+                  <!-- Dejo todas las validaciones por si un día lo usamos pero agrego readonly xq no debería haber un caso en el que se cambia el email -->
+                  <input type="email" readonly [(ngModel)]="perfil.email" name="email" class="custom-input"
                     placeholder="ejemplo@correo.com" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                     #emailInput="ngModel">
                   <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-message">
