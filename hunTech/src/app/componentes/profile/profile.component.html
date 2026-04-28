@@ -6,7 +6,7 @@
       <p class="sidebar-text">¿Estás disponible para recibir oportunidades?</p>
       <div class="status-selector">
         <span class="dot" [ngClass]="perfil.disponible ? 'dot-green' : 'dot-red'"></span>
-        <select class="clean-select" [(ngModel)]="perfil.disponible" (change)="handleUpdate()">
+        <select class="clean-select" [(ngModel)]="perfil.is_disponible" (change)="handleUpdate()">
           <option [ngValue]="false">No disponible</option>
           <option [ngValue]="true">Disponible</option>
         </select>
@@ -144,11 +144,11 @@
                 <div class="gender-section">
                   <label class="field-label">Género</label>
                   <div class="gender-options">
-                    <label class="radio-item"><input type="radio" name="genero" value="mujer"
+                    <label class="radio-item"><input type="radio" name="genero" value="F"
                         [(ngModel)]="perfil.genero"><span>F</span></label>
-                    <label class="radio-item"><input type="radio" name="genero" value="hombre"
+                    <label class="radio-item"><input type="radio" name="genero" value="M"
                         [(ngModel)]="perfil.genero"><span>M</span></label>
-                    <label class="radio-item"><input type="radio" name="genero" value="otro"
+                    <label class="radio-item"><input type="radio" name="genero" value="X"
                         [(ngModel)]="perfil.genero"><span>X</span></label>
                   </div>
                 </div>
