@@ -95,6 +95,14 @@
         </a>
       </li>
 
+      <li class="nav-item" *ngIf="isgests">
+        <a class="btn-halo" routerLink="/whitelist-email" routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">
+          <span class="material-icons-outlined">mark_email_read</span>
+          Whitelist
+        </a>
+      </li>
+
       <li class="nav-item">
         <a class="btn-halo" routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           (click)="closeMenu()">

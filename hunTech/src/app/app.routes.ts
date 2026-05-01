@@ -55,5 +55,12 @@ export const routes: Routes = [
     import('./componentes/dashboard/dashboard').then((m) => m.Dashboard)
   },
 
+  {
+    path: 'whitelist-email',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./componentes/whitelist-email/whitelist-email').then((m) => m.WhitelistEmail),
+  },
+
   { path: '**', redirectTo: '' },
 ];
