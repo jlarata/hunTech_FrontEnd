@@ -4,6 +4,7 @@ import { Users } from './../../servicios/users';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ProyectoService } from '../../servicios/miproyecto';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,7 @@ export class ProfileComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private usersService = inject(Users);
+  private projectService = inject(ProyectoService)
 
 
   perfil: any = null;
@@ -53,12 +55,24 @@ export class ProfileComponent implements OnInit {
           ...data,
           habilidades: data.habilidades || [],
           idiomas: data.idiomas || [],
-          empresa_nombre: data.empresa_nombre || '',
-          web_empresa: data.web_empresa || '',
-          descripcion_empresa: data.descripcion_empresa || '',
-          ubicacion_empresa: data.ubicacion_empresa || ''
+          /* empresa_nombre: data.empresa_nombre || '', esto sale de otro servicio, proyecto */
+          /* web_empresa: data.web_empresa || '', */
+          /* descripcion_empresa: data.descripcion_empresa || '', */
+          /* ubicacion_empresa: data.ubicacion_empresa || '', */
+          telefono: data.telefono
         };
         this.rolActual = data.rol || '';
+
+        this.projectService.getProyectoPorEmail(data.email).subscribe({
+          next: (res) => {
+            //console.log(`${res.count} ${res.message}`)
+            //console.log(res.data)
+            this.perfil.proyecto = res.data[0];
+          },
+          error: (error: string) => {
+            console.log('desde el componente perfil error ' + error)
+          }
+        });
       }
     });
   }
@@ -146,19 +160,39 @@ export class ProfileComponent implements OnInit {
   async handleUpdate() {
     if (!this.rolActual) return alert("Error: No se detectó el rol del usuario");
 
-    try {
-      this.loading = true;
-      const email = this.perfil.email;
-      await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
-      this.isEditing = false;
-      alert('Perfil actualizado con éxito');
-    } catch (error) {
-      console.error('Error en PUT:', error);
-      alert('Hubo un error al guardar los cambios');
-    } finally {
-      this.loading = false;
+    if (this.rolActual == 'desarrollador') {
+      try {
+        this.loading = true;
+        const email = this.perfil.email;
+        await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
+        this.isEditing = false;
+        alert('Perfil actualizado con éxito');
+      } catch (error) {
+        console.error('Error en PUT:', error);
+        alert('Hubo un error al guardar los cambios');
+      } finally {
+        this.loading = false;
+      }
     }
+
+    if (this.rolActual == 'gerente') {
+      try {
+        this.loading = true;
+        const email = this.perfil.email;
+        await lastValueFrom(this.projectService.editProyecto(this.perfil.proyecto)) && lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
+        this.isEditing = false;
+        alert('Perfil actualizado con éxito');
+      } catch (error) {
+        console.error('Error en PUT:', error);
+        alert('Hubo un error al guardar los cambios');
+      } finally {
+        this.loading = false;
+      }
+    }
+
+
   }
+
 
   get isProfileEmpty(): boolean {
     if (!this.perfil) return true;
