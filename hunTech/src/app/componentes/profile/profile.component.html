@@ -3,12 +3,12 @@
   <aside class="sidebar">
     <div class="card">
       <h3 class="sidebar-title">Mi estatus</h3>
-      <p class="sidebar-text">¿Estás disponible para recibir oportunidades?</p>
+      <p class="sidebar-text">¿Está tu empresa actualmente buscando desarrolladores?</p>
       <div class="status-selector">
-        <span class="dot" [ngClass]="perfil.disponible ? 'dot-green' : 'dot-red'"></span>
-        <select class="clean-select" [(ngModel)]="perfil.is_disponible" (change)="handleUpdate()">
-          <option [ngValue]="false">No disponible</option>
-          <option [ngValue]="true">Disponible</option>
+        <span class="dot" [ngClass]="perfil.proyecto.buscando_devs ? 'dot-green' : 'dot-red'"></span>
+        <select class="clean-select" [(ngModel)]="perfil.proyecto.buscando_devs" (change)="handleUpdate()">
+          <option [ngValue]="false">No por el momento</option>
+          <option [ngValue]="true">Sí, buscando</option>
         </select>
       </div>
     </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="user-names">
                   <h3 class="user-h3">
-                    {{ rolActual === 'gerente' ? (perfil.empresa_nombre || 'Empresa') : (perfil.nombre + ' ' +
+                    {{ rolActual === 'gerente' ? (perfil.proyecto.nombre || 'Nombre de la empresa...') : (perfil.nombre + ' ' +
                     perfil.apellido) }}
                     <span class="badge-new" *ngIf="isProfileEmpty">Casi terminado</span>
                   </h3>
@@ -90,12 +90,12 @@
               </ng-container>
 
               <ng-container *ngIf="rolActual === 'gerente'">
-                <div class="data-item"><span class="material-icons-outlined data-icon">link</span> {{ perfil.web_empresa
+                <div class="data-item"><span class="material-icons-outlined data-icon">link</span> {{ perfil.proyecto.info_link
                   || 'Web no definida' }}</div>
                 <div class="data-item"><span class="material-icons-outlined data-icon">person_outline</span> {{
                   perfil.nombre }} {{ perfil.apellido }} (Contacto)</div>
               </ng-container>
-              <div class="data-item-full" *ngIf="perfil.descripcion" style="display: flex; gap: 8px;"><span
+              <div class="data-item-full" *ngIf="perfil.proyecto.descritcion" style="display: flex; gap: 8px;"><span
                   class="material-icons-outlined data-icon">description</span> {{ perfil.descripcion }}</div>
             </div>
 
