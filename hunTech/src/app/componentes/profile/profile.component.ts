@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
         this.projectService.getProyectoPorEmail(data.email).subscribe({
           next: (res) => {
             //console.log(`${res.count} ${res.message}`)
-            //console.log(res.data)
+            //console.log(res.data[0])
             this.perfil.proyecto = res.data[0];
           },
           error: (error: string) => {
