@@ -90,8 +90,8 @@ export class Users {
     }
 
     const url = `${this.USERSURL}usuario/${email}`;
-    console.log("URL: ", url)
-    console.log("data: ", userData)
+    //console.log("URL: ", url)
+    //console.log("data: ", userData)
     return this._httpClient.put<any>(url, userData).pipe(
       tap(() => {
         // Actualiza el estado local para que los cambios se vean al instante
