@@ -59,7 +59,9 @@ export class ProfileComponent implements OnInit {
           /* web_empresa: data.web_empresa || '', */
           /* descripcion_empresa: data.descripcion_empresa || '', */
           /* ubicacion_empresa: data.ubicacion_empresa || '', */
-          telefono: data.telefono
+          telefono: data.telefono,
+          posicion:data.puesto_actual
+
         };
         this.rolActual = data.rol || '';
 
@@ -159,12 +161,19 @@ export class ProfileComponent implements OnInit {
 
   async handleUpdate() {
     if (!this.rolActual) return alert("Error: No se detectó el rol del usuario");
+    
 
     if (this.rolActual == 'desarrollador') {
+      //como en db posicion es puesto_actual lo voy a renombrar antes de enviar
+      const userDevPayload = {
+        ...this.perfil,
+        puesto_actual: this.perfil.posicion, 
+      };
+
       try {
         this.loading = true;
         const email = this.perfil.email;
-        await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
+        await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, userDevPayload));
         this.isEditing = false;
         alert('Perfil actualizado con éxito');
       } catch (error) {
