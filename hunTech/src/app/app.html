@@ -5,86 +5,66 @@
 
   }@else {
 
-  
 
-    @if (userEmail) {
 
-    <!-- <div *ngIf="user$ | async as user; else loggedOut"> -->
+  @if (userEmail) {
+
+  <!-- <div *ngIf="user$ | async as user; else loggedOut"> -->
+  <div>
+    @if (usuarioRol && usuarioRol !== '') {
     <div>
-      @if (usuarioRol && usuarioRol !== '') {
-      <div>
 
-        <div class="main-content">
-          <app-navbar></app-navbar>
-          <router-outlet></router-outlet>
-        </div>
+      <div class="main-content">
+        <app-navbar></app-navbar>
+        <router-outlet></router-outlet>
       </div>
-      }
-      @else {
-      <div class="descripcion-container">
-
-        <div class="logo-header-global">
-          <div class="logo-with-pulse">
-            <span class="logo-text">HUNTECH</span>
-            <span class="status-pulse"></span>
-          </div>
-        </div>
-        <hr class="header-divider">
-
-        <div class="card">
-          <h3 class="titulo">Bienvenido a Huntech</h3>
-          <p class="subtitulo">
-            Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
-          </p>
-
-          <div class="form-group">
-            <label for="role" class="label-pro">Selecciona tu rol *</label>
-            <select id="role" [(ngModel)]="selectedRole" class="form-control">
-              <option value="" disabled selected>-- Elige una opción --</option>
-              <option value="desarrollador">Desarrollador</option>
-              <option value="gerente">Empresa / Reclutador</option>
-              <option value="institucion">Institución Educativa</option>
-            </select>
-          </div>
-
-          <div class="actions">
-            <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
-              {{ loading ? 'Guardando...' : 'Salvar' }}
-            </button>
-
-            <button type="button" (click)="logout()" class="btn-secondary">
-              Cancelar
-            </button>
-          </div>
-        </div>
-      </div>
-      }
     </div>
     }
-
     @else {
-    <div class="guest-container">
+    <div class="descripcion-container">
 
-    <nav class="navbar guest-nav">
-      <div class="logo-with-pulse">
-        <span class="logo">HUNTECH</span>
-        <span class="status-pulse"></span>
+      <div class="logo-header-global">
+        <div class="logo-with-pulse">
+          <span class="logo-text">HUNTECH</span>
+          <span class="status-pulse"></span>
+        </div>
       </div>
-      <!--<ul class="nav-links">
-        <li><a class="nav-btn" (click)="scrollTo('hero-left')"></a></li>
-        <li><a class="nav-btn" href="#"></a></li>
-        <li><a class="nav-btn" href="#"></a></li>
-      </ul>-->
-      <div class="nav-auth-buttons">
-        <button class="btn-theme-toggle" (click)="toggleModoOscuro()"
-          [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
-          <span class="material-icons-outlined toggle-icon" style="font-size: 20px; line-height: 1;">{{ isModoOscuro ?
-            'light_mode' : 'dark_mode' }}</span>
-        </button>
-        <button class="btn-guest-login" (click)="toggleLoginModal()">Iniciar Sesión</button>
-        <button class="btn-guest-register" (click)="toggleRegisterModal()">Registrate</button>
+      <hr class="header-divider">
+
+      <div class="card">
+        <h3 class="titulo">Bienvenido a Huntech</h3>
+        <p class="subtitulo">
+          Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
+        </p>
+
+        <div class="form-group">
+          <label for="role" class="label-pro">Selecciona tu rol *</label>
+          <select id="role" [(ngModel)]="selectedRole" class="form-control">
+            <option value="" disabled selected>-- Elige una opción --</option>
+            <option value="desarrollador">Desarrollador</option>
+            <option value="gerente">Empresa / Reclutador</option>
+            <option value="institucion">Institución Educativa</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
+            {{ loading ? 'Guardando...' : 'Salvar' }}
+          </button>
+
+          <button type="button" (click)="logout()" class="btn-secondary">
+            Cancelar
+          </button>
+        </div>
       </div>
-    </nav>
+    </div>
+    }
+  </div>
+  }
+
+  @else {
+    <div class="guest-container">
+      <app-navbar (onLogin)="toggleLoginModal()" (onRegister)="toggleRegisterModal()"></app-navbar>
     <!-- HERO -->
     <section class="hero">
 
@@ -303,89 +283,8 @@
     }
   </div>
 
-  <!--  LIBRO -->
-  @if (!userEmail) {
-  <div class="mini-book-wrapper">
 
-    <!-- LIBRO -->
-    <div class="mini-book-scene">
-      <div class="mini-book">
-
-        <!-- PÁGINA IZQUIERDA -->
-        <div class="mini-page mini-left-page" [style.background]="bookPages[bookSpreads[bookSpread][0]].bg">
-          <div class="mini-page-inner">
-            <div class="mini-page-num">{{ bookSpreads[bookSpread][0] + 1 }}</div>
-            <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread][0]].label }}</p>
-            <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread][0]].title }}</h4>
-            <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread][0]].body }}</p>
-          </div>
-        </div>
-
-
-        <div class="mini-spine"></div>
-
-        <!-- SECCIÓN DERECHA -->
-        <div class="mini-right-section">
-
-          <!-- Página de fondo (siguiente spread - derecha) -->
-          <div class="mini-page mini-right-bg" *ngIf="bookSpread < bookSpreads.length - 1"
-            [style.background]="bookPages[bookSpreads[bookSpread + 1][1]].bg">
-            <div class="mini-page-inner">
-              <div class="mini-page-num right">{{ bookSpreads[bookSpread + 1][1] + 1 }}</div>
-              <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread + 1][1]].label }}</p>
-              <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread + 1][1]].title }}</h4>
-              <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread + 1][1]].body }}</p>
-            </div>
-          </div>
-
-          <!-- PÁGINA QUE SE VOLTEA -->
-          <div class="mini-flip-page" [class.mini-flip-forward]="bookFlipState === 'forward'">
-
-            <!-- Cara front: página derecha actual -->
-            <div class="mini-flip-face mini-front" [style.background]="bookPages[bookSpreads[bookSpread][1]].bg">
-              <div class="mini-page-inner">
-                <div class="mini-page-num right">{{ bookSpreads[bookSpread][1] + 1 }}</div>
-                <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread][1]].label }}</p>
-                <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread][1]].title }}</h4>
-                <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread][1]].body }}</p>
-              </div>
-            </div>
-
-            <!-- Cara back: próxima página izquierda -->
-            <div class="mini-flip-face mini-back" *ngIf="bookSpread < bookSpreads.length - 1"
-              [style.background]="bookPages[bookSpreads[bookSpread + 1][0]].bg">
-              <div class="mini-page-inner mirrored">
-                <div class="mini-page-num">{{ bookSpreads[bookSpread + 1][0] + 1 }}</div>
-                <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread + 1][0]].label }}</p>
-                <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread + 1][0]].title }}</h4>
-                <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread + 1][0]].body }}</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <!-- /mini-right-section -->
-
-      </div>
-    </div>
-
-    <!-- NAVEGACIÓN INFERIOR -->
-    <div class="mini-book-nav">
-      <button class="mini-nav-btn" (click)="bookPrev()" [disabled]="bookSpread === 0 || bookAnimating">
-        <span class="material-icons-outlined">chevron_left</span>
-      </button>
-      <span class="mini-nav-text">{{ bookSpread + 1 }} / {{ bookSpreads.length }}</span>
-      <button class="mini-nav-btn" (click)="bookNext()"
-        [disabled]="bookSpread >= bookSpreads.length - 1 || bookAnimating">
-        <span class="material-icons-outlined">chevron_right</span>
-      </button>
-    </div>
-
-  </div>
-  } <!-- aca termina el libro :0 -->
-
-
-    }
+  }
   }
 
 

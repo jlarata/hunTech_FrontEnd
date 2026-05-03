@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../servicios/AuthService';
@@ -15,6 +15,8 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./navbar.css'],
 })
 export class Navbar {
+  @Output() onLogin = new EventEmitter<void>();
+  @Output() onRegister = new EventEmitter<void>();
   user$: Observable<User | null>;
   menuActive = false;
   isgests = false;
@@ -23,6 +25,44 @@ export class Navbar {
   private _subs: any;
   activeFragment?: string | null = null;
   private gests = ['']
+
+  /* ---- MINI LIBRO 3D ---- */
+  showBookModal = false;
+  bookSpread = 0;
+  bookFlipState: 'idle' | 'forward' = 'idle';
+  bookAnimating = false;
+  bookSpreads = [[-1, 0], [1, 2], [3, 4], [5, 6], [7, -1]];
+  bookPages = [
+    {
+      isCover: true, title: '', body: 'HUNTECH', bg: '#2a1b0e'
+    },
+    { label: 'HunTech', title: '¿Qué es HunTech?', body: 'Nuestro objetivo es facilitar el contacto con empresas que valoran la innovación, la curiosidad y el potencial de los estudiantes de IT.', bg: '#e8d4b9' },
+    { label: 'Para vos', title: 'Tu perfil, tu marca', body: 'Completá tu perfil y destacate ante cientos de reclutadores activos.', bg: '#e8d4b9' },
+    { label: 'Empresas', title: 'Talento a un click', body: 'Publicá ofertas y encontrá al desarrollador que tu equipo necesita.', bg: '#e8d4b9' },
+    { label: 'Contratos', title: 'Gestión Simple', body: 'Seguí tus procesos de contratación en tiempo real con transparencia total.', bg: '#e8d4b9' },
+    { label: 'Comunidad', title: 'Crecé con nosotros', body: 'Accedé a recursos y una comunidad de profesionales de tecnología.', bg: '#e8d4b9' },
+    { label: 'Futuro', title: 'Próximos Pasos', body: 'Estamos trabajando en nuevas herramientas de IA para potenciar tu búsqueda laboral.', bg: '#e8d4b9' },
+    { isBackCover: true, title: 'HUNTECH', body: '', bg: '#2a1b0e' }
+  ];
+
+  bookNext() {
+    if (this.bookSpread >= this.bookSpreads.length - 1) return;
+    this.bookSpread++;
+  }
+
+  bookPrev() {
+    if (this.bookSpread <= 0) return;
+    this.bookSpread--;
+  }
+
+  toggleBookModal() {
+    this.showBookModal = !this.showBookModal;
+    this.closeMenu();
+  }
+
+  closeBookModal() {
+    this.showBookModal = false;
+  }
 
 
   perfil: any = null;
@@ -45,7 +85,7 @@ export class Navbar {
     await this.inicializarDatos();
 
     this.isOnContratos = this.router.url?.startsWith('/contratos');
-    
+
     // Inicializar tema
     const savedTheme = localStorage.getItem('theme');
     this.isModoOscuro = savedTheme === 'dark';
@@ -132,9 +172,18 @@ export class Navbar {
     });
   }
 
+  navigateTo(path: string) {
+    this.router.navigate([`/${path}`]);
+    this.closeMenu();
+  }
+
   async logout() {
     await this.authService.signOut();
     window.location.href = '/';
+  }
+
+  openBook() {
+    this.toggleBookModal();
   }
 
   toggleModoOscuro() {

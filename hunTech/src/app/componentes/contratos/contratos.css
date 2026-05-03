@@ -388,8 +388,14 @@
   overflow-y: auto;
 }
 
-.drawer-open .drawer-content::-webkit-scrollbar { width: 4px; }
-.drawer-open .drawer-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+.drawer-open .drawer-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.drawer-open .drawer-content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 2px;
+}
 
 /* --- Panel derecho: detalle --- */
 
