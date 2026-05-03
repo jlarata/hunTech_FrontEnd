@@ -36,9 +36,9 @@
           {{ rolActual === 'gerente' ? 'Datos de Perfil' : 'Información personal' }}
         </li>
         <ng-container *ngIf="rolActual === 'desarrollador'">
-          <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
+          <!-- <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
             Agregar Portfolio
-          </li>
+          </li> -->
           <li (click)="cambiarSeccion('habilidades')" [class.active]="seccionActiva === 'habilidades'">
             Habilidades
           </li>
