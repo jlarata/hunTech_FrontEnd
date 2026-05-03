@@ -1,91 +1,484 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-.contrato-detail-container {
-  width: 70vw;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-left: 220px;
-}
 
-.contrato-card-container {
+.contratos-split-layout {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 12px;
+  height: calc(100vh - 64px);
   margin-left: 220px;
-  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
 }
 
-.contrato-card {
+.contratos-list-panel {
+  width: 400px;
+  min-width: 360px;
+  max-width: 450px;
+  overflow-y: auto;
+  padding: 1rem 0.75rem;
+  padding-bottom: 0;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  border-right: 1px solid rgba(226, 232, 240, 0.8);
+  background: #ffffff;
+  position: relative;
+}
+
+
+.contratos-list-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.contratos-list-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contratos-list-panel::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.contratos-list-panel::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+
+.search-box {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 0.5rem 0 1rem;
+  background: #ffffff;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  font-family: 'Outfit', sans-serif;
+  border: 2px solid #f1f5f9;
+  border-radius: 16px;
+  outline: none;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  color: #1e293b;
+}
+
+.search-input:focus {
+  border-color: #300a6e;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(48, 10, 110, 0.05);
+}
+
+/* --- Filtros bar --- */
+.filtros-bar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 0.25rem 0.5rem;
+  align-items: center;
+}
+
+.filtro-select {
+  flex: 1;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.82rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f3f2ef;
+  color: #374151;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  color-scheme: light;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b5cf6' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  padding-right: 2rem;
+}
+
+.filtro-select option {
+  background: #ffffff;
+  color: #374151;
+  border-radius: 6px;
+}
+
+.filtro-select:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+  background-color: #fff;
+}
+
+.filtro-clear {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.filtro-clear:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+
+/* --- Tag modalidad/seniority en cards --- */
+.tag-modalidad {
+  background: #ede9fe;
+  color: #6d28d9;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.68rem;
+  text-transform: capitalize;
+}
+
+.tag-seniority {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.68rem;
+}
+
+/* --- Tarjeta de contrato (item de la lista) --- */
+
+.contrato-card-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  /* overflow hidden solo para el indicador lateral ::before, no recorta contenido vertical */
+  word-break: break-word;
+}
+
+.contrato-card-item::before {
+  border-radius: 18px 0 0 18px;
+}
+
+.contrato-card-item:hover {
+  transform: translateY(-2px);
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+}
+
+.contrato-card-item.active {
+  background: #ffffff;
+  border-color: #300a6e;
+  box-shadow: 0 10px 20px -5px rgba(48, 10, 110, 0.1);
+}
+
+.contrato-card-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: #300a6e;
+  transition: width 0.3s ease;
+}
+
+.contrato-card-item.active::before {
+  width: 5px;
+}
+
+.card-item-header {
+  display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  background-color: #f5eeee;
-  border-radius: 12px;
-  width: 300px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card-item-titulo {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.35;
+  font-family: 'Inter', sans-serif;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.contrato-card-item.active .card-item-titulo {
+  color: #300a6e;
+}
+
+.card-item-descripcion {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: #221848;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeSlideIn 0.6s ease-out forwards;
+  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+  /* Altura fija = 2 líneas exactas. Con un pelo menos para que el descender
+     del 3er renglón nunca asome (evita la "media línea" típica del clamp). */
+  height: 2.6em;
+  max-height: 2.6em;
+  flex-shrink: 0;
 }
 
-.contrato-card:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 12px 25px rgba(34, 24, 72, 0.25);
+.card-item-pasante {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+  overflow-wrap: anywhere;
 }
 
-.contrato-card-titulo { color: #221848; font-weight: 700; font-size: 1.3rem; margin-bottom: 0.75rem; border-bottom: 2px solid #5a9bd6; padding-bottom: 0.3rem; }
-.contrato-card-content { padding: 1.5rem; }
-.contrato-card-content h2 { margin-top: 0; font-size: 1.4rem; color: #221848; }
-.contrato-card-content p { margin: 0.5rem 0 0; font-size: 1rem; line-height: 1.5; color: #2c3e50; }
+.card-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 5px;
+}
 
-.card-button-group { display: flex; gap: 0.5rem; padding: 1rem; justify-content: flex-end; }
-.card-button-group button { display: flex; justify-content: center; align-items: center; border-radius: 50%; width: 2.5rem; height: 2.5rem; font-size: 1.2rem; font-weight: bold; background-color: #5a9bd6; color: #fff; border: none; cursor: pointer; transition: all 0.3s ease; }
-.card-button-group button:hover { background-color: #4178be; box-shadow: 0 5px 15px rgba(65,120,190,0.4); transform: translateY(-2px); }
+.meta-tag {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  white-space: nowrap;
+}
 
-@keyframes fadeSlideIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+.meta-icon {
+  font-style: normal;
+  font-size: 0.9rem;
+}
 
-a { text-decoration: none; }
+.badge {
+  font-size: 0.7rem;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
 
-.contratos-asignados-section, .contratos-pendientes-section, .contratos-index, .no-results { margin-left: 220px; }
-.contratos-asignados-section { margin-top: 2rem; padding: 1.5rem 2rem; background: transparent; }
-.contratos-pendientes-section { margin-top: 1.5rem; padding: 1.5rem 2rem; background: transparent; }
-.contratos-pendientes, .contratos-asignados { display: flex; flex-wrap: wrap; gap: 1rem; padding-bottom: 1rem; justify-content: flex-start; }
-.asignados-header { font-size: 1.25rem; font-weight: 700; margin: 0 0 1rem 0; color: #374151; }
-.no-results { padding: 1rem 2rem; color: #374151; }
+.badge-disponible {
+  background: rgba(11, 0, 207, 0.08);
+  color: #0b00cf;
+}
 
-.badge-asignado { background: #e5e7eb; color: #374151; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; font-weight: 600; }
-.pasante-info { color: #4b5563; font-style: italic; margin-top: 0.5rem; }
+.badge-pendiente {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+}
 
-.contrato-card.asignado { background-color: #f3f4f6; color: #6b7280; box-shadow: 0 2px 8px rgba(99,102,106,0.08); }
-.contrato-card.asignado:hover { transform: none; box-shadow: 0 4px 10px rgba(99,102,106,0.08); }
-.contrato-card.asignado .card-button-group button { background-color: #9ca3af; box-shadow: none; }
+.badge-asignado {
+  background: #f1f5f9;
+  color: #64748b;
+}
 
-.contrato-card.asignado.asignado-dev { background-color: #ecfdf5; color: #065f46; box-shadow: 0 6px 18px rgba(16,185,129,0.08); }
-.contrato-card.asignado.asignado-dev .contrato-card-titulo { border-bottom-color: #10b981; }
-.contrato-card.asignado.asignado-dev .badge-asignado { background: #bbf7d0; color: #065f46; }
-.contrato-card.asignado.asignado-dev .card-button-group button { background-color: #10b981; }
-.contrato-card.asignado.asignado-dev .card-button-group button:hover { background-color: #059669; }
+/* Seccion divider */
+.section-divider {
+  display: flex;
+  align-items: center;
+  padding: 24px 0 12px;
+}
 
-.contrato-card.pendiente { background-color: #fff7ed; color: #92400e; box-shadow: 0 4px 12px rgba(249,115,22,0.06); }
-.contrato-card.pendiente .contrato-card-titulo { border-bottom-color: #f59e0b; }
-.badge-pendiente { background: #fff4e6; color: #92400e; font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 999px; margin-left: 0.5rem; font-weight: 700; }
-.contrato-card.pendiente .card-button-group button { background-color: #f59e0b; }
-.contrato-card.pendiente .card-button-group button:hover { background-color: #d97706; }
+.section-divider span {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #94a3b8;
+}
 
-/* ajustes para mobile */
-@media (max-width: 768px) {
-  .contrato-detail-container { margin-left: 0; width: 100%; padding: 0 1rem; box-sizing: border-box; margin-top: 64px; }
-  .contrato-card-container { margin: 0 auto; width: calc(100% - 2rem); padding: 1rem; gap: 1rem; box-sizing: border-box; justify-content: center; }
-  .contrato-card { width: 100%; }
+/* --- Drawer flotante inferior --- */
+.drawer-bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  margin: 0 -0.75rem;
+  border-radius: 12px 12px 0 0;
+}
 
-  .contratos-asignados-section, .contratos-pendientes-section, .contratos-index, .no-results { margin-left: 0; width: 100%; padding: 0.75rem 1rem; box-sizing: border-box; }
-  .contratos-pendientes, .contratos-asignados { justify-content: center; }
+.drawer-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: #f8f9fa;
+  border: none;
+  border-radius: 12px 12px 0 0;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+  transition: background 0.15s;
+}
 
-  .contratos-index { position: sticky; top: 64px; }
-  .index-nav { gap: 0.4rem; }
+.drawer-toggle:hover {
+  background: #eef1f5;
+}
+
+.drawer-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drawer-count {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.pendiente-count {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.asignado-count {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.drawer-chevron {
+  font-size: 0.7rem;
+  color: #999;
+  transition: transform 0.2s;
+}
+
+.drawer-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.drawer-open .drawer-content {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.drawer-open .drawer-content::-webkit-scrollbar { width: 4px; }
+.drawer-open .drawer-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+
+/* --- Panel derecho: detalle --- */
+
+.contrato-detail-panel {
+  flex: 1;
+  overflow-y: auto;
+  background: #ffffff;
+  position: relative;
+}
+
+
+.detail-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #94a3b8;
+  text-align: center;
+  padding: 40px;
+}
+
+.placeholder-icon {
+  font-size: 4.5rem;
+  margin-bottom: 24px;
+  filter: grayscale(1) opacity(0.3);
+}
+
+.detail-placeholder h3 {
+  margin-bottom: 12px;
+  font-size: 1.8rem;
+  color: #1e293b;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.detail-placeholder p {
+  font-size: 1.1rem;
+  color: #64748b;
+  max-width: 320px;
+  line-height: 1.6;
+}
+
+
+.contrato-card-item.pendiente.active {
+  border-color: #ff2d2b;
+  box-shadow: 0 10px 20px -5px rgba(255, 45, 43, 0.1);
+}
+
+.contrato-card-item.pendiente.active::before {
+  background: #ff2d2b;
+}
+
+.contrato-card-item.pendiente.active .card-item-titulo {
+  color: #ff2d2b;
+}
+
+.contrato-card-item.asignado-dev.active {
+  border-color: #10b981;
+}
+
+.contrato-card-item.asignado-dev.active::before {
+  background: #10b981;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .contratos-list-panel {
+    width: 340px;
+  }
+}
+
+@media (max-width: 900px) {
+  .contratos-split-layout {
+    flex-direction: column;
+    margin-left: 0;
+    height: auto;
+  }
+
+  .contratos-list-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 40vh;
+    border-right: none;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .contrato-detail-panel {
+    height: 60vh;
+  }
 }

@@ -4,6 +4,7 @@ import { Users } from './../../servicios/users';
 import { ActivatedRoute, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ProyectoService } from '../../servicios/miproyecto';
 
 @Component({
   selector: 'app-profile',
@@ -17,15 +18,17 @@ export class ProfileComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private usersService = inject(Users);
+  private projectService = inject(ProyectoService)
 
-  // Variables de Estado
+
   perfil: any = null;
   rolActual: string = '';
   isEditing: boolean = false;
   loading: boolean = false;
-  
-  // --- VARIABLE PARA EL ARCHIVO CV ---
-  archivoSeleccionado: File | null = null;
+
+  // --- VARIABLES PARA ARCHIVOS ---
+  archivoCV: File | null = null;            // Para el Currículum
+  archivoSeleccionado: File | null = null; // Para el Portfolio
 
   // --- VARIABLES PARA HABILIDADES ---
   mostrandoFormulario: boolean = false;
@@ -42,44 +45,63 @@ export class ProfileComponent implements OnInit {
   };
 
   // CONTROL DE NAVEGACIÓN
-  seccionActiva: string = 'info'; 
+  seccionActiva: string = 'info';
+  isSidebarOpen: boolean = false;
 
   ngOnInit() {
     this.usersService.userProfile$.subscribe(data => {
       if (data) {
-       
-        this.perfil = { 
+        this.perfil = {
           ...data,
           habilidades: data.habilidades || [],
           idiomas: data.idiomas || [],
-          empresa_nombre: data.empresa_nombre || '',
-          web_empresa: data.web_empresa || '',
-          descripcion_empresa: data.descripcion_empresa || '',
-          ubicacion_empresa: data.ubicacion_empresa || ''
+          /* empresa_nombre: data.empresa_nombre || '', esto sale de otro servicio, proyecto */
+          /* web_empresa: data.web_empresa || '', */
+          /* descripcion_empresa: data.descripcion_empresa || '', */
+          /* ubicacion_empresa: data.ubicacion_empresa || '', */
+          telefono: data.telefono
         };
-        
         this.rolActual = data.rol || '';
-        console.log("Rol detectado en Perfil:", this.rolActual);
+
+        this.projectService.getProyectoPorEmail(data.email).subscribe({
+          next: (res) => {
+            //console.log(`${res.count} ${res.message}`)
+            //console.log(res.data[0])
+            this.perfil.proyecto = res.data[0];
+          },
+          error: (error: string) => {
+            console.log('desde el componente perfil error ' + error)
+          }
+        });
       }
     });
   }
 
-  // --- MÉTODOS PARA EL ARCHIVO ---
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
+  // --- MÉTODOS PARA ARCHIVOS ---
+
+  // Para el Currículum 
+  onCVSelected(event: any) {
+    const file = event.target.files[0];
     if (file) {
-      this.archivoSeleccionado = file;
-      console.log("Currículum listo para subir:", file.name);
+      this.archivoCV = file;
     }
   }
 
-  borrarArchivo() {
-    this.archivoSeleccionado = null;
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = '';
+  // Para el Portfolio 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.archivoSeleccionado = file;
     }
-    console.log("Archivo quitado");
+  }
+
+  // Función de borrar 
+  borrarArchivo(tipo: string) {
+    if (tipo === 'cv') {
+      this.archivoCV = null;
+    } else {
+      this.archivoSeleccionado = null;
+    }
   }
 
   // --- HABILIDADES ---
@@ -111,8 +133,8 @@ export class ProfileComponent implements OnInit {
   // --- NAVEGACIÓN Y EDICIÓN ---
   cambiarSeccion(seccion: string) {
     this.seccionActiva = seccion;
-    this.isEditing = false; 
-    this.mostrandoFormulario = false; 
+    this.isEditing = false;
+    this.mostrandoFormulario = false;
     this.mostrandoFormIdioma = false;
   }
 
@@ -124,31 +146,56 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  soloNumeros(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      event.preventDefault();
+    }
+  }
+
   async handleUpdate() {
     if (!this.rolActual) return alert("Error: No se detectó el rol del usuario");
 
-    try {
-      this.loading = true;
-      const email = this.perfil.email; 
-      
-      await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
-
-      this.isEditing = false;
-      this.mostrandoFormulario = false;
-      this.mostrandoFormIdioma = false;
-      alert('Perfil actualizado con éxito');
-    } catch (error) {
-      console.error('Error en PUT:', error);
-      alert('Hubo un error al guardar los cambios');
-    } finally {
-      this.loading = false;
+    if (this.rolActual == 'desarrollador') {
+      try {
+        this.loading = true;
+        const email = this.perfil.email;
+        await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
+        this.isEditing = false;
+        alert('Perfil actualizado con éxito');
+      } catch (error) {
+        console.error('Error en PUT:', error);
+        alert('Hubo un error al guardar los cambios');
+      } finally {
+        this.loading = false;
+      }
     }
+
+    if (this.rolActual == 'gerente') {
+      try {
+        this.loading = true;
+        const email = this.perfil.email;
+        await lastValueFrom(this.projectService.editProyecto(this.perfil.proyecto)) && lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
+        this.isEditing = false;
+        alert('Perfil actualizado con éxito');
+      } catch (error) {
+        console.error('Error en PUT:', error);
+        alert('Hubo un error al guardar los cambios');
+      } finally {
+        this.loading = false;
+      }
+    }
+
+
   }
+
 
   get isProfileEmpty(): boolean {
     if (!this.perfil) return true;
     return !this.perfil.nombre || this.perfil.nombre === '';
   }
 }
-
-

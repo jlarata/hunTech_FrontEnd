@@ -1,0 +1,489 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+.wl-container {
+  margin-left: 220px;
+  padding: 2rem 2.25rem;
+  font-family: 'Outfit', sans-serif;
+  background: #f8fafc;
+  color: #1e293b;
+  min-height: calc(100vh - 64px);
+  box-sizing: border-box;
+}
+
+.wl-header {
+  margin-bottom: 1.5rem;
+}
+
+.wl-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  color: #1e293b;
+  letter-spacing: -0.02em;
+}
+
+.wl-subtitle {
+  margin: 0.25rem 0 0;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+/* ===== Cards ===== */
+.wl-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.wl-card-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  color: #1e293b;
+}
+
+.wl-help {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.wl-help code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+/* ===== Form ===== */
+.wl-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.wl-form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.wl-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 200px;
+}
+
+.wl-field-grow {
+  flex: 1;
+}
+
+.wl-field label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.wl-field input,
+.wl-field select,
+.wl-field textarea,
+.wl-input {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1e293b;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.wl-field input:focus,
+.wl-field select:focus,
+.wl-field textarea:focus,
+.wl-input:focus {
+  border-color: #300a6e;
+  box-shadow: 0 0 0 3px rgba(48, 10, 110, 0.12);
+}
+
+.wl-field textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.wl-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* ===== Botones ===== */
+.wl-btn {
+  border: none;
+  padding: 0.65rem 1.2rem;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.wl-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.wl-btn-primary {
+  background: linear-gradient(135deg, #300a6e 0%, #0b00cf 100%);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(48, 10, 110, 0.18);
+}
+
+.wl-btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.wl-btn-secondary {
+  background: #1e293b;
+  color: #fff;
+}
+
+.wl-btn-secondary:hover:not(:disabled) {
+  background: #0f172a;
+}
+
+.wl-btn-ghost {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.wl-btn-ghost:hover:not(:disabled) {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.wl-btn-link {
+  background: none;
+  border: none;
+  color: #300a6e;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-left: auto;
+}
+
+/* ===== CSV ===== */
+.wl-csv-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.wl-csv-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.wl-csv-resultado {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wl-csv-resumen {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.wl-pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.wl-pill-success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.wl-pill-warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+}
+
+.wl-pill-error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+.wl-details {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.5rem 0.85rem;
+  background: #f8fafc;
+}
+
+.wl-details summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #334155;
+}
+
+.wl-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.88rem;
+  color: #475569;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.wl-mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.wl-mini-table th,
+.wl-mini-table td {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.wl-mini-table th {
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+
+/* ===== Listado / Tabla ===== */
+.wl-list-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.wl-total {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.wl-filtros {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.wl-filtros .wl-input {
+  flex: 1;
+  min-width: 160px;
+}
+
+.wl-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.wl-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.wl-table thead {
+  background: #f8fafc;
+}
+
+.wl-table th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.wl-table td {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: top;
+}
+
+.wl-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.wl-email-cell {
+  font-weight: 600;
+  color: #1e293b;
+  word-break: break-all;
+}
+
+.wl-obs-cell {
+  max-width: 280px;
+  color: #64748b;
+  white-space: pre-wrap;
+}
+
+.wl-empty {
+  text-align: center;
+  color: #94a3b8;
+  padding: 2rem !important;
+}
+
+.wl-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.wl-badge-activo {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.wl-badge-revocado {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
+
+.wl-badge-usado {
+  background: rgba(100, 116, 139, 0.15);
+  color: #475569;
+}
+
+.wl-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.wl-page-info {
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+/* ===== Toasts ===== */
+.wl-toast-stack {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 9999;
+  max-width: 380px;
+}
+
+.wl-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: #1e293b;
+  color: #fff;
+  font-size: 0.9rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2);
+  cursor: pointer;
+  animation: wl-toast-in 0.25s ease-out;
+}
+
+.wl-toast-success {
+  background: #047857;
+}
+
+.wl-toast-warning {
+  background: #b45309;
+}
+
+.wl-toast-error {
+  background: #b91c1c;
+}
+
+.wl-toast-info {
+  background: #1e293b;
+}
+
+.wl-toast-msg {
+  flex: 1;
+}
+
+.wl-toast-close {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes wl-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .wl-container {
+    margin-left: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  .wl-form-row {
+    flex-direction: column;
+  }
+
+  .wl-csv-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -9,7 +9,7 @@ import {
 import { environment } from '../environments/environment';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
-const supabase = createClient('https://your-project.supabase.co', 'sb_publishable_... or anon key')
+//const supabase = createClient('https://your-project.supabase.co', 'sb_publishable_... or anon key')
 
 @Injectable({
   providedIn: 'root',
@@ -81,6 +81,15 @@ export class AuthService {
    */
   async signOut() {
     await this.supabase.auth.signOut();
+  }
+
+  /**
+   * Send a password reset email
+   */
+  async resetPassword(email: string) {
+    return await this.supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
   }
 
   /**

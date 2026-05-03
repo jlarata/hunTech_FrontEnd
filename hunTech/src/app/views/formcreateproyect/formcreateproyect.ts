@@ -5,6 +5,9 @@ import { Proyecto } from '../../models/proyectos';
 import { Users } from '../../servicios/users';
 import { ProyectoService } from '../../servicios/miproyecto';
 import { ActivatedRoute, Router } from '@angular/router';
+import { filter, Observable, of, switchMap } from 'rxjs';
+import { User } from '@supabase/supabase-js';
+import { AuthService } from '../../servicios/AuthService';
 
 
 @Component({
@@ -16,17 +19,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class Formcreateproyect {
 
-  constructor(
-    private _apiService: ProyectoService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) { }
 
-  private _usersService = inject(Users);
+  user$: Observable<User | null>;
+  perfil: any = null;
+  rolActual: string = ''
 
   espost = false;
   esedit = true;
-
+  formularioEnviado = false;
   proyecto: Proyecto = {
     nombre: '',
     description: '',
@@ -35,29 +35,74 @@ export class Formcreateproyect {
     email_gerente: ''
   }
 
-  /* ngOnInit(): void {
-    const email = this.route.snapshot.paramMap.get('email');
-    console.log(email)
-    if (email) {
-      // Llamás al servicio para traer el proyecto y precargarlo
-      this._apiService.getProyectoPorEmail(email).subscribe({
-        next : (res) => {
-          console.log("listo para editar proyecto", this.proyecto)
-          this.proyecto = res.data[0]
-        }, 
-        error: (err) => console.error('Error al cargar proyecto', err)
-      });
-    } else {
+  constructor(
+    private _apiService: ProyectoService,
+    private router: Router,
+    private route: ActivatedRoute,
+
+    private authService: AuthService,
+    private usersService: Users
+  ) {
+    // Assign the observable from the service
+    this.user$ = this.authService.user$;
+  }
+
+  async ngOnInit(): Promise<void> {
+
+    await this.inicializarDatos();
+
+  }
+
+async inicializarDatos() {
+
+  // la lógica de esta función es que primero busca la data de usuario (userservice) a la que está suscripto
+  // luego carga eso en variables locales
+  // DESPUÉS de eso, busca en los proyectos si hay algun proyecto relacionado con el email del rol asignado en local
+  // si hay, se entra en modo editar. sino, en modo post / crear.
+
+  this.usersService.userProfile$.pipe(
+    // 1. Wait for valid profile data
+    filter(data => !!data),
+    switchMap(data => {
+      // Store profile immediately
+      this.perfil = { ...data };
+      this.rolActual = data.rol || '';
+
+      if (data.email) {
+        // 2. Call the API
+        return this._apiService.getProyectoPorEmail(data.email);
+      } else {
+        // No email found? Pass null to the next step
+        return of(null);
+      }
+    })
+  ).subscribe({
+    next: (res) => {
+      // 3. Logic for 'esedit' vs 'espost'
+      // Checking if res exists and has data in the array
+      if (res && res.data && res.data.length > 0) {
+        this.proyecto = res.data[0];
+        this.esedit = true;
+        this.espost = false;
+        console.log("Proyecto encontrado: Editing mode active.");
+      } else {
+        // This triggers if res is null, undefined, or data is empty
+        // importante: si todo falla, igual hay que cargarle al proyecto un email
+        // porque la API está esperando ese dato en el método POST.
+        this.proyecto.email_gerente = this.perfil.email;
+        this.espost = true;
+        this.esedit = false;
+        console.log("Proyecto no encontrado: Modo creación.");
+      }
+    },
+    error: (err) => {
+      console.error('Error during data initialization:', err);
+      // Fallback to post mode on error to avoid breaking the UI
       this.espost = true;
       this.esedit = false;
     }
-
-
-    this.loadUser();
-
-  } */
- 
-  formularioEnviado = false;
+  });
+}
 
   enviar(form: NgForm) {
     if (form.invalid) {
@@ -78,11 +123,6 @@ export class Formcreateproyect {
         console.log(error)
       }
     });
-
-
-    //this.formularioEnviado = true;
-    //form.resetForm()
-    //this.formularioEnviado = false;
 
   }
 
@@ -106,22 +146,6 @@ export class Formcreateproyect {
       }
     });
 
-
-    //this.formularioEnviado = true;
-    //form.resetForm()
-    //this.formularioEnviado = false;
-
   }
-
-
-  /* private loadUser(): void {
-    // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
-    this._usersService.user$.subscribe({
-      next: (data) => {
-        this.proyecto.email_gerente = data.email;   //data de cognito  y DB      
-      },
-      error: (err) => console.error('Error al obtener usuario', err)
-    });
-  } */
 
 }

@@ -1,0 +1,200 @@
+:root {
+  --primary: #300a6e;
+  --primary-rgb: 48, 10, 110; /* Used for transparency */
+  --bg-main: #f6f6f2;
+  --white: #ffffff;
+  --text-dark: #2d2d2d;
+  --text-light: #757575;
+  --success: #28a745;
+  --warning: #f39c12;
+}
+
+/* 2. Global Container */
+.dashboard-container {
+  background-color: var(--bg-main);
+  min-height: 100vh;
+  margin-left: 220px;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+  color: black;
+}
+
+/* 3. Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 4. Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  color: var(--primary);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* 5. Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.1);
+}
+
+.stat-card .stat-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
+  border-radius: 10px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0.2rem 0;
+  color: var(--text-dark);
+}
+
+.stat-detail {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+/* 6. Visuals & Cards */
+.visuals-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--text-dark);
+  font-size: 1.1rem;
+}
+
+/* 7. Tables */
+.full-width {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+table th {
+  text-align: left;
+  padding: 1rem;
+  color: var(--text-light);
+  font-weight: 600;
+  border-bottom: 2px solid var(--bg-main);
+}
+
+table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--bg-main);
+}
+
+/* 8. Badges & Buttons */
+.badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge.available {
+  background: rgba(40, 167, 69, 0.1);
+  color: var(--success);
+}
+
+.badge.busy {
+  background: rgba(243, 156, 18, 0.1);
+  color: var(--warning);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* 9. Status Indicators */
+.status-dot {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.status-dot.complete {
+  background-color: var(--success);
+}
+
+.status-dot.incomplete {
+  background-color: #ccc;
+}
+
+.bar-mock-container .bar-row {
+  margin-bottom: 1rem;
+}
+
+.bar-mock-container .bar-row span {
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.bar-mock-container .bar-row .bar {
+  height: 8px;
+  background: var(--primary);
+  border-radius: 4px;
+}

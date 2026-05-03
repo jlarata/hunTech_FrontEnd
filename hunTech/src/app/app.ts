@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from './componentes/navbar/navbar';
@@ -23,15 +23,18 @@ import { Usuario } from './models/users/usuario';
     FormsModule,
   ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class App {
+  isModoOscuro: boolean = false;
+  private canvas?: HTMLCanvasElement;
 
   user$: Observable<User | null>;
   userEmail: string | null = null;
   private authSub?: Subscription;
-  selectedRole: string = ''; // Almacena la opción del select
-  usuarioRol: string = ''; // almacenaremos aquí la opción que llega de la bbdd
+  selectedRole: string = '';
+  usuarioRol: string = '';
 
   login_email = '';
   login_password = '';
@@ -39,12 +42,42 @@ export class App {
   signup_password = '';
   loading = false;
   confirmationSent = false;
-
+  showLoginModal = false;
+  showRegisterModal = false;
+  showForgotPasswordModal = false;
+  reset_email = '';
+  resetSent = false;
   title = 'hunTech';
-  // La variable loading la usa el template para renderizar algunos botones o no, de manera diferente, esta otra variable cargandoData la usa para
-  // renderizar el spinner mientras se carga la data (i.e. la página espera hasta saber quien sos exactamente antes de mostrarte algo que no debería
-  // como el selector de rol)
-  cargandoData = false;
+
+  cargandoData = true;
+
+  /* ---- MINI LIBRO 3D ---- */
+  bookSpread = 0;
+  bookFlipState: 'idle' | 'forward' = 'idle';
+  bookAnimating = false;
+  bookSpreads = [[0, 1], [2, 3]];
+  bookPages = [
+    { label: 'HunTech', title: '¿Qué es HunTech?', body: 'Nuestro objetivo es facilitar el contacto con empresas que valoran la innovación, la curiosidad y el potencial de los estudiantes de IT.', bg: '#f5f3ff' },
+    { label: 'Para vos', title: 'Tu perfil, tu marca', body: 'Completá tu perfil y destacate ante cientos de reclutadores activos.', bg: '#eff6ff' },
+    { label: 'Empresas', title: 'Talento a un click', body: 'Publicá ofertas y encontrá al desarrollador que tu equipo necesita.', bg: '#f0fdf4' },
+    { label: 'Comunidad', title: 'Crecé con nosotros', body: 'Accedé a recursos y una comunidad de profesionales de tecnología.', bg: '#fff7ed' }
+  ];
+  bookNext() {
+    if (this.bookSpread >= this.bookSpreads.length - 1 || this.bookAnimating) return;
+    this.bookAnimating = true;
+    this.bookFlipState = 'forward';
+    setTimeout(() => {
+      this.bookSpread++;
+      this.bookFlipState = 'idle';
+      setTimeout(() => { this.bookAnimating = false; }, 50);
+    }, 650);
+  }
+  bookPrev() {
+    if (this.bookSpread <= 0 || this.bookAnimating) return;
+    this.bookAnimating = true;
+    this.bookSpread--;
+    setTimeout(() => { this.bookAnimating = false; }, 100);
+  }
 
 
   constructor(
@@ -53,56 +86,83 @@ export class App {
     private router: Router,
     private authService: AuthService
   ) {
-    // Asigna el observable del servicio
+
     this.user$ = this.authService.user$;
   }
 
 
-  /* true cuando estoy en /profile/:email */
+
   get esSoloPerfil(): boolean {
     return this.router.url.startsWith('/profile/');
   }
 
   async ngOnInit() {
-    this.userEmail = this.authService.getCurrentUser()?.email || '';
-    await this.inicializarDatos()
+
+    //this.userEmail = this.authService.getCurrentUser()?.email || '';
+   
+    // Pausamos la ejecucion hasta que Supabase lea la sesion del navegador
+    await this.authService.session; 
+    this.checkInitialTheme();
+    await this.inicializarDatos();
+  }
+
+  checkInitialTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.isModoOscuro = true;
+      document.body.classList.add('dark-theme');
+    }
+  }
+
+  toggleModoOscuro() {
+    this.isModoOscuro = !this.isModoOscuro;
+    if (this.isModoOscuro) {
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   async inicializarDatos() {
-    this.cargandoData = true;
-    //Suscripto al servicio de authservice: si está logueado, va a buscar el mail de logueo
+    //this.cargandoData = true;
+
     this.authSub = this.authService.userEmail$.pipe(
-      // el pipe, la función distinctUntilChanged y el filter que sigue son todos para evitar la duplicación de logs de angular.
-      distinctUntilChanged(),
-      filter(email => email !== null)
-      //acá sigue la función:
-      //con el mail de logueo va a revisar si hay un usuario con ese mail en las tres tablas de usuarios  
+
+      distinctUntilChanged()
+      //,filter(email => email !== null)
+
     ).subscribe(async email => {
+      this.cargandoData = true;
       this.userEmail = email;
       if (email) {
         const usuarioExistente = await this.checkUserExists(email);
         if (usuarioExistente.data.existe == 1) {
-          //esto es inmediato y para manejar la visualización (o no) del formulario de selección de rol
+
           this.usuarioRol = usuarioExistente.data.tabla
+          this.closeModals(); //acá lo pusimos en la call moni celes ariel
 
           // debug --> console.log("Usuario hallado en BBDD: ", this.usuarioRol)
 
-          // Ahora bien, en caso de que el usuario exista en por lo menos una tabla, lo busca en esa tabla correspondiente y trae la data
+
           const usuarioHalladoEnBBDD = await this.getUser(email, usuarioExistente.data.tabla)
-          // Y guarda todo el objeto (nombre, rol, id, etc) en el BehaviorSubject
-          // para que pueda ser leído por los componentes
+
           this.usersService.setUserProfile({
             ...usuarioHalladoEnBBDD,
-            email: email,                    // <--- Vital para el PUT
-            rol: usuarioExistente.data.tabla // <--- Vital para el renderizado del HTML
+            email: email,
+            rol: usuarioExistente.data.tabla
           })
         } else {
-          this.usuarioRol = ''; // fuerza que sea vacio para que se vea el formulario
+          this.usuarioRol = '';
           console.log("Usuario no hallado, mostrando selector de rol")
         }
+      }else {
+        //para cuando no hay sesión activa
+        this.usuarioRol = '';
       }
+      this.cargandoData = false;
     });
-    this.cargandoData = false;
   }
 
   async checkUserExists(email: string) {
@@ -111,14 +171,14 @@ export class App {
       return res
     } catch (error) {
       console.error('Error checkeando existencia de usuario:', error);
-      return { data: { existe: 0 } }; // Fallback de seguridad;
+      return { data: { existe: 0 } };
     }
   }
 
   async getUser(email: string, table: string) {
 
     try {
-      // Convertimos el observable en promesa para poder usar await
+
       const res = await lastValueFrom(this.usersService.getUsuarioByEmailAndTable(email, table));
       return res.data
     } catch (error) {
@@ -134,42 +194,41 @@ export class App {
     this.cargandoData = true;
 
     try {
-      //Primero loguea
+
       const { data, error } = await this.authService.signIn(this.login_email, this.login_password);
       if (error) throw error;
 
-      if (data.user?.email) {
-        //Con el mail del usuario ya logueado, revisa si existe algún usuario con ese mail en las 3 tablas de usuarios
-        //si existe, retorna {existe: 1, tabla: la-tabla-en-la-que-hallarlo }
+
+      /*if (data.user?.email) {
+          this.closeModals(); //aca lo puso originalmente nadine,
         const usuarioExistente = await this.checkUserExists(data.user.email)
 
         if (usuarioExistente.data.existe == 1) {
-          //esto es inmediato y para manejar la visualización (o no) del formulario de selección de rol
+
           this.usuarioRol = usuarioExistente.data.tabla;
 
-          //Ahora bien, en caso de que el usuario exista en una tabla, lo busca en la tabla correspondiente
-          //debug --> console.log("Usuario hallado en tabla: ", hallado.data.tabla)
+
           const usuarioHalladoEnBBDD = await this.getUser(data.user.email, usuarioExistente.data.tabla)
 
-          // Y guarda todo el objeto (nombre, rol, id, etc) en el BehaviorSubject
-          // para que pueda ser leído por los componentes
+
           this.usersService.setUserProfile({
             ...usuarioHalladoEnBBDD,
-            email: data.user.email, // <--- Vital para el PUT, Usamos el mail de Supabase
-            rol: usuarioExistente.data.tabla // <--- Vital para el renderizado del HTML
-            /* rol: usuarioExistente.data.tabla */
+            email: data.user.email,
+            rol: usuarioExistente.data.tabla
+
           })
 
         } else {
           this.usuarioRol = '';
         }
-      }
+      }*/
     } catch (error: any) {
       alert(error.error_description || error.message);
+      this.cargandoData = false;
     } finally {
       this.loading = false;
     }
-    this.cargandoData = false;
+    //this.cargandoData = false;
   }
 
   async handleSignUp(event: Event) {
@@ -184,9 +243,10 @@ export class App {
 
       if (data.user && !data.session) {
         this.confirmationSent = true;
+
       }
     } catch (error: any) {
-      alert(error.message || 'An error occurred during sign up.');
+      alert(error.message || 'Hubo problemas al crear tu cuenta');
     } finally {
       this.loading = false;
     }
@@ -213,19 +273,21 @@ export class App {
     }
     this.cargandoData = false;
   }
+
   async logout() {
     this.cargandoData = true;
     try {
-      await this.authService.signOut(); 
-      
-    
+
+      await this.authService.signOut();
+
+
+      this.userEmail = null;
       this.usuarioRol = '';
       this.selectedRole = '';
-      this.userEmail = null;
-      
-   
-      this.router.navigate(['/']); 
-      
+
+
+      await this.router.navigate(['/']);
+
       console.log("Sesión cerrada correctamente");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
@@ -233,8 +295,54 @@ export class App {
       this.cargandoData = false;
     }
   }
-}
 
+  scrollTo(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  toggleLoginModal() {
+    this.showLoginModal = !this.showLoginModal;
+    this.showRegisterModal = false;
+    this.showForgotPasswordModal = false;
+  }
+
+  toggleRegisterModal() {
+    this.showRegisterModal = !this.showRegisterModal;
+    this.showLoginModal = false;
+  }
+
+  closeModals() {
+    this.showLoginModal = false;
+    this.showRegisterModal = false;
+    this.showForgotPasswordModal = false;
+    this.confirmationSent = false;
+    this.resetSent = false;
+  }
+
+  toggleForgotPasswordModal() {
+    this.showForgotPasswordModal = !this.showForgotPasswordModal;
+    this.showLoginModal = false;
+    this.showRegisterModal = false;
+    this.resetSent = false;
+  }
+
+  async handleResetPassword(event: Event) {
+    event.preventDefault();
+    this.loading = true;
+    try {
+      const { error } = await this.authService.resetPassword(this.reset_email);
+      if (error) throw error;
+      this.resetSent = true;
+    } catch (error: any) {
+      alert(error.message || 'Error al enviar el correo de recuperación');
+    } finally {
+      this.loading = false;
+    }
+  }
+}
 
 
 

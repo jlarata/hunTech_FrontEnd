@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ContratoCard } from '../../models/cards/contrato-card';
 import { CommonModule, ViewportScroller } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Contrato } from '../../models/contrato';
 import { RouterModule } from '@angular/router';
 import { ContratoDetail } from '../contrato-detail/contrato-detail';
@@ -14,6 +15,7 @@ import { LoadingService } from '../../servicios/loading-service';
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     ContratoDetail],
   templateUrl: './contratos.html',
   styleUrl: './contratos.css'
@@ -37,6 +39,11 @@ export class Contratos {
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
 
+  busqueda: string = '';
+  filtroModalidad: string = '';
+  filtroSeniority: string = '';
+  drawerAbierto: boolean = false;
+
   pendingFragment?: string | undefined;
 
   constructor(
@@ -53,20 +60,31 @@ export class Contratos {
 
 
   ngOnInit() {
-    // Suscripción para tener la data siempre actualizada
+    // Suscripción para tener la data siempre actualizada.
+    // Esperamos a tener perfil cargado antes de pedir los contratos,
+    // porque sino this.perfil.email es null y el filtro de postulaciones falla.
+    let lastEmail: string | undefined;
+    let lastRol: string | undefined;
     this.usersService.userProfile$.subscribe(data => {
-      if (data) {
-        this.perfil = { ...data }; // Copia para editar sin afectar el estado global antes de tiempo
-        // Determina el rol (esto lo saca de la tabla que devolvió la API en app.ts)
-        this.rolActual = data.rol || '';
+      if (!data) return;
+      this.perfil = { ...data };
+      this.rolActual = data.rol || '';
 
-        //console.log("Rol detectado en Perfil:", this.rolActual);
+      // Solo refrescamos si cambió algo relevante para evitar loops
+      if (data.email !== lastEmail || this.rolActual !== lastRol) {
+        lastEmail = data.email;
+        lastRol = this.rolActual;
+        this.mostrarTodosLosContratos();
       }
     });
-    this.mostrarTodosLosContratos();
   }
 
   mostrarTodosLosContratos() {
+    // Sin perfil cargado no podemos clasificar postulaciones, esperamos.
+    if (!this.perfil || !this.perfil.email) {
+      return;
+    }
+
     this._loaderService.showLoader()
 
     //esto va a guardar el observable  al que nos vamos a suscribir
@@ -80,11 +98,17 @@ export class Contratos {
 
     data.subscribe({
       next: (res) => {
-        this.todosLosContratos = res.data;
+        // Normalizamos campos que el backend a veces devuelve como string
+        // separado por comas en vez de array (rompe los .join / .includes).
+        this.todosLosContratos = (res.data || []).map(c => ({
+          ...c,
+          seniority_deseado: this.toArray(c.seniority_deseado),
+          postulaciones: this.toArray(c.postulaciones as any),
+        }));
         this.createCards(this.todosLosContratos)
-        // if user navigated with fragment, scroll after rendering
+       
         if (this.pendingFragment) {
-          // small delay to allow DOM update
+         
           setTimeout(() => this.scrollToSection(this.pendingFragment!), 50);
           this.pendingFragment = undefined;
         }
@@ -99,17 +123,49 @@ export class Contratos {
 
   }
 
+  filtrarContratos(): void {
+    const term = this.busqueda.toLowerCase().trim();
+    let filtrados = [...this.todosLosContratos];
+
+    if (term) {
+      filtrados = filtrados.filter(c =>
+        c.titulo?.toLowerCase().includes(term)
+      );
+    }
+
+    if (this.filtroModalidad) {
+      filtrados = filtrados.filter(c =>
+        c.modalidad?.toLowerCase() === this.filtroModalidad.toLowerCase()
+      );
+    }
+
+    if (this.filtroSeniority) {
+      const sel = this.filtroSeniority.toLowerCase();
+      filtrados = filtrados.filter(c =>
+        (c.seniority_deseado || []).some(s => String(s).toLowerCase().includes(sel))
+      );
+    }
+
+    this.createCards(filtrados);
+  }
+
+  limpiarFiltros(): void {
+    this.filtroModalidad = '';
+    this.filtroSeniority = '';
+    this.filtrarContratos();
+  }
+
   toggleContratosDisponiblesNoPostulados(): void {
     this.verContratosNoPostulados = !this.verContratosNoPostulados;
 
     if (this.verContratosNoPostulados) {
-      // mostrar solo los que no tengan mi email en array de postulantes
+      
       this.contratosDisponibles = this.contratosDisponiblesCopia.filter(
         c => !c.postulaciones?.includes(this.perfil.email)
       );
 
     } else {
-      // volver a mostrar todos
+   
       this.contratosDisponibles = [...this.contratosDisponiblesCopia];
     }
 
@@ -159,6 +215,27 @@ export class Contratos {
 
     // copia para filtros
     this.contratosDisponiblesCopia = [...this.contratosDisponibles];
+
+    // Auto-seleccionar / re-sincronizar el contrato del panel derecho.
+    // Si ya había uno seleccionado, intentamos mantener el mismo (por id)
+    // — importante porque al recargar todosLosContratos se crean objetos nuevos
+    // y la referencia anterior queda huérfana. Si no aparece (filtrado), usamos
+    // el primer contrato visible.
+    const previo = this.contratoAMostrarDetail;
+    const visibles = [...this.contratosDisponibles, ...this.contratosPendientes, ...this.contratosAsignados];
+    let nuevoSeleccionado = previo ? visibles.find(c => c.id === previo.id) : undefined;
+
+    if (!nuevoSeleccionado) {
+      nuevoSeleccionado = visibles[0];
+    }
+
+    if (nuevoSeleccionado) {
+      this.contratoAMostrarDetail = nuevoSeleccionado;
+      this.mostrandoContratoDetail = true;
+    } else {
+      this.contratoAMostrarDetail = undefined;
+      this.mostrandoContratoDetail = false;
+    }
   }
 
   toggleMuestraContratoDetail = (): void => {
@@ -166,24 +243,8 @@ export class Contratos {
   }
 
   setContratoAMostrar = (contrato: Contrato) => {
-
-    /* si es la primera vez que tocás el botón */
-    if (this.contratoAMostrarDetail == undefined) {
-      this.contratoAMostrarDetail = contrato;
-      this.toggleMuestraContratoDetail();
-    } else {
-      /* si no es la primera vez, puede ser que */
-      /* a) estás clickeando en el mismo contrato que ya se está mostrando */
-      if (this.contratoAMostrarDetail.id == contrato.id) {
-        this.contratoAMostrarDetail = undefined;
-        this.toggleMuestraContratoDetail();
-      }
-      /* b) caso contrario, solo querés que cambie el contrato que muestra el detalle */
-      else {
-        this.contratoAMostrarDetail = contrato;
-      }
-    }
-    this.scrollToDetail();
+    this.contratoAMostrarDetail = contrato;
+    this.mostrandoContratoDetail = true;
   }
 
   // recarga la lista cuando un contrato ha sido asignado en el detalle
@@ -200,14 +261,14 @@ export class Contratos {
     }
   }
 
-  // scroll a una sección por id (uso scrollIntoView para comportamiento smooth)
+  // scroll a una sección por id 
   scrollToSection(sectionId: string): void {
     try {
       const el = document.getElementById(sectionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } else {
-        // fallback
+        
         this.viewportScroller.scrollToPosition([0, 0]);
       }
     } catch (err) {
@@ -223,6 +284,18 @@ export class Contratos {
     } catch (err) {
       console.error('Error scrolling to bottom:', err);
     }
+  }
+
+  /** Convierte un valor que puede venir como string CSV, array o null en array de strings limpios. */
+  private toArray(value: unknown): string[] {
+    if (!value) return [];
+    if (Array.isArray(value)) {
+      return value.map(v => String(v).trim()).filter(v => v.length > 0);
+    }
+    if (typeof value === 'string') {
+      return value.split(',').map(s => s.trim()).filter(s => s.length > 0);
+    }
+    return [];
   }
 }
 

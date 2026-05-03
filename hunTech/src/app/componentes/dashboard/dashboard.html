@@ -1,0 +1,130 @@
+@if (auth) {
+<div class="dashboard-container">
+    <header class="dashboard-header">
+        <h1>Panel de Administración</h1>
+        <div class="user-info">
+            <span>Admin Console</span>
+        </div>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="icon-users"></i></div>
+            <div class="stat-content">
+                <h3>Total Usuarios</h3>
+                <p class="stat-number">124</p>
+                <span class="stat-detail">45 Gerentes | 79 Desarrolladores</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon"><i class="icon-project"></i></div>
+            <div class="stat-content">
+                <h3>Proyectos Activos</h3>
+                <p class="stat-number">12</p>
+                <span class="stat-detail">Gestionados por Gerencia</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon primary"><i class="icon-contract"></i></div>
+            <div class="stat-content">
+                <h3>Contratos</h3>
+                <p class="stat-number">56</p>
+                <span class="stat-detail text-warning">12 Libres</span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon success"><i class="icon-dev"></i></div>
+            <div class="stat-content">
+                <h3>Devs Disponibles</h3>
+                <p class="stat-number">28%</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 28%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="visuals-row">
+        <div class="card chart-container">
+            <h3>Estado de Contratos</h3>
+            <div class="chart-placeholder">
+                <div class="pie-mock"></div>
+                <div class="chart-legend">
+                    <li><span class="dot assigned"></span> Asignados</li>
+                    <li><span class="dot free"></span> Libres</li>
+                </div>
+            </div>
+        </div>
+
+        <div class="card chart-container">
+            <h3>Desarrolladores por Tipo</h3>
+            <div class="bar-mock-container">
+                <div class="bar-row"><span>Frontend</span>
+                    <div class="bar" style="width: 80%"></div>
+                </div>
+                <div class="bar-row"><span>Backend</span>
+                    <div class="bar" style="width: 65%"></div>
+                </div>
+                <div class="bar-row"><span>QA</span>
+                    <div class="bar" style="width: 30%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tables-section">
+        <div class="card full-width">
+            <div class="card-header">
+                <h3>Gestión de Desarrolladores</h3>
+                <button class="btn-primary">Ver todos</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Género</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Perfil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Carlos Ruiz</td>
+                        <td>Masc.</td>
+                        <td>Fullstack</td>
+                        <td><span class="badge available">Disponible</span></td>
+                        <td><span class="status-dot complete"></span> Completo</td>
+                    </tr>
+                    <tr>
+                        <td>Ana Belén</td>
+                        <td>Fem.</td>
+                        <td>Backend</td>
+                        <td><span class="badge busy">No Disponible</span></td>
+                        <td><span class="status-dot incomplete"></span> Incompleto</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+}
+
+
+@else {
+<div class="dashboard-container">
+    <header class="dashboard-header">
+        <h1>Ingreso no autorizado</h1>
+
+    </header>
+
+    <div class="stats-grid">
+        <h4>La página seleccionada no existe o no podés verla.</h4>
+    </div>
+
+
+</div>
+}

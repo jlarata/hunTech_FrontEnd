@@ -41,7 +41,7 @@ export class ContratoDetail {
   }
 
   ngOnInit(): void {
-  
+
   }
 
   asignarPostulante() {
@@ -55,7 +55,6 @@ export class ContratoDetail {
       .subscribe({
         next: (res) => {
           this.contrato = res.data[0];
-          // emitir evento para que el componente padre (lista) pueda refrescar
           this.contratoAssigned.emit(this.contrato ?? null);
           this.cerrarModal();
         },
@@ -69,39 +68,48 @@ export class ContratoDetail {
 
     postulacion.subscribe({
       next: () => {
-          // una vez que la postulacion OK
-          //console.log("contrato: ", contrato);
-          
-          let updateContrato:Contrato = {
-            id: contrato.id,
-            tiene_postulaciones: true
-          };
 
-          //console.log("Contrato to update: ", updateContrato);
-          //actualizar el contrato para setear tiene_postulaciones = true
-          this._apiService.updateContrato(updateContrato)
+
+        let updateContrato: Contrato = {
+          id: contrato.id,
+          tiene_postulaciones: true
+        };
+
+
+        this._apiService.updateContrato(updateContrato)
           .subscribe({
             next: res => (this.contrato = res.data),
             error: err => console.error('Error al actualizar contrato:', err)
           });
-        },
-        error: (err) => console.error("Error al postular: ", err)
+      },
+      error: (err) => console.error("Error al postular: ", err)
     });
 
   }
 
   get postulacionesNormalizadas(): string[] {
-    const raw = this.contrato?.postulaciones as unknown as string;
+    const raw = this.contrato?.postulaciones as unknown;
 
     if (!raw) return [];
 
-    return raw
-      .split(",")
-      .map(s => s.trim())
-      .filter(s => s.length > 0);
+    // Puede venir como array (ya normalizado en el padre) o como string CSV (legacy).
+    if (Array.isArray(raw)) {
+      return (raw as unknown[])
+        .map(s => String(s).trim())
+        .filter(s => s.length > 0);
+    }
+
+    if (typeof raw === 'string') {
+      return raw
+        .split(',')
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+    }
+
+    return [];
   }
 
-  verPerfilPostulante():void {
+  verPerfilPostulante(): void {
     this.router.navigate(['/profile', this.emailSeleccionado]);
   }
 

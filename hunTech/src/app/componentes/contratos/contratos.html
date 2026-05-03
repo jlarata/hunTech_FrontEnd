@@ -1,93 +1,149 @@
-<!-- <div #detailContainer class="contrato-detail-container">
-  @if (mostrandoContratoDetail) {
-  <app-contrato-detail [contrato]="contratoAMostrarDetail!" [email]="usuario.email" [rol]="usuario.rol" (contratoAssigned)="onContratoAssigned($event)"/>
-  }
-</div> -->
+<div class="contratos-split-layout">
+  <!-- Panel izquierdo: lista scrolleable de contratos -->
+  <aside class="contratos-list-panel">
+    <div class="search-box">
+      <input type="text" class="search-input" placeholder="Buscar por título..." [(ngModel)]="busqueda" (input)="filtrarContratos()" />
+    </div>
 
-<div #detailContainer class="contrato-detail-container">
-  @if (mostrandoContratoDetail) {
-  <app-contrato-detail [contrato]="contratoAMostrarDetail!" [email]="perfil.email" [rol]="rolActual" (contratoAssigned)="onContratoAssigned($event)"/>
-  }
-</div>
+    <!-- Filtros -->
+    <div class="filtros-bar">
+      <select class="filtro-select" [(ngModel)]="filtroModalidad" (change)="filtrarContratos()">
+        <option value="">Modalidad</option>
+        <option value="remoto">Remoto</option>
+        <option value="presencial">Presencial</option>
+        <option value="hibrido">Híbrido</option>
+      </select>
 
-<div id="sin-postular" class="contrato-card-container">
-  <!-- Sección: Contratos disponibles (no ocupados) -->
-  @for (card of contratosDisponibles; track card.id) {
-  <div class="contrato-card">
-    
-    <div class="contrato-card-content">
-      
-      <h2 class="contrato-card-titulo"> > {{ card.titulo }}</h2>
-      <p>{{ card.descripcion }}</p>
-      @if (card.start_date) {
-      <p>Fecha de inicio del contrato: {{ card.start_date }}</p>
-      }
-      @if (card.end_date) {
-      <p>Fecha de finalización del contrato: {{ card.end_date }}</p>
+      <select class="filtro-select" [(ngModel)]="filtroSeniority" (change)="filtrarContratos()">
+        <option value="">Seniority</option>
+        <option value="Trainee">Trainee</option>
+        <option value="Junior">Junior</option>
+        <option value="Semisenior">Semisenior</option>
+        <option value="Senior">Senior</option>
+      </select>
+
+      @if (filtroModalidad || filtroSeniority) {
+        <button class="filtro-clear" (click)="limpiarFiltros()">✕</button>
       }
     </div>
-    <div class="card-button-group">
-      <button class="btn btn-signup" (click)="setContratoAMostrar(card)">+</button>
-    </div>
-  </div>
-  }
-</div>
 
-<!-- Sección separada para contratos asignados (aparece debajo en escritorio) -->
-  @if ((contratosPendientes).length > 0) {
-<section id="pendientes" class="contratos-pendientes-section">
-  <h3 class="pendientes-header">Pendientes</h3>
-  <div class="contratos-pendientes">
-    @for (card of contratosPendientes; track card.id) {
-    <div class="contrato-card pendiente" [ngClass]="{'pendiente-dev': rolActual === 'desarrollador'}">
-      <div class="contrato-card-content">
-        <h2 class="contrato-card-titulo"> > {{ card.titulo }} <span class="badge-pendiente">Pendiente</span></h2>
-        <p>{{ card.descripcion }}</p>
+    <!-- Contratos disponibles -->
+    @for (card of contratosDisponibles; track card.id) {
+    <div class="contrato-card-item" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id}" (click)="setContratoAMostrar(card)">
+      <div class="card-item-header">
+        <h3 class="card-item-titulo">{{ card.titulo }}</h3>
+        <span class="badge badge-disponible">Disponible</span>
+      </div>
+      <p class="card-item-descripcion">{{ card.descripcion }}</p>
+      <div class="card-item-meta">
+        @if (card.modalidad) {
+        <span class="meta-tag tag-modalidad">{{ card.modalidad }}</span>
+        }
+        @if (card.seniority_deseado && card.seniority_deseado.length) {
+        <span class="meta-tag tag-seniority">{{ card.seniority_deseado.join(', ') }}</span>
+        }
         @if (card.start_date) {
-        <p>Fecha de inicio del contrato: {{ card.start_date }}</p>
+        <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
         }
         @if (card.end_date) {
-        <p>Fecha de finalización del contrato: {{ card.end_date }}</p>
+        <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
         }
-      </div>
-      <div class="card-button-group">
-        <button class="btn btn-signup" (click)="setContratoAMostrar(card)">+</button>
       </div>
     </div>
     }
-  </div>
-</section>
-}
 
-  @if ((contratosAsignados).length > 0) {
-<section id="asignados" class="contratos-asignados-section">
-  <h3 class="asignados-header">Contratos asignados</h3>
-  <div class="contratos-asignados">
-    @for (card of contratosAsignados; track card.id) {
-    <div class="contrato-card asignado" [ngClass]="{'asignado-dev': rolActual === 'desarrollador'}">
-      <div class="contrato-card-content">
-        <h2 class="contrato-card-titulo"> > {{ card.titulo }} <span class="badge-asignado">Asignado</span></h2>
-        <p>{{ card.descripcion }}</p>
-        @if (card.pasante_email) {
-        <p class="pasante-info">Pasante asignado: {{ card.pasante_email }}</p>
+    @if (contratosDisponibles.length === 0 && contratosPendientes.length === 0 && contratosAsignados.length === 0) {
+    <div class="no-results">Lo sentimos =( <br> Parece que no hay contratos disponibles.</div>
+    }
+
+    <!-- Drawer flotante inferior: Pendientes + Asignados -->
+    @if (contratosPendientes.length > 0 || contratosAsignados.length > 0) {
+    <div class="drawer-bottom" [ngClass]="{'drawer-open': drawerAbierto}">
+      <button class="drawer-toggle" (click)="drawerAbierto = !drawerAbierto">
+        <span class="drawer-toggle-label">
+          Mis postulaciones
+          @if (contratosPendientes.length > 0) {
+          <span class="drawer-count pendiente-count">{{ contratosPendientes.length }} pend.</span>
+          }
+          @if (contratosAsignados.length > 0) {
+          <span class="drawer-count asignado-count">{{ contratosAsignados.length }} asig.</span>
+          }
+        </span>
+        <span class="drawer-chevron">{{ drawerAbierto ? '▼' : '▲' }}</span>
+      </button>
+
+      <div class="drawer-content">
+        @if (contratosPendientes.length > 0) {
+        <div class="section-divider"><span>Pendientes</span></div>
+        @for (card of contratosPendientes; track card.id) {
+        <div class="contrato-card-item pendiente" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id, 'pendiente-dev': rolActual === 'desarrollador'}" (click)="setContratoAMostrar(card)">
+          <div class="card-item-header">
+            <h3 class="card-item-titulo">{{ card.titulo }}</h3>
+            <span class="badge badge-pendiente">Pendiente</span>
+          </div>
+          <p class="card-item-descripcion">{{ card.descripcion }}</p>
+          <div class="card-item-meta">
+            @if (card.modalidad) {
+            <span class="meta-tag tag-modalidad">{{ card.modalidad }}</span>
+            }
+            @if (card.seniority_deseado && card.seniority_deseado.length) {
+            <span class="meta-tag tag-seniority">{{ card.seniority_deseado.join(', ') }}</span>
+            }
+            @if (card.start_date) {
+            <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
+            }
+            @if (card.end_date) {
+            <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
+            }
+          </div>
+        </div>
         }
-        @if (card.start_date) {
-        <p>Fecha de inicio del contrato: {{ card.start_date }}</p>
         }
-        @if (card.end_date) {
-        <p>Fecha de finalización del contrato: {{ card.end_date }}</p>
+
+        @if (contratosAsignados.length > 0) {
+        <div class="section-divider"><span>Asignados</span></div>
+        @for (card of contratosAsignados; track card.id) {
+        <div class="contrato-card-item asignado" [ngClass]="{'active': contratoAMostrarDetail?.id === card.id, 'asignado-dev': rolActual === 'desarrollador'}" (click)="setContratoAMostrar(card)">
+          <div class="card-item-header">
+            <h3 class="card-item-titulo">{{ card.titulo }}</h3>
+            <span class="badge badge-asignado">Asignado</span>
+          </div>
+          <p class="card-item-descripcion">{{ card.descripcion }}</p>
+          @if (card.pasante_email) {
+          <p class="card-item-pasante">👤 {{ card.pasante_email }}</p>
+          }
+          <div class="card-item-meta">
+            @if (card.modalidad) {
+            <span class="meta-tag tag-modalidad">{{ card.modalidad }}</span>
+            }
+            @if (card.seniority_deseado && card.seniority_deseado.length) {
+            <span class="meta-tag tag-seniority">{{ card.seniority_deseado.join(', ') }}</span>
+            }
+            @if (card.start_date) {
+            <span class="meta-tag"><i class="meta-icon">📅</i> {{ card.start_date }}</span>
+            }
+            @if (card.end_date) {
+            <span class="meta-tag"><i class="meta-icon">🏁</i> {{ card.end_date }}</span>
+            }
+          </div>
+        </div>
         }
-      </div>
-      <div class="card-button-group">
-        <button class="btn btn-signup" (click)="setContratoAMostrar(card)">+</button>
+        }
       </div>
     </div>
     }
-  </div>
-</section>
-}
+  </aside>
 
-@if ((contratosDisponibles.length) === 0 && (contratosPendientes.length) === 0 && (contratosAsignados.length) === 0) {
-<div class="no-results">Lo sentimos =( <br>
-  Parece que no hay contratos disponibles para el criterio elegido.</div>
-}
+  <!-- Panel derecho: detalle del contrato seleccionado -->
+  <section class="contrato-detail-panel">
+    @if (mostrandoContratoDetail && contratoAMostrarDetail) {
+    <app-contrato-detail [contrato]="contratoAMostrarDetail!" [email]="perfil.email" [rol]="rolActual" (contratoAssigned)="onContratoAssigned($event)"/>
+    } @else {
+    <div class="detail-placeholder">
+      <div class="placeholder-icon">📋</div>
+      <h3>Seleccioná un contrato</h3>
+      <p>Elegí un contrato de la lista para ver sus detalles</p>
+    </div>
+    }
+  </section>
+</div>
