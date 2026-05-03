@@ -3,14 +3,13 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Users } from './users';
 import { Proyecto, ProyectoResponse } from '../models/proyectos';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProyectoService {
-  //private _proyectosUrl = `http://127.0.0.1:3000/api/`
-  //private _proyectosUrl = `https://tit7bcbkql.execute-api.us-east-1.amazonaws.com/api/`
-  private _proyectosUrl = `https://backend-huntech.vercel.app/api/`
+  private _proyectosUrl = environment.apiUrl;
 
   private _usersService = inject(Users);
   user: any;

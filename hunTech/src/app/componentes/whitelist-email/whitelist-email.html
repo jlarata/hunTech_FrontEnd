@@ -1,0 +1,262 @@
+<div class="wl-container">
+  <header class="wl-header">
+    <div>
+      <h1 class="wl-title">Whitelist de Emails</h1>
+      <p class="wl-subtitle">Administrá los emails autorizados a registrarse en la plataforma.</p>
+    </div>
+  </header>
+
+  <!-- ============== ALTA INDIVIDUAL ============== -->
+  <section class="wl-card">
+    <h2 class="wl-card-title">Alta individual</h2>
+    <form #altaForm="ngForm" class="wl-form" (ngSubmit)="guardarNuevo(altaForm)">
+      <div class="wl-form-row">
+        <div class="wl-field wl-field-grow">
+          <label for="wl-email">Email *</label>
+          <input
+            id="wl-email"
+            name="email"
+            type="email"
+            [(ngModel)]="nuevo.email"
+            required
+            placeholder="usuario@dominio.com"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="wl-field">
+          <label for="wl-tipo">Tipo de usuario *</label>
+          <select
+            id="wl-tipo"
+            name="tipo_usuario"
+            [(ngModel)]="nuevo.tipo_usuario"
+            required
+          >
+            @for (t of tiposUsuario; track t.value) {
+              <option [value]="t.value">{{ t.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="wl-field">
+        <label for="wl-obs">Observaciones</label>
+        <textarea
+          id="wl-obs"
+          name="observaciones"
+          [(ngModel)]="nuevo.observaciones"
+          rows="2"
+          placeholder="Notas internas (opcional)"
+        ></textarea>
+      </div>
+
+      <div class="wl-form-actions">
+        <button
+          type="button"
+          class="wl-btn wl-btn-ghost"
+          (click)="resetForm(altaForm)"
+          [disabled]="guardando"
+        >
+          Limpiar
+        </button>
+        <button
+          type="submit"
+          class="wl-btn wl-btn-primary"
+          [disabled]="guardando || altaForm.invalid"
+        >
+          {{ guardando ? 'Guardando…' : 'Agregar a whitelist' }}
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============== CARGA CSV ============== -->
+  <section class="wl-card">
+    <div class="wl-csv-head">
+      <div>
+        <h2 class="wl-card-title">Carga masiva (CSV)</h2>
+        <p class="wl-help">
+          Cabeceras esperadas: <code>email,tipo_usuario,observaciones</code>
+        </p>
+      </div>
+      <div class="wl-csv-actions">
+        <input
+          #fileInput
+          type="file"
+          accept=".csv,text/csv"
+          (change)="onCsvSeleccionado($event)"
+          hidden
+        />
+        <button
+          class="wl-btn wl-btn-secondary"
+          (click)="abrirSelectorCsv()"
+          [disabled]="subiendoCsv"
+        >
+          {{ subiendoCsv ? 'Subiendo…' : 'Subir CSV' }}
+        </button>
+      </div>
+    </div>
+
+    @if (mostrarResultadoCsv && resultadoCsv) {
+      <div class="wl-csv-resultado">
+        <div class="wl-csv-resumen">
+          <span class="wl-pill wl-pill-success">Nuevos: {{ resultadoCsv.success.count }}</span>
+          <span class="wl-pill wl-pill-warning">Actualizados: {{ resultadoCsv.warnings.count }}</span>
+          <span class="wl-pill wl-pill-error">Errores: {{ resultadoCsv.errores.count }}</span>
+          <button class="wl-btn-link" (click)="cerrarResultadoCsv()">Cerrar</button>
+        </div>
+
+        @if (resultadoCsv.success.emails.length) {
+          <details class="wl-details">
+            <summary>Insertados ({{ resultadoCsv.success.count }})</summary>
+            <ul class="wl-list">
+              @for (e of resultadoCsv.success.emails; track e) {
+                <li>{{ e }}</li>
+              }
+            </ul>
+          </details>
+        }
+
+        @if (resultadoCsv.warnings.emails.length) {
+          <details class="wl-details">
+            <summary>Actualizados (upsert) ({{ resultadoCsv.warnings.count }})</summary>
+            <ul class="wl-list">
+              @for (e of resultadoCsv.warnings.emails; track e) {
+                <li>{{ e }}</li>
+              }
+            </ul>
+          </details>
+        }
+
+        @if (resultadoCsv.errores.detalle.length) {
+          <details class="wl-details" open>
+            <summary>Errores ({{ resultadoCsv.errores.count }})</summary>
+            <table class="wl-mini-table">
+              <thead>
+                <tr>
+                  <th>Fila</th>
+                  <th>Email</th>
+                  <th>Motivo</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (err of resultadoCsv.errores.detalle; track $index) {
+                  <tr>
+                    <td>{{ err.fila ?? '-' }}</td>
+                    <td>{{ err.email ?? '-' }}</td>
+                    <td>{{ err.motivo }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </details>
+        }
+      </div>
+    }
+  </section>
+
+  <!-- ============== LISTADO ============== -->
+  <section class="wl-card">
+    <div class="wl-list-head">
+      <h2 class="wl-card-title">Emails registrados</h2>
+      <span class="wl-total">Total: {{ total }}</span>
+    </div>
+
+    <div class="wl-filtros">
+      <input
+        type="text"
+        class="wl-input"
+        placeholder="Buscar por email…"
+        [(ngModel)]="busqueda"
+        (input)="onBusquedaInput()"
+      />
+
+      <select class="wl-input" [(ngModel)]="filtroEstado" (change)="onFiltroChange()">
+        <option value="">Todos los estados</option>
+        @for (e of estados; track e.value) {
+          <option [value]="e.value">{{ e.label }}</option>
+        }
+      </select>
+
+      <select class="wl-input" [(ngModel)]="filtroTipo" (change)="onFiltroChange()">
+        <option value="">Todos los tipos</option>
+        @for (t of tiposUsuario; track t.value) {
+          <option [value]="t.value">{{ t.label }}</option>
+        }
+      </select>
+
+      @if (filtroEstado || filtroTipo || busqueda) {
+        <button class="wl-btn wl-btn-ghost" (click)="limpiarFiltros()">Limpiar</button>
+      }
+    </div>
+
+    <div class="wl-table-wrap">
+      <table class="wl-table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th>Observaciones</th>
+            <th>Cargado por</th>
+            <th>Creado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (loading) {
+            <tr>
+              <td colspan="6" class="wl-empty">Cargando…</td>
+            </tr>
+          } @else if (emails.length === 0) {
+            <tr>
+              <td colspan="6" class="wl-empty">Sin resultados.</td>
+            </tr>
+          } @else {
+            @for (e of emails; track trackEmail($index, e)) {
+              <tr>
+                <td class="wl-email-cell">{{ e.email }}</td>
+                <td>{{ labelTipo(e.tipo_usuario) }}</td>
+                <td>
+                  <span class="wl-badge wl-badge-{{ e.estado }}">{{ e.estado }}</span>
+                </td>
+                <td class="wl-obs-cell">{{ e.observaciones || '—' }}</td>
+                <td>{{ e.cargado_por || '—' }}</td>
+                <td>{{ e.created_at ? (e.created_at | date:'short') : '—' }}</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (totalPages > 1) {
+      <div class="wl-pagination">
+        <button
+          class="wl-btn wl-btn-ghost"
+          (click)="irPagina(page - 1)"
+          [disabled]="page <= 1 || loading"
+        >
+          ← Anterior
+        </button>
+        <span class="wl-page-info">Página {{ page }} de {{ totalPages }}</span>
+        <button
+          class="wl-btn wl-btn-ghost"
+          (click)="irPagina(page + 1)"
+          [disabled]="page >= totalPages || loading"
+        >
+          Siguiente →
+        </button>
+      </div>
+    }
+  </section>
+
+  <!-- ============== TOASTS ============== -->
+  <div class="wl-toast-stack" aria-live="polite">
+    @for (t of toasts; track trackToast($index, t)) {
+      <div class="wl-toast wl-toast-{{ t.tipo }}" (click)="dismissToast(t.id)">
+        <span class="wl-toast-msg">{{ t.mensaje }}</span>
+        <button class="wl-toast-close" (click)="dismissToast(t.id); $event.stopPropagation()">×</button>
+      </div>
+    }
+  </div>
+</div>
