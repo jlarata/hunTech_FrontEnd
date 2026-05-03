@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, Observable, BehaviorSubject, tap } from 'rxjs';
+import { environment } from '../environments/environment';
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import { catchError, of, Observable, BehaviorSubject, tap } from 'rxjs';
 })
 export class Users {
 
-  private USERSURL = `https://backend-huntech.vercel.app/api/`
+  private USERSURL = environment.apiUrl;
 
   // Este es el "almacen" privado y el observable público que observarán los componentes
   private userProfileSubject = new BehaviorSubject<any>(null);

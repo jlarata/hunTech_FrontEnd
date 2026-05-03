@@ -191,7 +191,8 @@ export class WhitelistEmail implements OnInit {
     }
 
     this.subiendoCsv = true;
-    this.whitelistService.uploadCsv(file).subscribe({
+    const cargadoPor = this.usersService.getUserProfileValue()?.email || undefined;
+    this.whitelistService.uploadCsv(file, cargadoPor).subscribe({
       next: (res) => {
         this.subiendoCsv = false;
         this.resultadoCsv = res;

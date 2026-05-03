@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment.prod';
 
 export type TipoUsuarioWL = 'desarrollador' | 'gerente' | 'institucion_educativa';
 export type EstadoWL = 'activo' | 'revocado' | 'usado';
@@ -57,7 +58,7 @@ export interface UploadWhitelistEmailResponse {
 
 @Injectable({ providedIn: 'root' })
 export class WhitelistEmailService {
-  private readonly baseUrl = 'https://backend-huntech.vercel.app/api/whitelist-email';
+  private readonly baseUrl = `${environment.apiUrl}whitelist-email`;
 
   constructor(private http: HttpClient) {}
 
@@ -67,9 +68,10 @@ export class WhitelistEmailService {
   }
 
   /** Carga masiva por CSV. */
-  uploadCsv(file: File): Observable<UploadWhitelistEmailResponse> {
+  uploadCsv(file: File, cargadoPor?: string): Observable<UploadWhitelistEmailResponse> {
     const formData = new FormData();
     formData.append('file', file);
+    if (cargadoPor) formData.append('cargado_por', cargadoPor);
     return this.http.post<UploadWhitelistEmailResponse>(`${this.baseUrl}/upload`, formData);
   }
 
