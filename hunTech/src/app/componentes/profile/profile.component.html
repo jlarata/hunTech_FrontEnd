@@ -379,7 +379,8 @@
       <section class="card section-container" *ngSwitchCase="'ofertas'">
         <h2 class="section-title" style="display: flex; align-items: center; gap: 10px;">Mis Ofertas Activas <span
             class="material-icons-outlined">rocket_launch</span></h2>
-        <button class="btn-add">+ Nueva Oferta</button>
+        <button class="btn-add" [routerLink]="['/formcreatecontract', perfil.proyecto]">+ Nueva Oferta</button>
+
       </section>
 
     </div>
