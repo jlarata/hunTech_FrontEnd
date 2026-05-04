@@ -53,14 +53,22 @@ export class ProfileComponent implements OnInit {
       if (data) {
         this.perfil = {
           ...data,
-          habilidades: data.habilidades || [],
-          idiomas: data.idiomas || [],
+          //habilidades: data.habilidades || [],
+          //idiomas: data.idiomas || [],
           /* empresa_nombre: data.empresa_nombre || '', esto sale de otro servicio, proyecto */
           /* web_empresa: data.web_empresa || '', */
           /* descripcion_empresa: data.descripcion_empresa || '', */
           /* ubicacion_empresa: data.ubicacion_empresa || '', */
           telefono: data.telefono,
-          posicion:data.puesto_actual
+          posicion:data.puesto_actual,
+          habilidades: (data.habilidades || []).map((h: any) => ({
+            nombre: h.nombre_habilidad,   // back → front
+            nivel: h.nivel_habilidad
+          })),
+          idiomas: (data.idiomas || []).map((i: any) => ({
+            nombre: i.nombre_idioma,
+            nivel: i.nivel_idioma
+          })),
 
         };
         this.rolActual = data.rol || '';
@@ -165,10 +173,28 @@ export class ProfileComponent implements OnInit {
 
     if (this.rolActual == 'desarrollador') {
       //como en db posicion es puesto_actual lo voy a renombrar antes de enviar
+      //las tablas y habilidades idioma son nombre_habilidad, nivel_habilidad, nombre_idioma, nivel_idiona
       const userDevPayload = {
         ...this.perfil,
-        puesto_actual: this.perfil.posicion, 
+        puesto_actual: this.perfil.posicion,
+        //  HABILIDADES → formato back
+        habilidades: (this.perfil.habilidades || [])
+        .filter((h: any) => h && h.nombre) // saca null/undefined/vacío
+        .map((h: any) => ({
+          nombre_habilidad: String(h.nombre || '').trim(),
+          nivel_habilidad: h.nivel || 'principiante'
+        })),
+        //  IDIOMAS → formato back
+        idiomas: (this.perfil.idiomas || [])
+        .filter((i:any) => i && i.nombre)
+        .map((i: any) => ({
+          nombre_idioma: String(i.nombre || '').trim(),
+          nivel_idioma: i.nivel || 'A1 - Principiante'
+        }))
+
       };
+
+      //console.log('PAYLOAD QUE SALE', JSON.stringify(userDevPayload, null, 2));
 
       try {
         this.loading = true;
