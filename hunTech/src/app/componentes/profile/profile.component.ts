@@ -120,6 +120,7 @@ export class ProfileComponent implements OnInit {
   }
 
   guardarHabilidad() {
+    this.loading = true;
     if (this.nuevaHabilidad.nombre.trim() !== '') {
       this.perfil.habilidades.push({ ...this.nuevaHabilidad });
       this.nuevaHabilidad = { nombre: '', nivel: 'principiante' };
@@ -129,6 +130,7 @@ export class ProfileComponent implements OnInit {
 
   // --- IDIOMAS ---
   guardarIdioma() {
+    this.loading = true;
     if (this.nuevoIdioma.nombre.trim() !== '') {
       this.perfil.idiomas.push({ ...this.nuevoIdioma });
       this.nuevoIdioma = { nombre: '', nivel: 'A1 - Principiante' };
