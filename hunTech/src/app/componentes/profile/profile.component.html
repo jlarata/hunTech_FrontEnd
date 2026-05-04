@@ -36,9 +36,9 @@
           {{ rolActual === 'gerente' ? 'Datos de Perfil' : 'Información personal' }}
         </li>
         <ng-container *ngIf="rolActual === 'desarrollador'">
-          <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
+          <!-- <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
             Agregar Portfolio
-          </li>
+          </li> -->
           <li (click)="cambiarSeccion('habilidades')" [class.active]="seccionActiva === 'habilidades'">
             Habilidades
           </li>
@@ -103,8 +103,11 @@
                   perfil.fecha_nacimiento || 'Vacío' }}</div>
                 <div class="data-item"><span class="material-icons-outlined data-icon">work_outline</span> {{
                   perfil.posicion || 'Vacío' }}</div>
-                <div class="data-item"><span class="material-icons-outlined data-icon">auto_awesome</span> {{
+                @if (perfil.genero != 'X') {
+                <div class="data-item"><span class="material-icons-outlined data-icon"> {{perfil.genero == 'F' ?
+                    'female' : perfil.genero == 'M' ? 'male' : 'agender' }}</span> {{
                   perfil.genero || 'Vacío' }}</div>
+                }
               </ng-container>
 
               <ng-container *ngIf="rolActual === 'gerente'">
@@ -160,7 +163,7 @@
                     inputmode="numeric" maxlength="10" placeholder="Ej: 1123456789" (keypress)="soloNumeros($event)">
                 </div>
 
-                <div class="form-group-full">
+                <div class="form-group-full" *ngIf="rolActual === 'gerente'">
                   <label class="label-pro" style="display: flex; align-items: center; gap: 4px;"><span
                       class="material-icons-outlined" style="font-size: 16px;">description</span> Descripcion
                     de la empresa</label>
@@ -281,6 +284,12 @@
             <h2 class="section-title">Habilidades</h2>
             <p class="section-subtitle">Añade tus conocimientos para que los reclutadores te encuentren.</p>
           </div>
+          <div class="skills-list-preview" *ngIf="perfil?.habilidades?.length > 0">
+            <div *ngFor="let hab of perfil.habilidades; let i = index" class="skill-tag">
+              {{ hab.nombre }} <span>({{ hab.nivel }})</span>
+              <button class="btn-remove" (click)="eliminarHabilidad(i); handleUpdate()">✕</button>
+            </div>
+          </div>
           <button *ngIf="!isEditing" class="btn-edit-blue" (click)="toggleEdit()"
             style="display: flex; align-items: center; gap: 6px;">
             <span class="material-icons-outlined" style="font-size: 18px;">edit</span> Añadir habilidades
@@ -288,12 +297,6 @@
         </div>
 
         <div *ngIf="isEditing" class="edit-content">
-          <div class="skills-list-preview" *ngIf="perfil?.habilidades?.length > 0">
-            <div *ngFor="let hab of perfil.habilidades; let i = index" class="skill-tag">
-              {{ hab.nombre }} <span>({{ hab.nivel }})</span>
-              <button class="btn-remove" (click)="eliminarHabilidad(i); handleUpdate()">✕</button>
-            </div>
-          </div>
           <div class="skill-form">
             <div class="form-grid">
               <div class="input-group">
@@ -311,8 +314,10 @@
               </div>
             </div>
             <div class="form-actions">
-              <button class="btn-save" (click)="guardarHabilidad(); handleUpdate()">Guardar</button>
-              <button type="button" class="btn-cancel-link" (click)="toggleEdit()">Cancelar</button>
+              <button class="btn-save" [disabled]="loading"
+                (click)="guardarHabilidad(); handleUpdate()">Guardar</button>
+              <button type="button" class="btn-cancel-link" [disabled]="loading"
+                (click)="toggleEdit()">Cancelar</button>
             </div>
           </div>
         </div>
@@ -324,6 +329,12 @@
             <h2 class="section-title">Idiomas</h2>
             <p class="section-subtitle">Añade los idiomas que dominas para expandir tus oportunidades profesionales.</p>
           </div>
+          <div class="skills-list-preview" *ngIf="perfil?.idiomas?.length > 0">
+            <div *ngFor="let idioma of perfil.idiomas; let i = index" class="skill-tag">
+              {{ idioma.nombre }} <span>({{ idioma.nivel }})</span>
+              <button class="btn-remove" (click)="eliminarIdioma(i); handleUpdate()">✕</button>
+            </div>
+          </div>
           <button *ngIf="!isEditing" class="btn-edit-blue" (click)="toggleEdit()"
             style="display: flex; align-items: center; gap: 6px;">
             <span class="material-icons-outlined" style="font-size: 18px;">edit</span> Añadir idiomas
@@ -331,13 +342,6 @@
         </div>
 
         <div *ngIf="isEditing" class="edit-content">
-          <div class="skills-list-preview" *ngIf="perfil?.idiomas?.length > 0">
-            <div *ngFor="let idioma of perfil.idiomas; let i = index" class="skill-tag">
-              {{ idioma.nombre }} <span>({{ idioma.nivel }})</span>
-              <button class="btn-remove" (click)="eliminarIdioma(i); handleUpdate()">✕</button>
-            </div>
-          </div>
-
           <div class="skill-form">
             <div class="form-grid">
               <div class="input-group">
@@ -358,8 +362,9 @@
               </div>
             </div>
             <div class="form-actions">
-              <button class="btn-save" (click)="guardarIdioma(); handleUpdate()">Guardar</button>
-              <button type="button" class="btn-cancel-link" (click)="toggleEdit()">Cancelar</button>
+              <button class="btn-save" [disabled]="loading" (click)="guardarIdioma(); handleUpdate()">Guardar</button>
+              <button type="button" [disabled]="loading" class="btn-cancel-link"
+                (click)="toggleEdit()">Cancelar</button>
             </div>
           </div>
         </div>
@@ -374,7 +379,8 @@
       <section class="card section-container" *ngSwitchCase="'ofertas'">
         <h2 class="section-title" style="display: flex; align-items: center; gap: 10px;">Mis Ofertas Activas <span
             class="material-icons-outlined">rocket_launch</span></h2>
-        <button class="btn-add">+ Nueva Oferta</button>
+        <button class="btn-add" [routerLink]="['/formcreatecontract', perfil.proyecto]">+ Nueva Oferta</button>
+
       </section>
 
     </div>

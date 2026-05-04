@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Users } from './../../servicios/users';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ProyectoService } from '../../servicios/miproyecto';
@@ -9,7 +9,7 @@ import { ProyectoService } from '../../servicios/miproyecto';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, RouterModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -53,13 +53,23 @@ export class ProfileComponent implements OnInit {
       if (data) {
         this.perfil = {
           ...data,
-          habilidades: data.habilidades || [],
-          idiomas: data.idiomas || [],
+          //habilidades: data.habilidades || [],
+          //idiomas: data.idiomas || [],
           /* empresa_nombre: data.empresa_nombre || '', esto sale de otro servicio, proyecto */
           /* web_empresa: data.web_empresa || '', */
           /* descripcion_empresa: data.descripcion_empresa || '', */
           /* ubicacion_empresa: data.ubicacion_empresa || '', */
-          telefono: data.telefono
+          telefono: data.telefono,
+          posicion:data.puesto_actual,
+          habilidades: (data.habilidades || []).map((h: any) => ({
+            nombre: h.nombre_habilidad,   // back → front
+            nivel: h.nivel_habilidad
+          })),
+          idiomas: (data.idiomas || []).map((i: any) => ({
+            nombre: i.nombre_idioma,
+            nivel: i.nivel_idioma
+          })),
+
         };
         this.rolActual = data.rol || '';
 
@@ -110,6 +120,7 @@ export class ProfileComponent implements OnInit {
   }
 
   guardarHabilidad() {
+    this.loading = true;
     if (this.nuevaHabilidad.nombre.trim() !== '') {
       this.perfil.habilidades.push({ ...this.nuevaHabilidad });
       this.nuevaHabilidad = { nombre: '', nivel: 'principiante' };
@@ -119,6 +130,7 @@ export class ProfileComponent implements OnInit {
 
   // --- IDIOMAS ---
   guardarIdioma() {
+    this.loading = true;
     if (this.nuevoIdioma.nombre.trim() !== '') {
       this.perfil.idiomas.push({ ...this.nuevoIdioma });
       this.nuevoIdioma = { nombre: '', nivel: 'A1 - Principiante' };
@@ -159,12 +171,37 @@ export class ProfileComponent implements OnInit {
 
   async handleUpdate() {
     if (!this.rolActual) return alert("Error: No se detectó el rol del usuario");
+    
 
     if (this.rolActual == 'desarrollador') {
+      //como en db posicion es puesto_actual lo voy a renombrar antes de enviar
+      //las tablas y habilidades idioma son nombre_habilidad, nivel_habilidad, nombre_idioma, nivel_idiona
+      const userDevPayload = {
+        ...this.perfil,
+        puesto_actual: this.perfil.posicion,
+        //  HABILIDADES → formato back
+        habilidades: (this.perfil.habilidades || [])
+        .filter((h: any) => h && h.nombre) // saca null/undefined/vacío
+        .map((h: any) => ({
+          nombre_habilidad: String(h.nombre || '').trim(),
+          nivel_habilidad: h.nivel || 'principiante'
+        })),
+        //  IDIOMAS → formato back
+        idiomas: (this.perfil.idiomas || [])
+        .filter((i:any) => i && i.nombre)
+        .map((i: any) => ({
+          nombre_idioma: String(i.nombre || '').trim(),
+          nivel_idioma: i.nivel || 'A1 - Principiante'
+        }))
+
+      };
+
+      //console.log('PAYLOAD QUE SALE', JSON.stringify(userDevPayload, null, 2));
+
       try {
         this.loading = true;
         const email = this.perfil.email;
-        await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
+        await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, userDevPayload));
         this.isEditing = false;
         alert('Perfil actualizado con éxito');
       } catch (error) {

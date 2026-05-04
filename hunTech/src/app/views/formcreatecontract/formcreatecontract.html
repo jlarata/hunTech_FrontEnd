@@ -1,99 +1,133 @@
 <div class="container">
 
     <!-- @if (espost){ -->
-        <form #miFormulario="ngForm" (ngSubmit)="enviar(miFormulario)">
-        
+    <form #miFormulario="ngForm" (ngSubmit)="enviar(miFormulario)">
+
+        <h2>Crea una nueva oferta para {{proyecto.nombre}} </h2>
+
         <div class="mb-3">
             <label for="tipo" class="form-label">Tipo de Desarrollador</label>
-            <input
-            type="text"
-            class="form-control"
-            id="tipo"
-            name="tipo"
-            [(ngModel)]="contrato.tipo"
-            required
-            minlength="3"
-            maxlength="30"
-            #tipo = "ngModel"
-            [ngClass]="{
+            <input type="text" class="form-control" id="tipo" name="tipo" placeholder="ej. 'Pasantía', 'Contrato', etc"
+                [(ngModel)]="contrato.tipo" required minlength="3" maxlength="30" #tipo="ngModel" [ngClass]="{
                 'is-invalid': tipo.invalid && tipo.touched,
-                'is-valid': tipo.valid && tipo.touched}"
-            autocomplete="off">
-            </div>
-        
+                'is-valid': tipo.valid && tipo.touched}" autocomplete="off">
+        </div>
+
 
         @if (tipo.errors?.['required'] && tipo.touched) {
-            <div class="text-danger">Tipo requerido</div>
+        <div class="text-danger">Tipo requerido</div>
         }
-        
+
         @if (tipo.errors?.['minlength'] && tipo.touched) {
-            <div class="text-danger">Mínimo tres caracteres</div>
+        <div class="text-danger">Mínimo tres caracteres</div>
         }
         @if (tipo.errors?.['maxlength'] && tipo.touched) {
-            <div class="text-danger">Máximo treinta caracteres</div>
+        <div class="text-danger">Máximo treinta caracteres</div>
         }
 
         <div class="mb-3">
-            <label for="titulo" class="form-label">Título o resumen del Contrato</label>
-            <input
-            type="text"
-            class="form-control"
-            id="titulo"
-            name="titulo"
-            [(ngModel)]="contrato.titulo"
-            required
-            minlength="3"
-            maxlength="60"
-            #titulo = "ngModel"
-            [ngClass]="{
+            <label for="titulo" class="form-label">Título o resumen de la oferta</label>
+            <input type="text" class="form-control" id="titulo" name="titulo"
+                placeholder="ej. 'Backend Jr. para equipo de BI'" [(ngModel)]="contrato.titulo" required minlength="3"
+                maxlength="60" #titulo="ngModel" [ngClass]="{
                 'is-invalid': titulo.invalid && titulo.touched,
-                'is-valid': titulo.valid && titulo.touched}"
-            autocomplete="off">
-            </div>
-        
+                'is-valid': titulo.valid && titulo.touched}" autocomplete="off">
+        </div>
+
 
         @if (titulo.errors?.['required'] && titulo.touched) {
-            <div class="text-danger">Titulo requerido</div>
+        <div class="text-danger">Titulo requerido</div>
         }
-        
+
         @if (titulo.errors?.['minlength'] && titulo.touched) {
-            <div class="text-danger">Mínimo tres caracteres</div>
+        <div class="text-danger">Mínimo tres caracteres</div>
         }
         @if (titulo.errors?.['maxlength'] && titulo.touched) {
-            <div class="text-danger">Máximo sesenta caracteres</div>
+        <div class="text-danger">Máximo sesenta caracteres</div>
         }
+
+        <div class="mb-3">
+            <label for="modalidad" class="form-label">Modalidad del trabajo</label>
+            <select class="form-select" id="modalidad" name="modalidad" [(ngModel)]="contrato.modalidad" required
+                #modalidad="ngModel" [ngClass]="{
+                'is-invalid': modalidad.invalid && modalidad.touched,
+                'is-valid': modalidad.valid && modalidad.touched}" autocomplete="off">
+
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="remoto">Remoto</option>
+                <option value="presencial">Presencial</option>
+                <option value="hibrido">Híbrido</option>
+            </select>
+            @if (modalidad.errors?.['required'] && modalidad.touched) {
+            <div class="text-danger">Modalidad requerida</div>
+            }
+        </div>
+
+        
+<!--         <div class="mb-3">
+            <label for="seniority" class="form-label">Seniority deseada</label>
+            <select class="form-select" id="seniority_deseado" name="seniority_deseado" [(ngModel)]="contrato.seniority_deseado" required
+                #seniority_deseado="ngModel" [ngClass]="{
+                'is-invalid': seniority_deseado.invalid && seniority_deseado.touched,
+                'is-valid': seniority_deseado.valid && seniority_deseado.touched}" autocomplete="off">
+
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option value="Trainee">Trainee</option>
+                <option value="Junior">Junior</option>
+                <option value="Semisenior">Semisenior</option>
+                <option value="Indistinto">Indistinto</option>
+            </select>
+            @if (seniority_deseado.errors?.['required'] && seniority_deseado.touched) {
+            <div class="text-danger">Seniority requerida</div>
+            }
+        </div> -->
+
+        <div class="mb-3">
+    <label class="form-label d-block">Seniority deseada (selecciona una o varias)</label>
+    
+    <div class="btn-group" role="group" aria-label="Selección de seniority">
+        @for (opcion of ['Trainee', 'Junior', 'Semisenior', 'Indistinto']; track opcion) {
+            <input 
+                type="checkbox" 
+                class="btn-check" 
+                [id]="opcion" 
+                [checked]="estaSeleccionado(opcion)"
+                (change)="toggleSeniority(opcion)">
+            <label class="btn btn-outline-primary" [for]="opcion">{{ opcion }}</label>
+        }
+    </div>
+
+    <!-- Validación Visual -->
+    @if (contrato.seniority_deseado && contrato.seniority_deseado.length === 0) {
+        <div class="text-muted small mt-1">Debe seleccionar al menos una opción.</div>
+    }
+</div>
+
 
 
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripcion completa del Contrato</label>
-            <input
-            type="text"
-            class="form-control"
-            id="descripcion"
-            name="descripcion"
-            [(ngModel)]="contrato.descripcion"
-            required
-            minlength="30"
-            maxlength="400"
-            #descripcion = "ngModel"
-            [ngClass]="{
+            <input type="text" class="form-control" id="descripcion" name="descripcion"
+                placeholder="Hasta 400 caracteres" [(ngModel)]="contrato.descripcion" required minlength="30"
+                maxlength="400" #descripcion="ngModel" [ngClass]="{
                 'is-invalid': descripcion.invalid && descripcion.touched,
-                'is-valid': descripcion.valid && descripcion.touched}"
-            autocomplete="off">
-            </div>
-        
+                'is-valid': descripcion.valid && descripcion.touched}" autocomplete="off">
+        </div>
+
 
         @if (descripcion.errors?.['required'] && descripcion.touched) {
-            <div class="text-danger">Descripcion requerida</div>
+        <div class="text-danger">Descripcion requerida</div>
         }
-        
+
         @if (descripcion.errors?.['minlength'] && descripcion.touched) {
-            <div class="text-danger">Mínimo 30 caracteres</div>
+        <div class="text-danger">Mínimo 30 caracteres</div>
         }
         @if (descripcion.errors?.['maxlength'] && descripcion.touched) {
-            <div class="text-danger">Máximo 400 caracteres</div>
+        <div class="text-danger">Máximo 400 caracteres</div>
         }
-  <button type="submit" class="btn btn-primary" [disabled]="miFormulario.invalid">Enviar</button>
+
+
+        <button type="submit" class="btn btn-primary" [disabled]="miFormulario.invalid">Enviar</button>
     </form>
-   <!--  } -->
+    <!--  } -->
 </div>

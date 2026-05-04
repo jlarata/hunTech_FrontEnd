@@ -22,6 +22,7 @@ export class Formcreatecontract {
 
   espost = false;
   esedit = true;
+  proyecto: any;
 
   contrato: Contrato = {
     tipo: "",
@@ -32,31 +33,60 @@ export class Formcreatecontract {
     esta_ocupado: false,
     pasante_email: "",
     proyecto_id: "",
+    modalidad: "",
+    seniority_deseado: [],
     start_date: "",
     end_date: ""
   }
 
   ngOnInit(): void {
-    const pid = this.route.snapshot.paramMap.get('project_id')
-    this.contrato.proyecto_id = pid!
+    /* const pid = this.route.snapshot.paramMap.get('project_id') anterior método */
+    const proyecto_id = this.route.snapshot.paramMap.get('id')
+    const proyecto_nombre = this.route.snapshot.paramMap.get('nombre')
+    this.proyecto = { nombre: proyecto_nombre }
+    this.contrato.proyecto_id = proyecto_id!
+
   }
 
-    // probablemente por project id const email = this.route.snapshot.paramMap.get('email');
-    //console.log(email)
-    /* if (email) {
-      // Llamás al servicio para traer el proyecto y precargarlo
-      this._apiService.getProyectoPorEmail(email).subscribe({
-        next : (res) => {
-          console.log("listo para editar proyecto", this.proyecto)
-          this.proyecto = res.data[0]
-        }, 
-        error: (err) => console.error('Error al cargar proyecto', err)
-      });
+  // probablemente por project id const email = this.route.snapshot.paramMap.get('email');
+  //console.log(email)
+  /* if (email) {
+    // Llamás al servicio para traer el proyecto y precargarlo
+    this._apiService.getProyectoPorEmail(email).subscribe({
+      next : (res) => {
+        console.log("listo para editar proyecto", this.proyecto)
+        this.proyecto = res.data[0]
+      }, 
+      error: (err) => console.error('Error al cargar proyecto', err)
+    });
+  } else {
+    this.espost = true;
+    this.esedit = false;
+  } */
+
+  toggleSeniority(valor: string) {
+    if (this.contrato.seniority_deseado) {
+      const index = this.contrato.seniority_deseado.indexOf(valor);
+      if (index === -1) {
+        // Si no existe, lo agregamos
+        this.contrato.seniority_deseado.push(valor);
+      } else {
+        // Si ya existe, lo quitamos
+        this.contrato.seniority_deseado.splice(index, 1);
+      }
+    }
+
+  }
+
+  estaSeleccionado(valor: string): boolean {
+    if (this.contrato.seniority_deseado) {
+      return this.contrato.seniority_deseado.includes(valor);
     } else {
-      this.espost = true;
-      this.esedit = false;
-    } */
-    
+      return false /* <- el flujo nunca debería llegar aquí */
+    }
+  }
+
+
   enviar(form: NgForm) {
     if (form.invalid) {
       return;
@@ -65,56 +95,19 @@ export class Formcreatecontract {
     const dataParaEnviar = {
       ...this.contrato,
     };
-    
+
+    //console.log("contrato:", this.contrato)
 
     this._apiService.postContrato(dataParaEnviar).subscribe({
       next: (res) => {
         console.log(res.message)
-        this.router.navigate(['/miproyecto']);
-      },
-      error: (error:string) => {
-        console.log(error)
-      }
-    });
-   
-  }
-
-  /* editar(form: NgForm) {
-    if (form.invalid) {
-      return;
-    }
-
-    const dataParaEnviar = {
-      ...this.proyecto,
-    };
-
-    this._apiService.editProyecto(this.proyecto).subscribe({
-      next: (res) => {
-        console.log(res.message)
-        this.router.navigate(['/miproyecto']);
-
+        this.router.navigate(['/contratos']);
       },
       error: (error: string) => {
         console.log(error)
       }
     });
 
-
-    //this.formularioEnviado = true;
-    //form.resetForm()
-    //this.formularioEnviado = false;
-
   }
- */
-
-  /* private loadUser(): void {
-    // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
-    this._usersService.user$.subscribe({
-      next: (data) => {
-        this.proyecto.email_gerente = data.email;   //data de cognito  y DB      
-      },
-      error: (err) => console.error('Error al obtener usuario', err)
-    });
-  } */
 
 }
