@@ -5,6 +5,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ProyectoService } from '../../servicios/miproyecto';
+import { ContratoService } from '../../servicios/contrato';
+import { Contrato } from '../../models/contrato';
 
 @Component({
   selector: 'app-profile',
@@ -47,6 +49,10 @@ export class ProfileComponent implements OnInit {
   // CONTROL DE NAVEGACIÓN
   seccionActiva: string = 'info';
   isSidebarOpen: boolean = false;
+
+  //ofertas/contratos del gerente/empresa
+  ofertas: Contrato[] = []; // las ofertas activas
+  private contratoService = inject(ContratoService); // inyeccion servicio contrato
 
   ngOnInit() {
     this.usersService.userProfile$.subscribe(data => {
@@ -148,6 +154,10 @@ export class ProfileComponent implements OnInit {
     this.isEditing = false;
     this.mostrandoFormulario = false;
     this.mostrandoFormIdioma = false;
+
+    if (seccion === 'ofertas') {
+      this.cargarOfertas();
+    }
   }
 
   toggleEdit() {
@@ -228,6 +238,29 @@ export class ProfileComponent implements OnInit {
     }
 
 
+  }
+
+  //obtener ofertas para el perfil tipo gerente empresa
+  cargarOfertas() {
+    if (!this.perfil?.email || this.rolActual !== 'gerente') return;
+    this.contratoService.getContratosByEmailGerente(this.perfil.email).subscribe({
+      next: (res) => {
+        this.ofertas = res.data || [];
+      },
+      error: (err) => console.error('Error al obtener ofertas', err)
+    });
+  }
+
+  //eliminar oferta/contrato //no existe en contrato service delete por ahora
+  eliminarOferta(contrato: Contrato) {
+    if (!contrato.id) return;
+     if (!confirm('¿Estás seguro de eliminar esta oferta?')) return;
+     this.contratoService.deleteContrato(contrato.id.toString()).subscribe({
+       next: () => {
+         this.ofertas = this.ofertas.filter(o => o.id !== contrato.id);
+       },
+       error: (err) => console.error('Error al eliminar', err)
+    });
   }
 
 

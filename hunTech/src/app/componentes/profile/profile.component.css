@@ -628,6 +628,55 @@ label {
   font-weight: 500;
 }
 
+/****estilos ofertas resumen para gerente */
+.ofertas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.oferta-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-main);
+}
+
+.oferta-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.oferta-card p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.btn-delete {
+  align-self: flex-end;
+  background: transparent;
+  border: 1px solid #d93025;
+  color: #d93025;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-delete:hover {
+  background: #d93025;
+  color: #fff;
+}
+
 @media (max-width: 480px) {
   .dashboard-wrapper {
     padding: 90px 10px 20px 10px;

@@ -380,7 +380,21 @@
         <h2 class="section-title" style="display: flex; align-items: center; gap: 10px;">Mis Ofertas Activas <span
             class="material-icons-outlined">rocket_launch</span></h2>
         <button class="btn-add" [routerLink]="['/formcreatecontract', perfil.proyecto]">+ Nueva Oferta</button>
-
+        @if (ofertas.length > 0) {
+          <div class="ofertas-list">
+            @for (oferta of ofertas; track oferta.id) {
+              <div class="oferta-card">
+                <h3>{{ oferta.titulo }}</h3>
+                <p>{{ oferta.descripcion }}</p>
+                <button class="btn-delete" (click)="eliminarOferta(oferta)">
+                  Eliminar
+                </button>
+              </div>
+            }
+          </div>
+        } @else {
+          <p>No tenés ofertas activas.</p>
+        }
       </section>
 
     </div>

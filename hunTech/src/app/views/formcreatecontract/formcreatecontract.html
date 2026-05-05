@@ -77,7 +77,7 @@
             @if (modalidad.errors?.['required'] && (modalidad.touched || miFormulario.submitted)) {
             <div class="text-danger">Modalidad requerida</div>
             }
-            <select class="form-select" id="modalidad" name="modalidad" [(ngModel)]="contrato.modalidad" required
+            <select class="form-select form-control" id="modalidad" name="modalidad" [(ngModel)]="contrato.modalidad" required
                 #modalidad="ngModel" [ngClass]="
                 {
                 'is-invalid': modalidad.invalid && (modalidad.touched || miFormulario.submitted),
