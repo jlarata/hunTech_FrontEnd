@@ -203,8 +203,8 @@ export class App {
       if (error) throw error;
 
     } catch (error: any) {
-      this.alertService.error(error.error_description || error.message);
       this.cargandoData = false;
+      this.alertService.error(error.error_description || error.message);
     } finally {
       this.loading = false;
     }
