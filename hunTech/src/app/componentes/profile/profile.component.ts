@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ProyectoService } from '../../servicios/miproyecto';
 import { ContratoService } from '../../servicios/contrato';
 import { Contrato } from '../../models/contrato';
+import { AlertService } from '../../servicios/alertService';
 
 @Component({
   selector: 'app-profile',
@@ -53,6 +54,8 @@ export class ProfileComponent implements OnInit {
   //ofertas/contratos del gerente/empresa
   ofertas: Contrato[] = []; // las ofertas activas
   private contratoService = inject(ContratoService); // inyeccion servicio contrato
+    private alertService = inject(AlertService); // inyeccion servicio alertas
+
 
   ngOnInit() {
     this.usersService.userProfile$.subscribe(data => {
@@ -84,9 +87,11 @@ export class ProfileComponent implements OnInit {
             //console.log(`${res.count} ${res.message}`)
             //console.log(res.data[0])
             this.perfil.proyecto = res.data[0];
+  
           },
           error: (error: string) => {
             console.log('desde el componente perfil error ' + error)
+            this.alertService.error("Error al cargar el perfil, " + error);
           }
         });
       }
@@ -180,7 +185,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async handleUpdate() {
-    if (!this.rolActual) return alert("Error: No se detectó el rol del usuario");
+    if (!this.rolActual) return this.alertService.error("No se detectó el rol del usuario");
     
 
     if (this.rolActual == 'desarrollador') {
@@ -213,10 +218,10 @@ export class ProfileComponent implements OnInit {
         const email = this.perfil.email;
         await lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, userDevPayload));
         this.isEditing = false;
-        alert('Perfil actualizado con éxito');
+        this.alertService.success('Perfil actualizado con éxito');
       } catch (error) {
         console.error('Error en PUT:', error);
-        alert('Hubo un error al guardar los cambios');
+        this.alertService.error('Hubo un error al guardar los cambios');
       } finally {
         this.loading = false;
       }
@@ -228,10 +233,10 @@ export class ProfileComponent implements OnInit {
         const email = this.perfil.email;
         await lastValueFrom(this.projectService.editProyecto(this.perfil.proyecto)) && lastValueFrom(this.usersService.updateUserByRole(this.rolActual, email, this.perfil));
         this.isEditing = false;
-        alert('Perfil actualizado con éxito');
+        this.alertService.success('Perfil actualizado con éxito');
       } catch (error) {
         console.error('Error en PUT:', error);
-        alert('Hubo un error al guardar los cambios');
+        this.alertService.error('Hubo un error al guardar los cambios');
       } finally {
         this.loading = false;
       }
@@ -252,10 +257,16 @@ export class ProfileComponent implements OnInit {
   }
 
   //eliminar oferta/contrato //no existe en contrato service delete por ahora
-  eliminarOferta(contrato: Contrato) {
+  async eliminarOferta(contrato: Contrato) {
     if (!contrato.id) return;
-     if (!confirm('¿Estás seguro de eliminar esta oferta?')) return;
-     this.contratoService.deleteContrato(contrato.id.toString()).subscribe({
+    const confirmado = await this.alertService.confirm(
+      '¿Estás seguro de eliminar esta oferta?',
+      'Eliminar oferta'
+    );
+
+    if (!confirmado) return;
+
+    this.contratoService.deleteContrato(contrato.id.toString()).subscribe({
        next: () => {
          this.ofertas = this.ofertas.filter(o => o.id !== contrato.id);
        },

@@ -47,10 +47,10 @@
           </li>
         </ng-container>
 
-        <li *ngIf="rolActual === 'gerente'" (click)="cambiarSeccion('empresa')"
+        <!-- <li *ngIf="rolActual === 'gerente'" (click)="cambiarSeccion('empresa')"
           [class.active]="seccionActiva === 'empresa'">
           Datos de la Empresa
-        </li>
+        </li> -->
 
         <li *ngIf="rolActual === 'gerente'" (click)="cambiarSeccion('ofertas')"
           [class.active]="seccionActiva === 'ofertas'">
