@@ -3,9 +3,9 @@
   max-width: 600px;
   margin: 40px auto;
   padding: 24px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background-color: #fafafa;
+  background-color: var(--card-bg);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   font-family:
     system-ui,
@@ -13,6 +13,7 @@
     'Segoe UI',
     Roboto,
     sans-serif;
+  color: var(--text-main);
 }
 
 /* ====== Etiquetas ====== */
@@ -20,7 +21,7 @@
   display: block;
   margin-bottom: 6px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-main);
   font-size: 0.95rem;
 }
 
@@ -38,6 +39,8 @@
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
+
+  color-scheme: light dark;
 }
 
 .form-control:focus {
@@ -96,7 +99,7 @@
 }
 
 .btn-primary:disabled {
-  background-color: #b3d7ff;
+  background-color: #b7bdc3;
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -130,19 +133,24 @@
   border-radius: 6px;
     /* Evita que el texto se pegue a los bordes */
   text-align: center;
+
+  /*agrego esto para que no se vea negro el fondo y se ajuste al modo oscuro*/
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
 }
 
 /* Cuando el checkbox esté marcado, cambia el estilo del botón (label) que le sigue */
-.btn-check:checked + .btn-outline-primary {
+/* .btn-check:checked + .btn-outline-primary {
   background-color: #0d6efd !important;
   color: white !important;
   border-color: #0d6efd !important;
-}
+} */
 
 /* Efecto visual cuando el usuario pasa el mouse */
 .btn-outline-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(81, 80, 80, 0.1);
 }
 
 /* Contenedor con Flexbox */
@@ -152,3 +160,30 @@
     gap: 12px; /* Esto crea el espacio real entre los botones */
     margin-top: 10px;
 }
+
+
+/*/////////////////////////////////////////////////NUEVO*/
+
+/* modo oscuro */
+:host-context(.dark-theme) .form-control {
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+
+}
+
+:host-context(.dark-theme) .btn-outline-primary {
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+}
+
+/* Cuando el checkbox esté marcado, cambia el estilo del botón (label) que le sigue */
+/*cambie a violeta*/
+.btn-check:checked + .btn-outline-primary {
+  background-color: #6f42c1 !important;
+  color: white !important;
+  border-color: #6f42c1 !important;
+}
+
+
+
+
