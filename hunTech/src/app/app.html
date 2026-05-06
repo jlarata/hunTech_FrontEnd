@@ -63,8 +63,8 @@
   }
 
   @else {
-    <div class="guest-container">
-      <app-navbar (onLogin)="toggleLoginModal()" (onRegister)="toggleRegisterModal()"></app-navbar>
+  <div class="guest-container">
+    <app-navbar (onLogin)="toggleLoginModal()" (onRegister)="toggleRegisterModal()"></app-navbar>
     <!-- HERO -->
     <section class="hero">
 
@@ -101,7 +101,44 @@
       </div>
     </section>
 
+    <!-- Línea divisoria  -->
+    <div class="bold-divider"></div>
+
+    <!-- SECCIÓN: CÓMO FUNCIONA -->
+
+    <section class="how-it-works-section">
+      <div class="hiw-header">
+        <span class="hiw-tag">Tu camino en 3 pasos</span>
+        <h2 class="hiw-title">Cómo funciona Huntech</h2>
+      </div>
+
+      <div class="hiw-grid">
+        <!-- PASO 1 -->
+        <div class="hiw-card">
+          <div class="hiw-number-box step-1-box">1.</div>
+          <h3><strong>Contanos sobre vos</strong></h3>
+          <p>Subí tu currículum y contanos qué es lo que realmente buscas. A partir de ahí, te guiaremos y te
+            recomendaremos las mejores opciones según tu perfil.</p>
+        </div>
+
+        <!-- PASO 2 -->
+        <div class="hiw-card">
+          <div class="hiw-number-box step-2-box">2.</div>
+          <h3><strong>Encontrá tu match perfecto</strong></h3>
+          <p>Recibí solo ofertas de trabajo que se ajusten a tus habilidades, aspiraciones y estilo de trabajo.</p>
+        </div>
+
+        <!-- PASO 3 -->
+        <div class="hiw-card">
+          <div class="hiw-number-box step-3-box">3.</div>
+          <h3><strong>¡Dejá que los empleos lleguen a vos!</strong></h3>
+          <p>Las empresas que contratan personal pueden encontrar tu perfil y contactarte directamente</p>
+        </div>
+      </div>
+    </section>
+
     <!-- SECCIÓN DE CARACTERÍSTICAS (TALENTO) -->
+
     <section class="features-section">
       <div class="circulo-flecha">
         <span class="flecha-icon">↓</span>
@@ -179,7 +216,45 @@
       </div>
     </section>
 
+    <!-- FOOTER -->
+    <footer class="huntech-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-container">
+            <span class="logo-text-brand">Huntech</span>
+          </div>
+          <p class="footer-desc">El puente entre tu talento y tu primer trabajo IT. Oportunidades exclusivas para
+            estudiantes del Instituto de Formación Técnica Superior N° 11.</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Nosotros</h4>
+            <a href="#">Sobre HunTech</a>
+            <a href="#">Contacto</a>
+            <a href="#">Ayuda</a>
+          </div>
+          <div class="footer-column">
+            <h4>Legales</h4>
+            <a href="#">Términos y Condiciones</a>
+            <a href="#">Privacidad</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 HunTech. Todos los derechos reservados.</p>
+        <div class="social-links">
+          <a href="#"><span class="material-icons-outlined">language</span></a>
+          <a href="#"><span class="material-icons-outlined">share</span></a>
+          <a href="#"><span class="material-icons-outlined">mail</span></a>
+        </div>
+      </div>
+    </footer>
+
     <!-- AUTENTICACIÓN -->
+
+
     @if (showLoginModal) {
     <div class="modal-overlay" (click)="closeModals()">
       <div class="modal-card card" (click)="$event.stopPropagation()">
