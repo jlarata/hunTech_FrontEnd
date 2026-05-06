@@ -167,7 +167,6 @@
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  /* overflow hidden solo para el indicador lateral ::before, no recorta contenido vertical */
   word-break: break-word;
 }
 
@@ -239,8 +238,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: anywhere;
-  /* Altura fija = 2 líneas exactas. Con un pelo menos para que el descender
-     del 3er renglón nunca asome (evita la "media línea" típica del clamp). */
   height: 2.6em;
   max-height: 2.6em;
   flex-shrink: 0;
@@ -316,7 +313,6 @@
   color: #94a3b8;
 }
 
-/* --- Drawer flotante inferior --- */
 .drawer-bottom {
   position: sticky;
   bottom: 0;
@@ -388,8 +384,14 @@
   overflow-y: auto;
 }
 
-.drawer-open .drawer-content::-webkit-scrollbar { width: 4px; }
-.drawer-open .drawer-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+.drawer-open .drawer-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.drawer-open .drawer-content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 2px;
+}
 
 /* --- Panel derecho: detalle --- */
 

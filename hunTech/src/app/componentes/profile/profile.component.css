@@ -224,10 +224,6 @@
   box-shadow: 0 4px 12px rgba(48, 10, 110, 0.2);
 }
 
-.btn-upload {
-  background: linear-gradient(135deg, #c10a28 0%, #e11d48 100%);
-  box-shadow: 0 4px 12px rgba(193, 10, 40, 0.2);
-}
 
 .btn-edit-blue:hover,
 .btn-save:hover,
