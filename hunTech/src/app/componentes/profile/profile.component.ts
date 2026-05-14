@@ -54,12 +54,58 @@ export class ProfileComponent implements OnInit {
   //ofertas/contratos del gerente/empresa
   ofertas: Contrato[] = []; // las ofertas activas
   private contratoService = inject(ContratoService); // inyeccion servicio contrato
-    private alertService = inject(AlertService); // inyeccion servicio alertas
+  private alertService = inject(AlertService); // inyeccion servicio alertas
+
+  isOwnProfile = true; // para saber si es el perfil gerente o desarrollador
 
 
-  ngOnInit() {
-    this.usersService.userProfile$.subscribe(data => {
-      if (data) {
+  async ngOnInit() {
+      //ontener email de la url si viniera
+      const emailDesdeUrl = this.route.snapshot.paramMap.get('email');
+
+      this.usersService.userProfile$.subscribe(async data => {
+        if (!data) return;
+
+        const miEmail = data.email;
+
+        //si hay un email en la URL y NO es el mío(gerente), cargo el perfil de esa persona, deberia ser un desarollador
+        if (emailDesdeUrl && emailDesdeUrl !== miEmail){
+          this.isOwnProfile = false;
+
+        // Buscar en qué tabla está ese usuario (desarrollador o gerente)
+        const existe = await lastValueFrom(this.usersService.checkUserExists(emailDesdeUrl));
+        
+        if (existe.data.existe === 1) {
+          const tabla = existe.data.tabla; // 'desarrollador', 'gerente', etc.
+          
+          // Traer los datos de esa tabla
+          const perfilAjeno = await lastValueFrom(
+            this.usersService.getUsuarioByEmailAndTable(emailDesdeUrl, tabla)
+          );
+
+          // Armar el perfil para mostrarlo
+          this.perfil = {
+            ...perfilAjeno.data,
+            email: emailDesdeUrl,
+            rol: tabla,
+            // Mapear habilidades e idiomas (igual que haces abajo)
+            habilidades: (perfilAjeno.data.habilidades || []).map((h: any) => ({
+              nombre: h.nombre_habilidad,
+              nivel: h.nivel_habilidad
+            })),
+            idiomas: (perfilAjeno.data.idiomas || []).map((i: any) => ({
+              nombre: i.nombre_idioma,
+              nivel: i.nivel_idioma
+            })),
+            posicion: perfilAjeno.data.puesto_actual
+          };
+          this.rolActual = tabla;
+        }else {
+          this.alertService.error('Usuario no encontrado');
+          this.router.navigate(['/']);
+        }
+
+      } else{
         this.perfil = {
           ...data,
           //habilidades: data.habilidades || [],
@@ -279,4 +325,6 @@ export class ProfileComponent implements OnInit {
     if (!this.perfil) return true;
     return !this.perfil.nombre || this.perfil.nombre === '';
   }
+
+
 }
