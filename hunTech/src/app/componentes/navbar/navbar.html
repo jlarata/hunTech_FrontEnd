@@ -1,9 +1,11 @@
 <main>
   <nav class="navbar" [class.mobile-active]="menuActive">
     <div class="navbar-left">
-      <a class="btn-halo btn-back" (click)="goBack()">
-        <span class="material-icons-outlined">arrow_back</span>
-      </a>
+      @if (user$ | async) {
+        <a class="btn-halo btn-back" (click)="goBack()">
+          <span class="material-icons-outlined">arrow_back</span>
+        </a>
+      }
       <div class="logo-container-desktop">
         <a class="logo" routerLink="/">
           <div class="logo-with-pulse">

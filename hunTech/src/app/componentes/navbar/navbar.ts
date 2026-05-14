@@ -1,9 +1,9 @@
-import { Component, inject, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, inject, Output, EventEmitter} from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../servicios/AuthService';
 import { User } from '@supabase/supabase-js';
-import { filter, Observable, tap } from 'rxjs';
+import { distinctUntilChanged, filter, Observable, tap } from 'rxjs';
 import { Users } from '../../servicios/users';
 import { environment } from '../../environments/environment';
 
@@ -24,7 +24,7 @@ export class Navbar {
   isOnContratos = false;
   private _subs: any;
   activeFragment?: string | null = null;
-  private gests = ['']
+  private gests = [''];
 
   /* ---- MINI LIBRO 3D ---- */
   showBookModal = false;
@@ -126,10 +126,19 @@ export class Navbar {
         console.error('Error during data initialization:', err);
       }
     })
+
+    // Redirige al perfil justo después de loguearse
+    this.user$.pipe(
+      distinctUntilChanged(),
+      filter(user => !!user) // cuando hay un usuario (recién logueado)
+    ).subscribe(() => {
+      const currentUrl = this.router.url;
+      // Solo redirige si está en home o si la URL es la raíz
+      if (currentUrl === '/' || currentUrl === '/home') {
+        this.router.navigate(['/profile']);
+      }
+    });
   }
-
-
-
 
   ngOnDestroy(): void {
     if (this._subs) { this._subs.unsubscribe?.(); }
