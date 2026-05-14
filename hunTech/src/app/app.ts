@@ -304,6 +304,22 @@ export class App {
     }
   }
 
+  //login social handle
+  async handleSocialLogin(provider: 'google') {
+    this.loading = true;
+    this.cargandoData = true;
+    try {
+      const { data, error } = await this.authService.signInWithSocial(provider);
+      if (error) throw error;
+      // Supabase redirigirá al proveedor, luego del auth vuelve a la app al .com.ar
+    } catch (error: any) {
+      this.cargandoData = false;
+      this.alertService.error(error.message || 'Error en el inicio de sesión');
+    } finally {
+      this.loading = false;
+    }
+  }
+
 }
 
 
