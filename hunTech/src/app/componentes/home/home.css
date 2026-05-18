@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 * {
   margin: 0;
@@ -141,7 +140,7 @@ main {
   color: #64748b;
   font-size: 1.1rem;
   line-height: 1.7;
-}
+} */
 
 .footer-section {
   width: 100%;
@@ -157,11 +156,11 @@ main {
   .titulo {
     font-size: clamp(2.5rem, 10vw, 3.5rem);
   }
-  
+
   .benefit-cards {
     grid-template-columns: 1fr;
   }
-  
+
   header {
     padding-top: 4rem;
   }

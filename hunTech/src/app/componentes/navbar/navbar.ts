@@ -1,4 +1,4 @@
-import { Component, inject, Output, EventEmitter} from '@angular/core';
+import { Component, inject, Output, EventEmitter } from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../servicios/AuthService';
@@ -6,6 +6,16 @@ import { User } from '@supabase/supabase-js';
 import { distinctUntilChanged, filter, Observable, tap } from 'rxjs';
 import { Users } from '../../servicios/users';
 import { environment } from '../../environments/environment';
+
+interface BookPage {
+  label?: string;
+  title?: string;
+  body?: string;
+  bg: string;
+  image?: string;
+  isCover?: boolean;
+  isBackCover?: boolean;
+}
 
 @Component({
   selector: 'app-navbar',
@@ -32,17 +42,17 @@ export class Navbar {
   bookFlipState: 'idle' | 'forward' = 'idle';
   bookAnimating = false;
   bookSpreads = [[-1, 0], [1, 2], [3, 4], [5, 6], [7, -1]];
-  bookPages = [
+  bookPages: BookPage[] = [
     {
       isCover: true, title: '', body: 'HUNTECH', bg: '#2a1b0e'
     },
-    { label: 'HunTech', title: '¿Qué es HunTech?', body: 'Nuestro objetivo es facilitar el contacto con empresas que valoran la innovación, la curiosidad y el potencial de los estudiantes de IT.', bg: '#e8d4b9' },
-    { label: 'Para vos', title: 'Tu perfil, tu marca', body: 'Completá tu perfil y destacate ante cientos de reclutadores activos.', bg: '#e8d4b9' },
-    { label: 'Empresas', title: 'Talento a un click', body: 'Publicá ofertas y encontrá al desarrollador que tu equipo necesita.', bg: '#e8d4b9' },
-    { label: 'Contratos', title: 'Gestión Simple', body: 'Seguí tus procesos de contratación en tiempo real con transparencia total.', bg: '#e8d4b9' },
-    { label: 'Comunidad', title: 'Crecé con nosotros', body: 'Accedé a recursos y una comunidad de profesionales de tecnología.', bg: '#e8d4b9' },
-    { label: 'Futuro', title: 'Próximos Pasos', body: 'Estamos trabajando en nuevas herramientas de IA para potenciar tu búsqueda laboral.', bg: '#e8d4b9' },
-    { isBackCover: true, title: 'HUNTECH', body: '', bg: '#2a1b0e' }
+    { label: 'HunTech', title: '¿Qué es HunTech?', body: 'Huntech es un espacio para estudiantes del IFTS N.º 11, nuestro objetivo es acompañar a nuestros pares a dar sus primeros pasos dentro del mundo laboral IT.', bg: '#e8d4b9' },
+    { label: 'Nosotros', title: '¿Quiénes Somos?', body: 'Detrás de HunTech hay un grupo de estudiantes del IFTS N.º 11 que decidió transformar una problemática común en una solución real. ', bg: '#e8d4b9' },
+    { label: 'Nuestro Instituto', title: 'Donde comenzó todo...', body: '', image: '/assets/instituto.png', bg: '#e8d4b9' },
+    { label: 'Nuestra Misión', body: ' Creamos este espacio de apoyo donde el conocimiento compartido de las aulas se transforma en una herramienta real de inserción laboral', bg: '#e8d4b9' },
+    { label: 'Para Empresas', body: 'Publicá tus ofertas y encontrá conectá con estudiantes y futuros profesionales IT preparados para incorporarse al mundo laboral', bg: '#e8d4b9' },
+    { label: 'Talentos', title: 'Crecé con nosotros', body: 'Completá tu perfil profesional, compartí tus conocimientos y preparate para nuevas oportunidades en el sector IT.', bg: '#e8d4b9' },
+    { isBackCover: true, title: '', body: '', bg: '#2a1b0e' }
   ];
 
   bookNext() {

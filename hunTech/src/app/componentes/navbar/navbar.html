@@ -2,9 +2,9 @@
   <nav class="navbar" [class.mobile-active]="menuActive">
     <div class="navbar-left">
       @if (user$ | async) {
-        <a class="btn-halo btn-back" (click)="goBack()">
-          <span class="material-icons-outlined">arrow_back</span>
-        </a>
+      <a class="btn-halo btn-back" (click)="goBack()">
+        <span class="material-icons-outlined">arrow_back</span>
+      </a>
       }
       <div class="logo-container-desktop">
         <a class="logo" routerLink="/">
@@ -30,13 +30,6 @@
 
 
       <ng-container *ngIf="user$ | async; else guestLinks">
-        <li>
-          <a class="btn-halo" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeMenu()">
-            <span class="material-icons-outlined">home</span>
-            Inicio
-          </a>
-        </li>
 
         <li class="nav-item-with-dropdown" *ngIf="rolActual === 'desarrollador'">
           <a class="btn-halo" routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">
@@ -196,12 +189,19 @@
             <!-- PÁGINA IZQUIERDA (O CONTRATAPA) -->
             <div class="mini-page mini-left-page" (click)="bookPrev()" *ngIf="bookSpreads[bookSpread][0] !== -1"
               [style.background]="bookPages[bookSpreads[bookSpread][0]].bg"
-              [class.is-back-cover]="bookPages[bookSpreads[bookSpread][0]].isBackCover">
+              [class.is-back-cover]="bookPages[bookSpreads[bookSpread][0]].isBackCover"
+              [class.has-page-image]="bookPages[bookSpreads[bookSpread][0]].image"
+              [class.institute-page]="bookSpreads[bookSpread][0] === 2">
               <div class="mini-page-inner">
                 <div class="mini-page-num">{{ bookSpreads[bookSpread][0] + 1 }}</div>
                 <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread][0]].label }}</p>
                 <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread][0]].title }}</h4>
                 <p class="mini-page-body" [innerHTML]="bookPages[bookSpreads[bookSpread][0]].body"></p>
+                @if (bookPages[bookSpreads[bookSpread][0]].image) {
+                <div class="mini-page-image">
+                  <img [src]="bookPages[bookSpreads[bookSpread][0]].image" alt="Instituto IFTS 11" />
+                </div>
+                }
               </div>
             </div>
 
@@ -211,13 +211,20 @@
             <!-- PÁGINA DERECHA (O TAPA) -->
             <div class="mini-page mini-right-page" (click)="bookNext()" *ngIf="bookSpreads[bookSpread][1] !== -1"
               [style.background]="bookPages[bookSpreads[bookSpread][1]].bg"
-              [class.is-front-cover]="bookPages[bookSpreads[bookSpread][1]].isCover">
+              [class.is-front-cover]="bookPages[bookSpreads[bookSpread][1]].isCover"
+              [class.has-page-image]="bookPages[bookSpreads[bookSpread][1]].image"
+              [class.institute-page]="bookSpreads[bookSpread][1] === 2">
               <div class="mini-page-inner">
                 <ng-container *ngIf="!bookPages[bookSpreads[bookSpread][1]].isCover">
                   <div class="mini-page-num right">{{ bookSpreads[bookSpread][1] + 1 }}</div>
                   <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread][1]].label }}</p>
                   <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread][1]].title }}</h4>
                   <p class="mini-page-body" [innerHTML]="bookPages[bookSpreads[bookSpread][1]].body"></p>
+                  @if (bookPages[bookSpreads[bookSpread][1]].image) {
+                  <div class="mini-page-image">
+                    <img [src]="bookPages[bookSpreads[bookSpread][1]].image" alt="Instituto IFTS 11" />
+                  </div>
+                  }
                 </ng-container>
                 <ng-container *ngIf="bookPages[bookSpreads[bookSpread][1]].isCover">
                   <div class="mini-cover-content">

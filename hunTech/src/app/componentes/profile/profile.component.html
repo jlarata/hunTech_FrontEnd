@@ -4,11 +4,12 @@
 
     <ng-container *ngIf="rolActual === 'gerente'">
       <div class="card">
-        <h3 class="sidebar-title" >Mi estatus</h3>
+        <h3 class="sidebar-title">Mi estatus</h3>
         <p class="sidebar-text">¿Está tu empresa actualmente buscando desarrolladores?</p>
         <div class="status-selector">
           <span class="dot" [ngClass]="perfil.proyecto.buscando_devs ? 'dot-green' : 'dot-red'"></span>
-          <select *ngIf="isOwnProfile" class="clean-select" [(ngModel)]="perfil.proyecto.buscando_devs" (change)="handleUpdate()">
+          <select *ngIf="isOwnProfile" class="clean-select" [(ngModel)]="perfil.proyecto.buscando_devs"
+            (change)="handleUpdate()">
             <option [ngValue]="false">No por el momento</option>
             <option [ngValue]="true">Sí, buscando</option>
           </select>
@@ -18,11 +19,12 @@
 
     <ng-container *ngIf="rolActual === 'desarrollador'">
       <div class="card">
-         <h3 class="sidebar-title">{{ isOwnProfile ? 'Mi estatus' : 'Estatus del desarrollador' }}</h3>
+        <h3 class="sidebar-title">{{ isOwnProfile ? 'Mi estatus' : 'Estatus del desarrollador' }}</h3>
         <p class="sidebar-text">¿Estás actualmente buscando trabajo?</p>
         <div class="status-selector">
           <span class="dot" [ngClass]="perfil.is_disponible ? 'dot-green' : 'dot-red'"></span>
-          <select *ngIf="isOwnProfile" class="clean-select" [(ngModel)]="perfil.is_disponible" (change)="handleUpdate()">
+          <select *ngIf="isOwnProfile" class="clean-select" [(ngModel)]="perfil.is_disponible"
+            (change)="handleUpdate()">
             <option [ngValue]="false">No por el momento</option>
             <option [ngValue]="true">Sí, buscando</option>
           </select>
@@ -68,26 +70,30 @@
         <div class="info-section">
 
           <div class="card profile-card">
+            <div class="profile-hero-visual" aria-hidden="true">
+              <div class="ph-blob ph-blob-1"></div>
+              <div class="ph-blob ph-blob-2"></div>
+              <div class="ph-blob ph-blob-3"></div>
+            </div>
+
             <div class="profile-top">
               <div class="user-meta">
                 <div class="avatar">
-                  <span class="material-icons-outlined" style="font-size: 32px;">{{ rolActual === 'gerente' ? 'business'
+                  <span class="material-icons-outlined" style="font-size: 30px;">{{ rolActual === 'gerente' ? 'business'
                     : 'person' }}</span>
                 </div>
                 <div class="user-names">
                   <h3 class="user-h3">
                     {{ rolActual === 'gerente' ? (perfil.proyecto.nombre || 'Nombre de la empresa...') : (perfil.nombre
-                    + ' ' +
-                    perfil.apellido) }}
+                    + ' ' + perfil.apellido) }}
                     <span class="badge-new" *ngIf="isProfileEmpty">Casi terminado</span>
                   </h3>
                   <p class="role-tag">{{ rolActual | titlecase }}</p>
                 </div>
               </div>
-              <button *ngIf="isOwnProfile" class="btn-edit-blue" (click)="toggleEdit()"
-                style="display: flex; align-items: center; gap: 6px;">
-                <span class="material-icons-outlined" style="font-size: 18px;">{{ isEditing ? 'close' : 'edit' }}</span>
-                {{ isEditing ? 'Cancelar' : 'Edición' }}
+              <button *ngIf="isOwnProfile" class="btn-edit-blue" (click)="toggleEdit()">
+                <span class="material-icons-outlined" style="font-size: 16px;">{{ isEditing ? 'close' : 'edit' }}</span>
+                {{ isEditing ? 'Cancelar' : 'Editar perfil' }}
               </button>
             </div>
 
@@ -213,7 +219,7 @@
                 </div>
               </ng-container>
 
-              <button type="submit" [disabled]="loading" class="btn-save">Guardar Perfil</button>
+              <button type="submit" [disabled]="loading" class="btn-save btn-compact-profile">Guardar Perfil</button>
             </form>
           </div>
           <div class="card resume-upload-card" *ngIf="rolActual === 'desarrollador' && !isEditing && isOwnProfile">
@@ -283,7 +289,8 @@
         <div class="section-header">
           <div>
             <h2 class="section-title">Habilidades</h2>
-            <p class="section-subtitle" *ngIf="isOwnProfile">Añade tus conocimientos para que los reclutadores te encuentren.</p>
+            <p class="section-subtitle" *ngIf="isOwnProfile">Añade tus conocimientos para que los reclutadores te
+              encuentren.</p>
           </div>
           <div class="skills-list-preview" *ngIf="perfil?.habilidades?.length > 0">
             <div *ngFor="let hab of perfil.habilidades; let i = index" class="skill-tag">
@@ -291,7 +298,7 @@
               <button class="btn-remove" (click)="eliminarHabilidad(i); handleUpdate()" *ngIf="isOwnProfile">✕</button>
             </div>
           </div>
-          <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue" (click)="toggleEdit()"
+          <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue btn-compact-profile" (click)="toggleEdit()"
             style="display: flex; align-items: center; gap: 6px;">
             <span class="material-icons-outlined" style="font-size: 18px;">edit</span> Añadir habilidades
           </button>
@@ -328,7 +335,8 @@
         <div class="section-header">
           <div>
             <h2 class="section-title">Idiomas</h2>
-            <p class="section-subtitle" *ngIf="isOwnProfile">Añade los idiomas que dominas para expandir tus oportunidades profesionales.</p>
+            <p class="section-subtitle" *ngIf="isOwnProfile">Añade los idiomas que dominas para expandir tus
+              oportunidades profesionales.</p>
           </div>
           <div class="skills-list-preview" *ngIf="perfil?.idiomas?.length > 0">
             <div *ngFor="let idioma of perfil.idiomas; let i = index" class="skill-tag">
@@ -336,7 +344,7 @@
               <button class="btn-remove" (click)="eliminarIdioma(i); handleUpdate()" *ngIf="isOwnProfile">✕</button>
             </div>
           </div>
-          <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue" (click)="toggleEdit()"
+          <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue btn-compact-profile" (click)="toggleEdit()"
             style="display: flex; align-items: center; gap: 6px;">
             <span class="material-icons-outlined" style="font-size: 18px;">edit</span> Añadir idiomas
           </button>
@@ -382,19 +390,19 @@
             class="material-icons-outlined">rocket_launch</span></h2>
         <button class="btn-add" [routerLink]="['/formcreatecontract', perfil.proyecto]">+ Nueva Oferta</button>
         @if (ofertas.length > 0) {
-          <div class="ofertas-list">
-            @for (oferta of ofertas; track oferta.id) {
-              <div class="oferta-card">
-                <h3>{{ oferta.titulo }}</h3>
-                <p>{{ oferta.descripcion }}</p>
-                <button class="btn-delete" (click)="eliminarOferta(oferta)">
-                  Eliminar
-                </button>
-              </div>
-            }
+        <div class="ofertas-list">
+          @for (oferta of ofertas; track oferta.id) {
+          <div class="oferta-card">
+            <h3>{{ oferta.titulo }}</h3>
+            <p>{{ oferta.descripcion }}</p>
+            <button class="btn-delete" (click)="eliminarOferta(oferta)">
+              Eliminar
+            </button>
           </div>
+          }
+        </div>
         } @else {
-          <p>No tenés ofertas activas.</p>
+        <p>No tenés ofertas activas.</p>
         }
       </section>
 
