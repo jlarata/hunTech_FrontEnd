@@ -60,6 +60,7 @@ export class Contratos {
 
 
   ngOnInit() {
+    
     // Suscripción para tener la data siempre actualizada.
     // Esperamos a tener perfil cargado antes de pedir los contratos,
     // porque sino this.perfil.email es null y el filtro de postulaciones falla.
@@ -78,6 +79,8 @@ export class Contratos {
       }
     });
   }
+
+ 
 
   mostrarTodosLosContratos() {
     // Sin perfil cargado no podemos clasificar postulaciones, esperamos.

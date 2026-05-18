@@ -20,7 +20,7 @@
     <ng-container *ngIf="rolActual === 'desarrollador'">
       <div class="card">
         <h3 class="sidebar-title">{{ isOwnProfile ? 'Mi estatus' : 'Estatus del desarrollador' }}</h3>
-        <p class="sidebar-text">¿Estás actualmente buscando trabajo?</p>
+        <p class="sidebar-text" *ngIf="isOwnProfile">¿Estás actualmente buscando trabajo?</p>
         <div class="status-selector">
           <span class="dot" [ngClass]="perfil.is_disponible ? 'dot-green' : 'dot-red'"></span>
           <select *ngIf="isOwnProfile" class="clean-select" [(ngModel)]="perfil.is_disponible"
@@ -28,7 +28,7 @@
             <option [ngValue]="false">No por el momento</option>
             <option [ngValue]="true">Sí, buscando</option>
           </select>
-          <span *ngIf="!isOwnProfile">{{ perfil.is_disponible ? 'Sí, buscando trabajo' : 'No por el momento' }}</span>
+          <span *ngIf="!isOwnProfile">{{ perfil.is_disponible ? 'Buscando trabajo' : 'No disponible' }}</span>
         </div>
       </div>
     </ng-container>
@@ -115,6 +115,10 @@
                     'female' : perfil.genero == 'M' ? 'male' : 'agender' }}</span> {{
                   perfil.genero || 'Vacío' }}</div>
                 }
+                <div class="data-item" *ngIf="perfil.descripcion" style="display: flex; gap: 8px; margin-top: 10px;">
+                  <span class="material-icons-outlined data-icon">description</span> 
+                  {{ perfil.descripcion }}
+                </div>
               </ng-container>
 
               <ng-container *ngIf="rolActual === 'gerente'">
