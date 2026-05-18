@@ -184,6 +184,11 @@
   border-color: #6f42c1 !important;
 }
 
+:host-context(.dark-theme) .is-valid {
+  border-color: #a855f7 !important;
+  background-color: rgba(168, 85, 247, 0.12);
+}
+
 
 
 

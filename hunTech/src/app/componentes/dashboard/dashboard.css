@@ -382,6 +382,13 @@ table tr:hover td {
   border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
+.dark-theme .badge.available,
+:host-context(.dark-theme) .badge.available {
+  background: rgba(168, 85, 247, 0.12);
+  color: #a855f7;
+  border-color: rgba(168, 85, 247, 0.25);
+}
+
 .badge.busy {
   background: rgba(245, 158, 11, 0.1);
   color: #f59e0b;
@@ -391,7 +398,6 @@ table tr:hover td {
 /* Botones */
 .btn-primary {
   background: #f0e9ff;
-  /* Light lavender, combinable with purple */
   color: #000000 !important;
   border: 1px solid var(--primary);
   padding: 0.8rem 1.8rem;

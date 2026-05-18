@@ -97,6 +97,9 @@
 .warning { --accent: #d97706; }
 .info { --accent: #2563eb; }
 
+.dark-theme .success,
+:host-context(.dark-theme) .success { --accent: #a855f7; }
+
 /* Overlay centrado para confirmación */
 .confirm-overlay {
   position: fixed;
