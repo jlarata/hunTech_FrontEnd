@@ -230,8 +230,8 @@ h4,
 
 .btn-secondary {
   background-color: transparent;
-  color: #1f2937;
-  border: 1px solid #0e3d83;
+  color: var(--accent-primary);
+  border: 1px solid #139105;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -239,9 +239,8 @@ h4,
 }
 
 .btn-secondary:hover {
-  background-color: #300a6e;
+  background-color: var(--accent-primary);
   border-color: #000000;
-  border: 1px solid #ffffff;
   color: #ffffff;
 }
 
@@ -376,61 +375,6 @@ h4,
   cursor: pointer;
 }
 
-/*.btn-guest-login {
-  background: transparent;
-  color: var(--accent-primary);
-  border: 1.5px solid #000000;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  width: auto;
-  margin: 0;
-  font-size: 0.9rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: -0.01em;
-} 
-
-.btn-guest-login:hover {
-  box-shadow: 0 4px 10px var(--accent-primary);
-  color: #ffffff;
-}
-
-.dark-theme .btn-guest-login {
-  background: var(--accent-primary);
-  color: #ffffff;
-  border-color: var(--accent-primary);
-} 
-
-.btn-guest-register {
-  background: var(--accent-primary);
-  color: #ffffff;
-  border: 1.5px solid var(--accent-primary);
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  width: auto;
-  margin: 0;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 10px rgba(11, 0, 207, 0.2);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: -0.01em;
-}
-
-
-.btn-guest-register:hover {
-  background: var(--bg-secondary);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  color: var(--accent-primary);
-}
-
-.dark-theme .btn-guest-register,
-.dark-theme .btn-guest-login {
-  background: var(--accent-primary);
-  color: #ffffff;
-  border-color: var(--accent-primary);
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
-} */
-
 .card-section {
   padding-top: 20px;
 }
@@ -501,7 +445,6 @@ h4,
   backdrop-filter: blur(10px);
   font-family: 'Plus Jakarta Sans', sans-serif;
   letter-spacing: -0.01em;
-  cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -686,8 +629,6 @@ h4,
   font-weight: 700;
 }
 
-
-
 .hero-left .highlight {
   background: linear-gradient(120deg, rgba(168, 85, 247, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
   background-repeat: no-repeat;
@@ -736,7 +677,6 @@ h4,
   color: var(--accent-primary);
   font-weight: 700;
 }
-
 
 .card {
   background: var(--card-bg);
@@ -878,8 +818,6 @@ button:disabled {
   color: var(--accent-primary);
 }
 
-
-
 /* MODALES */
 .modal-overlay {
   position: fixed;
@@ -931,6 +869,17 @@ button:disabled {
   color: #aa0e03;
   transform: rotate(90deg);
 }
+
+.dark-theme .btn-close {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.dark-theme .btn-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ef4444;
+}
+
 
 .modal-subtitle {
   text-align: center;
@@ -1023,35 +972,6 @@ button:disabled {
   filter: blur(40px);
   opacity: 0.6;
 }
-
-/*
-.el-1 {
-  width: 200px;
-  height: 200px;
-  background: #ff2d2b;
-  top: 0;
-  left: 0;
-  animation: float 6s infinite alternate;
-}
-
-.el-2 {
-  width: 150px;
-  height: 150px;
-  background: #0b00cf;
-  bottom: 0;
-  right: 0;
-  animation: float 8s infinite alternate-reverse;
-}
-
-.el-3 {
-  width: 100px;
-  height: 100px;
-  background: #300a6e;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: float 10s infinite alternate;
-} */
 
 /* ANIMACIONES */
 @keyframes fadeIn {
@@ -1361,7 +1281,7 @@ button:disabled {
   max-width: 1200px;
   margin: 4rem auto;
   padding: 5rem 5%;
-  background: #126503;
+  background-color: #126503;
   background-image: radial-gradient(circle at top right, rgba(168, 85, 247, 0.3), transparent 50%),
     radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.2), transparent 50%);
   position: relative;
@@ -1384,7 +1304,7 @@ button:disabled {
 
 .hiw-tag {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(168, 85, 247, 0.15);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -1470,13 +1390,43 @@ button:disabled {
   color: white;
 }
 
-/* ESTILOS PARA EL FOOTER CON IMAGEN  */
+.step-1-box,
+.step-2-box,
+.step-3-box {
+  background: linear-gradient(135deg, #7ace45 0%, #3c9d08 100%);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4);
+}
+
+
+.hiw-card h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: white;
+  letter-spacing: -0.02em;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.hiw-card p {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.7;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* FOOTER */
+
 .huntech-footer {
   background-image: url('/assets/instituto-footer.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: bottom center;
   background-repeat: no-repeat;
-  padding: 60px 40px 40px 40px;
+  padding: 120px 40px 40px 40px;
   position: relative;
   z-index: 1;
 }
@@ -1488,22 +1438,118 @@ button:disabled {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(15, 23, 42, 0.4);
+  background: radial-gradient(circle, transparent 30%, var(--vignette-color) 100%);
   z-index: -1;
+  pointer-events: none;
+}
+
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.footer-brand {
+  max-width: 450px;
+}
+
+.footer-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0 0 0.8rem 0;
+  color: #ffffff !important;
+  ;
 }
 
 .footer-desc {
+  color: #f1f5f9;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* ENLACES EN PARALELO (Nosotros y legales)*/
+.footer-links {
+  display: flex;
+  gap: 3rem;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.footer-column h4 {
+  color: #dedede !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0 0 0.3rem 0;
+  letter-spacing: 0.5px;
+}
+
+.footer-column a {
   color: #e2e8f0;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  position: relative;
+  width: fit-content;
+}
+
+.footer-column a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.footer-column a:hover {
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+.footer-column a:hover::after {
+  width: 100%;
+}
+
+/* --- BARRA INFERIOR (Redes) --- */
+.footer-bottom {
+  max-width: 1200px;
+  margin: 4rem auto 0 auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #475569;
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
 }
 
 .social-links {
   display: flex;
-  gap: 1.2rem;
+  gap: 1.5rem;
 }
 
 .social-links a {
-  color: #64748b;
+  color: #ffffff;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -1511,37 +1557,63 @@ button:disabled {
 }
 
 .social-links a:hover {
-  color: white;
-  transform: translateY(-3px);
+  color: #000000;
+  transform: translateY(-2px);
 }
 
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .footer-top {
     flex-direction: column;
-    gap: 3rem;
+    align-items: flex-start;
+    gap: 2.5rem;
   }
 
   .footer-links {
-    gap: 3rem;
-    flex-direction: column;
+    gap: 2.5rem;
+    width: 100%;
   }
 
   .footer-bottom {
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 1.5rem;
     text-align: center;
   }
 }
 
-/* --- ADAPTACIÓN PARA EL MODO OSCURO --- */
+/*MODO OSCURO: FOOTER */
 .dark-theme .huntech-footer::before {
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(15, 23, 42, 0.85);
 }
 
-/* ---modo oscuro para la seccion como funciona y el footer --- 
+.dark-theme .footer-logo,
+.dark-theme .footer-column h4,
+.dark-theme .social-links a {
+  color: #ffffff !important;
+}
+
+.dark-theme .footer-desc,
+.dark-theme .footer-column a {
+  color: #94a3b8;
+}
+
+.dark-theme .footer-bottom {
+  border-top: 1px solid rgba(218, 214, 214, 0.1);
+  color: #64748b;
+}
+
+/* modo oscuro: como funciona HUNTECH*/
 .dark-theme .how-it-works-section {
-  background: #000000;
-  background-image: radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent 50%),
-    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.02), transparent 50%);
-  border: 1px solid var(--border-color);
-} */
+  background-color: #000000;
+  background-image:
+    radial-gradient(circle at top right, rgba(168, 85, 247, 0.2), transparent 50%),
+    radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.1), transparent 50%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .step-1-box,
+.dark-theme .step-2-box,
+.dark-theme .step-3-box {
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+}
