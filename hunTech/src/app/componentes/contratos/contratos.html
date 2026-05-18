@@ -75,7 +75,7 @@
     <div class="drawer-bottom" [ngClass]="{'drawer-open': drawerAbierto}">
       <button class="drawer-toggle" (click)="drawerAbierto = !drawerAbierto">
         <span class="drawer-toggle-label">
-          Mis postulaciones
+          {{ rolActual === 'gerente' ? 'Mis ofertas' : 'Mis postulaciones' }}
           @if (contratosPendientes.length > 0) {
           <span class="drawer-count pendiente-count">{{ contratosPendientes.length }} pend.</span>
           }
