@@ -36,7 +36,7 @@
             <span class="material-icons-outlined">search</span>
             Buscar Empleo
           </a>
-
+          <!--
           <ul class="dropdown-menu">
             <li>
               <a (click)="navigateToFragment('sin-postular')" [class.active]="activeFragment === 'sin-postular'">
@@ -56,7 +56,7 @@
                 Asignados
               </a>
             </li>
-          </ul>
+          </ul>-->
         </li>
 
         <li class="nav-item-with-dropdown" *ngIf="rolActual === 'gerente'">
@@ -65,7 +65,7 @@
             Ver mis contratos
           </a>
 
-          <ul class="dropdown-menu" *ngIf="isOnContratos">
+          <!-- <ul class="dropdown-menu" *ngIf="isOnContratos">
             <li>
               <a [routerLink]="['/contratos']" [fragment]="'sin-postular'" (click)="closeMenu()">
                 Sin postular
@@ -81,7 +81,7 @@
                 Asignados
               </a>
             </li>
-          </ul>
+          </ul> -->
         </li>
 
         <li class="nav-item" *ngIf="isgests">
