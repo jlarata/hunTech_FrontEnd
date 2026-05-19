@@ -17,7 +17,14 @@ export class PortfolioComponent implements OnInit{
   mostrarFormulario = false;
   cargando = false;
   guardando = false;
-  formData: any = {};
+  formData: any = {
+    titulo1: '', descripcion1: '', repositorio1: '', imagenes1: [] as string[], files1: [] as File[],
+    titulo2: '', descripcion2: '', repositorio2: '', imagenes2: [] as string[], files2: [] as File[],
+    titulo3: '', descripcion3: '', repositorio3: '', imagenes3: [] as string[], files3: [] as File[]
+  };
+
+  // Previsualización de imágenes seleccionadas
+  previews: { [key: string]: string[] } = { imagenes1: [], imagenes2: [], imagenes3: [] };
 
   constructor(
     private portfolioService: PortfolioService,
@@ -46,19 +53,54 @@ export class PortfolioComponent implements OnInit{
   }
 
   editarPortfolio() {
+    // Cargar datos existentes en el formulario
     this.formData = {
       titulo1: this.portfolio?.titulo1 || '',
       descripcion1: this.portfolio?.descripcion1 || '',
       repositorio1: this.portfolio?.repositorio1 || '',
+      imagenes1: this.portfolio?.imagenes1 || [],
+      files1: [],
       titulo2: this.portfolio?.titulo2 || '',
       descripcion2: this.portfolio?.descripcion2 || '',
       repositorio2: this.portfolio?.repositorio2 || '',
+      imagenes2: this.portfolio?.imagenes2 || [],
+      files2: [],
       titulo3: this.portfolio?.titulo3 || '',
       descripcion3: this.portfolio?.descripcion3 || '',
       repositorio3: this.portfolio?.repositorio3 || '',
-      // imagenes se enviarán vacías (el servicio las inicializa como [])
+      imagenes3: this.portfolio?.imagenes3 || [],
+      files3: []
     };
+    // Limpiar previsualizaciones
+    this.previews = { imagenes1: [], imagenes2: [], imagenes3: [] };
     this.mostrarFormulario = true;
+  }
+
+  // Manejar selección de archivos para un proyecto específico
+  onFilesSelected(event: any, projectIndex: number) {
+    const files = Array.from(event.target.files) as File[];
+    if (files.length > 3) {
+      this.alertService.warning('Máximo 3 imágenes por proyecto');
+      return;
+    }
+    const key = `files${projectIndex}`;
+    const previewKey = `imagenes${projectIndex}`;
+    this.formData[key] = files;
+    // Previsualización
+    this.previews[previewKey] = [];
+    for (let file of files) {
+      const reader = new FileReader();
+      reader.onload = (e) => this.previews[previewKey].push(e.target?.result as string);
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Eliminar una imagen seleccionada (antes de subir)
+  removeSelectedFile(projectIndex: number, fileIndex: number) {
+    const key = `files${projectIndex}`;
+    const previewKey = `imagenes${projectIndex}`;
+    this.formData[key].splice(fileIndex, 1);
+    this.previews[previewKey].splice(fileIndex, 1);
   }
 
   async guardarPortfolio() {
@@ -69,21 +111,76 @@ export class PortfolioComponent implements OnInit{
 
     this.guardando = true;
     try {
-      // Los campos imagenes no se incluyen en formData, pero el servicio agregará arrays vacíos
-      await this.portfolioService.createPortfolio(this.emailDesarrollador, this.formData).toPromise();
+      // Subir imágenes de cada proyecto a S3 y obtener URLs
+      const imagenesUrls1 = await this.subirImagenesProyecto(1);
+      const imagenesUrls2 = await this.subirImagenesProyecto(2);
+      const imagenesUrls3 = await this.subirImagenesProyecto(3);
+
+      const payload = {
+        titulo1: this.formData.titulo1,
+        descripcion1: this.formData.descripcion1,
+        repositorio1: this.formData.repositorio1,
+        imagenes1: imagenesUrls1,
+        titulo2: this.formData.titulo2,
+        descripcion2: this.formData.descripcion2,
+        repositorio2: this.formData.repositorio2,
+        imagenes2: imagenesUrls2,
+        titulo3: this.formData.titulo3,
+        descripcion3: this.formData.descripcion3,
+        repositorio3: this.formData.repositorio3,
+        imagenes3: imagenesUrls3
+      };
+
+      await this.portfolioService.createPortfolio(this.emailDesarrollador, payload).toPromise();
       this.alertService.success('Portfolio guardado correctamente');
       await this.cargarPortfolio();
       this.mostrarFormulario = false;
     } catch (error: any) {
+      console.error(error);
       this.alertService.error(error?.error?.error || 'Error al guardar el portfolio');
     } finally {
       this.guardando = false;
     }
   }
 
+  private async subirImagenesProyecto(projectIndex: number): Promise<string[]> {
+    const filesKey = `files${projectIndex}`;
+    const files = this.formData[filesKey] || [];
+    const urls: string[] = [];
+    for (const file of files) {
+      const url = await this.portfolioService.uploadImage(file);
+      urls.push(url);
+    }
+    // Retorna siempre un array de 3 elementos (los que faltan son vacíos)
+    const result = [...urls];
+    while (result.length < 3) result.push('');
+    return result.slice(0, 3);
+  }
+
   cancelarEdicion() {
     this.mostrarFormulario = false;
     this.formData = {};
+    this.previews = { imagenes1: [], imagenes2: [], imagenes3: [] };
+  }
+
+  hasImages(images: string[] | undefined): boolean {
+    return images ? images.some(img => img && img.trim().length > 0) : false;
+  }
+
+  // Método privado que filtra imágenes no vacías
+  private filtrarImagenes(imagenes: string[] | undefined): string[] {
+    return imagenes?.filter(img => img?.trim()) ?? [];
+  }
+
+  // Getters que usan el método privado
+  get imagenes1Validas(): string[] {
+    return this.filtrarImagenes(this.portfolio?.imagenes1);
+  }
+  get imagenes2Validas(): string[] {
+    return this.filtrarImagenes(this.portfolio?.imagenes2);
+  }
+  get imagenes3Validas(): string[] {
+    return this.filtrarImagenes(this.portfolio?.imagenes3);
   }
 
 }

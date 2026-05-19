@@ -1,96 +1,136 @@
 <div class="portfolio-container">
-      <div class="section-header">
-        <h2 class="section-title">Mi Portfolio</h2>
-        <button *ngIf="!portfolio && !mostrarFormulario && !cargando" class="btn-add" (click)="mostrarFormulario = true">
-          + Crear Portfolio
-        </button>
+  <div class="section-header">
+    <h2 class="section-title">Mi Portfolio</h2>
+    <button *ngIf="!portfolio && !mostrarFormulario && !cargando" class="btn-add" (click)="editarPortfolio()">
+      + Crear Portfolio
+    </button>
+  </div>
+
+  <div *ngIf="cargando" class="loading">Cargando portfolio...</div>
+
+  <!-- Ver portfolio existente -->
+  <div *ngIf="portfolio && !mostrarFormulario" class="portfolio-view">
+    <div class="portfolio-grid">
+      <!-- Proyecto 1 -->
+      <div class="portfolio-project" *ngIf="portfolio.titulo1">
+        <h3>{{ portfolio.titulo1 }}</h3>
+        <p>{{ portfolio.descripcion1 || 'Sin descripción' }}</p>
+        <div class="images-preview" *ngIf="hasImages(portfolio.imagenes1)">
+          <img *ngFor="let img of imagenes1Validas" [src]="img" class="portfolio-img" />
+        </div>
+        <a *ngIf="portfolio.repositorio1" [href]="portfolio.repositorio1" target="_blank" class="repo-link">Ver repositorio</a>
+        
       </div>
-
-      <div *ngIf="cargando" class="loading">Cargando portfolio...</div>
-
-      <!-- Vista del portfolio existente -->
-      <div *ngIf="portfolio && !mostrarFormulario" class="portfolio-view">
-        <div class="portfolio-grid">
-          <!-- Proyecto 1 -->
-          <div class="portfolio-project" *ngIf="portfolio.titulo1">
-            <h3>{{ portfolio.titulo1 }}</h3>
-            <p>{{ portfolio.descripcion1 || 'Sin descripción' }}</p>
-            <a *ngIf="portfolio.repositorio1" [href]="portfolio.repositorio1" target="_blank" class="repo-link">
-              Ver repositorio
-            </a>
-            <!-- Las imágenes no se muestran aún, pero están en portfolio.imagenes1 -->
-          </div>
-          <!-- Proyecto 2 -->
-          <div class="portfolio-project" *ngIf="portfolio.titulo2">
-            <h3>{{ portfolio.titulo2 }}</h3>
-            <p>{{ portfolio.descripcion2 || 'Sin descripción' }}</p>
-            <a *ngIf="portfolio.repositorio2" [href]="portfolio.repositorio2" target="_blank" class="repo-link">
-              Ver repositorio
-            </a>
-          </div>
-          <!-- Proyecto 3 -->
-          <div class="portfolio-project" *ngIf="portfolio.titulo3">
-            <h3>{{ portfolio.titulo3 }}</h3>
-            <p>{{ portfolio.descripcion3 || 'Sin descripción' }}</p>
-            <a *ngIf="portfolio.repositorio3" [href]="portfolio.repositorio3" target="_blank" class="repo-link">
-              Ver repositorio
-            </a>
-          </div>
+      <!-- Proyecto 2 -->
+      <div class="portfolio-project" *ngIf="portfolio.titulo2">
+        <h3>{{ portfolio.titulo2 }}</h3>
+        <p>{{ portfolio.descripcion2 || 'Sin descripción' }}</p>
+        
+        <div class="images-preview" *ngIf="hasImages(portfolio.imagenes2)">
+          <img *ngFor="let img of imagenes2Validas" [src]="img" class="portfolio-img" />
         </div>
-        <div *ngIf="!portfolio.titulo1 && !portfolio.titulo2 && !portfolio.titulo3" class="empty-portfolio">
-          El portfolio está vacío. Editalo para agregar proyectos.
-        </div>
-        <button class="btn-edit-blue" (click)="editarPortfolio()">Editar Portfolio</button>
+
+        <a *ngIf="portfolio.repositorio2" [href]="portfolio.repositorio2" target="_blank" class="repo-link">Ver repositorio</a>
       </div>
-
-      <!-- Formulario (sin inputs de imágenes) -->
-      <div *ngIf="mostrarFormulario" class="portfolio-form">
-        <h3>Proyecto 1</h3>
-        <div class="form-group">
-          <label>Título *</label>
-          <input type="text" class="custom-input" [(ngModel)]="formData.titulo1" placeholder="Ej: Mi Ecommerce">
-        </div>
-        <div class="form-group">
-          <label>Descripción</label>
-          <textarea class="textarea-grande" [(ngModel)]="formData.descripcion1" placeholder="Contá de qué trata el proyecto..."></textarea>
-        </div>
-        <div class="form-group">
-          <label>Link repositorio</label>
-          <input type="url" class="custom-input" [(ngModel)]="formData.repositorio1" placeholder="https://github.com/tu-usuario/proyecto">
-        </div>
-        <!-- Los campos imagenes1 se envían vacíos, no hay input -->
-
-        <h3>Proyecto 2 (opcional)</h3>
-        <div class="form-group">
-          <label>Título</label>
-          <input type="text" class="custom-input" [(ngModel)]="formData.titulo2">
-        </div>
-        <div class="form-group">
-          <label>Descripción</label>
-          <textarea class="textarea-grande" [(ngModel)]="formData.descripcion2"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Link repositorio</label>
-          <input type="url" class="custom-input" [(ngModel)]="formData.repositorio2">
+      <!-- Proyecto 3 -->
+      <div class="portfolio-project" *ngIf="portfolio.titulo3">
+        <h3>{{ portfolio.titulo3 }}</h3>
+        <p>{{ portfolio.descripcion3 || 'Sin descripción' }}</p>
+       
+        <div class="images-preview" *ngIf="hasImages(portfolio.imagenes3)">
+          <img *ngFor="let img of imagenes3Validas" [src]="img" class="portfolio-img" />
         </div>
 
-        <h3>Proyecto 3 (opcional)</h3>
-        <div class="form-group">
-          <label>Título</label>
-          <input type="text" class="custom-input" [(ngModel)]="formData.titulo3">
-        </div>
-        <div class="form-group">
-          <label>Descripción</label>
-          <textarea class="textarea-grande" [(ngModel)]="formData.descripcion3"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Link repositorio</label>
-          <input type="url" class="custom-input" [(ngModel)]="formData.repositorio3">
-        </div>
+        <a *ngIf="portfolio.repositorio3" [href]="portfolio.repositorio3" target="_blank" class="repo-link">Ver repositorio</a>
+      
+    </div>
+    </div>
+    <div class="portfolio-actions">
+        <button class="btn-edit" (click)="editarPortfolio()">Editar Portfolio</button>
+    </div>
+  </div>
 
-        <div class="form-actions">
-          <button class="btn-save" [disabled]="guardando" (click)="guardarPortfolio()">Guardar</button>
-          <button class="btn-cancel-link" (click)="cancelarEdicion()">Cancelar</button>
+  <!-- Formulario de creación/edición -->
+  <div *ngIf="mostrarFormulario" class="portfolio-form">
+    
+    <!-- PROYECTO 1 -->
+    <h3>Proyecto 1</h3>
+    <div class="form-group">
+      <label>Título *</label>
+      <input type="text" class="custom-input" [(ngModel)]="formData.titulo1">
+    </div>
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea class="textarea-grande" [(ngModel)]="formData.descripcion1"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Repositorio (URL)</label>
+      <input type="url" class="custom-input" [(ngModel)]="formData.repositorio1">
+    </div>
+    <div class="form-group">
+      <label>Imágenes (hasta 3)</label>
+      <input type="file" multiple accept="image/*" (change)="onFilesSelected($event, 1)">
+      <div class="preview-thumbs">
+        <div *ngFor="let preview of previews['imagenes1']; let i = index" class="thumb">
+          <img [src]="preview">
+          <button type="button" (click)="removeSelectedFile(1, i)">✕</button>
         </div>
       </div>
     </div>
+
+    <!-- PROYECTO 2 -->
+    <h3>Proyecto 2 (opcional)</h3>
+    <div class="form-group">
+      <label>Título</label>
+      <input type="text" class="custom-input" [(ngModel)]="formData.titulo2">
+    </div>
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea class="textarea-grande" [(ngModel)]="formData.descripcion2"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Repositorio (URL)</label>
+      <input type="url" class="custom-input" [(ngModel)]="formData.repositorio2">
+    </div>
+    <div class="form-group">
+      <label>Imágenes (hasta 3)</label>
+      <input type="file" multiple accept="image/*" (change)="onFilesSelected($event, 2)">
+      <div class="preview-thumbs">
+        <div *ngFor="let preview of previews['imagenes2']; let i = index" class="thumb">
+          <img [src]="preview">
+          <button type="button" (click)="removeSelectedFile(2, i)">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROYECTO 3 -->
+    <h3>Proyecto 3 (opcional)</h3>
+    <div class="form-group">
+      <label>Título</label>
+      <input type="text" class="custom-input" [(ngModel)]="formData.titulo3">
+    </div>
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea class="textarea-grande" [(ngModel)]="formData.descripcion3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Repositorio (URL)</label>
+      <input type="url" class="custom-input" [(ngModel)]="formData.repositorio3">
+    </div>
+    <div class="form-group">
+      <label>Imágenes (hasta 3)</label>
+      <input type="file" multiple accept="image/*" (change)="onFilesSelected($event, 3)">
+      <div class="preview-thumbs">
+        <div *ngFor="let preview of previews['imagenes3']; let i = index" class="thumb">
+          <img [src]="preview">
+          <button type="button"  class="btn-delete" (click)="removeSelectedFile(3, i)">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn" [disabled]="guardando" (click)="guardarPortfolio()">Guardar Portfolio</button>
+      <button class="btn" (click)="cancelarEdicion()">Cancelar</button>
+    </div>
+  </div>
+</div>

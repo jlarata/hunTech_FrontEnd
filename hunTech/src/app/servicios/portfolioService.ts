@@ -23,6 +23,7 @@ export interface Portfolio {
 export class PortfolioService {
   //private apiUrl = environment.apiUrl;
   private apiUrl = 'http://127.0.0.1:3000/api/';
+  private bucketUrl = 'https://portfolio-images-709071709104-us-east-1-an.s3.us-east-1.amazonaws.com';
 
   constructor(private http: HttpClient) {}
 
@@ -41,14 +42,38 @@ export class PortfolioService {
 
   // Crear/actualizar portfolio 
   createPortfolio(email: string, portfolioData: any): Observable<any> {
-    // aseguro q los arrays de imágenes se envien vacios si no los paso
+    // Asegurar que cada array de imágenes tenga exactamente 3 elementos (strings vacíos si faltan)
     const data = {
       ...portfolioData,
-      imagenes1: portfolioData.imagenes1 || ['', '', ''],
-      imagenes2: portfolioData.imagenes2 || ['', '', ''],
-      imagenes3: portfolioData.imagenes3 || ['', '', '']
+      imagenes1: this.normalizeImagesArray(portfolioData.imagenes1),
+      imagenes2: this.normalizeImagesArray(portfolioData.imagenes2),
+      imagenes3: this.normalizeImagesArray(portfolioData.imagenes3)
     };
     return this.http.post(`${this.apiUrl}createportfolio/${email}`, data);
   }
+
+  private normalizeImagesArray(images: string[] = []): string[] {
+    const arr = images ? [...images] : [];
+    while (arr.length < 3) arr.push('');
+    return arr.slice(0, 3);
+  }
+
+  //  imagen a S3 y devolver URL pública
+  async uploadImage(file: File): Promise<string> {
+    const key = `portfolios/${Date.now()}_${file.name.replace(/\s/g, '_')}`;
+    const uploadUrl = `${this.bucketUrl}/${key}`;
+    
+    const response = await fetch(uploadUrl, {
+      method: 'PUT',
+      body: file,
+      headers: { 'Content-Type': file.type }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error al subir imagen: ${response.statusText}`);
+    }
+    return uploadUrl; // URL pública de la imagen
+  }
+
   
 }

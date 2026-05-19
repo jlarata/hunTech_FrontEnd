@@ -1,55 +1,236 @@
+/* Contenedor principal, igual que .info-section dentro del perfil */
 .portfolio-container {
-    width: 100%;
+  width: 100%;
 }
 
+/* Títulos igual que .section-title */
+.section-title {
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+  color: var(--text-main);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+/* Botones reutilizan clases del perfil: .btn-add, .btn-edit-blue, .btn-save, .btn-cancel-link */
+/* Ya están definidas globalmente, no es necesario repetir */
+
+/* Estilos para la grilla de proyectos (similar a .data-grid pero con orientación vertical) */
 .portfolio-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1rem;
 }
 
+/* Tarjeta de cada proyecto, similar a .data-item pero con más padding interno */
 .portfolio-project {
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1rem;
-    background: var(--card-bg);
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px;
+  padding: 20px 24px;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.portfolio-project:hover {
+  border-color: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+  box-shadow: 0 6px 20px -4px color-mix(in srgb, var(--accent-primary) 12%, rgba(0, 0, 0, 0.06));
+  transform: translateY(-1px);
 }
 
 .portfolio-project h3 {
-    margin: 0 0 0.5rem;
-    color: var(--accent-primary);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+}
+
+.portfolio-project p {
+  margin: 0 0 0.75rem 0;
+  color: var(--text-muted);
+  line-height: 1.5;
 }
 
 .repo-link {
-    display: inline-block;
-    margin-top: 0.5rem;
-    color: var(--accent-primary);
-    text-decoration: none;
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
-.empty-portfolio {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-muted);
+.repo-link:hover {
+  text-decoration: underline;
 }
 
-.loading {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-muted);
+/* Previsualización de imágenes (dentro de la tarjeta al mostrar portfolio) */
+.images-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
 }
 
+.portfolio-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s;
+}
+
+.portfolio-img:hover {
+  transform: scale(1.05);
+}
+
+/* Formulario de creación/edición */
 .portfolio-form {
-    margin-top: 1rem;
+  margin-top: 1rem;
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--border-color);
 }
 
+.portfolio-form h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 1.5rem 0 1rem 0;
+  color: var(--text-main);
+}
+
+.portfolio-form h3:first-of-type {
+  margin-top: 0;
+}
+
+/* Grupos de formulario (se alinean con .form-group del perfil) */
 .form-group {
-    margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.custom-input,
+.textarea-grande {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.textarea-grande {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.custom-input:focus,
+.textarea-grande:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  outline: none;
+}
+
+/* Previsualización de miniaturas en el formulario */
+.preview-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.thumb {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb button {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #d93025;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.thumb button:hover {
+  transform: scale(1.1);
+  background: #b91c1c;
+}
+
+/* Mensaje de carga */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Botones de acción (ya existen clases globales, pero aseguramos espaciado) */
 .form-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+  .portfolio-project {
+    padding: 16px;
+  }
+
+  .portfolio-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .thumb {
+    width: 55px;
+    height: 55px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
 }
