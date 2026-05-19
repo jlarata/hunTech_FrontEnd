@@ -39,9 +39,9 @@
           {{ rolActual === 'gerente' ? 'Datos de Perfil' : 'Información personal' }}
         </li>
         <ng-container *ngIf="rolActual === 'desarrollador'">
-          <!-- <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
-            Agregar Portfolio
-          </li> -->
+          <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
+            Portfolio
+          </li> 
           <li (click)="cambiarSeccion('habilidades')" [class.active]="seccionActiva === 'habilidades'">
             Habilidades
           </li>
@@ -268,7 +268,7 @@
         </div>
       </ng-container>
 
-      <section class="card section-container" *ngSwitchCase="'portfolio'">
+      <!--<section class="card section-container" *ngSwitchCase="'portfolio'">
         <div class="section-header">
           <div>
             <h2 class="section-title" style="display: flex; align-items: center; gap: 10px;">Agrega tu portfolio <span
@@ -287,8 +287,11 @@
             <button (click)="borrarArchivo('portfolio')" class="btn-remove-cv">Eliminar</button>
           </div>
         </div>
-      </section>
+      </section>-->
 
+      <ng-container *ngSwitchCase="'portfolio'">
+        <app-portfolio-component [emailDesarrollador]="perfil.email"></app-portfolio-component>
+      </ng-container>
       <section class="card section-container" *ngSwitchCase="'habilidades'">
         <div class="section-header">
           <div>
