@@ -21,9 +21,9 @@ export interface Portfolio {
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService {
-  //private apiUrl = environment.apiUrl;
-  private apiUrl = 'http://127.0.0.1:3000/api/';
-  private bucketUrl = 'https://portfolio-images-709071709104-us-east-1-an.s3.us-east-1.amazonaws.com';
+  private apiUrl = environment.apiUrl;
+  //private apiUrl = 'http://127.0.0.1:3000/api/';
+  private bucketUrl = environment.bucketUrl;
 
   constructor(private http: HttpClient) {}
 
