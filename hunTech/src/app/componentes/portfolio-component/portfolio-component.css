@@ -1,0 +1,55 @@
+.portfolio-container {
+    width: 100%;
+}
+
+.portfolio-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.portfolio-project {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    background: var(--card-bg);
+}
+
+.portfolio-project h3 {
+    margin: 0 0 0.5rem;
+    color: var(--accent-primary);
+}
+
+.repo-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--accent-primary);
+    text-decoration: none;
+}
+
+.empty-portfolio {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+}
+
+.portfolio-form {
+    margin-top: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}

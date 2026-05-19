@@ -8,11 +8,12 @@ import { ProyectoService } from '../../servicios/miproyecto';
 import { ContratoService } from '../../servicios/contrato';
 import { Contrato } from '../../models/contrato';
 import { AlertService } from '../../servicios/alertService';
+import { PortfolioComponent } from '../portfolio-component/portfolio-component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule, RouterModule, PortfolioComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
