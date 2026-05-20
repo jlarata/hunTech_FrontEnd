@@ -38,6 +38,7 @@ export class Contratos {
 
   mostrandoContratoDetail = false;
   contratoAMostrarDetail: Contrato | undefined;
+  pendingSelectContratoId: number | undefined;
 
   busqueda: string = '';
   filtroModalidad: string = '';
@@ -60,6 +61,14 @@ export class Contratos {
 
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        const id = Number(params['id']);
+        if (!isNaN(id)) {
+          this.pendingSelectContratoId = id;
+        }
+      }
+    });
     
     // Suscripción para tener la data siempre actualizada.
     // Esperamos a tener perfil cargado antes de pedir los contratos,
@@ -227,6 +236,11 @@ export class Contratos {
     const previo = this.contratoAMostrarDetail;
     const visibles = [...this.contratosDisponibles, ...this.contratosPendientes, ...this.contratosAsignados];
     let nuevoSeleccionado = previo ? visibles.find(c => c.id === previo.id) : undefined;
+
+    if (!nuevoSeleccionado && this.pendingSelectContratoId) {
+      nuevoSeleccionado = visibles.find(c => c.id === this.pendingSelectContratoId);
+      this.pendingSelectContratoId = undefined;
+    }
 
     if (!nuevoSeleccionado) {
       nuevoSeleccionado = visibles[0];
