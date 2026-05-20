@@ -60,24 +60,24 @@ export class ProfileComponent implements OnInit {
 
 
   async ngOnInit() {
-      //ontener email de la url si viniera
-      const emailDesdeUrl = this.route.snapshot.paramMap.get('email');
+    //ontener email de la url si viniera
+    const emailDesdeUrl = this.route.snapshot.paramMap.get('email');
 
-      this.usersService.userProfile$.subscribe(async data => {
-        if (!data) return;
+    this.usersService.userProfile$.subscribe(async data => {
+      if (!data) return;
 
-        const miEmail = data.email;
+      const miEmail = data.email;
 
-        //si hay un email en la URL y NO es el mío(gerente), cargo el perfil de esa persona, deberia ser un desarollador
-        if (emailDesdeUrl && emailDesdeUrl !== miEmail){
-          this.isOwnProfile = false;
+      //si hay un email en la URL y NO es el mío(gerente), cargo el perfil de esa persona, deberia ser un desarollador
+      if (emailDesdeUrl && emailDesdeUrl !== miEmail) {
+        this.isOwnProfile = false;
 
         // Buscar en qué tabla está ese usuario (desarrollador o gerente)
         const existe = await lastValueFrom(this.usersService.checkUserExists(emailDesdeUrl));
-        
+
         if (existe.data.existe === 1) {
           const tabla = existe.data.tabla; // 'desarrollador', 'gerente', etc.
-          
+
           // Traer los datos de esa tabla
           const perfilAjeno = await lastValueFrom(
             this.usersService.getUsuarioByEmailAndTable(emailDesdeUrl, tabla)
@@ -100,12 +100,12 @@ export class ProfileComponent implements OnInit {
             posicion: perfilAjeno.data.puesto_actual
           };
           this.rolActual = tabla;
-        }else {
+        } else {
           this.alertService.error('Usuario no encontrado');
           this.router.navigate(['/']);
         }
 
-      } else{
+      } else {
         this.perfil = {
           ...data,
           //habilidades: data.habilidades || [],
@@ -115,7 +115,7 @@ export class ProfileComponent implements OnInit {
           /* descripcion_empresa: data.descripcion_empresa || '', */
           /* ubicacion_empresa: data.ubicacion_empresa || '', */
           telefono: data.telefono,
-          posicion:data.puesto_actual,
+          posicion: data.puesto_actual,
           habilidades: (data.habilidades || []).map((h: any) => ({
             nombre: h.nombre_habilidad,   // back → front
             nivel: h.nivel_habilidad
@@ -133,13 +133,20 @@ export class ProfileComponent implements OnInit {
             //console.log(`${res.count} ${res.message}`)
             //console.log(res.data[0])
             this.perfil.proyecto = res.data[0];
-  
+
           },
           error: (error: string) => {
             console.log('desde el componente perfil error ' + error)
             this.alertService.error("Error al cargar el perfil, " + error);
           }
         });
+      }
+      const tabParam = this.route.snapshot.queryParamMap.get('tab');
+      if (tabParam) {
+        this.seccionActiva = tabParam;
+        if (tabParam === 'ofertas') {
+          this.cargarOfertas();
+        }
       }
     });
   }
@@ -232,7 +239,7 @@ export class ProfileComponent implements OnInit {
 
   async handleUpdate() {
     if (!this.rolActual) return this.alertService.error("No se detectó el rol del usuario");
-    
+
 
     if (this.rolActual == 'desarrollador') {
       //como en db posicion es puesto_actual lo voy a renombrar antes de enviar
@@ -242,18 +249,18 @@ export class ProfileComponent implements OnInit {
         puesto_actual: this.perfil.posicion,
         //  HABILIDADES → formato back
         habilidades: (this.perfil.habilidades || [])
-        .filter((h: any) => h && h.nombre) // saca null/undefined/vacío
-        .map((h: any) => ({
-          nombre_habilidad: String(h.nombre || '').trim(),
-          nivel_habilidad: h.nivel || 'principiante'
-        })),
+          .filter((h: any) => h && h.nombre) // saca null/undefined/vacío
+          .map((h: any) => ({
+            nombre_habilidad: String(h.nombre || '').trim(),
+            nivel_habilidad: h.nivel || 'principiante'
+          })),
         //  IDIOMAS → formato back
         idiomas: (this.perfil.idiomas || [])
-        .filter((i:any) => i && i.nombre)
-        .map((i: any) => ({
-          nombre_idioma: String(i.nombre || '').trim(),
-          nivel_idioma: i.nivel || 'A1 - Principiante'
-        }))
+          .filter((i: any) => i && i.nombre)
+          .map((i: any) => ({
+            nombre_idioma: String(i.nombre || '').trim(),
+            nivel_idioma: i.nivel || 'A1 - Principiante'
+          }))
 
       };
 
@@ -296,10 +303,51 @@ export class ProfileComponent implements OnInit {
     if (!this.perfil?.email || this.rolActual !== 'gerente') return;
     this.contratoService.getContratosByEmailGerente(this.perfil.email).subscribe({
       next: (res) => {
-        this.ofertas = res.data || [];
+        const rawOfertas = res.data || [];
+        this.ofertas = rawOfertas.map((oferta: any) => {
+          let seniorityParsed: string[] = [];
+          if (Array.isArray(oferta.seniority_deseado)) {
+            seniorityParsed = oferta.seniority_deseado;
+          } else if (typeof oferta.seniority_deseado === 'string') {
+            const trimmed = oferta.seniority_deseado.trim();
+            if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+              try {
+                seniorityParsed = JSON.parse(trimmed);
+              } catch (e) {
+                seniorityParsed = [trimmed];
+              }
+            } else if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+              const cleaned = trimmed.slice(1, -1).replace(/"/g, '');
+              seniorityParsed = cleaned ? cleaned.split(',') : [];
+            } else {
+              seniorityParsed = trimmed ? [trimmed] : [];
+            }
+          }
+          return {
+            ...oferta,
+            seniority_deseado: seniorityParsed
+          };
+        });
       },
       error: (err) => console.error('Error al obtener ofertas', err)
     });
+  }
+
+  formatearFecha(fechaStr?: string): string {
+    if (!fechaStr) {
+      fechaStr = new Date().toISOString().split('T')[0];
+    }
+    try {
+      const fecha = new Date(fechaStr);
+      if (isNaN(fecha.getTime())) {
+        return fechaStr;
+      }
+      const opciones: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+
+      return fecha.toLocaleDateString('es-ES', opciones).replace(/de /g, '').trim();
+    } catch (e) {
+      return fechaStr;
+    }
   }
 
   //eliminar oferta/contrato //no existe en contrato service delete por ahora
@@ -313,10 +361,10 @@ export class ProfileComponent implements OnInit {
     if (!confirmado) return;
 
     this.contratoService.deleteContrato(contrato.id.toString()).subscribe({
-       next: () => {
-         this.ofertas = this.ofertas.filter(o => o.id !== contrato.id);
-       },
-       error: (err) => console.error('Error al eliminar', err)
+      next: () => {
+        this.ofertas = this.ofertas.filter(o => o.id !== contrato.id);
+      },
+      error: (err) => console.error('Error al eliminar', err)
     });
   }
 

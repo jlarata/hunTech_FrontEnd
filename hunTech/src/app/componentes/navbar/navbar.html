@@ -153,10 +153,10 @@
 
       <ng-template #guestLinks>
         <li>
-          <button class="btn-login-nav" (click)="onLogin.emit()">Iniciar Sesión</button>
+          <button class="btn-login-nav" (click)="onLogin.emit(); closeMenu()">Iniciar Sesión</button>
         </li>
         <li>
-          <button class="btn-registro-nav" (click)="onRegister.emit()">Registrate</button>
+          <button class="btn-registro-nav" (click)="onRegister.emit(); closeMenu()">Registrate</button>
         </li>
       </ng-template>
     </ul>

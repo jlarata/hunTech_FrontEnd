@@ -50,6 +50,10 @@ export class Formcreatecontract {
 
   }
 
+  cancelar(): void {
+    this.router.navigate(['/profile'], { queryParams: { tab: 'ofertas' } });
+  }
+
   // probablemente por project id const email = this.route.snapshot.paramMap.get('email');
   //console.log(email)
   /* if (email) {
@@ -92,6 +96,10 @@ export class Formcreatecontract {
   enviar(form: NgForm) {
     if (form.invalid) {
       return;
+    }
+
+    if (!this.contrato.start_date) {
+      this.contrato.start_date = new Date().toISOString().split('T')[0];
     }
 
     const dataParaEnviar = {

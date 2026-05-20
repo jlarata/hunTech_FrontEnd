@@ -116,7 +116,7 @@
                   perfil.genero || 'Vacío' }}</div>
                 }
                 <div class="data-item" *ngIf="perfil.descripcion" style="display: flex; gap: 8px; margin-top: 10px;">
-                  <span class="material-icons-outlined data-icon">description</span> 
+                  <span class="material-icons-outlined data-icon">description</span>
                   {{ perfil.descripcion }}
                 </div>
               </ng-container>
@@ -389,25 +389,118 @@
         </h2>
       </section>
 
-      <section class="card section-container" *ngSwitchCase="'ofertas'">
-        <h2 class="section-title" style="display: flex; align-items: center; gap: 10px;">Mis Ofertas Activas <span
-            class="material-icons-outlined">rocket_launch</span></h2>
-        <button class="btn-add" [routerLink]="['/formcreatecontract', perfil.proyecto]">+ Nueva Oferta</button>
+      <section class="card section-container section-style" *ngSwitchCase="'ofertas'">
+        <!-- HEADER -->
+        <div class="ofertas-header">
+          <div class="header-left">
+            <div class="header-icon-circle">
+              <span class="material-icons-outlined">rocket_launch</span>
+            </div>
+            <div class="header-text-group">
+              <div class="title-with-icon">
+                <h2 class="section-title">Mis Ofertas Activas</h2>
+              </div>
+              <p class="section-subtitle">Gestioná y monitoreá todas las ofertas que tenés publicadas.</p>
+            </div>
+          </div>
+          <button class="btn-add-oferta" [routerLink]="['/formcreatecontract', perfil.proyecto]">
+            <span class="material-icons-outlined">add</span> Nueva Oferta
+          </button>
+        </div>
+
+        <!-- BODY -->
         @if (ofertas.length > 0) {
         <div class="ofertas-list">
           @for (oferta of ofertas; track oferta.id) {
-          <div class="oferta-card">
-            <h3>{{ oferta.titulo }}</h3>
-            <p>{{ oferta.descripcion }}</p>
-            <button class="btn-delete" (click)="eliminarOferta(oferta)">
-              Eliminar
-            </button>
+          <div class="ofertas-card">
+            <div class="oferta-card-header">
+              <div class="header-icon-circle-small">
+                <span class="material-icons-outlined">business_center</span>
+              </div>
+              <div class="oferta-title-group">
+                <h3>{{ oferta.titulo }}</h3>
+                <p class="oferta-desc-text">{{ oferta.descripcion }}</p>
+              </div>
+              <div class="oferta-header-meta">
+                <span class="publish-date">Publicada el {{ formatearFecha(oferta.start_date) }}</span>
+                <button class="btn-options-delete" (click)="eliminarOferta(oferta)" title="Eliminar oferta">
+                  <span class="material-icons-outlined">more_vert</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- modalidad, tipo, estado -->
+            <div class="oferta-pills-row">
+              <span class="pill-badge pill-type" *ngIf="oferta.tipo">
+                <span class="material-icons-outlined">person</span>
+                {{ oferta.tipo }}
+              </span>
+              <span class="pill-badge pill-modality" *ngIf="oferta.modalidad">
+                <span class="material-icons-outlined">work</span>
+                {{ oferta.modalidad }}
+              </span>
+              <span class="pill-badge pill-status">
+                <span class="status-dot"></span>
+                Activa
+              </span>
+            </div>
+
+            <hr class="card-inner-divider">
+
+            <!-- SKILLS / SENIORITY -->
+            <div class="oferta-skills-badges">
+              @if (oferta.seniority_deseado && oferta.seniority_deseado.length > 0) {
+              @for (seniority of oferta.seniority_deseado; track seniority) {
+              <span class="skill-badge">
+                <span class="material-icons-outlined">code</span>
+                {{ seniority }}
+              </span>
+              }
+              }
+            </div>
+
+            <!-- CARD FOOTER -->
+            <div class="oferta-card-footer" [routerLink]="['/contratos']" [queryParams]="{ id: oferta.id }">
+              <span class="material-icons-outlined footer-chart-icon"
+                style="color: #10b981; font-size: 18px !important; margin-right: 4px;">analytics</span>
+              <span>Ver detalles</span>
+              <span class="material-icons-outlined">chevron_right</span>
+            </div>
           </div>
           }
         </div>
         } @else {
-        <p>No tenés ofertas activas.</p>
+        <!-- sin ofertas -->
+        <div class="ofertas-empty-state">
+          <div class="empty-icon-container">
+            <div class="empty-icon-circle">
+              <span class="material-icons-outlined empty-inbox-icon">archive</span>
+            </div>
+            <span class="sparkle sparkle-1">+</span>
+            <span class="sparkle sparkle-2">+</span>
+            <span class="sparkle sparkle-3">+</span>
+            <span class="dot dot-1"></span>
+            <span class="dot dot-2"></span>
+          </div>
+
+          <h3 class="empty-title">No tenés ofertas activas</h3>
+          <p class="empty-subtitle">Cuando publiques una oferta, aparecerá aca para que puedas gestionarla y recibir
+            postulaciones.</p>
+
+          <button class="btn-create-first" [routerLink]="['/formcreatecontract', perfil.proyecto]">
+            <span class="material-icons-outlined">add_circle_outline</span> Crear mi primera oferta
+          </button>
+        </div>
         }
+
+        <!-- FOOTER BANNER -->
+        <div class="ofertas-footer-banner">
+          <div class="banner-left">
+            <span class="material-icons-outlined banner-info-icon">info</span>
+            <p class="banner-text">Las ofertas activas son visibles para miles de talentos en busca de nuevas
+              oportunidades.</p>
+          </div>
+        </div>
       </section>
 
     </div>
