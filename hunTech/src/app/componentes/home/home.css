@@ -216,8 +216,20 @@
   transition: background 0.2s;
 }
 
+/* Efecto hover de la tarjeta: borde verde y sombra */
+.talent-card:hover {
+  border-color: var(--green-ifts);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover del botón: similar a las tarjetas de exploración */
 .btn-restricted:hover {
-  background: var(--border-color);
+  background: var(--green-ifts);
+  border-color: var(--green-ifts);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
 }
 
 .btn-restricted .material-icons-outlined {
@@ -356,3 +368,5 @@
     border-radius: 12px;
   }
 }
+
+
