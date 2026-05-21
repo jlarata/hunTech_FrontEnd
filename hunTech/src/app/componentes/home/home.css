@@ -1,167 +1,372 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:host {
+  --green-ifts: #16a34a;
+  --green-hover: #15803d;
 }
 
-body {
-  font-family: 'Outfit', sans-serif;
-  background-color: #f8fafc;
-  color: #1e293b;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  text-align: center;
-  padding: 6rem 2rem 4rem;
-  background: radial-gradient(circle at top, rgba(11, 0, 207, 0.05) 0%, transparent 70%),
-              #ffffff;
-}
-
-#logo-principal {
-  width: 120px;
-  height: 120px;
-  border-radius: 32px;
-  box-shadow: 0 20px 40px rgba(48, 10, 110, 0.1);
-  object-fit: cover;
-  border: 1px solid rgba(48, 10, 110, 0.1);
-}
-
-.titulo {
-  font-size: 4.5rem;
-  font-weight: 950;
-  color: #1a1a1b;
-  letter-spacing: -2px;
-  font-family: 'Inter', sans-serif;
-  margin-bottom: -10px;
-}
-
-.subtitulo {
-  font-size: 1.4rem;
-  color: #4b5563;
-  max-width: 700px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-
-.descripcion {
-  font-size: 1.1rem;
-  color: #64748b;
-  max-width: 600px;
-  margin-top: 5px;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  align-items: center;
-  padding-bottom: 6rem;
-}
-
-.info-section {
-  max-width: 800px;
-  text-align: center;
-  background: white;
-  padding: 48px;
-  border-radius: 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-}
-
-.info-section h3 {
-  color: #300a6e;
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.03em;
-}
-
-.info-section p {
-  color: #4b5563;
-  font-size: 1.2rem;
-  line-height: 1.8;
-}
-
-.benefits-section {
+.container {
   max-width: 1200px;
-  text-align: center;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green-ifts);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Hero Banner */
+.hero-banner {
+  position: relative;
   width: 100%;
-  padding: 0 2rem;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-image: url('/assets/instituto-footer.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 4rem 2rem;
 }
 
-.benefits-section h3 {
-  color: #300a6e;
-  font-size: 2.2rem;
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.7));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.highlight-green {
+  color: var(--green-ifts);
+}
+
+.hero-title {
+  color: #ffffff !important;
+  font-size: 2.5rem;
   font-weight: 800;
-  margin-bottom: 4rem;
-  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-.benefit-cards {
+.hero-description {
+  color: #f8fafc;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.btn-primary {
+  background: white;
+  color: var(--text-dark, #1e293b);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+}
+
+/* Explore Section */
+.explore-section {
+  padding: 4rem 0;
+  background-color: var(--bg-secondary);
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.explore-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-main);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.explore-card:hover {
+  border-color: var(--green-ifts);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  color: var(--green-ifts);
+}
+
+.card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Talent Section */
+.talent-section {
+  padding: 2rem 0 4rem 0;
+  background-color: var(--bg-secondary);
+}
+
+.talent-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2.5rem;
-  width: 100%;
+  gap: 2rem;
 }
 
-.benefit-card {
-  background-color: #ffffff;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: 28px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  padding: 3.5rem 2.5rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  text-align: left;
+.talent-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-.benefit-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 25px 50px -12px rgba(48, 10, 110, 0.15);
-  border-color: rgba(48, 10, 110, 0.2);
+.student-header {
+  padding: 1.25rem 1.25rem 0.5rem 1.25rem;
 }
 
-.benefit-card h4 {
-  color: #300a6e;
-  margin-bottom: 1.2rem;
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.benefit-card p {
-  color: #64748b;
+.student-name {
+  margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
-  line-height: 1.7;
-} */
+  font-weight: 700;
+  color: var(--text-main);
+}
 
-.footer-section {
+.project-content {
+  padding: 0.5rem 1.25rem 1.25rem 1.25rem;
+  flex-grow: 1;
+}
+
+.project-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.project-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.project-image-container {
   width: 100%;
+  height: 160px;
+  position: relative;
+  background: var(--bg-secondary);
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-footer {
+  padding: 1.25rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn-restricted {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* Efecto hover de la tarjeta: borde verde y sombra */
+.talent-card:hover {
+  border-color: var(--green-ifts);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Hover del botón: similar a las tarjetas de exploración */
+.btn-restricted:hover {
+  background: var(--green-ifts);
+  border-color: var(--green-ifts);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+}
+
+.btn-restricted .material-icons-outlined {
+  font-size: 18px;
+}
+
+/* Footer */
+.footer-section {
   text-align: center;
-  padding: 4rem 1rem;
-  margin-top: 2rem;
-  border-top: 1px solid #eef2f6;
-  color: #94a3b8;
-  font-size: 0.95rem;
+  padding: 3rem 1rem;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
 }
 
+.footer-bottom p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* LOGO EN EL HERO (sin cambios) */
+.hero-logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-logo-img {
+  max-width: 75px;
+  height: auto;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 18px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.25);
+  object-fit: contain;
+  display: block;
+}
+
+/* ===== MODO OSCURO (sobrescribe las variables globales) ===== */
+:host-context(.dark-theme) .explore-section,
+:host-context(.dark-theme) .talent-section {
+  background-color: var(--bg-primary);
+}
+
+:host-context(.dark-theme) .explore-card,
+:host-context(.dark-theme) .talent-card {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+:host-context(.dark-theme) .btn-primary {
+  background: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+:host-context(.dark-theme) .btn-primary:hover {
+  background: var(--bg-secondary);
+}
+
+:host-context(.dark-theme) .btn-restricted {
+  background: var(--bg-secondary);
+  color: var(--text-main);
+}
+
+:host-context(.dark-theme) .btn-restricted:hover {
+  background: color-mix(in srgb, var(--bg-secondary) 90%, #000);
+}
+
+:host-context(.dark-theme) .hero-overlay {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.75));
+}
+
+/* Modo oscuro: botones violeta como en el perfil */
+:host-context(.dark-theme) .btn-primary,
+:host-context(.dark-theme) .btn-restricted {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 6px 18px rgba(168, 85, 247, 0.3);
+}
+
+:host-context(.dark-theme) .btn-primary:hover,
+:host-context(.dark-theme) .btn-restricted:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 8px 22px rgba(168, 85, 247, 0.4);
+}
+
+/* Ajustes responsivos (se mantienen) */
 @media (max-width: 768px) {
-  .titulo {
-    font-size: clamp(2.5rem, 10vw, 3.5rem);
+  .container {
+    padding: 0 1rem;
   }
-
-  .benefit-cards {
+  .hero-banner {
+    padding: 3rem 1rem;
+    min-height: 300px;
+  }
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  .hero-description {
+    font-size: 1rem;
+  }
+  .btn-primary {
+    width: 100%;
+    max-width: 300px;
+  }
+  .explore-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+  .explore-card {
+    padding: 1rem;
+  }
+  .card-icon {
+    font-size: 2rem;
+  }
+  .talent-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-
-  header {
-    padding-top: 4rem;
+  .footer-bottom p {
+    font-size: 0.9rem;
+  }
+  .hero-logo-container {
+    margin-bottom: 1rem;
+  }
+  .hero-logo-img {
+    max-width: 55px;
+    padding: 6px;
+    border-radius: 12px;
   }
 }
+
+
