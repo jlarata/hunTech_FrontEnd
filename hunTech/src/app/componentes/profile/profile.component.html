@@ -7,7 +7,10 @@
         <h3 class="sidebar-title">Mi estatus</h3>
         <p class="sidebar-text">¿Está tu empresa actualmente buscando desarrolladores?</p>
         <div class="status-selector">
-          <span class="dot" [ngClass]="perfil.proyecto.buscando_devs ? 'dot-green' : 'dot-red'"></span>
+          <span class="dot" 
+            [style.background]="perfil.proyecto.buscando_devs === false || perfil.proyecto.buscando_devs === 'false' || perfil.proyecto.buscando_devs == 0 ? '#ec1313' : '#34d399'"
+            [style.color]="perfil.proyecto.buscando_devs === false || perfil.proyecto.buscando_devs === 'false' || perfil.proyecto.buscando_devs == 0 ? 'rgba(248, 113, 113, 0.3)' : 'rgba(52, 211, 153, 0.3)'">
+          </span>
           <select *ngIf="isOwnProfile" class="clean-select" [(ngModel)]="perfil.proyecto.buscando_devs"
             (change)="handleUpdate()">
             <option [ngValue]="false">No por el momento</option>
@@ -22,13 +25,17 @@
         <h3 class="sidebar-title">{{ isOwnProfile ? 'Mi estatus' : 'Estatus del desarrollador' }}</h3>
         <p class="sidebar-text" *ngIf="isOwnProfile">¿Estás actualmente buscando trabajo?</p>
         <div class="status-selector">
-          <span class="dot" [ngClass]="perfil.is_disponible ? 'dot-green' : 'dot-red'"></span>
+          <span class="dot" 
+            [style.background]="perfil.is_disponible === false || perfil.is_disponible === 'false' || perfil.is_disponible == 0 ? '#ec1313' : '#34d399'"
+            [style.color]="perfil.is_disponible === false || perfil.is_disponible === 'false' || perfil.is_disponible == 0 ? 'rgba(248, 113, 113, 0.3)' : 'rgba(52, 211, 153, 0.3)'">
+          </span>
           <select *ngIf="isOwnProfile" class="clean-select" [(ngModel)]="perfil.is_disponible"
             (change)="handleUpdate()">
             <option [ngValue]="false">No por el momento</option>
             <option [ngValue]="true">Sí, buscando</option>
           </select>
-          <span *ngIf="!isOwnProfile">{{ perfil.is_disponible ? 'Buscando trabajo' : 'No disponible' }}</span>
+          <span *ngIf="!isOwnProfile">{{ (perfil.is_disponible === true || perfil.is_disponible === 'true' ||
+            perfil.is_disponible == 1) ? 'Buscando trabajo' : 'No disponible' }}</span>
         </div>
       </div>
     </ng-container>
@@ -41,7 +48,7 @@
         <ng-container *ngIf="rolActual === 'desarrollador'">
           <li (click)="cambiarSeccion('portfolio')" [class.active]="seccionActiva === 'portfolio'">
             Portfolio
-          </li> 
+          </li>
           <li (click)="cambiarSeccion('habilidades')" [class.active]="seccionActiva === 'habilidades'">
             Habilidades
           </li>
