@@ -25,7 +25,7 @@ export class PortfolioService {
   //private apiUrl = 'http://127.0.0.1:3000/api/';
   private bucketUrl = environment.bucketUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getPortfolioByEmail(email: string): Observable<{ message: string; data: Portfolio }> {
     return this.http.get<{ message: string; data: Portfolio }>(`${this.apiUrl}portfolio/${email}`);
@@ -62,18 +62,81 @@ export class PortfolioService {
   async uploadImage(file: File): Promise<string> {
     const key = `portfolios/${Date.now()}_${file.name.replace(/\s/g, '_')}`;
     const uploadUrl = `${this.bucketUrl}/${key}`;
-    
+
     const response = await fetch(uploadUrl, {
       method: 'PUT',
       body: file,
       headers: { 'Content-Type': file.type }
     });
-    
+
     if (!response.ok) {
       throw new Error(`Error al subir imagen: ${response.statusText}`);
     }
     return uploadUrl; // URL pública de la imagen
   }
 
-  
+    deletePortfolio(email: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}deleteportfolio/${email}`);
+  }
+
+
+  /**
+   * Barre los 9 casilleros de imágenes de un portfolio y elimina de S3 
+   * todas aquellas URLs que no estén vacías.
+   * @param portfolio Objeto completo de Portfolio a limpiar
+   */
+  async deleteAllImagesFromPortfolio(portfolio: any): Promise<void> {
+    const deletePromises: Promise<void>[] = [];
+
+    // Definimos las propiedades de tipo array que contienen las imágenes
+    const bloques: ('imagenes1' | 'imagenes2' | 'imagenes3')[] = ['imagenes1', 'imagenes2', 'imagenes3'];
+
+    for (const bloque of bloques) {
+      const arrayImagenes = portfolio[bloque];
+
+      if (arrayImagenes && Array.isArray(arrayImagenes)) {
+        for (const url of arrayImagenes) {
+          // Filtramos: Solo si tiene contenido y es un string válido iniciamos el borrado
+          if (url && url.trim() !== '') {
+            deletePromises.push(this.deleteImage(url));
+          }
+        }
+      }
+    }
+
+    if (deletePromises.length === 0) {
+      console.log('No había imágenes cargadas en el portfolio para eliminar.');
+      return;
+    }
+
+    try {
+      // Ejecuta todas las solicitudes DELETE en paralelo
+      await Promise.all(deletePromises);
+      console.log(`Se eliminaron con éxito las ${deletePromises.length} imágenes encontradas en S3.`);
+    } catch (error) {
+      console.error('Al menos una de las imágenes falló al eliminarse de S3:', error);
+      // Re-lanzamos para que el componente sepa que el borrado no fue 100% exitoso
+      throw error;
+    }
+  }
+
+  /**
+   * Elimina una única imagen de S3 mediante Fetch DELETE (Auxiliar)
+   */
+  async deleteImage(imageUrl: string): Promise<void> {
+    try {
+      const response = await fetch(imageUrl, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error HTTP de S3: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error(`Error al borrar la URL: ${imageUrl}`, error);
+      throw error; // Es clave relanzarlo para que Promise.all se entere del fallo
+    }
+  }
+
+
 }
