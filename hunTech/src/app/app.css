@@ -10,6 +10,8 @@
   --navbar-bg: rgba(246, 244, 255, 0.85);
   --accent-primary: #31ad1c;
   --bg-split: linear-gradient(to right, #d9f9d2 50%, #e2fdbe 50%);
+
+  --danger-primary: #a00c0c;
 }
 
 .dark-theme {
