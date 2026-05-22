@@ -27,7 +27,10 @@
 
 
     <ul class="nav-links" [class.active]="menuActive">
-
+      <li class="nav-close">
+        <button class="material-icons-outlined btn-menu-close" type="button" (click)="closeMenu()"
+          aria-label="Cerrar menú">&times;</button>
+      </li>
 
       <ng-container *ngIf="user$ | async; else guestLinks">
 
