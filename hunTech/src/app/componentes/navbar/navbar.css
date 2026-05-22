@@ -1266,5 +1266,21 @@ main {
     font-size: 24px;
     line-height: 1;
   }
+
+  :host-context(.dark-theme) .btn-halo,
+  :host-context(.dark-theme) .cerrar-sesion {
+    background-color: var(--card-bg) !important;
+  }
+
+   .btn-halo,
+  .cerrar-sesion {
+    background-color: var(--bg-secondary) !important;  /* en lugar de #f8f9fa */
+   
+  }
+  .dropdown-menu {
+    background-color: var(--card-bg) !important;      /* en lugar de #ffffff */
+    border-left: 2px solid var(--accent-primary) !important; /* en lugar de #0b00cf */
+  }
+
 }
 
