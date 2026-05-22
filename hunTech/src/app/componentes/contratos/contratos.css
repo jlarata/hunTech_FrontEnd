@@ -24,25 +24,8 @@
   position: relative;
 }
 
-.contratos-list-panel::-webkit-scrollbar {
-  width: 4px;
-}
-
-.contratos-list-panel::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.contratos-list-panel::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--accent-primary) 30%, transparent);
-  border-radius: 10px;
-}
-
-.contratos-list-panel::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-primary);
-}
-
 .search-box {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 10;
   padding: 0 0 12px;
@@ -51,7 +34,7 @@
 
 .search-box::after {
   content: '';
-  position: absolute;
+  position: relative;
   bottom: -20px;
   left: 0;
   right: 0;
@@ -77,6 +60,7 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 16px center;
+
 }
 
 .search-input:focus {
@@ -505,14 +489,6 @@
   padding-bottom: 12px;
 }
 
-.drawer-open .drawer-content::-webkit-scrollbar {
-  width: 4px;
-}
-
-.drawer-open .drawer-content::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--accent-primary) 30%, transparent);
-  border-radius: 4px;
-}
 
 /*Panel derecho */
 .contrato-detail-panel {
@@ -521,15 +497,6 @@
   background: var(--bg-primary);
   position: relative;
   padding: 28px 32px;
-}
-
-.contrato-detail-panel::-webkit-scrollbar {
-  width: 4px;
-}
-
-.contrato-detail-panel::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--accent-primary) 25%, transparent);
-  border-radius: 10px;
 }
 
 .detail-placeholder {
@@ -625,53 +592,26 @@
 :host-context(.dark-theme) .contrato-card-item.asignado-dev:hover .card-item-titulo {
   color: #a855f7;
 }
-/* El panel izquierdo ahora usa flex column */
+
 .contratos-list-panel {
   display: flex;
   flex-direction: column;
   height: calc(100vh - 64px);
-  /* Eliminamos el overflow-y y el padding de aquí */
   overflow-y: visible;
-  padding: 0; /* reseteamos el padding */
+  padding: 0; 
 }
 
-/* El nuevo contenedor scrolleable */
 .contratos-scroll-area {
-  flex: 1;                     /* ocupa todo el espacio disponible */
-  overflow-y: auto;            /* scroll solo aquí */
-  padding: 24px 16px 0 16px;   /* el padding original que tenías en .contratos-list-panel */
+  flex: 1;                 
+  overflow-y:auto;       
+  padding: 24px 16px 0 16px;  
 }
 
-/* Drawer: ya no necesita sticky ni margin-top */
 .drawer-bottom {
-  /* position: sticky;  ← lo eliminamos */
-  margin: 0 -16px 0 -16px;    /* para mantener el ancho completo */
-  /* el resto de estilos se conservan */
+
+  margin: 0 -16px 0 -16px;    
 }
 
-/* Ocultar scrollbar en el área principal de contratos */
-.contratos-scroll-area {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE y Edge */
-}
-
-.contratos-scroll-area::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-  width: 0;
-  background: transparent;
-}
-
-/* También para el contenido del drawer si tiene scroll */
-.drawer-content {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.drawer-content::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  background: transparent;
-}
 /* ── Responsive ── */
 @media (max-width: 1100px) {
   .contratos-list-panel {
