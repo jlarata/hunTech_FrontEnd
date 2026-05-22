@@ -129,22 +129,28 @@
 
 .theme-options {
   display: grid;
-  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
   margin-top: 64px;
 }
 
 .appearance-option-card {
   min-height: 116px;
-  padding: 20px;
   border: 1.5px solid var(--border-color);
   border-radius: 16px;
   background: var(--card-bg);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
   display: flex;
-  align-items: center;
+  padding: 24px 20px;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
+  flex-wrap: wrap;
+}
+
+.appearance-option-card>div:first-child {
+  flex: 1;
+  min-width: 140px;
 }
 
 .theme-options p {
