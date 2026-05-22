@@ -1611,6 +1611,10 @@ button:disabled {
 
 /* RESPONSIVE */
 @media (max-width: 992px) {
+   /* Seguro contra scroll horizontal */
+  html, body {
+    overflow-x: hidden;
+  }
   .ifts-banner-container {
     position: relative;
     left: auto;
@@ -1731,7 +1735,86 @@ button:disabled {
   .header-divider {
     display: none;
   }
+   /* Fix: reducir el padding superior del hero en mobile */
+  .hero-left {
+    padding: 100px 20px 40px 20px !important;
+    flex: none;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  /* Fix: centrar el badge y quitar el margin-left de 200px */
+  .hero-badge {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 0.75rem;
+    padding: 6px 14px;
+  }
+
+  /* Fix: ajustar el tamaño del título para que no quede tan alto */
+  .hero-left h1 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    margin-bottom: 16px;
+  }
+
+  /* Fix: descripción más compacta */
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+  }
+
+  /* Fix: beneficios centrados y más compactos */
+  .beneficios {
+    align-items: center;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .beneficios li {
+    justify-content: center;
+    text-align: center;
+    padding: 10px 16px;
+  }
+
+  /* Forzar apilamiento vertical y evitar que compitan por el ancho */
+  .hero {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .hero-left {
+    flex: none !important;
+    width: 100% !important;
+    padding: 90px 20px 30px 20px !important;
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero-right {
+    flex: none !important;
+    width: 100% !important;
+    min-height: auto !important;
+    padding: 10px 20px 40px 20px !important;
+  }
+
+  /* Centrar el badge y el texto que tenían offset de desktop */
+  .hero-badge {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .hero-left h1,
+  .hero-description,
+  .beneficios {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
+
 @media (max-width: 768px) {
   .hiw-title {
     font-size: 2.2rem !important;
@@ -1801,8 +1884,85 @@ button:disabled {
     height: 28px;
     font-size: 18px;
   }
+  .hero-left {
+    padding-top: 80px !important;
+    padding-bottom: 30px;
+  }
+  
+  .hero-badge {
+    margin-bottom: 20px;
+  }
+
+  .hero-left {
+    padding-top: 80px !important;
+    padding-bottom: 20px !important;
+  }
+  
+  .floating-tag {
+    font-size: 0.8rem !important;
+    padding: 8px 12px !important;
+  }
 }
 
+@media (max-width: 480px) {
+  .hero-right {
+    display: none;
+  }
+}
+
+/* ============================================================
+   FIX: Centrado completo del hero-left en mobile
+   ============================================================ */
+@media (max-width: 992px) {
+  .hero-left {
+    display: block !important;
+    text-align: center !important;
+    padding: 90px 20px 30px 20px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  /* Centrar todos los textos del hero */
+  .hero-left h1,
+  .hero-left .hero-description,
+  .hero-left .beneficios {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .hero-left h1 {
+    font-size: clamp(1.9rem, 7vw, 2.6rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Beneficios: centrar cada item */
+  .hero-left .beneficios {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 !important;
+  }
+
+  .hero-left .beneficios li {
+    justify-content: center !important;
+    text-align: center !important;
+    width: 80% !important;
+    max-width: 400px;
+    margin: 0 auto !important;
+    font-size: 0.9rem !important;
+    padding: 10px 14px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-left {
+    padding: 80px 15px 25px 15px !important;
+  }
+}
 
 /*MODO OSCURO: FOOTER */
 .dark-theme .huntech-footer::before {
