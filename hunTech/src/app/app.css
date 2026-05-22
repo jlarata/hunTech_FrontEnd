@@ -589,11 +589,33 @@ h4,
   width: 100%;
 }
 
-.ifts-banner-container {
+/*.ifts-banner-container {
   position: absolute;
   left: 160px;
   top: 190px;
   transform: none;
+  z-index: 10;
+}*/
+
+/*.ifts-banner-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: block;
+  filter: grayscale(100%) contrast(1.1) brightness(0.9);
+}*/
+
+/* ============================================================
+   IFTS BANNER - HOVER EFFECT
+   Se agranda y muestra en color al pasar el mouse
+   ============================================================ */
+
+.ifts-banner-container {
+  position: absolute;
+  left: 160px;
+  top: 190px;
   z-index: 10;
 }
 
@@ -602,9 +624,22 @@ h4,
   height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: block;
+  /* Por defecto: en blanco y negro */
   filter: grayscale(100%) contrast(1.1) brightness(0.9);
+  /* Transición suave */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+}
+
+/* === HOVER: Se agranda 25% + color === */
+.ifts-banner-container:hover .ifts-banner-img,
+.ifts-banner-img:hover {
+  transform: scale(1.1);
+  filter: grayscale(0%) contrast(1) brightness(1);
+  box-shadow: 
+    0 8px 30px rgba(0, 0, 0, 0.25),
+    0 0 0 4px rgba(49, 173, 28, 0.2);
 }
 
 .huntech-ticker {
@@ -946,21 +981,6 @@ button:disabled {
   transform: rotate(90deg);
 }
 
-@media (max-width: 576px) {
-  .modal-card {
-    padding: 35px 20px 20px 20px;
-    border-radius: 20px;
-    width: 95%;
-  }
-
-  .btn-close {
-    top: 12px;
-    right: 12px;
-    width: 28px;
-    height: 28px;
-    font-size: 18px;
-  }
-}
 
 .dark-theme .btn-close {
   background: transparent;
@@ -1294,99 +1314,7 @@ button:disabled {
   font-weight: 450;
 }
 
-@media (max-width: 992px) {
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 60px;
-  }
 
-  .features-grid::after {
-    display: none;
-  }
-
-  .recruiter-column {
-    padding-left: 0;
-    padding-top: 60px;
-    border-top: 1px solid #f0f0f0;
-  }
-
-  .feature-title {
-    font-size: 2.2rem;
-  }
-}
-
-@media (max-width: 992px) {
-
-  .hero {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .hero-right {
-    flex: none;
-    width: 100%;
-    height: auto;
-    min-height: unset;
-    padding: 30px 20px 50px 20px;
-    border-radius: 0;
-    margin-top: 0;
-  }
-
-  .tags-cloud {
-    position: static;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-    max-width: 95%;
-    margin: 0 auto;
-  }
-
-  .floating-tag {
-    position: static !important;
-    animation: none !important;
-    transform: none !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
-    padding: 10px 18px !important;
-    font-size: 0.88rem !important;
-  }
-
-  .floating-tag:hover {
-    transform: scale(1.08) !important;
-  }
-
-  .navbar {
-    padding: 15px 20px;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-    background: white;
-  }
-
-  .nav-links {
-    width: 100%;
-    justify-content: center;
-    gap: 15px;
-  }
-
-  .descripcion-container {
-    flex-direction: column;
-    padding-top: 80px;
-  }
-
-  .logo-header-global {
-    position: relative;
-    top: 0;
-    left: 0;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .header-divider {
-    display: none;
-  }
-}
 
 /* ---seccion: como funciona --- */
 .how-it-works-section {
@@ -1682,6 +1610,128 @@ button:disabled {
 }
 
 /* RESPONSIVE */
+@media (max-width: 992px) {
+  .ifts-banner-container {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    order: -1;
+  }
+
+  .ifts-banner-img {
+    width: 100px;
+    height: 100px;
+    /* Sin hover en mobile: siempre en B&N, sin transform */
+    filter: grayscale(100%) contrast(1.1) brightness(0.9);
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Override: desactivar cualquier hover/active en mobile */
+  .ifts-banner-container:hover .ifts-banner-img,
+  .ifts-banner-img:hover,
+  .ifts-banner-container:active .ifts-banner-img,
+  .ifts-banner-img:active {
+    transform: none;
+    filter: grayscale(100%) contrast(1.1) brightness(0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .features-grid::after {
+    display: none;
+  }
+
+  .recruiter-column {
+    padding-left: 0;
+    padding-top: 60px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .feature-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 992px) {
+
+  .hero {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .hero-right {
+    flex: none;
+    width: 100%;
+    height: auto;
+    min-height: unset;
+    padding: 30px 20px 50px 20px;
+    border-radius: 0;
+    margin-top: 0;
+  }
+
+  .tags-cloud {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    max-width: 95%;
+    margin: 0 auto;
+  }
+
+  .floating-tag {
+    position: static !important;
+    animation: none !important;
+    transform: none !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+    padding: 10px 18px !important;
+    font-size: 0.88rem !important;
+  }
+
+  .floating-tag:hover {
+    transform: scale(1.08) !important;
+  }
+
+  .navbar {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    background: white;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .descripcion-container {
+    flex-direction: column;
+    padding-top: 80px;
+  }
+
+  .logo-header-global {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .header-divider {
+    display: none;
+  }
+}
 @media (max-width: 768px) {
   .hiw-title {
     font-size: 2.2rem !important;
@@ -1736,6 +1786,23 @@ button:disabled {
     text-align: center;
   }
 }
+
+@media (max-width: 576px) {
+  .modal-card {
+    padding: 35px 20px 20px 20px;
+    border-radius: 20px;
+    width: 95%;
+  }
+
+  .btn-close {
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+}
+
 
 /*MODO OSCURO: FOOTER */
 .dark-theme .huntech-footer::before {
