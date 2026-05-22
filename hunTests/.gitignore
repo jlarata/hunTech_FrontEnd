@@ -1,0 +1,39 @@
+# ─── Node / npm ──────────────────────────────────────────────────────────────
+node_modules/
+package-lock.json
+yarn.lock
+
+# ─── Credenciales E2E (nunca subir al repositorio) ───────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ─── Artefactos de Playwright ────────────────────────────────────────────────
+test-results/
+playwright-report/
+.playwright/
+blob-report/
+
+# ─── IDEs y editores ─────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ─── GitHub / CI ─────────────────────────────────────────────────────────────
+.github/
+
+# ─── Sistema operativo ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+
+# ─── TypeScript compilado ────────────────────────────────────────────────────
+dist/
+*.js.map

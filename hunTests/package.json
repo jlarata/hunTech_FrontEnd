@@ -1,0 +1,17 @@
+{
+  "name": "huntests",
+  "version": "1.0.0",
+  "description": "Suite E2E Playwright para hunTech (IFTS N°11)",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed --workers=1",
+    "test:slow": "playwright test --headed --workers=1 --slowmo=800",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "dotenv": "^16.4.5"
+  }
+}
