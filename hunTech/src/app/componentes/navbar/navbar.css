@@ -1227,3 +1227,44 @@ main {
     opacity: 1;
   }
 }
+/* ─── SOLO LA X DEL MENÚ MÓVIL ─── */
+@media (max-width: 1200px) {
+  .nav-links .nav-close {
+    display: flex !important;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+    padding: 0;
+    order: -1;
+    width: 100%;
+  }
+
+  .btn-menu-close {
+    width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    border-radius: 50% !important;
+    border: 1.5px solid var(--border-color) !important;
+    background: transparent !important;
+    color: var(--text-muted) !important;
+    font-size: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease;
+  }
+
+  .btn-menu-close:hover {
+    color: #ef4444 !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
+    transform: rotate(90deg);
+  }
+
+  .btn-menu-close .material-icons-outlined {
+    font-size: 24px;
+    line-height: 1;
+  }
+}
+

@@ -27,9 +27,14 @@
 
 
     <ul class="nav-links" [class.active]="menuActive">
-      <li class="nav-close">
+      <!-- <li class="nav-close">
         <button class="material-icons-outlined btn-menu-close" type="button" (click)="closeMenu()"
           aria-label="Cerrar menú">&times;</button>
+      </li> -->
+      <li class="nav-close">
+        <button class="btn-menu-close" type="button" (click)="closeMenu()" aria-label="Cerrar menú">
+          <span class="material-icons-outlined">close</span>
+        </button>
       </li>
 
       <ng-container *ngIf="user$ | async; else guestLinks">
@@ -164,7 +169,7 @@
       </ng-template>
     </ul>
 
-    <div class="navbar-subindex" *ngIf="isOnContratos">
+    <!-- <div class="navbar-subindex" *ngIf="isOnContratos">
       <a class="subindex-btn" (click)="navigateToFragment('sin-postular')"
         [class.active]="activeFragment === 'sin-postular'">
         Sin postular
@@ -176,7 +181,7 @@
       <a class="subindex-btn" (click)="navigateToFragment('asignados')" [class.active]="activeFragment === 'asignados'">
         Asignados
       </a>
-    </div>
+    </div> -->
   </nav>
 
   <!-- MODAL DEL LIBRO -->
