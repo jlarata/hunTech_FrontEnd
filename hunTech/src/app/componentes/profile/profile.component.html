@@ -7,7 +7,7 @@
         <h3 class="sidebar-title">Mi estatus</h3>
         <p class="sidebar-text">¿Está tu empresa actualmente buscando desarrolladores?</p>
         <div class="status-selector">
-          <span class="dot" 
+          <span class="dot"
             [style.background]="perfil.proyecto.buscando_devs === false || perfil.proyecto.buscando_devs === 'false' || perfil.proyecto.buscando_devs == 0 ? '#ec1313' : '#34d399'"
             [style.color]="perfil.proyecto.buscando_devs === false || perfil.proyecto.buscando_devs === 'false' || perfil.proyecto.buscando_devs == 0 ? 'rgba(248, 113, 113, 0.3)' : 'rgba(52, 211, 153, 0.3)'">
           </span>
@@ -25,7 +25,7 @@
         <h3 class="sidebar-title">{{ isOwnProfile ? 'Mi estatus' : 'Estatus del desarrollador' }}</h3>
         <p class="sidebar-text" *ngIf="isOwnProfile">¿Estás actualmente buscando trabajo?</p>
         <div class="status-selector">
-          <span class="dot" 
+          <span class="dot"
             [style.background]="perfil.is_disponible === false || perfil.is_disponible === 'false' || perfil.is_disponible == 0 ? '#ec1313' : '#34d399'"
             [style.color]="perfil.is_disponible === false || perfil.is_disponible === 'false' || perfil.is_disponible == 0 ? 'rgba(248, 113, 113, 0.3)' : 'rgba(52, 211, 153, 0.3)'">
           </span>
@@ -230,7 +230,7 @@
                 </div>
               </ng-container>
 
-              <button type="submit" [disabled]="loading" class="btn-save btn-compact-profile">Guardar Perfil</button>
+              <button type="submit" [disabled]="loading" class="btn-save">Guardar Perfil</button>
             </form>
           </div>
           <div class="card resume-upload-card" *ngIf="rolActual === 'desarrollador' && !isEditing && isOwnProfile">
@@ -312,7 +312,7 @@
               <button class="btn-remove" (click)="eliminarHabilidad(i); handleUpdate()" *ngIf="isOwnProfile">✕</button>
             </div>
           </div>
-          <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue btn-compact-profile" (click)="toggleEdit()"
+          <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue" (click)="toggleEdit()"
             style="display: flex; align-items: center; gap: 6px;">
             <span class="material-icons-outlined" style="font-size: 18px;">edit</span> Añadir habilidades
           </button>
@@ -358,7 +358,7 @@
               <button class="btn-remove" (click)="eliminarIdioma(i); handleUpdate()" *ngIf="isOwnProfile">✕</button>
             </div>
           </div>
-          <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue btn-compact-profile" (click)="toggleEdit()"
+          <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue" (click)="toggleEdit()"
             style="display: flex; align-items: center; gap: 6px;">
             <span class="material-icons-outlined" style="font-size: 18px;">edit</span> Añadir idiomas
           </button>

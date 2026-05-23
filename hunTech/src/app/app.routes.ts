@@ -42,17 +42,17 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./views/formcreatecontract/formcreatecontract').then((m) => m.Formcreatecontract)
   },
-  { 
+  {
     path: 'profile/:email',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./componentes/profile/profile.component').then((m) => m.ProfileComponent)
   },
-  { 
+  {
     path: 'dashboard',
-    canActivate: [authGuard], 
+    canActivate: [authGuard],
     loadComponent: () =>
-    import('./componentes/dashboard/dashboard').then((m) => m.Dashboard)
+      import('./componentes/dashboard/dashboard').then((m) => m.Dashboard)
   },
 
   {
@@ -67,6 +67,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./componentes/configuracion/configuracion').then((m) => m.Configuracion),
   },
-
+  //agregar las rutas para configuracion/cuenta, configuracion/privacidad, configuracion/seguridad
+  { path: 'configuracion/cuenta', canActivate: [authGuard], loadComponent: () => import('./componentes/configuracion/configuracion').then((m) => m.Configuracion) },
+  { path: 'configuracion/privacidad', canActivate: [authGuard], loadComponent: () => import('./componentes/configuracion/configuracion').then((m) => m.Configuracion) },
+  { path: 'configuracion/seguridad', canActivate: [authGuard], loadComponent: () => import('./componentes/configuracion/configuracion').then((m) => m.Configuracion) },
   { path: '**', redirectTo: '' },
 ];

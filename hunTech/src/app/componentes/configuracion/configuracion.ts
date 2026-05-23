@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { RouterModule } from '@angular/router';
 type FontSizePreference = 'small' | 'normal' | 'large';
 
 @Component({
   selector: 'app-configuracion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './configuracion.html',
   styleUrl: './configuracion.css',
 })
 export class Configuracion implements OnInit {
   menuItems = [
-    { label: 'Cuenta', icon: 'person' },
-    { label: 'Privacidad', icon: 'lock' },
-    { label: 'Apariencia', icon: 'palette', active: true },
-    { label: 'Seguridad', icon: 'shield' },
+    { label: 'Cuenta', icon: 'person', active: false, ruta: '/configuracion/cuenta' },
+    { label: 'Privacidad', icon: 'lock', active: false, ruta: '/configuracion/privacidad' },
+    { label: 'Apariencia', icon: 'palette', active: true, ruta: '/configuracion' },
+    { label: 'Seguridad', icon: 'shield', active: false, ruta: '/configuracion/seguridad' },
   ];
 
   fontSizeOptions: Array<{ value: FontSizePreference; label: string }> = [

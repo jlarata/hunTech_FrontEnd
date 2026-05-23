@@ -4,7 +4,8 @@
       <h1>Panel de Configuración</h1>
 
       <nav class="config-menu" aria-label="Secciones de configuración">
-        <button type="button" class="config-menu-item" *ngFor="let item of menuItems" [class.active]="item.active">
+        <button type="button" class="config-menu-item" *ngFor="let item of menuItems" [class.active]="item.active"
+          [routerLink]="item.ruta">
           <span class="material-icons-outlined">{{ item.icon }}</span>
           {{ item.label }}
         </button>
@@ -53,9 +54,6 @@
   </div>
 
   <div class="help-widget">
-    <div class="help-bubble">
-      &iquest;Necesitas ayuda?
-    </div>
     <button type="button" class="help-button">
       <span class="material-icons-outlined">help_outline</span>
       Ayuda

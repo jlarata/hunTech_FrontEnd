@@ -67,7 +67,7 @@
 }
 
 .config-menu-item.active .material-icons-outlined {
-  background: #0f6b2d;
+  background: var(--accent-primary);
   color: #ffffff;
 }
 
@@ -106,15 +106,15 @@
   min-height: 36px;
   padding: 0 20px;
   border-radius: 999px;
-  background: #ffffff;
+  background: var(--bg-primary);
   color: #111827;
   font-weight: 800;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .personalizacion-tag span:first-child {
-  background: #2fb725;
-  color: #ffffff;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
 }
 
 .apariencia {
@@ -139,7 +139,7 @@
   border: 1.5px solid var(--border-color);
   border-radius: 16px;
   background: var(--card-bg);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 20px var(--card-bg);
   display: flex;
   padding: 24px 20px;
   align-items: flex-start;
@@ -190,8 +190,8 @@
 }
 
 .font-size-control button.active {
-  background: #2fb725;
-  color: #ffffff;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
   box-shadow: 0 6px 14px rgba(47, 183, 37, 0.25);
 }
 
@@ -213,13 +213,13 @@
   display: block;
   margin: 0;
   border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  background: var(--bg-primary);
+  box-shadow: 0 3px 8px var(--text-main);
   transition: transform 0.25s ease;
 }
 
 .dark-mode-switch.active {
-  background: #2fb725;
+  background: var(--accent-primary);
   box-shadow: 0 8px 18px rgba(47, 183, 37, 0.3);
 }
 
@@ -228,7 +228,7 @@
 }
 
 .help-widget {
-  position: fixed;
+  position: sticky;
   right: 24px;
   bottom: 24px;
   display: flex;
@@ -236,17 +236,6 @@
   align-items: flex-end;
   gap: 10px;
   z-index: 30;
-}
-
-.help-bubble {
-  width: min(300px, calc(100vw - 48px));
-  padding: 18px 20px;
-  border-radius: 8px;
-  background: var(--card-bg);
-  color: var(--text-main);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-  border: 1px solid var(--border-color);
-  line-height: 1.35;
 }
 
 .help-button {
@@ -258,7 +247,7 @@
   align-items: center;
   gap: 10px;
   background: linear-gradient(135deg, #2fb725 0%, #36bd28 100%);
-  color: #ffffff;
+  color: var(--bg-primary);
   font-size: 1.1rem;
   font-weight: 900;
   box-shadow: 0 14px 28px rgba(47, 183, 37, 0.35);
@@ -267,16 +256,16 @@
 
 :host-context(.dark-theme) .config-menu-item .material-icons-outlined {
   background: #1f2937;
-  color: #ffffff;
+  color: var(--accent-primary);
 }
 
 :host-context(.dark-theme) .config-menu-item.active .material-icons-outlined {
-  background: #a855f7;
+  background: var(--accent-primary);
 }
 
 :host-context(.dark-theme) .config-menu-item.active {
-  border-color: #a855f7;
-  box-shadow: inset 0 0 0 1.5px #a855f7;
+  border-color: var(--accent-primary);
+  box-shadow: inset 0 0 0 1.5px var(--accent-primary);
 }
 
 :host-context(.dark-theme) .personalizacion-card {
@@ -284,13 +273,13 @@
 }
 
 :host-context(.dark-theme) .personalizacion-tag span {
-  background: #a855f7;
-  color: #ffffff;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
 }
 
 :host-context(.dark-theme) .font-size-control button.active,
 :host-context(.dark-theme) .dark-mode-switch.active {
-  background: #a855f7;
+  background: var(--accent-primary);
   box-shadow: 0 8px 18px rgba(168, 85, 247, 0.34);
 }
 
