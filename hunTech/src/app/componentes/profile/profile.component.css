@@ -13,7 +13,7 @@
 }
 
 
-/* --- EL CONTENEDOR DE LAS CARDS --- */
+/* EL CONTENEDOR DE LAS CARDS */
 .info-section {
   display: flex !important;
   flex-direction: column;
@@ -118,7 +118,7 @@
   pointer-events: none;
 }
 
-/* --- Contenedor de tags*/
+/* Contenedor de tags*/
 .skill-language-card .skills-list-preview {
   background: color-mix(in srgb, var(--accent-primary) 8%, var(--bg-secondary));
   border: 1px solid var(--border-color);
@@ -129,7 +129,7 @@
   border-bottom: none;
 }
 
-/* --- Skill tags dentro de la card --- */
+/* Skill tags dentro de la card  */
 .skill-language-card .skill-tag {
   background: var(--bg-primary);
   color: var(--text-main);
@@ -169,7 +169,7 @@
   align-self: flex-start;
 }
 
-/*Estado vacío (sin habilidades/idiomas aún) */
+/*cuando aun no hay habilidades/idiomas  */
 .skill-language-card .empty-skills {
   display: flex;
   flex-direction: column;
@@ -812,13 +812,6 @@ label {
     font-weight: bold;
     margin-bottom: 15px;
   }
-
-  /*.main-content {
-    order: 1;
-    width: 100%;
-    margin-left: 0;
-  } */
-
   .profile-top {
     flex-direction: column;
     align-items: flex-start;

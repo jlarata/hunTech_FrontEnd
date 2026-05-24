@@ -77,156 +77,6 @@
   gap: 22px;
 }
 
-.personalizacion-card,
-.apariencia {
-  border: 1.5px solid var(--border-color);
-  border-radius: 20px;
-  background: var(--card-bg);
-}
-
-.personalizacion-card {
-  min-height: 86px;
-  padding: 24px 38px;
-  display: flex;
-  align-items: center;
-  background:
-    linear-gradient(135deg, color-mix(in srgb, #2fb725 10%, var(--card-bg)) 0%, color-mix(in srgb, #2fb725 2%, var(--card-bg)) 100%);
-}
-
-
-.personalizacion-tag {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.personalizacion-tag span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  padding: 0 20px;
-  border-radius: 999px;
-  background: var(--bg-primary);
-  color: #111827;
-  font-weight: 800;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.personalizacion-tag span:first-child {
-  background: var(--accent-primary);
-  color: var(--bg-primary);
-}
-
-.apariencia {
-  min-height: 254px;
-  padding: 68px 38px 38px;
-}
-
-.apariencia h2 {
-  margin: 0;
-  font-weight: bold;
-}
-
-.theme-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  margin-top: 64px;
-}
-
-.appearance-option-card {
-  min-height: 116px;
-  border: 1.5px solid var(--border-color);
-  border-radius: 16px;
-  background: var(--card-bg);
-  box-shadow: 0 8px 20px var(--card-bg);
-  display: flex;
-  padding: 24px 20px;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-.appearance-option-card>div:first-child {
-  flex: 1;
-  min-width: 140px;
-}
-
-.theme-options p {
-  margin: 0;
-  color: var(--text-main);
-  line-height: 1.2;
-  font-weight: 700;
-}
-
-.appearance-option-card span {
-  display: block;
-  margin-top: 6px;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.font-size-control {
-  display: inline-grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 4px;
-  border-radius: 999px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  flex: 0 0 auto;
-}
-
-.font-size-control button {
-  min-height: 34px;
-  border: 0;
-  border-radius: 999px;
-  padding: 0 12px;
-  background: transparent;
-  color: var(--text-muted);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.font-size-control button.active {
-  background: var(--accent-primary);
-  color: var(--bg-primary);
-  box-shadow: 0 6px 14px rgba(47, 183, 37, 0.25);
-}
-
-.dark-mode-switch {
-  width: 66px;
-  height: 36px;
-  border: 0;
-  border-radius: 999px;
-  padding: 4px;
-  background: #d1d5db;
-  cursor: pointer;
-  transition: background 0.25s ease, box-shadow 0.25s ease;
-  flex: 0 0 auto;
-}
-
-.dark-mode-switch span {
-  width: 28px;
-  height: 28px;
-  display: block;
-  margin: 0;
-  border-radius: 50%;
-  background: var(--bg-primary);
-  box-shadow: 0 3px 8px var(--text-main);
-  transition: transform 0.25s ease;
-}
-
-.dark-mode-switch.active {
-  background: var(--accent-primary);
-  box-shadow: 0 8px 18px rgba(47, 183, 37, 0.3);
-}
-
-.dark-mode-switch.active span {
-  transform: translateX(30px);
-}
-
 .help-widget {
   position: sticky;
   right: 24px;
@@ -268,20 +118,6 @@
   box-shadow: inset 0 0 0 1.5px var(--accent-primary);
 }
 
-:host-context(.dark-theme) .personalizacion-card {
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.14) 0%, rgba(168, 85, 247, 0.04) 100%);
-}
-
-:host-context(.dark-theme) .personalizacion-tag span {
-  background: var(--accent-primary);
-  color: var(--bg-primary);
-}
-
-:host-context(.dark-theme) .font-size-control button.active,
-:host-context(.dark-theme) .dark-mode-switch.active {
-  background: var(--accent-primary);
-  box-shadow: 0 8px 18px rgba(168, 85, 247, 0.34);
-}
 
 :host-context(.dark-theme) .help-button {
   background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
@@ -297,12 +133,6 @@
   .config-sidebar h1 {
     margin-bottom: 24px;
   }
-
-  .theme-options {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    margin-top: 36px;
-  }
 }
 
 @media (max-width: 620px) {
@@ -314,10 +144,96 @@
     min-height: 66px;
     font-size: 1.05rem;
   }
+}
 
-  .apariencia,
-  .personalizacion-card {
-    padding: 24px 20px;
-    min-height: auto;
+/* Reglas generales y breakpoints adicionales */
+
+/* Evitar scroll horizontal y permitir quiebre de palabras */
+.config-page {
+  overflow-x: hidden;
+}
+
+.config-page h1,
+.config-page h2,
+.config-page h3,
+.config-page p,
+.config-page span {
+  word-break: break-word;
+}
+
+@media (max-width: 980px) {
+
+  /* Tablet */
+  .config-shell {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
+
+  .config-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .config-menu-item {
+    min-height: 72px;
+    padding: 12px 14px;
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 620px) {
+
+  /* celular */
+  .config-page {
+    padding: 80px 12px 96px;
+  }
+
+  .config-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .config-menu-item {
+    min-height: 60px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border-radius: 14px;
+  }
+
+  .config-sidebar h1 {
+    font-size: 1.6rem;
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 380px) {
+
+  /* Celular mas pequeño: padding y fuentes mínimas */
+  .config-page {
+    padding: 56px 12px 64px;
+  }
+
+  .config-shell {
+    gap: 18px;
+  }
+
+  .config-sidebar h1 {
+    font-size: 1.35rem;
+  }
+
+  .config-menu-item {
+    min-height: 56px;
+    font-size: 0.95rem;
+    padding: 8px 10px;
+  }
+}
+
+/* los iconos e imágenes no rompen el layout */
+.config-page img,
+.config-page svg,
+.config-page .material-icons-outlined {
+  max-width: 100%;
+  height: auto;
 }

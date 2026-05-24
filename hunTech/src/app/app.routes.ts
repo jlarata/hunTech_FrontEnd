@@ -66,10 +66,28 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./componentes/configuracion/configuracion').then((m) => m.Configuracion),
+    children: [
+      { path: '', redirectTo: 'cuenta', pathMatch: 'full' },
+      {
+        path: 'apariencia',
+        loadComponent: () =>
+          import('./componentes/configuracion/apariencia/apariencia').then((m) => m.Apariencia),
+      },
+      {
+        path: 'cuenta',
+        loadComponent: () =>
+          import('./componentes/configuracion/cuenta/cuenta').then((m) => m.Cuenta),
+      },
+      {
+        path: 'privacidad',
+        loadComponent: () =>
+          import('./componentes/configuracion/privacidad/privacidad').then((m) => m.Privacidad),
+      },
+      {
+        path: 'seguridad',
+        loadComponent: () =>
+          import('./componentes/configuracion/seguridad/seguridad').then((m) => m.Seguridad),
+      },
+    ],
   },
-  //agregar las rutas para configuracion/cuenta, configuracion/privacidad, configuracion/seguridad
-  { path: 'configuracion/cuenta', canActivate: [authGuard], loadComponent: () => import('./componentes/configuracion/configuracion').then((m) => m.Configuracion) },
-  { path: 'configuracion/privacidad', canActivate: [authGuard], loadComponent: () => import('./componentes/configuracion/configuracion').then((m) => m.Configuracion) },
-  { path: 'configuracion/seguridad', canActivate: [authGuard], loadComponent: () => import('./componentes/configuracion/configuracion').then((m) => m.Configuracion) },
-  { path: '**', redirectTo: '' },
 ];

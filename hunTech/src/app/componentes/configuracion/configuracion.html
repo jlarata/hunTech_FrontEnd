@@ -4,8 +4,13 @@
       <h1>Panel de Configuración</h1>
 
       <nav class="config-menu" aria-label="Secciones de configuración">
-        <button type="button" class="config-menu-item" *ngFor="let item of menuItems" [class.active]="item.active"
-          [routerLink]="item.ruta">
+        <button
+          type="button"
+          class="config-menu-item"
+          *ngFor="let item of menuItems"
+          [routerLink]="item.ruta"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.ruta === '' }">
           <span class="material-icons-outlined">{{ item.icon }}</span>
           {{ item.label }}
         </button>
@@ -13,43 +18,7 @@
     </aside>
 
     <main class="config-content">
-      <article class="personalizacion-card">
-        <div class="personalizacion-tag">
-          <span>Personalización</span>
-        </div>
-      </article>
-
-      <article class="apariencia">
-        <h2>Ajustes de Apariencia</h2>
-
-        <div class="theme-options">
-          <article class="appearance-option-card">
-            <div>
-              <p>Tamaño de letra</p>
-              <span>{{ selectedFontSizeLabel }}</span>
-            </div>
-
-            <div class="font-size-control" role="group" aria-label="Tamaño de letra">
-              <button type="button" *ngFor="let option of fontSizeOptions"
-                [class.active]="selectedFontSize === option.value" (click)="setFontSize(option.value)">
-                {{ option.label }}
-              </button>
-            </div>
-          </article>
-
-          <article class="appearance-option-card">
-            <div>
-              <p>Modo Oscuro</p>
-              <span>{{ isDarkMode ? 'Activado' : 'Desactivado' }}</span>
-            </div>
-
-            <button type="button" class="dark-mode-switch" [class.active]="isDarkMode" [attr.aria-pressed]="isDarkMode"
-              (click)="toggleDarkMode()">
-              <span></span>
-            </button>
-          </article>
-        </div>
-      </article>
+      <router-outlet></router-outlet>
     </main>
   </div>
 

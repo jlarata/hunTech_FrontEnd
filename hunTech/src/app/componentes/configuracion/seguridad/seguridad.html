@@ -1,0 +1,25 @@
+<section class="security-page">
+  <div class="security-card">
+    <div class="section-header">
+      <h2>Seguridad</h2>
+      <p class="section-subtitle">Gestiona la seguridad de tu cuenta y dispositivos conectados</p>
+    </div>
+
+    <div class="options-list">
+      <button type="button" class="option-card" *ngFor="let option of securityOptions">
+        <div class="option-icon">
+          <span class="material-icons-outlined">{{ option.icon }}</span>
+        </div>
+
+        <div class="option-content">
+          <h3>{{ option.label }}</h3>
+          <p>{{ option.description }}</p>
+        </div>
+
+        <div class="option-chevron">
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
