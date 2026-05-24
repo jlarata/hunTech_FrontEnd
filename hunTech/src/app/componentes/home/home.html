@@ -1,119 +1,414 @@
-<section class="hero-banner">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <div class="hero-logo-container">
-      <img src="assets/logo-ifts11.jpg" alt="Logo oficial IFTS N°11" class="hero-logo-img">
+<!-- HERO SECTION -->
+<section class="home-hero">
+  <div class="hero-gradient"></div>
+  <div class="hero-container">
+    <div class="hero-badge">
+      <span class="material-icons-outlined badge-icon">school</span>
+      IFTS N°11 — Instituto de Formación Técnica Superior
     </div>
-    <h1 class="hero-title">HunTech, una herramienta del <span class="highlight-green">IFTS N°11</span></h1>
-    <p class="hero-description">
-      Impulsamos a los estudiantes y graduados del Instituto de Formación Técnica Superior N° 11 para que den sus primeros pasos en el mundo laboral IT.
-    </p>
-    <a href="https://ifts11.edu.ar/" target="_blank" rel="noopener noreferrer" class="btn-primary">
-      Visitar sitio oficial
-    </a>
-  </div>
-</section>
 
-<section class="explore-section">
-  <div class="container">
-    <h2 class="section-title">EXPLORÁ EL INSTITUTO</h2>
-    
-    <div class="explore-grid">
-      <a href="https://ifts11.edu.ar/carreras/" target="_blank" rel="noopener noreferrer" class="explore-card">
-        <span class="material-icons-outlined card-icon">menu_book</span>
-        <h3 class="card-title">Carreras destacadas</h3>
-      </a>
-      <a href="https://ifts11.edu.ar/articulaciones/" target="_blank" rel="noopener noreferrer" class="explore-card">
-        <span class="material-icons-outlined card-icon">school</span>
-        <h3 class="card-title">Articulaciones</h3>
-      </a>
-      <a href="https://ifts11.edu.ar/becas/" target="_blank" rel="noopener noreferrer" class="explore-card">
-        <span class="material-icons-outlined card-icon">card_giftcard</span>
-        <h3 class="card-title">Becas</h3>
-      </a>
-      <a href="https://ifts11.edu.ar/blog/" target="_blank" rel="noopener noreferrer" class="explore-card">
-        <span class="material-icons-outlined card-icon">feed</span>
-        <h3 class="card-title">Blog y novedades</h3>
-      </a>
-      <a href="https://ifts11.edu.ar/contactanos/" target="_blank" rel="noopener noreferrer" class="explore-card">
-        <span class="material-icons-outlined card-icon">contact_mail</span>
-        <h3 class="card-title">Contacto</h3>
-      </a>
-    </div>
-  </div>
-</section>
+    <div class="hero-content-wrapper">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Bienvenido a <span class="hero-highlight">Huntech</span>
+        </h1>
+        <p class="hero-subtitle">
+          La plataforma que conecta el talento IT del IFTS N°11 con las mejores empresas del sector tecnológico.
+        </p>
 
-<section class="talent-section">
-  <div class="container">
-    <h2 class="section-title">TALENTO DEL IFTS N°11</h2>
-    
-    <div class="talent-grid">
-      <div class="talent-card">
-        <div class="student-header">
-          <div class="student-info">
-            <h4 class="student-name">Matias</h4>
-          </div>
-        </div>
-        
-        <div class="project-content">
-          <h5 class="project-title">Sistema de Gestión Mayorista</h5>
-          <p class="project-desc">Plataforma web con integración a Firestore para control de stock en tiempo real.</p>
-        </div>
-
-        <div class="project-image-container">
-          <img src="assets/logo-ifts11.jpg" alt="Vista previa del proyecto" class="project-image">
-        </div>
-
-        <div class="card-footer">
-          <button class="btn-restricted">
-            Ver Repositorio
+        <div class="hero-ctas">
+          <button class="btn-cta btn-cta-outline" (click)="scrollToTab('estudiantes')">
+            Soy estudiante
+          </button>
+          <button class="btn-cta btn-cta-outline" (click)="scrollToTab('empresas')">
+            Soy empresa
           </button>
         </div>
       </div>
 
-      <div class="talent-card">
-        <div class="student-header">
-          <div class="student-info">
-            <h4 class="student-name">Ariel</h4>
-          </div>
-        </div>
-        
-        <div class="project-content">
-          <h5 class="project-title">App de Gestión Contable</h5>
-          <p class="project-desc">Aplicación de escritorio aplicando principios de Clean Architecture.</p>
-        </div>
+      <div class="hero-image">
+        <img src="assets/logo-ifts11.jpg" alt="Logo oficial IFTS N°11" class="hero-img">
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="project-image-container">
-          <img src="assets/logo-ifts11.jpg" alt="Vista previa del proyecto" class="project-image">
-        </div>
+<!-- STATS SECTION -->
+<section class="stats-section">
+  <div class="stats-container">
+    <div class="stat-item">
+      <div class="stat-number">+120</div>
+      <div class="stat-label">Alumnos activos</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number">+40</div>
+      <div class="stat-label">Empresas</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number">+85</div>
+      <div class="stat-label">Ofertas publicadas</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number">+30</div>
+      <div class="stat-label">Contrataciones</div>
+    </div>
+  </div>
+</section>
 
-        <div class="card-footer">
-          <button class="btn-restricted">
-            Ver Repositorio
-          </button>
+<!-- TABS SECTION -->
+<section class="tabs-section">
+  <div class="tabs-container">
+    <div class="tabs-header">
+      <button class="tab-button" [class.active]="activeTab === 'estudiantes'" (click)="setActiveTab('estudiantes')">
+        Para estudiantes
+      </button>
+      <button class="tab-button" [class.active]="activeTab === 'empresas'" (click)="setActiveTab('empresas')">
+        Para empresas
+      </button>
+    </div>
+
+    <!-- ESTUDIANTES TAB -->
+    <div class="tab-content" [class.active]="activeTab === 'estudiantes'">
+
+      <!-- EL INSTITUTO -->
+      <div class="content-section">
+        <h2 class="section-title">El Instituto</h2>
+        <div class="cards-grid cards-grid-5">
+          <a href="https://ifts11.edu.ar/carreras/" target="_blank" class="institute-card">
+            <span class="material-icons-outlined card-icon">menu_book</span>
+            <h3>Carreras</h3>
+          </a>
+          <a href="https://ifts11.edu.ar/articulaciones/" target="_blank" class="institute-card">
+            <span class="material-icons-outlined card-icon">school</span>
+            <h3>Articulaciones</h3>
+          </a>
+          <a href="https://ifts11.edu.ar/becas/" target="_blank" class="institute-card">
+            <span class="material-icons-outlined card-icon">card_giftcard</span>
+            <h3>Becas</h3>
+          </a>
+          <a href="https://ifts11.edu.ar" target="_blank" class="institute-card">
+            <span class="material-icons-outlined card-icon">feed</span>
+            <h3>Novedades</h3>
+          </a>
+          <a href="https://ifts11.edu.ar/contactanos/" target="_blank" class="institute-card">
+            <span class="material-icons-outlined card-icon">contact_mail</span>
+            <h3>Contacto</h3>
+          </a>
         </div>
       </div>
 
-      <div class="talent-card">
-        <div class="student-header">
-          <div class="student-info">
-            <h4 class="student-name">Celeste</h4>
+      <!-- OPORTUNIDADES -->
+      <div class="content-section">
+        <h2 class="section-title">Últimas ofertas laborales</h2>
+        <div class="cards-grid cards-grid-4">
+          <div class="job-card">
+            <div class="job-header">
+              <h3 class="job-title">Desarrollador Frontend</h3>
+              <p class="job-company">TechCorp S.A.</p>
+            </div>
+            <div class="job-badges">
+              <span class="badge badge-tech">React</span>
+              <span class="badge badge-modality">Remoto</span>
+              <span class="badge badge-seniority">Jr</span>
+            </div>
+          </div>
+
+          <div class="job-card">
+            <div class="job-header">
+              <h3 class="job-title">Analista de Datos</h3>
+              <p class="job-company">DataHub Argentina</p>
+            </div>
+            <div class="job-badges">
+              <span class="badge badge-tech">Python</span>
+              <span class="badge badge-modality">Híbrido</span>
+              <span class="badge badge-seniority">Jr</span>
+            </div>
+          </div>
+
+          <div class="job-card">
+            <div class="job-header">
+              <h3 class="job-title">Dev Mobile</h3>
+              <p class="job-company">AppStudio</p>
+            </div>
+            <div class="job-badges">
+              <span class="badge badge-tech">Flutter</span>
+              <span class="badge badge-modality">Remoto</span>
+              <span class="badge badge-seniority">Semi-Sr</span>
+            </div>
+          </div>
+
+          <div class="job-card">
+            <div class="job-header">
+              <h3 class="job-title">Backend Developer</h3>
+              <p class="job-company">CloudNet</p>
+            </div>
+            <div class="job-badges">
+              <span class="badge badge-tech">Node.js</span>
+              <span class="badge badge-modality">Presencial</span>
+              <span class="badge badge-seniority">Jr</span>
+            </div>
           </div>
         </div>
-        
-        <div class="project-content">
-          <h5 class="project-title">Backend HunTech</h5>
-          <p class="project-desc">Desarrollo de servicios REST y documentación de endpoints.</p>
-        </div>
+      </div>
 
-        <div class="project-image-container">
-          <img src="assets/logo-ifts11.jpg" alt="Vista previa del proyecto" class="project-image">
-        </div>
+      <!-- RECURSOS -->
+      <div class="content-section">
+        <h2 class="section-title">Prepará para tu primer empleo IT</h2>
+        <div class="cards-grid cards-grid-3">
+          <div class="resource-card">
+            <div class="resource-icon">
+              <span class="material-icons-outlined">description</span>
+            </div>
+            <h3 class="resource-title">Cómo hacer un buen CV</h3>
+            <ul class="resource-list">
+              <li>Usá una sola página y formato limpio</li>
+              <li>Incluí proyectos con links a GitHub</li>
+              <li>Destacá tecnologías con experiencia real</li>
+            </ul>
+          </div>
 
-        <div class="card-footer">
-          <button class="btn-restricted">
-            Ver Repositorio
-          </button>
+          <div class="resource-card">
+            <div class="resource-icon">
+              <span class="material-icons-outlined">forum</span>
+            </div>
+            <h3 class="resource-title">Preguntas en entrevistas</h3>
+            <ul class="resource-list">
+              <li>Las preguntas más frecuentes para perfiles junior</li>
+              <li>¿Cuál fue tu proyecto más desafiante?</li>
+              <li>¿Cómo manejás los errores y bugs?</li>
+            </ul>
+          </div>
+
+          <div class="resource-card">
+            <div class="resource-icon">
+              <span class="material-icons-outlined">code</span>
+            </div>
+            <h3 class="resource-title">Tu portfolio en GitHub</h3>
+            <ul class="resource-list">
+              <li>Mostrá tu trabajo con proyectos bien documentados</li>
+              <li>README claro con descripción y demo</li>
+              <li>Al menos 3 proyectos terminados</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMUNIDAD -->
+      <div class="content-section">
+        <h2 class="section-title">Egresados del IFTS N°11</h2>
+        <div class="cards-grid cards-grid-3">
+          <div class="community-card">
+            <div class="community-avatar">MA</div>
+            <h3 class="community-name">Matías A.</h3>
+            <p class="community-role">Desarrollo de Software</p>
+            <p class="community-desc">"App de gestión mayorista con integración a Firestore en tiempo real."</p>
+          </div>
+
+          <div class="community-card">
+            <div class="community-avatar">AR</div>
+            <h3 class="community-name">Ariel R.</h3>
+            <p class="community-role">Análisis de Sistemas</p>
+            <p class="community-desc">"App de gestión contable aplicando principios de Clean Architecture."</p>
+          </div>
+
+          <div class="community-card">
+            <div class="community-avatar">CE</div>
+            <h3 class="community-name">Celeste E.</h3>
+            <p class="community-role">Desarrollo de Software</p>
+            <p class="community-desc">"Backend HunTech: servicios REST y documentación de endpoints."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="content-section">
+        <h2 class="section-title">Preguntas frecuentes</h2>
+        <div class="faq-container">
+          <div class="faq-item">
+            <button class="faq-header" (click)="toggleFaq(0)">
+              <span class="faq-number">1</span>
+              <span class="faq-question">¿Cuánto tiempo lleva conseguir el primer empleo IT?</span>
+              <span class="material-icons-outlined faq-icon" [class.open]="openFaq === 0">expand_more</span>
+            </button>
+            <div class="faq-content" [class.open]="openFaq === 0">
+              <p>En general entre 2 y 6 meses desde que empezás a postularte activamente.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-header" (click)="toggleFaq(1)">
+              <span class="faq-number">2</span>
+              <span class="faq-question">¿Necesito el título terminado para aplicar?</span>
+              <span class="material-icons-outlined faq-icon" [class.open]="openFaq === 1">expand_more</span>
+            </button>
+            <div class="faq-content" [class.open]="openFaq === 1">
+              <p>No. Muchas empresas contratan alumnos avanzados. Lo más importante es demostrar habilidades con
+                proyectos reales.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-header" (click)="toggleFaq(2)">
+              <span class="faq-number">3</span>
+              <span class="faq-question">¿Qué tecnologías tienen más demanda?</span>
+              <span class="material-icons-outlined faq-icon" [class.open]="openFaq === 2">expand_more</span>
+            </button>
+            <div class="faq-content" [class.open]="openFaq === 2">
+              <p>React, Node.js, Python y SQL lideran las búsquedas para perfiles junior en Argentina.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EMPRESAS TAB -->
+    <div class="tab-content" [class.active]="activeTab === 'empresas'">
+
+      <!-- PROCESO -->
+      <div class="content-section">
+        <h2 class="section-title">¿Cómo funciona para empresas?</h2>
+        <div class="steps-container">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <h3 class="step-title">Registrá tu empresa</h3>
+            <p class="step-desc">Creá tu cuenta en minutos.</p>
+          </div>
+          <div class="step-arrow">
+            <span class="material-icons-outlined">arrow_forward</span>
+          </div>
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <h3 class="step-title">Publicá una oferta</h3>
+            <p class="step-desc">Describí el puesto y tecnologías requeridas.</p>
+          </div>
+          <div class="step-arrow">
+            <span class="material-icons-outlined">arrow_forward</span>
+          </div>
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Recibí postulantes</h3>
+            <p class="step-desc">Alumnos del IFTS N°11 se postulan directamente.</p>
+          </div>
+          <div class="step-arrow">
+            <span class="material-icons-outlined">arrow_forward</span>
+          </div>
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <h3 class="step-title">Contratá talento</h3>
+            <p class="step-desc">Elegí el candidato ideal y coordiná la entrevista.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENEFICIOS -->
+      <div class="content-section">
+        <h2 class="section-title">¿Por qué publicar en HunTech?</h2>
+        <div class="cards-grid cards-grid-6">
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <span class="material-icons-outlined">favorite</span>
+            </div>
+            <h3>100% gratuito</h3>
+            <p>Publicar ofertas básicas no tiene costo</p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <span class="material-icons-outlined">verified_user</span>
+            </div>
+            <h3>Perfiles verificados</h3>
+            <p>Todos los candidatos son alumnos del IFTS N°11</p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <span class="material-icons-outlined">flash_on</span>
+            </div>
+            <h3>Respuesta rápida</h3>
+            <p>Recibís postulaciones en horas</p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <span class="material-icons-outlined">school</span>
+            </div>
+            <h3>Formación sólida</h3>
+            <p>Perfiles formados en desarrollo y análisis de sistemas</p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <span class="material-icons-outlined">dashboard</span>
+            </div>
+            <h3>Panel de gestión</h3>
+            <p>Administrá tus ofertas y postulantes fácilmente</p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <span class="material-icons-outlined">public_good</span>
+            </div>
+            <h3>Impacto social</h3>
+            <p>Contribuís al desarrollo de jóvenes talentos</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TALENTO DISPONIBLE -->
+      <div class="content-section">
+        <h2 class="section-title">Conocé algunos perfiles</h2>
+        <div class="cards-grid cards-grid-3">
+          <div class="profile-card">
+            <div class="profile-avatar">MA</div>
+            <h3 class="profile-name">Matías A.</h3>
+            <p class="profile-role">Desarrollo de Software</p>
+            <div class="profile-techs">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">Firebase</span>
+            </div>
+            <p class="profile-availability">
+              <span class="availability-dot"></span>
+              Disponible inmediato
+            </p>
+            <button class="btn-view-profile">Ver perfil</button>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-avatar">CE</div>
+            <h3 class="profile-name">Celeste E.</h3>
+            <p class="profile-role">Desarrollo de Software</p>
+            <div class="profile-techs">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Django</span>
+              <span class="tech-tag">REST</span>
+            </div>
+            <p class="profile-availability">
+              <span class="availability-dot"></span>
+              Disponible inmediato
+            </p>
+            <button class="btn-view-profile">Ver perfil</button>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-avatar">AR</div>
+            <h3 class="profile-name">Ariel R.</h3>
+            <p class="profile-role">Análisis de Sistemas</p>
+            <div class="profile-techs">
+              <span class="tech-tag">Java</span>
+              <span class="tech-tag">Spring</span>
+              <span class="tech-tag">SQL</span>
+            </div>
+            <p class="profile-availability">
+              <span class="availability-dot available"></span>
+              Disponible part-time
+            </p>
+            <button class="btn-view-profile">Ver perfil</button>
+          </div>
         </div>
       </div>
 
@@ -121,9 +416,25 @@
   </div>
 </section>
 
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <div class="footer-cta-grid">
+    <div class="cta-card">
+      <h3>¿Listo para postularte?</h3>
+      <p>Explorá las ofertas disponibles y dá el primer paso en tu carrera IT.</p>
+      <button class="btn-cta btn-cta-solid">Ver ofertas laborales</button>
+    </div>
+    <div class="cta-card">
+      <h3>¿Buscás talento IT?</h3>
+      <p>Registrá tu empresa y publicá tu primera oferta gratis hoy.</p>
+      <button class="btn-cta btn-cta-solid">Registrar empresa</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer class="footer-section">
-  <div class="footer-bottom">
+  <div class="footer-content">
     <p>© 2026 HunTech | IFTS N.º 11 | Desarrollado por y para estudiantes</p>
   </div>
 </footer>
-

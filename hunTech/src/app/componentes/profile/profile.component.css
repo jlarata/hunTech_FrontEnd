@@ -812,6 +812,7 @@ label {
     font-weight: bold;
     margin-bottom: 15px;
   }
+
   .profile-top {
     flex-direction: column;
     align-items: flex-start;
@@ -1017,7 +1018,7 @@ label {
   font-size: 0.72rem;
   font-weight: 800;
   color: #ffffff;
-  background: var(--accent-primary);
+  background: var(--accent-secondary);
   padding: 6px 16px;
   border-radius: 50px;
   display: inline-block;
