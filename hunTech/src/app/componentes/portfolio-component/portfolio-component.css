@@ -148,6 +148,29 @@
   box-shadow: 0 16px 34px color-mix(in srgb, var(--accent-primary) 48%, transparent);
 }
 
+.btn-delete-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-main);
+  border: 1.5px solid var(--border-color);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.btn-delete-red:hover {
+  border-color: var(--danger-primary);
+  color: var(--danger-primary);
+  background: color-mix(in srgb, var(--danger-primary) 5%, transparent);
+  transform: translateY(-1px);
+}
+
 /*
    PORTFOLIO  */
 .portfolio-view {

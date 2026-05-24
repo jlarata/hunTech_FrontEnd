@@ -10,7 +10,7 @@ import { AlertService } from '../../servicios/alertService';
   templateUrl: './portfolio-component.html',
   styleUrl: './portfolio-component.css',
 })
-export class PortfolioComponent implements OnInit{
+export class PortfolioComponent implements OnInit {
   @Input() emailDesarrollador: string = '';
 
   portfolio: Portfolio | null = null;
@@ -29,7 +29,7 @@ export class PortfolioComponent implements OnInit{
   constructor(
     private portfolioService: PortfolioService,
     private alertService: AlertService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     if (!this.emailDesarrollador) return;
@@ -156,6 +156,57 @@ export class PortfolioComponent implements OnInit{
     while (result.length < 3) result.push('');
     return result.slice(0, 3);
   }
+
+  async eliminarTodoElPortfolio() {
+    if (confirm('¿Estás seguro de que querés borrar todo el portfolio y sus imágenes asociadas?')) {
+      try {
+
+        const payload = {
+          /* titulo1: this.portfolio?.titulo1 || '',
+          descripcion1: this.portfolio?.descripcion1 || '',
+          repositorio1: this.portfolio?.repositorio1 || '', */
+          imagenes1: this.portfolio?.imagenes1 || [],
+          /* files1: [],
+          titulo2: this.portfolio?.titulo2 || '',
+          descripcion2: this.portfolio?.descripcion2 || '',
+          repositorio2: this.portfolio?.repositorio2 || '', */
+          imagenes2: this.portfolio?.imagenes2 || [],
+          /* files2: [],
+          titulo3: this.portfolio?.titulo3 || '',
+          descripcion3: this.portfolio?.descripcion3 || '',
+          repositorio3: this.portfolio?.repositorio3 || '', */
+          imagenes3: this.portfolio?.imagenes3 || [],
+          /* files3: [] */
+        };
+
+
+        // 1. Limpieza física en AWS S3 de los strings que tengan URLs
+        await this.portfolioService.deleteAllImagesFromPortfolio(payload);
+
+        // 2. Procede con la lógica para eliminar el Portfolio de la Base de Datos
+        //console.log('Paso 1 completado. Ahora borrando datos de la BD...');
+
+        this.portfolioService.deletePortfolio(this.emailDesarrollador).subscribe({
+          next: (res) => {
+            console.log('Portfolio eliminado de la base de datos con éxito');
+            // limpia la vista
+            this.cargarPortfolio();
+          },
+          error: (dbErr) => {
+            console.error('Las imágenes se borraron de S3, pero falló la Base de Datos:', dbErr);
+            alert('Se borraron las imágenes pero hubo un error al actualizar los datos.');
+          }
+        });
+
+      } catch (s3Error) {
+        // Si S3 falló, el código saltó directo acá. La línea de la BBDD nunca se ejecutó.
+        console.error('Operación cancelada. Falló el borrado de imágenes en S3:', s3Error);
+        alert('No se pudo eliminar el portfolio porque falló la eliminación de archivos en el servidor de AWS.');
+      }
+    }
+  }
+
+
 
   cancelarEdicion() {
     this.mostrarFormulario = false;
