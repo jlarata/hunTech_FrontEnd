@@ -172,8 +172,8 @@
 /* INSTITUTO */
 
 .instituto-section {
-  background: #f0faf0;
-  border: 1px solid #c8e6c9;
+  background: var(--bg-primary);
+  border: 1px solid var(--green-bg-light);
   border-radius: 20px;
   padding: 24px 32px;
   display: flex;
@@ -214,7 +214,7 @@
 
 .instituto-text p {
   font-size: 12px;
-  color: #3b6d11;
+  color: var(--text-main);
   line-height: 1.5;
 }
 
@@ -321,17 +321,6 @@
 
 /* INFOGRAFÍA: ¿CÓMO FUNCIONA PARA EMPRESAS?*/
 
-.infografia-empresas {
-  position: relative;
-  background: linear-gradient(135deg, #f0fdf4 0%, #e8f8f0 50%, #f7fef9 100%);
-  border-radius: var(--radius-xl);
-  padding: 3.5rem 3rem 2.5rem;
-  margin-bottom: 4rem;
-  overflow: hidden;
-  border: 1px solid rgba(49, 173, 28, 0.12);
-  box-shadow: 0 8px 40px rgba(49, 173, 28, 0.06);
-}
-
 /* Decorativos */
 .infografia-deco-building {
   position: absolute;
@@ -339,12 +328,12 @@
   left: 1.8rem;
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #d4f2e4, #b8ecd0);
+  background: var(--bg-split);
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(49, 173, 28, 0.18);
+  box-shadow: 0 4px 16px var(--accent-primary);
   animation: deco-float 3s ease-in-out infinite;
 }
 
@@ -361,33 +350,13 @@
   pointer-events: none;
 }
 
-.infografia-deco-check {
-  position: absolute;
-  bottom: 1.5rem;
-  right: 2rem;
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #6fef59, #2ecc71);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(49, 173, 28, 0.35);
-  animation: deco-pulse 2.5s ease-in-out infinite;
-}
-
-.infografia-deco-check .material-icons-outlined {
-  font-size: 34px;
-  color: #ffffff;
-}
-
 /* Badge */
 .infografia-badge {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: #ffffff;
-  border: 1.5px solid rgba(49, 173, 28, 0.35);
+  background: var(--bg-primary);
+  border: 1.5px solid var(--accent-primary);
   border-radius: var(--radius-full);
   padding: 0.4rem 1.1rem;
   font-size: 0.82rem;
@@ -408,44 +377,6 @@
 .infografia-header {
   text-align: center;
   margin-bottom: 2.5rem;
-}
-
-.infografia-titulo {
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: #1a2e1a;
-  margin: 0 0 0.75rem;
-  line-height: 1.2;
-}
-
-.infografia-titulo-verde {
-  color: var(--color-primary);
-  position: relative;
-  display: inline-block;
-}
-
-.infografia-titulo-verde::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-primary), #2ecc71);
-  border-radius: 2px;
-}
-
-.infografia-subtitulo {
-  font-size: 1rem;
-  color: #4a6a4a;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.infografia-subtitulo strong {
-  color: var(--accent-primary);
-  font-weight: 700;
 }
 
 /* Fila de pasos */
@@ -469,7 +400,7 @@
   max-width: 220px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(49, 173, 28, 0.08), 0 1px 4px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(49, 173, 28, 0.10);
+  border: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -478,7 +409,6 @@
 
 .infografia-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 36px rgba(49, 173, 28, 0.14), 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .infografia-card-number {
@@ -487,9 +417,9 @@
   left: 1rem;
   width: 32px;
   height: 32px;
-  background: linear-gradient(135deg, var(--accent-primary), #2ecc71);
+  background: var(--accent-primary);
   border-radius: 50%;
-  color: #ffffff;
+  color: var(--bg-primary);
   font-size: 0.9rem;
   font-weight: 800;
   display: flex;
@@ -501,7 +431,7 @@
 .infografia-card-icon-wrap {
   width: 70px;
   height: 70px;
-  background: linear-gradient(135deg, #e8f8f0, #d4f2e4);
+  background: var(--bg-split);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -512,12 +442,12 @@
 }
 
 .infografia-card:hover .infografia-card-icon-wrap {
-  background: linear-gradient(135deg, #d4f2e4, #b8ecd0);
+  background: var(--accent-primary);
 }
 
 .infografia-card-icon-wrap .material-icons-outlined {
   font-size: 32px;
-  color: var(--accent-primary);
+  color: var(--text-main);
 }
 
 .infografia-card-title {
@@ -565,7 +495,7 @@
 .infografia-arrow-circle {
   width: 38px;
   height: 38px;
-  background: linear-gradient(135deg, #448a6c, #1a5a33);
+  background: var(--accent-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -577,7 +507,7 @@
 
 .infografia-arrow-circle .material-icons-outlined {
   font-size: 20px;
-  color: #ffffff;
+  color: var(--bg-primary);
 }
 
 /* frase para empresas*/
@@ -614,7 +544,7 @@
 
 .inst-infografia {
   position: relative;
-  background: linear-gradient(135deg, #f0fdf4 0%, #e8f8f0 50%, #f7fef9 100%);
+  background: var(--bg-split);
   border-radius: var(--radius-xl);
   padding: 3.5rem 3rem 3rem;
   margin-bottom: 4rem;
@@ -648,27 +578,6 @@
 }
 
 /* Decorativos */
-.inst-deco-building {
-  position: absolute;
-  top: 1.6rem;
-  left: 1.8rem;
-  width: 60px;
-  height: 60px;
-  background: #ffffff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 18px rgba(49, 173, 28, 0.15), 0 1px 4px rgba(0, 0, 0, 0.06);
-  border: 1.5px solid rgba(49, 173, 28, 0.15);
-  animation: deco-float 3.2s ease-in-out infinite;
-}
-
-.inst-deco-building .material-icons-outlined {
-  font-size: 30px;
-  color: var(--color-primary);
-}
-
 .inst-deco-dots {
   position: absolute;
   top: 1.4rem;
@@ -694,7 +603,7 @@
 
 .inst-deco-check .material-icons-outlined {
   font-size: 32px;
-  color: #ffffff;
+  color: var(--bg-primary);
 }
 
 /* Badge y encabezado */
@@ -702,8 +611,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: #ffffff;
-  border: 1.5px solid rgba(49, 173, 28, 0.30);
+  background: var(--bg-primary);
+  border: 1.5px solid var(--accent-primary);
   border-radius: var(--radius-full);
   padding: 0.4rem 1.2rem;
   font-size: 0.82rem;
@@ -748,7 +657,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), #6fef59);
+  background: var(--color-primary);
   border-radius: 2px;
 }
 
@@ -760,14 +669,14 @@
 }
 
 .inst-card-nueva {
-  background: #ffffff;
+  background: var(--bg-primary);
   border-radius: var(--radius-lg);
   padding: 2rem 1.2rem 1.6rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid rgba(49, 173, 28, 0.10);
+  border: none;
   box-shadow: 0 2px 16px rgba(49, 173, 28, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
@@ -775,7 +684,6 @@
 .inst-card-nueva:hover {
   transform: translateY(-6px);
   box-shadow: 0 10px 32px rgba(49, 173, 28, 0.13), 0 2px 8px rgba(0, 0, 0, 0.06);
-  border-color: rgba(49, 173, 28, 0.25);
 }
 
 .inst-card-icon-wrap {
@@ -792,12 +700,12 @@
 }
 
 .inst-card-nueva:hover .inst-card-icon-wrap {
-  background: #d4f0e0;
+  background: var(--bg-secondary);
 }
 
 .inst-card-icon-wrap .material-icons-outlined {
   font-size: 30px;
-  color: var(--color-primary);
+  color: var(--accent-primary);
 }
 
 .inst-card-titulo {
@@ -812,7 +720,7 @@
 .inst-card-linea {
   width: 32px;
   height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), #6fef59);
+  background: var(--color-primary);
   border-radius: 2px;
   margin: 0 auto 0.85rem;
 }
@@ -1179,10 +1087,10 @@
 }
 
 .match-text-card {
-  background: #ffffff;
+  background: var(--bg-primary);
   padding: 4rem 4rem;
   border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 20px 40px var(--text-main);
   transform: rotate(-2deg);
   max-width: 480px;
   background-image:
@@ -1196,7 +1104,7 @@
   font-size: 4rem;
   font-weight: 800;
   line-height: 1.2;
-  color: #111111;
+  color: var(--text-main);
   margin-bottom: 1.5rem;
 }
 
@@ -1222,7 +1130,7 @@
 .match-text-card p {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #333333;
+  color: var(--text-main);
   margin: 0;
 }
 
@@ -1483,7 +1391,7 @@
 }
 
 .resource-icon .material-icons-outlined {
-  color: var(--color-primary);
+  color: var(--accent-primary);
   font-size: 1.8rem;
 }
 
@@ -1534,7 +1442,7 @@
 .community-avatar {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--color-primary), #10b981);
+  background: var(--color-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1586,7 +1494,7 @@
 .profile-avatar {
   width: 70px;
   height: 70px;
-  background: linear-gradient(135deg, var(--color-primary), #10b981);
+  background: var(--color-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1881,40 +1789,37 @@
 }
 
 /* MODO OSCURO*/
-
 :host-context(.dark-theme) {
+  .home-hero::before {
+    background: rgba(0, 0, 0, 0.75);
+  }
 
-  /* Infografía empresas */
   .infografia-empresas {
     background: linear-gradient(135deg, #0d1f10 0%, #0a1a0d 50%, #111f14 100%);
-    border-color: rgba(49, 173, 28, 0.15);
   }
 
-  .infografia-titulo {
-    color: #f4f4f5;
-  }
-
-  .infografia-subtitulo {
-    color: #a1a1aa;
+  .inst-infografia {
+    background: #111113;
   }
 
   .infografia-card {
     background: #18181b;
-    border-color: rgba(49, 173, 28, 0.15);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 
-  .infografia-card-title {
-    color: #f4f4f5;
+  .inst-card-nueva {
+    background: #18181b;
   }
 
-  .infografia-card-desc {
-    color: #a1a1aa;
+  .inst-deco-building {
+    background: #18181b;
+  }
+
+  .inst-badge {
+    background: #18181b;
   }
 
   .infografia-badge {
     background: #18181b;
-    border-color: rgba(49, 173, 28, 0.3);
   }
 
   .infografia-pill {
@@ -1922,75 +1827,36 @@
     color: #d4d4d8;
   }
 
-  .infografia-dots-left,
-  .infografia-dots-right {
-    color: #52525b;
+  .match-hero-section {
+    background-color: #111113;
   }
 
-  /* Conocé el instituto */
-  .inst-infografia {
-    background: #111113;
-    border-color: rgba(49, 173, 28, 0.12);
+  .match-text-card {
+    background-color: #18181b;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
 
-  .inst-titulo {
-    color: #f4f4f5;
+  .match-col-right {
+    background-color: #2d2540;
   }
 
-  .inst-card-nueva {
+  .match-ui-card,
+  .backend-card {
     background: #18181b;
-    border-color: rgba(49, 173, 28, 0.12);
-  }
-
-  .inst-card-titulo {
-    color: #f4f4f5;
-  }
-
-  .inst-card-desc {
-    color: #a1a1aa;
-  }
-
-  .inst-card-icon-wrap {
-    background: rgba(49, 173, 28, 0.12);
-    border-color: rgba(49, 173, 28, 0.2);
-  }
-
-  .inst-badge {
-    background: #18181b;
-    border-color: rgba(49, 173, 28, 0.3);
-  }
-
-  .inst-deco-building {
-    background: #18181b;
-    border-color: rgba(49, 173, 28, 0.2);
-  }
-
-  /* Beneficios */
-  .beneficios-titulo {
-    color: #f4f4f5;
-  }
-
-  .beneficios-subtitulo {
-    color: #a1a1aa;
   }
 
   .cf-card {
     background-color: #18181b;
-    border-color: rgba(255, 255, 255, 0.06);
-    background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  }
-
-  .cf-card-content h3 {
-    color: #f4f4f5;
-  }
-
-  .cf-card-content p {
-    color: #a1a1aa;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   }
 
   .cf-pill-nav {
     background-color: rgba(30, 30, 32, 0.9);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   }
 
   .cf-pill-btn,
@@ -1998,120 +1864,16 @@
     color: #f4f4f5;
   }
 
-  .bene-text strong {
-    color: #f4f4f5;
-  }
-
-  .bene-text span {
-    color: #a1a1aa;
-  }
-
-  .bene-divider {
-    background: rgba(255, 255, 255, 0.06);
-  }
-
-  /* buscando el trabajo ideal?? seccion */
-  .match-hero-section {
-    background-color: #111113;
-  }
-
-  .match-text-card {
-    background-color: #18181b;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  }
-
-  .match-text-card h2 {
-    color: #f4f4f5;
-  }
-
-  .match-text-card p {
-    color: #a1a1aa;
-  }
-
-  .match-col-right {
-    background-color: #2d2540;
-  }
-
-  .match-ui-card {
-    background: #18181b;
-    border-color: rgba(255, 255, 255, 0.08);
-  }
-
-  .backend-card {
-    background-color: #111113;
-  }
-
-  .match-title-box h3 {
-    color: #f4f4f5;
-  }
-
-  .match-company {
-    color: #a1a1aa;
-  }
-
-  .m-chip {
-    background: rgba(49, 173, 28, 0.12);
-    border-color: rgba(49, 173, 28, 0.2);
-  }
-
-  .m-btn-secondary {
-    color: #d4d4d8;
-    border-color: #3f3f46;
-  }
-
-  .m-btn-secondary:hover {
-    background: #27272a;
-  }
-
-  /* Cards generales */
   .job-card,
   .resource-card,
   .community-card,
   .profile-card,
   .faq-item {
     background: #18181b;
-    border-color: #27272a;
   }
 
-  .job-title,
-  .resource-title,
-  .community-name,
-  .profile-name {
-    color: #f4f4f5;
-  }
-
-  .job-company,
-  .community-desc {
-    color: #a1a1aa;
-  }
-
-  .badge-tech {
-    background: rgba(49, 173, 28, 0.12);
-    border-color: rgba(49, 173, 28, 0.2);
-  }
-
-  .badge-modality {
-    background: rgba(79, 70, 229, 0.12);
-    border-color: rgba(79, 70, 229, 0.2);
-    color: #818cf8;
-  }
-
-  .badge-seniority {
-    background: rgba(180, 83, 9, 0.12);
-    border-color: rgba(180, 83, 9, 0.2);
-    color: #fbbf24;
-  }
-
-  .tech-tag {
-    background: rgba(49, 173, 28, 0.12);
-    border-color: rgba(49, 173, 28, 0.2);
-  }
-
-  /* FAQ */
   .faq-header {
     background: #18181b;
-    color: #f4f4f5;
   }
 
   .faq-header:hover {
@@ -2122,79 +1884,10 @@
     background: #111113;
   }
 
-  .faq-content p {
-    color: #a1a1aa;
-  }
-
-  /* CTA */
   .cta-card {
     background: linear-gradient(135deg, #0d1f10, #111f14);
-    border-color: rgba(49, 173, 28, 0.3);
-  }
-
-  .cta-card h3 {
-    color: #f4f4f5;
-  }
-
-  .cta-card p {
-    color: #a1a1aa;
-  }
-
-  /* Tabs */
-  .tabs-header {
-    border-color: #27272a;
-  }
-
-  .tab-button {
-    color: #71717a;
-  }
-
-  .tab-button:hover {
-    color: #f4f4f5;
-  }
-
-  .instituto-section {
-    background: #0a1a0f;
-    border-color: #1a4d2b;
-  }
-
-  .instituto-text h3 {
-    color: var(--text-main);
-  }
-
-  .instituto-text p {
-    color: var(--text-muted);
-  }
-
-  /* Hero */
-  .home-hero {
-    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-  }
-
-  .hero-badge {
-    background: rgba(49, 173, 28, 0.1);
-    border-color: rgba(49, 173, 28, 0.3);
-  }
-
-  /* Footer */
-  .footer-section {
-    background: #09090b;
-    border-color: #27272a;
-  }
-
-  .footer-content p {
-    color: #71717a;
-  }
-
-  .section-title {
-    color: #f4f4f5;
-  }
-
-  .faq-content {
-    background: rgba(49, 173, 28, 0.05);
   }
 }
-
 /* RESPONSIVE*/
 
 .inst-cards-row {
@@ -2523,4 +2216,5 @@
   50% {
     transform: translateX(3px);
   }
-}
+ } 
+  

@@ -12,9 +12,9 @@
         <h1 class="hero-title">
           Bienvenido a <span class="hero-highlight">Huntech</span>
         </h1>
-        <p class="hero-subtitle">
+        <!--    <p class="hero-subtitle">
           La plataforma que conecta el talento IT del IFTS N°11 con las mejores empresas del sector tecnológico.
-        </p>
+        </p> -->
 
         <div class="hero-ctas">
           <button class="btn-cta btn-cta-outline" (click)="scrollToTab('desarrolladores')">
@@ -62,9 +62,6 @@
 
       <!-- SECCIÓN: CONOCÉ EL INSTITUTO -->
       <div class="inst-infografia">
-        <div class="inst-deco-building" aria-hidden="true">
-          <span class="material-icons-outlined">account_balance</span>
-        </div>
 
         <!-- Decorativo: patrón de puntos verdes  -->
         <div class="inst-deco-dots" aria-hidden="true">
@@ -346,7 +343,7 @@
     <div class="tab-content" [class.active]="activeTab === 'empresas'">
 
       <!-- INFOGRAFÍA: ¿CÓMO FUNCIONA PARA EMPRESAS? -->
-      <div class="infografia-empresas">
+      <div class="inst-infografia">
 
         <!-- Ícono decorativO (arriba izquierda) -->
         <div class="infografia-deco-building" aria-hidden="true">
@@ -376,7 +373,7 @@
         </div>
 
         <!-- Círculo con tilde  -->
-        <div class="infografia-deco-check" aria-hidden="true">
+        <div class="inst-deco-check" aria-hidden="true">
           <span class="material-icons-outlined">check_circle</span>
         </div>
 
@@ -388,8 +385,8 @@
 
         <!-- Título principal -->
         <div class="infografia-header">
-          <h2 class="infografia-titulo">
-            ¿Cómo funciona para <span class="infografia-titulo-verde">empresas</span>?
+          <h2 class="inst-titulo">
+            ¿Cómo funciona para <span class="inst-titulo-verde">empresas</span>?
           </h2>
           <p class="infografia-subtitulo">
             Un proceso simple, rápido y efectivo para conectar con el talento del
