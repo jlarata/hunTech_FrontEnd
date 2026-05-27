@@ -42,17 +42,17 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./views/formcreatecontract/formcreatecontract').then((m) => m.Formcreatecontract)
   },
-  { 
+  {
     path: 'profile/:email',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./componentes/profile/profile.component').then((m) => m.ProfileComponent)
   },
-  { 
+  {
     path: 'dashboard',
-    canActivate: [authGuard], 
+    canActivate: [authGuard],
     loadComponent: () =>
-    import('./componentes/dashboard/dashboard').then((m) => m.Dashboard)
+      import('./componentes/dashboard/dashboard').then((m) => m.Dashboard)
   },
 
   {
@@ -66,7 +66,28 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./componentes/configuracion/configuracion').then((m) => m.Configuracion),
+    children: [
+      { path: '', redirectTo: 'cuenta', pathMatch: 'full' },
+      {
+        path: 'apariencia',
+        loadComponent: () =>
+          import('./componentes/configuracion/apariencia/apariencia').then((m) => m.Apariencia),
+      },
+      {
+        path: 'cuenta',
+        loadComponent: () =>
+          import('./componentes/configuracion/cuenta/cuenta').then((m) => m.Cuenta),
+      },
+      {
+        path: 'privacidad',
+        loadComponent: () =>
+          import('./componentes/configuracion/privacidad/privacidad').then((m) => m.Privacidad),
+      },
+      {
+        path: 'seguridad',
+        loadComponent: () =>
+          import('./componentes/configuracion/seguridad/seguridad').then((m) => m.Seguridad),
+      },
+    ],
   },
-
-  { path: '**', redirectTo: '' },
 ];

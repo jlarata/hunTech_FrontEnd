@@ -1,0 +1,70 @@
+<section class="appearance-page">
+  <div class="appearance-card">
+    <div class="appearance-header">
+      <h2>Ajustes de Apariencia</h2>
+    </div>
+
+    <div class="appearance-options">
+      <article class="appearance-option-card">
+        <div class="option-header">
+          <div class="option-icon">
+            <span class="material-icons-outlined">text_fields</span>
+          </div>
+
+          <div class="option-content">
+            <h3>Tamaño de letra</h3>
+            <p>Ajusta el tamaño del texto para mayor comodidad de lectura</p>
+          </div>
+
+          <div class="option-badge">
+            <span class="badge-icon">info</span>
+            <span class="badge-text">Actual: {{ selectedFontSizeLabel }}</span>
+          </div>
+        </div>
+
+        <div class="font-size-control" role="group" aria-label="Tamaño de letra">
+          <button
+            type="button"
+            class="font-size-button"
+            *ngFor="let option of fontSizeOptions"
+            [class.active]="selectedFontSize === option.value"
+            (click)="setFontSize(option.value)">
+            <span class="checkbox-icon" [class.checked]="selectedFontSize === option.value">
+              <span class="material-icons-outlined" *ngIf="selectedFontSize === option.value">done</span>
+            </span>
+            {{ option.label }}
+          </button>
+        </div>
+      </article>
+
+      <article class="appearance-option-card">
+        <div class="option-header">
+          <div class="option-icon">
+            <span class="material-icons-outlined">bedtime</span>
+          </div>
+
+          <div class="option-content">
+            <h3>Modo Oscuro</h3>
+            <p>Cambia a una interfaz oscura para reducir la fatiga visual</p>
+          </div>
+
+          <div class="option-badge">
+            <span class="badge-dot" [class.active]="isDarkMode"></span>
+            <span class="badge-text">{{ isDarkMode ? 'Activado' : 'Desactivado' }}</span>
+          </div>
+        </div>
+
+        <div class="toggle-container">
+          <button
+            type="button"
+            class="toggle-switch"
+            [class.active]="isDarkMode"
+            [attr.aria-pressed]="isDarkMode"
+            (click)="toggleDarkMode()">
+            <span class="toggle-circle"></span>
+          </button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

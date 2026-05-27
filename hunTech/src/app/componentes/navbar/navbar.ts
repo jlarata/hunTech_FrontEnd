@@ -137,7 +137,7 @@ export class Navbar {
       }
     })
 
-    // Redirige al perfil justo después de loguearse
+    // Redirige al home justo después de loguearse
     this.user$.pipe(
       distinctUntilChanged(),
       filter(user => !!user) // cuando hay un usuario (recién logueado)
@@ -145,7 +145,7 @@ export class Navbar {
       const currentUrl = this.router.url;
       // Solo redirige si está en home o si la URL es la raíz
       if (currentUrl === '/' || currentUrl === '/home') {
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/home']);
       }
     });
   }

@@ -1,0 +1,38 @@
+<section class="privacy-page">
+  <div class="privacy-card">
+    <div class="privacy-header">
+      <div class="header-icon">
+        <span class="material-icons-outlined">lock_person</span>
+      </div>
+      <div class="header-content">
+        <h2>Privacidad</h2>
+        <p class="header-subtitle">Controla quién puede ver tu información y cómo se comparte</p>
+      </div>
+    </div>
+
+    <div class="privacy-options">
+      <div class="privacy-option-card" *ngFor="let option of privacyOptions">
+        <div class="option-icon">
+          <span class="material-icons-outlined">{{ option.icon }}</span>
+        </div>
+
+        <div class="option-content">
+          <h3>{{ option.label }}</h3>
+          <p>{{ option.description }}</p>
+        </div>
+
+        <div class="option-toggle">
+          <button
+            type="button"
+            class="toggle-switch"
+            [class.active]="option.enabled"
+            (click)="toggleOption(option.id)"
+            [attr.aria-label]="option.label"
+            [attr.aria-pressed]="option.enabled">
+            <span class="toggle-circle"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

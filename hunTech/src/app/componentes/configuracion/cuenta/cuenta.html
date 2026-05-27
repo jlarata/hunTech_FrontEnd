@@ -1,0 +1,25 @@
+<section class="account-page">
+  <div class="account-card">
+    <div class="section-header">
+      <h2>Cuenta</h2>
+      <p class="section-subtitle">Gestiona las configuraciones críticas de tu cuenta</p>
+    </div>
+
+    <div class="options-list">
+      <button type="button" class="option-card danger" *ngFor="let option of accountOptions">
+        <div class="option-icon danger">
+          <span class="material-icons-outlined">{{ option.icon }}</span>
+        </div>
+
+        <div class="option-content">
+          <h3>{{ option.label }}</h3>
+          <p>{{ option.description }}</p>
+        </div>
+
+        <div class="option-chevron danger">
+          <span class="material-icons-outlined">chevron_right</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
