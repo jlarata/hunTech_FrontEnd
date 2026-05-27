@@ -203,7 +203,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: var(--accent-primary);
+  color: var(--accent-secondary);
   font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -463,10 +463,10 @@ h2 {
 .cta-card .cta-text h4,
 .cta-card .cta-text h4 * {
   margin: 0;
-  font-size: 1.15rem !important;
-  font-weight: 800 !important;
+  font-size: 1.15rem;
+  font-weight: 800;
   color: #ffffff !important;
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
@@ -474,9 +474,9 @@ h2 {
 .cta-card .cta-text p,
 .cta-card .cta-text p * {
   margin: 0;
-  font-size: 0.88rem !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  font-family: 'Inter', sans-serif !important;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Inter', sans-serif;
   line-height: 1.5;
 }
 
@@ -497,7 +497,7 @@ h2 {
   pointer-events: none;
 }
 
-/* ── boton primary ── */
+/* ── boton (ya te postulaste) ── */
 .btn-add {
   background: #ffffff;
   color: var(--accent-primary);

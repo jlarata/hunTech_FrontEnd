@@ -17,11 +17,11 @@
         </p>
 
         <div class="hero-ctas">
-          <button class="btn-cta btn-cta-outline" (click)="scrollToTab('estudiantes')">
-            Soy estudiante
+          <button class="btn-cta btn-cta-outline" (click)="scrollToTab('desarrolladores')">
+            Soy Desarrollador
           </button>
           <button class="btn-cta btn-cta-outline" (click)="scrollToTab('empresas')">
-            Soy empresa
+            Soy Empresa
           </button>
         </div>
       </div>
@@ -33,70 +33,147 @@
   </div>
 </section>
 
-<!-- STATS SECTION -->
-<section class="stats-section">
-  <div class="stats-container">
-    <div class="stat-item">
-      <div class="stat-number">+120</div>
-      <div class="stat-label">Alumnos activos</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-number">+40</div>
-      <div class="stat-label">Empresas</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-number">+85</div>
-      <div class="stat-label">Ofertas publicadas</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-number">+30</div>
-      <div class="stat-label">Contrataciones</div>
-    </div>
+<!-- SECCION INSTITUTO -->
+<div class="instituto-section">
+  <div class="instituto-logo">IFTS<br>N°11</div>
+  <div class="instituto-text">
+    <h3>Una herramienta del IFTS N°11</h3>
+    <p>Huntech nació para impulsar a los estudiantes y graduados del Instituto de Formación Técnica Superior N°11 en su
+      inserción laboral IT.</p>
   </div>
-</section>
+  <button class="instituto-btn" (click)="irAlSitioOficial()">Sitio oficial →</button>
+</div>
 
 <!-- TABS SECTION -->
 <section class="tabs-section">
   <div class="tabs-container">
     <div class="tabs-header">
-      <button class="tab-button" [class.active]="activeTab === 'estudiantes'" (click)="setActiveTab('estudiantes')">
-        Para estudiantes
+      <button class="tab-button" [class.active]="activeTab === 'desarrolladores'"
+        (click)="setActiveTab('desarrolladores')">
+        Para Desarrolladores
       </button>
       <button class="tab-button" [class.active]="activeTab === 'empresas'" (click)="setActiveTab('empresas')">
         Para empresas
       </button>
     </div>
 
-    <!-- ESTUDIANTES TAB -->
-    <div class="tab-content" [class.active]="activeTab === 'estudiantes'">
+    <!-- DESARROLLADORES TAB -->
+    <div class="tab-content" [class.active]="activeTab === 'desarrolladores'">
 
-      <!-- EL INSTITUTO -->
-      <div class="content-section">
-        <h2 class="section-title">El Instituto</h2>
-        <div class="cards-grid cards-grid-5">
-          <a href="https://ifts11.edu.ar/carreras/" target="_blank" class="institute-card">
-            <span class="material-icons-outlined card-icon">menu_book</span>
-            <h3>Carreras</h3>
-          </a>
-          <a href="https://ifts11.edu.ar/articulaciones/" target="_blank" class="institute-card">
-            <span class="material-icons-outlined card-icon">school</span>
-            <h3>Articulaciones</h3>
-          </a>
-          <a href="https://ifts11.edu.ar/becas/" target="_blank" class="institute-card">
-            <span class="material-icons-outlined card-icon">card_giftcard</span>
-            <h3>Becas</h3>
-          </a>
-          <a href="https://ifts11.edu.ar" target="_blank" class="institute-card">
-            <span class="material-icons-outlined card-icon">feed</span>
-            <h3>Novedades</h3>
-          </a>
-          <a href="https://ifts11.edu.ar/contactanos/" target="_blank" class="institute-card">
-            <span class="material-icons-outlined card-icon">contact_mail</span>
-            <h3>Contacto</h3>
-          </a>
+      <!-- SECCIÓN: CONOCÉ EL INSTITUTO -->
+      <div class="inst-infografia">
+        <div class="inst-deco-building" aria-hidden="true">
+          <span class="material-icons-outlined">account_balance</span>
+        </div>
+
+        <!-- Decorativo: patrón de puntos verdes  -->
+        <div class="inst-deco-dots" aria-hidden="true">
+          <svg width="88" height="88" viewBox="0 0 88 88" fill="none">
+            <circle cx="8" cy="8" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="30" cy="8" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="52" cy="8" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="74" cy="8" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="8" cy="30" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="30" cy="30" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="52" cy="30" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="74" cy="30" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="8" cy="52" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="30" cy="52" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="52" cy="52" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="74" cy="52" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="8" cy="74" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="30" cy="74" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="52" cy="74" r="3" fill="var(--accent-primary)" opacity="0.35" />
+            <circle cx="74" cy="74" r="3" fill="var(--accent-primary)" opacity="0.35" />
+          </svg>
+        </div>
+
+        <!-- Decorativo: TILDE (esquina inferior derecha) -->
+        <div class="inst-deco-check" aria-hidden="true">
+          <span class="material-icons-outlined">check</span>
+        </div>
+
+        <!-- "Conocé más" -->
+        <div class="inst-badge">
+          <span class="material-icons-outlined">account_balance</span>
+          Conocé más
+        </div>
+
+        <!-- Encabezado: título -->
+        <div class="inst-header">
+          <h2 class="inst-titulo">
+            Conocé el <span class="inst-titulo-verde">Instituto</span>
+          </h2>
+        </div>
+
+        <!-- Fila de 5 tarjetas del instituto -->
+        <div class="inst-cards-row">
+
+          <!-- Tarjeta 1: Carreras -->
+          <div class="inst-card-nueva">
+            <div class="inst-card-icon-wrap">
+              <span class="material-icons-outlined">menu_book</span>
+            </div>
+            <h3 class="inst-card-titulo">Carreras</h3>
+            <div class="inst-card-linea"></div>
+            <p class="inst-card-desc">Conocé nuestras carreras y tecnicaturas disponibles.</p>
+            <a href="https://ifts11.edu.ar/carreras/" target="_blank" class="inst-card-btn">
+              Ver carreras →
+            </a>
+          </div>
+
+          <!-- Tarjeta 2: Articulaciones -->
+          <div class="inst-card-nueva">
+            <div class="inst-card-icon-wrap">
+              <span class="material-icons-outlined">school</span>
+            </div>
+            <h3 class="inst-card-titulo">Articulaciones</h3>
+            <div class="inst-card-linea"></div>
+            <p class="inst-card-desc">Explorá convenios y acuerdos institucionales.</p>
+            <a href="https://ifts11.edu.ar/articulaciones/" target="_blank" class="inst-card-btn">
+              Ver articulaciones →
+            </a>
+          </div>
+
+          <!-- Tarjeta 3: Becas -->
+          <div class="inst-card-nueva">
+            <div class="inst-card-icon-wrap">
+              <span class="material-icons-outlined">calendar_month</span>
+            </div>
+            <h3 class="inst-card-titulo">Becas</h3>
+            <div class="inst-card-linea"></div>
+            <p class="inst-card-desc">Enterate de las becas disponibles y requisitos.</p>
+            <a href="https://ifts11.edu.ar/becas/" target="_blank" class="inst-card-btn">
+              Ver becas →
+            </a>
+          </div>
+
+          <!-- Tarjeta 4: Novedades -->
+          <div class="inst-card-nueva">
+            <div class="inst-card-icon-wrap">
+              <span class="material-icons-outlined">article</span>
+            </div>
+            <h3 class="inst-card-titulo">Novedades</h3>
+            <div class="inst-card-linea"></div>
+            <p class="inst-card-desc">Leé las últimas noticias y actualizaciones.</p>
+            <a href="https://ifts11.edu.ar" target="_blank" class="inst-card-btn">
+              Ver novedades →
+            </a>
+          </div>
+
+          <!-- Tarjeta 5: Contacto -->
+          <div class="inst-card-nueva">
+            <div class="inst-card-icon-wrap">
+              <span class="material-icons-outlined">mail</span>
+            </div>
+            <h3 class="inst-card-titulo">Contacto</h3>
+            <div class="inst-card-linea"></div>
+            <p class="inst-card-desc">Comunicate con el instituto y nuestras áreas.</p>
+            <a href="https://ifts11.edu.ar/contactanos/" target="_blank" class="inst-card-btn">
+              Ir a contacto →
+            </a>
+          </div>
+
         </div>
       </div>
 
@@ -223,7 +300,7 @@
         </div>
       </div>
 
-      <!-- FAQ -->
+      <!-- PREGUNTAS FRECUENTES -->
       <div class="content-section">
         <h2 class="section-title">Preguntas frecuentes</h2>
         <div class="faq-container">
@@ -234,7 +311,7 @@
               <span class="material-icons-outlined faq-icon" [class.open]="openFaq === 0">expand_more</span>
             </button>
             <div class="faq-content" [class.open]="openFaq === 0">
-              <p>En general entre 2 y 6 meses desde que empezás a postularte activamente.</p>
+              <p>ni idea, hay que averiguar</p>
             </div>
           </div>
 
@@ -257,7 +334,7 @@
               <span class="material-icons-outlined faq-icon" [class.open]="openFaq === 2">expand_more</span>
             </button>
             <div class="faq-content" [class.open]="openFaq === 2">
-              <p>React, Node.js, Python y SQL lideran las búsquedas para perfiles junior en Argentina.</p>
+              <p>ni idea, hay que averiguar o cambiar la pregunta.</p>
             </div>
           </div>
         </div>
@@ -265,95 +342,307 @@
 
     </div>
 
-    <!-- EMPRESAS TAB -->
+    <!-- EMPRESAS -->
     <div class="tab-content" [class.active]="activeTab === 'empresas'">
 
-      <!-- PROCESO -->
-      <div class="content-section">
-        <h2 class="section-title">¿Cómo funciona para empresas?</h2>
-        <div class="steps-container">
-          <div class="step-item">
-            <div class="step-number">1</div>
-            <h3 class="step-title">Registrá tu empresa</h3>
-            <p class="step-desc">Creá tu cuenta en minutos.</p>
+      <!-- INFOGRAFÍA: ¿CÓMO FUNCIONA PARA EMPRESAS? -->
+      <div class="infografia-empresas">
+
+        <!-- Ícono decorativO (arriba izquierda) -->
+        <div class="infografia-deco-building" aria-hidden="true">
+          <span class="material-icons-outlined">domain</span>
+        </div>
+
+        <!-- Patrón de puntos (arriba derecha) -->
+        <div class="infografia-deco-dots" aria-hidden="true">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="8" cy="8" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="28" cy="8" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="48" cy="8" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="68" cy="8" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="8" cy="28" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="28" cy="28" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="48" cy="28" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="68" cy="28" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="8" cy="48" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="28" cy="48" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="48" cy="48" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="68" cy="48" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="8" cy="68" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="28" cy="68" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="48" cy="68" r="3" fill="#31ad1c" opacity="0.4" />
+            <circle cx="68" cy="68" r="3" fill="#31ad1c" opacity="0.4" />
+          </svg>
+        </div>
+
+        <!-- Círculo con tilde  -->
+        <div class="infografia-deco-check" aria-hidden="true">
+          <span class="material-icons-outlined">check_circle</span>
+        </div>
+
+        <!-- Badge "Para Empresas" -->
+        <div class="infografia-badge">
+          <span class="material-icons-outlined">check_circle</span>
+          Para Empresas
+        </div>
+
+        <!-- Título principal -->
+        <div class="infografia-header">
+          <h2 class="infografia-titulo">
+            ¿Cómo funciona para <span class="infografia-titulo-verde">empresas</span>?
+          </h2>
+          <p class="infografia-subtitulo">
+            Un proceso simple, rápido y efectivo para conectar con el talento del
+            <strong>IFTS N°11</strong>.
+          </p>
+        </div>
+
+        <!-- Fila de 4 tarjetas con flechas -->
+        <div class="infografia-steps-row">
+
+          <!-- TARJETA 1 -->
+          <div class="infografia-card">
+            <span class="infografia-card-number">1</span>
+            <div class="infografia-card-icon-wrap">
+              <span class="material-icons-outlined">person_add</span>
+            </div>
+            <h3 class="infografia-card-title">Registrá tu empresa</h3>
+            <div class="infografia-card-line"></div>
+            <p class="infografia-card-desc">Creá tu cuenta en minutos y empezá a publicar ofertas.</p>
           </div>
-          <div class="step-arrow">
-            <span class="material-icons-outlined">arrow_forward</span>
+
+          <!-- Flecha 1→2 -->
+          <div class="infografia-arrow-group" aria-hidden="true">
+            <span class="infografia-dots-left">· · ·</span>
+            <div class="infografia-arrow-circle">
+              <span class="material-icons-outlined">arrow_forward</span>
+            </div>
+            <span class="infografia-dots-right">· · ·</span>
           </div>
-          <div class="step-item">
-            <div class="step-number">2</div>
-            <h3 class="step-title">Publicá una oferta</h3>
-            <p class="step-desc">Describí el puesto y tecnologías requeridas.</p>
+
+          <!-- TARJETA 2 -->
+          <div class="infografia-card">
+            <span class="infografia-card-number">2</span>
+            <div class="infografia-card-icon-wrap">
+              <span class="material-icons-outlined">assignment</span>
+            </div>
+            <h3 class="infografia-card-title">Publicá una oferta</h3>
+            <div class="infografia-card-line"></div>
+            <p class="infografia-card-desc">Describí el puesto y tecnologías requeridas.</p>
           </div>
-          <div class="step-arrow">
-            <span class="material-icons-outlined">arrow_forward</span>
+
+          <!-- Flecha 2→3 -->
+          <div class="infografia-arrow-group" aria-hidden="true">
+            <span class="infografia-dots-left">· · ·</span>
+            <div class="infografia-arrow-circle">
+              <span class="material-icons-outlined">arrow_forward</span>
+            </div>
+            <span class="infografia-dots-right">· · ·</span>
           </div>
-          <div class="step-item">
-            <div class="step-number">3</div>
-            <h3 class="step-title">Recibí postulantes</h3>
-            <p class="step-desc">Alumnos del IFTS N°11 se postulan directamente.</p>
+
+          <!-- TARJETA 3 -->
+          <div class="infografia-card">
+            <span class="infografia-card-number">3</span>
+            <div class="infografia-card-icon-wrap">
+              <span class="material-icons-outlined">group</span>
+            </div>
+            <h3 class="infografia-card-title">Recibí postulantes</h3>
+            <div class="infografia-card-line"></div>
+            <p class="infografia-card-desc">Alumnos del IFTS N°11 se postulan directamente.</p>
           </div>
-          <div class="step-arrow">
-            <span class="material-icons-outlined">arrow_forward</span>
+
+          <!-- Flecha 3→4 -->
+          <div class="infografia-arrow-group" aria-hidden="true">
+            <span class="infografia-dots-left">· · ·</span>
+            <div class="infografia-arrow-circle">
+              <span class="material-icons-outlined">arrow_forward</span>
+            </div>
+            <span class="infografia-dots-right">· · ·</span>
           </div>
-          <div class="step-item">
-            <div class="step-number">4</div>
-            <h3 class="step-title">Contratá talento</h3>
-            <p class="step-desc">Elegí el candidato ideal y coordiná la entrevista.</p>
+
+          <!-- TARJETA 4 -->
+          <div class="infografia-card">
+            <span class="infografia-card-number">4</span>
+            <div class="infografia-card-icon-wrap">
+              <span class="material-icons-outlined">work</span>
+            </div>
+            <h3 class="infografia-card-title">Contratá talento</h3>
+            <div class="infografia-card-line"></div>
+            <p class="infografia-card-desc">Elegí el candidato ideal y coordiná la entrevista.</p>
+          </div>
+
+        </div>
+
+        <!-- frase para empresas -->
+        <div class="infografia-pill">
+          <span class="material-icons-outlined infografia-pill-icon">shield</span>
+          <span>
+            Rápido, seguro y 100% enfocado en conectar tu empresa con el
+            <strong class="infografia-pill-verde">mejor talento</strong>.
+          </span>
+        </div>
+
+      </div>
+
+      <!-- BENEFICIOS: ¿Por qué publicar en Huntech? -->
+      <div class="beneficios-coverflow-section">
+
+        <div class="beneficios-header-left">
+          <span class="beneficios-label">
+            <span class="material-icons-outlined">auto_awesome</span>
+            Beneficios
+          </span>
+          <h2 class="beneficios-titulo">
+            ¿Por qué publicar en <span class="beneficios-titulo-verde">Huntech</span>?
+          </h2>
+          <p class="beneficios-subtitulo">
+            Todo lo que tu empresa necesita para encontrar el talento correcto.
+          </p>
+        </div>
+
+        <!-- GRID: carrusel izquierda + lista derecha -->
+        <div class="beneficios-grid">
+
+          <!-- Columna izquierda: carrusel -->
+          <div class="beneficios-col-left">
+            <div class="coverflow-container">
+              <div class="coverflow-track">
+                <div class="cf-card" *ngFor="let perk of perks; let i = index" [class.active]="i === currentIndex"
+                  [class.prev]="i === currentIndex - 1" [class.next]="i === currentIndex + 1"
+                  [class.hidden]="i < currentIndex - 1 || i > currentIndex + 1">
+                  <div class="cf-card-content">
+                    <div class="cf-icon" [ngClass]="perk.iconClass">
+                      <span class="material-icons-outlined">{{ perk.icon }}</span>
+                    </div>
+                    <h3>{{ perk.title }}</h3>
+                    <p>{{ perk.desc }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="cf-controls">
+              <div class="cf-pill-nav">
+                <button class="cf-pill-btn" (click)="prevSlide()" [disabled]="currentIndex === 0">‹</button>
+                <span class="cf-pill-counter">{{ currentIndex + 1 }} / {{ perks.length }}</span>
+                <button class="cf-pill-btn" (click)="nextSlide()"
+                  [disabled]="currentIndex >= perks.length - 1">›</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna derecha: checklist -->
+          <div class="beneficios-col-right">
+
+            <div class="bene-list-item">
+              <div class="bene-bar"></div>
+              <div class="bene-text">
+                <strong>Conectate con el futuro del tech argentino</strong>
+                <span>Estudiantes formados con tecnologías actuales del mercado.</span>
+              </div>
+            </div>
+
+            <div class="bene-divider"></div>
+
+            <div class="bene-list-item">
+              <div class="bene-bar"></div>
+              <div class="bene-text">
+                <strong>Sin intermediarios</strong>
+                <span>Hablás directo con los postulantes, sin agencias ni comisiones.</span>
+              </div>
+            </div>
+
+            <div class="bene-divider"></div>
+
+            <div class="bene-list-item">
+              <div class="bene-bar"></div>
+              <div class="bene-text">
+                <strong>Talento con hambre de experiencia</strong>
+                <span>Perfiles motivados, listos para aprender y aportar desde el día uno.</span>
+              </div>
+            </div>
+
+            <div class="bene-divider"></div>
+
+            <div class="bene-list-item">
+              <div class="bene-bar"></div>
+              <div class="bene-text">
+                <strong>Proceso transparente</strong>
+                <span>Sabés exactamente quién se postuló, cuándo y con qué perfil.</span>
+              </div>
+            </div>
+
+            <div class="bene-divider"></div>
+
+            <div class="bene-list-item">
+              <div class="bene-bar"></div>
+              <div class="bene-text">
+                <strong>Impacto real en la comunidad</strong>
+                <span>Cada contratación ayuda a un estudiante a dar su primer paso profesional.</span>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
 
-      <!-- BENEFICIOS -->
-      <div class="content-section">
-        <h2 class="section-title">¿Por qué publicar en HunTech?</h2>
-        <div class="cards-grid cards-grid-6">
-          <div class="benefit-card">
-            <div class="benefit-icon">
-              <span class="material-icons-outlined">favorite</span>
+      <!-- seccion: buscando el talento ideal? -->
+      <div class="match-hero-section">
+        <div class="match-hero-container">
+          <!-- Columna Izquierda -->
+          <div class="match-col-left">
+            <div class="match-text-card">
+              <h2>
+                ¿Buscando el talento
+                <br>
+                <span class="match-highlight">ideal?</span>
+              </h2>
+              <p>
+                Publicá tu oferta y recibí postulantes tech
+                verificados del IFTS N°11, sin filtros infinitos ni perder tiempo.
+              </p>
             </div>
-            <h3>100% gratuito</h3>
-            <p>Publicar ofertas básicas no tiene costo</p>
           </div>
 
-          <div class="benefit-card">
-            <div class="benefit-icon">
-              <span class="material-icons-outlined">verified_user</span>
-            </div>
-            <h3>Perfiles verificados</h3>
-            <p>Todos los candidatos son alumnos del IFTS N°11</p>
-          </div>
+          <!-- Columna Derecha -->
+          <div class="match-col-right">
+            <div class="match-ui-stack">
+              <!-- Tarjeta de atras -->
+              <div class="match-ui-card backend-card"></div>
 
-          <div class="benefit-card">
-            <div class="benefit-icon">
-              <span class="material-icons-outlined">flash_on</span>
-            </div>
-            <h3>Respuesta rápida</h3>
-            <p>Recibís postulaciones en horas</p>
-          </div>
+              <!-- Tarjeta principal -->
+              <div class="match-ui-card frontend-card">
 
-          <div class="benefit-card">
-            <div class="benefit-icon">
-              <span class="material-icons-outlined">school</span>
-            </div>
-            <h3>Formación sólida</h3>
-            <p>Perfiles formados en desarrollo y análisis de sistemas</p>
-          </div>
+                <!-- Badge flotante amarillo -->
+                <div class="match-badge-yellow">
+                  Nuevos postulantes <span class="badge-number">3</span>
+                </div>
 
-          <div class="benefit-card">
-            <div class="benefit-icon">
-              <span class="material-icons-outlined">dashboard</span>
-            </div>
-            <h3>Panel de gestión</h3>
-            <p>Administrá tus ofertas y postulantes fácilmente</p>
-          </div>
+                <div class="match-ui-header">
+                  <div class="match-logo-box">
+                    <span class="material-icons-outlined">business</span>
+                  </div>
+                  <div class="match-title-box">
+                    <h3>Desarrollador Full Stack</h3>
+                    <span class="match-company">Startup Tech</span>
+                  </div>
+                </div>
 
-          <div class="benefit-card">
-            <div class="benefit-icon">
-              <span class="material-icons-outlined">public_good</span>
+                <div class="match-chips">
+                  <span class="m-chip">React</span>
+                  <span class="m-chip">Node.js</span>
+                  <span class="m-chip">Remoto</span>
+                  <span class="m-chip">Junior</span>
+                  <span class="m-chip">IFTS N°11</span>
+                </div>
+
+                <div class="match-actions">
+                  <button class="m-btn-primary">Contactar </button>
+                  <button class="m-btn-secondary">→ Omitir</button>
+                </div>
+              </div>
             </div>
-            <h3>Impacto social</h3>
-            <p>Contribuís al desarrollo de jóvenes talentos</p>
           </div>
         </div>
       </div>
@@ -416,13 +705,12 @@
   </div>
 </section>
 
-<!-- FOOTER CTA -->
 <section class="footer-cta">
   <div class="footer-cta-grid">
     <div class="cta-card">
       <h3>¿Listo para postularte?</h3>
       <p>Explorá las ofertas disponibles y dá el primer paso en tu carrera IT.</p>
-      <button class="btn-cta btn-cta-solid">Ver ofertas laborales</button>
+      <button class="btn-cta btn-cta-solid">Completá tu perfil</button>
     </div>
     <div class="cta-card">
       <h3>¿Buscás talento IT?</h3>
@@ -432,7 +720,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer-section">
   <div class="footer-content">
     <p>© 2026 HunTech | IFTS N.º 11 | Desarrollado por y para estudiantes</p>

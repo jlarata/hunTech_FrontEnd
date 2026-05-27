@@ -2,13 +2,14 @@
 
 :root {
   --bg-primary: #ffffff;
-  --bg-secondary: #f9f9f9;
-  --text-main: #000000;
-  --text-muted: #555555;
+  --bg-secondary: #f4f4f5;
+  --text-main: #09090b;
+  --text-muted: #71717a;
   --card-bg: #ffffff;
-  --border-color: #e0e0e0;
+  --border-color: #e4e4e7;
   --navbar-bg: rgba(246, 244, 255, 0.85);
-  --accent-primary: #31ad1c;
+  --accent-primary: #28be0d;
+  --accent-secondary: #f59e0b;
   --bg-split: linear-gradient(to right, #d9f9d2 50%, #e2fdbe 50%);
   --accent-secondary: #f59e0b;
   --danger-primary: #a00c0c;
@@ -591,29 +592,6 @@ h4,
   width: 100%;
 }
 
-/*.ifts-banner-container {
-  position: absolute;
-  left: 160px;
-  top: 190px;
-  transform: none;
-  z-index: 10;
-}*/
-
-/*.ifts-banner-img {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  display: block;
-  filter: grayscale(100%) contrast(1.1) brightness(0.9);
-}*/
-
-/* ============================================================
-   IFTS BANNER - HOVER EFFECT
-   Se agranda y muestra en color al pasar el mouse
-   ============================================================ */
-
 .ifts-banner-container {
   position: absolute;
   left: 160px;
@@ -627,11 +605,8 @@ h4,
   border-radius: 50%;
   object-fit: cover;
   display: block;
-  /* Por defecto: en blanco y negro */
   filter: grayscale(100%) contrast(1.1) brightness(0.9);
-  /* Transición suave */
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
 }
 
 /* === HOVER: Se agranda 25% + color === */
@@ -649,7 +624,7 @@ h4,
   z-index: 20;
   width: 100%;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: var(--bg-secondary);
   padding: 6px 0;
   border-bottom: none;
   display: flex;
@@ -670,7 +645,7 @@ h4,
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
-  color: #000000;
+  color: var(--accent-secondary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   white-space: nowrap;
@@ -691,8 +666,8 @@ h4,
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, color-mix(in srgb, var(--accent-primary) 72%, #ffffff) 100%);
-  color: #ffffff;
+  background: var(--accent-secondary);
+  color: var(--bg-primary);
   padding: 8px 18px;
   border-radius: 50px;
   font-size: 0.85rem;
@@ -1463,7 +1438,6 @@ button:disabled {
 }
 
 /* FOOTER */
-
 .huntech-footer {
   background-image: url('/assets/instituto-footer.jpg');
   background-size: cover;
@@ -1614,405 +1588,403 @@ button:disabled {
 /* RESPONSIVE */
 @media (max-width: 992px) {
 
-  /* Seguro contra scroll horizontal */
   html,
   body {
-    overflow-x: hidden;
+
+   
+    html,
+    body {
+      overflow-x: hidden;
+    }
+    .ifts-banner-container {
+      position: relative;
+      left: auto;
+      top: auto;
+      display: flex;
+      justify-content: center;
+      margin: 20px auto;
+      order: -1;
+    }
+
+    .ifts-banner-img {
+      width: 100px;
+      height: 100px;
+      filter: grayscale(100%) contrast(1.1) brightness(0.9);
+      transform: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /*desactivar cualquier hover/active en mobile */
+    .ifts-banner-container:hover .ifts-banner-img,
+    .ifts-banner-img:hover,
+    .ifts-banner-container:active .ifts-banner-img,
+    .ifts-banner-img:active {
+      transform: none;
+      filter: grayscale(100%) contrast(1.1) brightness(0.9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+      gap: 60px;
+    }
+
+    .features-grid::after {
+      display: none;
+    }
+
+    .recruiter-column {
+      padding-left: 0;
+      padding-top: 60px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .feature-title {
+      font-size: 2.2rem;
+    }
   }
 
-  .ifts-banner-container {
-    position: relative;
-    left: auto;
-    top: auto;
-    display: flex;
-    justify-content: center;
-    margin: 20px auto;
-    order: -1;
+  @media (max-width: 992px) {
+
+    .hero {
+      flex-direction: column;
+      height: auto;
+    }
+
+    .hero-right {
+      flex: none;
+      width: 100%;
+      height: auto;
+      min-height: unset;
+      padding: 30px 20px 50px 20px;
+      border-radius: 0;
+      margin-top: 0;
+    }
+
+    .tags-cloud {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      max-width: 95%;
+      margin: 0 auto;
+    }
+
+    .floating-tag {
+      position: static !important;
+      animation: none !important;
+      transform: none !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+      padding: 10px 18px !important;
+      font-size: 0.88rem !important;
+    }
+
+    .floating-tag:hover {
+      transform: scale(1.08) !important;
+    }
+
+    .navbar {
+      padding: 15px 20px;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      background: white;
+    }
+
+    .nav-links {
+      width: 100%;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .descripcion-container {
+      flex-direction: column;
+      padding-top: 80px;
+    }
+
+    .logo-header-global {
+      position: relative;
+      top: 0;
+      left: 0;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .header-divider {
+      display: none;
+    }
+
+    .hero-left {
+      padding: 100px 20px 40px 20px !important;
+      flex: none;
+      width: 100%;
+      text-align: center;
+      align-items: center;
+    }
+
+    .hero-badge {
+      margin-left: auto !important;
+      margin-right: auto !important;
+      font-size: 0.75rem;
+      padding: 6px 14px;
+    }
+
+    /* ajustar el tamaño del título para que no quede alto */
+    .hero-left h1 {
+      font-size: clamp(2rem, 8vw, 2.8rem);
+      margin-bottom: 16px;
+    }
+
+    /* descripción más compacta */
+    .hero-description {
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    /* beneficios centrados y más compactos */
+    .beneficios {
+      align-items: center;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .beneficios li {
+      justify-content: center;
+      text-align: center;
+      padding: 10px 16px;
+    }
+
+    .hero {
+      flex-direction: column !important;
+      flex-wrap: nowrap !important;
+    }
+
+    .hero-left {
+      flex: none !important;
+      width: 100% !important;
+      padding: 90px 20px 30px 20px !important;
+      text-align: center;
+      align-items: center;
+    }
+
+    .hero-right {
+      flex: none !important;
+      width: 100% !important;
+      min-height: auto !important;
+      padding: 10px 20px 40px 20px !important;
+    }
+
+    .hero-badge {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .hero-left h1,
+    .hero-description,
+    .beneficios {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
-  .ifts-banner-img {
-    width: 100px;
-    height: 100px;
-    /* Sin hover en mobile: siempre en B&N, sin transform */
-    filter: grayscale(100%) contrast(1.1) brightness(0.9);
-    transform: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  @media (max-width: 768px) {
+    .hiw-title {
+      font-size: 2.2rem !important;
+    }
+
+    .hiw-grid {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .hiw-card {
+      padding: 2.5rem 1.8rem;
+    }
+
+    .how-it-works-section {
+      padding: 3.5rem 5%;
+      margin: 2.5rem auto;
+      border-radius: 20px;
+    }
+
+    .feature-columna {
+      padding: 40px 20px !important;
+    }
+
+    .feature-title {
+      font-size: 2.2rem !important;
+      margin-bottom: 30px !important;
+    }
+
+    .feature-list {
+      gap: 20px !important;
+    }
+
+    .huntech-footer {
+      padding: 60px 20px 30px 20px !important;
+    }
+
+    .footer-top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2.5rem;
+    }
+
+    .footer-links {
+      gap: 2.5rem;
+      width: 100%;
+    }
+
+    .footer-bottom {
+      flex-direction: column-reverse;
+      gap: 1.5rem;
+      text-align: center;
+    }
   }
 
-  /* Override: desactivar cualquier hover/active en mobile */
-  .ifts-banner-container:hover .ifts-banner-img,
-  .ifts-banner-img:hover,
-  .ifts-banner-container:active .ifts-banner-img,
-  .ifts-banner-img:active {
-    transform: none;
-    filter: grayscale(100%) contrast(1.1) brightness(0.9);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  @media (max-width: 576px) {
+    .modal-card {
+      padding: 35px 20px 20px 20px;
+      border-radius: 20px;
+      width: 95%;
+    }
+
+    .btn-close {
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      font-size: 18px;
+    }
+
+
+    .hero-left {
+      padding-top: 80px !important;
+      padding-bottom: 30px;
+    }
+
+
+    .hero-badge {
+      margin-bottom: 20px;
+    }
+
+    .hero-left {
+      padding-top: 80px !important;
+      padding-bottom: 20px !important;
+    }
+
+
+    .floating-tag {
+      font-size: 0.8rem !important;
+      padding: 8px 12px !important;
+    }
   }
 
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 60px;
+  @media (max-width: 480px) {
+    .hero-right {
+      display: none;
+    }
   }
 
-  .features-grid::after {
-    display: none;
+  @media (max-width: 992px) {
+    .hero-left {
+      display: block !important;
+      text-align: center !important;
+      padding: 90px 20px 30px 20px !important;
+      width: 100% !important;
+      box-sizing: border-box;
+    }
+
+    /* Centrar todos los textos del hero */
+    .hero-left h1,
+    .hero-left .hero-description,
+    .hero-left .beneficios {
+      text-align: center !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .hero-left h1 {
+      font-size: clamp(1.9rem, 7vw, 2.6rem) !important;
+      line-height: 1.15 !important;
+    }
+
+    /* Beneficios: centrar cada item */
+    .hero-left .beneficios {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 10px !important;
+      padding: 0 !important;
+    }
+
+    .hero-left .beneficios li {
+      justify-content: center !important;
+      text-align: center !important;
+      width: 80% !important;
+      max-width: 400px;
+      margin: 0 auto !important;
+      font-size: 0.9rem !important;
+      padding: 10px 14px !important;
+    }
   }
 
-  .recruiter-column {
-    padding-left: 0;
-    padding-top: 60px;
-    border-top: 1px solid #f0f0f0;
+  @media (max-width: 576px) {
+    .hero-left {
+      padding: 80px 15px 25px 15px !important;
+    }
   }
 
-  .feature-title {
-    font-size: 2.2rem;
-  }
-}
-
-@media (max-width: 992px) {
-
-  .hero {
-    flex-direction: column;
-    height: auto;
+  /*MODO OSCURO: FOOTER */
+  .dark-theme .huntech-footer::before {
+    background: rgba(15, 23, 42, 0.85);
   }
 
-  .hero-right {
-    flex: none;
-    width: 100%;
-    height: auto;
-    min-height: unset;
-    padding: 30px 20px 50px 20px;
-    border-radius: 0;
-    margin-top: 0;
+  .dark-theme .footer-logo,
+  .dark-theme .footer-column h4,
+  .dark-theme .social-links a {
+    color: #ffffff !important;
   }
 
-  .tags-cloud {
-    position: static;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-    max-width: 95%;
-    margin: 0 auto;
+  .dark-theme .footer-desc,
+  .dark-theme .footer-column a {
+    color: #94a3b8;
   }
 
-  .floating-tag {
-    position: static !important;
-    animation: none !important;
-    transform: none !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
-    padding: 10px 18px !important;
-    font-size: 0.88rem !important;
+  .dark-theme .footer-bottom {
+    border-top: 1px solid rgba(218, 214, 214, 0.1);
+    color: #64748b;
   }
 
-  .floating-tag:hover {
-    transform: scale(1.08) !important;
+  /* modo oscuro: como funciona HUNTECH*/
+  .dark-theme .how-it-works-section {
+    background-color: #000000;
+    background-image:
+      radial-gradient(circle at top right, rgba(168, 85, 247, 0.2), transparent 50%),
+      radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.1), transparent 50%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .navbar {
-    padding: 15px 20px;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-    background: white;
+  .dark-theme .step-1-box,
+  .dark-theme .step-2-box,
+  .dark-theme .step-3-box {
+    background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
   }
 
-  .nav-links {
-    width: 100%;
-    justify-content: center;
-    gap: 15px;
+  /*modo oscuro scroll infinito */
+  .dark-theme .huntech-ticker {
+    background-color: #01020b;
   }
 
-  .descripcion-container {
-    flex-direction: column;
-    padding-top: 80px;
+  .dark-theme .ticker-item {
+    color: #f4f4f4;
   }
-
-  .logo-header-global {
-    position: relative;
-    top: 0;
-    left: 0;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .header-divider {
-    display: none;
-  }
-
-  /* Fix: reducir el padding superior del hero en mobile */
-  .hero-left {
-    padding: 100px 20px 40px 20px !important;
-    flex: none;
-    width: 100%;
-    text-align: center;
-    align-items: center;
-  }
-
-  /* Fix: centrar el badge y quitar el margin-left de 200px */
-  .hero-badge {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    font-size: 0.75rem;
-    padding: 6px 14px;
-  }
-
-  /* Fix: ajustar el tamaño del título para que no quede tan alto */
-  .hero-left h1 {
-    font-size: clamp(2rem, 8vw, 2.8rem);
-    margin-bottom: 16px;
-  }
-
-  /* Fix: descripción más compacta */
-  .hero-description {
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 0.95rem;
-    margin-bottom: 24px;
-  }
-
-  /* Fix: beneficios centrados y más compactos */
-  .beneficios {
-    align-items: center;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .beneficios li {
-    justify-content: center;
-    text-align: center;
-    padding: 10px 16px;
-  }
-
-  /* Forzar apilamiento vertical y evitar que compitan por el ancho */
-  .hero {
-    flex-direction: column !important;
-    flex-wrap: nowrap !important;
-  }
-
-  .hero-left {
-    flex: none !important;
-    width: 100% !important;
-    padding: 90px 20px 30px 20px !important;
-    text-align: center;
-    align-items: center;
-  }
-
-  .hero-right {
-    flex: none !important;
-    width: 100% !important;
-    min-height: auto !important;
-    padding: 10px 20px 40px 20px !important;
-  }
-
-  /* Centrar el badge y el texto que tenían offset de desktop */
-  .hero-badge {
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .hero-left h1,
-  .hero-description,
-  .beneficios {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .hiw-title {
-    font-size: 2.2rem !important;
-  }
-
-  .hiw-grid {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .hiw-card {
-    padding: 2.5rem 1.8rem;
-  }
-
-  .how-it-works-section {
-    padding: 3.5rem 5%;
-    margin: 2.5rem auto;
-    border-radius: 20px;
-  }
-
-  .feature-columna {
-    padding: 40px 20px !important;
-  }
-
-  .feature-title {
-    font-size: 2.2rem !important;
-    margin-bottom: 30px !important;
-  }
-
-  .feature-list {
-    gap: 20px !important;
-  }
-
-  .huntech-footer {
-    padding: 60px 20px 30px 20px !important;
-  }
-
-  .footer-top {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2.5rem;
-  }
-
-  .footer-links {
-    gap: 2.5rem;
-    width: 100%;
-  }
-
-  .footer-bottom {
-    flex-direction: column-reverse;
-    gap: 1.5rem;
-    text-align: center;
-  }
-}
-
-@media (max-width: 576px) {
-  .modal-card {
-    padding: 35px 20px 20px 20px;
-    border-radius: 20px;
-    width: 95%;
-  }
-
-  .btn-close {
-    top: 12px;
-    right: 12px;
-    width: 28px;
-    height: 28px;
-    font-size: 18px;
-  }
-
-  .hero-left {
-    padding-top: 80px !important;
-    padding-bottom: 30px;
-  }
-
-  .hero-badge {
-    margin-bottom: 20px;
-  }
-
-  .hero-left {
-    padding-top: 80px !important;
-    padding-bottom: 20px !important;
-  }
-
-  .floating-tag {
-    font-size: 0.8rem !important;
-    padding: 8px 12px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-right {
-    display: none;
-  }
-}
-
-/* ============================================================
-   FIX: Centrado completo del hero-left en mobile
-   ============================================================ */
-@media (max-width: 992px) {
-  .hero-left {
-    display: block !important;
-    text-align: center !important;
-    padding: 90px 20px 30px 20px !important;
-    width: 100% !important;
-    box-sizing: border-box;
-  }
-
-  /* Centrar todos los textos del hero */
-  .hero-left h1,
-  .hero-left .hero-description,
-  .hero-left .beneficios {
-    text-align: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .hero-left h1 {
-    font-size: clamp(1.9rem, 7vw, 2.6rem) !important;
-    line-height: 1.15 !important;
-  }
-
-  /* Beneficios: centrar cada item */
-  .hero-left .beneficios {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 0 !important;
-  }
-
-  .hero-left .beneficios li {
-    justify-content: center !important;
-    text-align: center !important;
-    width: 80% !important;
-    max-width: 400px;
-    margin: 0 auto !important;
-    font-size: 0.9rem !important;
-    padding: 10px 14px !important;
-  }
-}
-
-@media (max-width: 576px) {
-  .hero-left {
-    padding: 80px 15px 25px 15px !important;
-  }
-}
-
-/*MODO OSCURO: FOOTER */
-.dark-theme .huntech-footer::before {
-  background: rgba(15, 23, 42, 0.85);
-}
-
-.dark-theme .footer-logo,
-.dark-theme .footer-column h4,
-.dark-theme .social-links a {
-  color: #ffffff !important;
-}
-
-.dark-theme .footer-desc,
-.dark-theme .footer-column a {
-  color: #94a3b8;
-}
-
-.dark-theme .footer-bottom {
-  border-top: 1px solid rgba(218, 214, 214, 0.1);
-  color: #64748b;
-}
-
-/* modo oscuro: como funciona HUNTECH*/
-.dark-theme .how-it-works-section {
-  background-color: #000000;
-  background-image:
-    radial-gradient(circle at top right, rgba(168, 85, 247, 0.2), transparent 50%),
-    radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.1), transparent 50%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.dark-theme .step-1-box,
-.dark-theme .step-2-box,
-.dark-theme .step-3-box {
-  background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
-  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
-}
-
-/*modo oscuro scroll infinito */
-.dark-theme .huntech-ticker {
-  background-color: #01020b;
-}
-
-.dark-theme .ticker-item {
-  color: #f4f4f4;
 }

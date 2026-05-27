@@ -186,26 +186,49 @@ export class ProfileComponent implements OnInit {
 
   guardarHabilidad() {
     this.loading = true;
-    if (this.nuevaHabilidad.nombre.trim() !== '') {
-      this.perfil.habilidades.push({ ...this.nuevaHabilidad });
-      this.nuevaHabilidad = { nombre: '', nivel: 'principiante' };
-      this.mostrandoFormulario = false;
-    }
+  const nombreNuevo = this.nuevaHabilidad.nombre.trim().toLowerCase();
+
+  if (!nombreNuevo) return;
+
+  const duplicado = this.perfil.habilidades.some(
+    (h: any) => h.nombre.toLowerCase() === nombreNuevo
+  );
+
+  if (duplicado) {
+    this.alertService.error('Esta habilidad ya fue agregada.');
+    this.loading = false;
+    return;
   }
+
+  this.perfil.habilidades.push({ ...this.nuevaHabilidad });
+  this.nuevaHabilidad = { nombre: '', nivel: 'principiante' };
+  this.mostrandoFormulario = false;
+  this.loading = false;
+}
+
 
   // --- IDIOMAS ---
-  guardarIdioma() {
-    this.loading = true;
-    if (this.nuevoIdioma.nombre.trim() !== '') {
-      this.perfil.idiomas.push({ ...this.nuevoIdioma });
-      this.nuevoIdioma = { nombre: '', nivel: 'A1 - Principiante' };
-      this.mostrandoFormIdioma = false;
-    }
+  guardarIdioma() { 
+  this.loading = true;
+  const nombreNuevo = this.nuevoIdioma.nombre.trim().toLowerCase();
+
+  if (!nombreNuevo) return;
+
+  const duplicado = this.perfil.idiomas.some(
+    (i: any) => i.nombre.toLowerCase() === nombreNuevo
+  );
+
+  if (duplicado) {
+    this.alertService.error('Este idioma ya fue agregado.');
+    this.loading = false;
+    return;
   }
 
-  eliminarIdioma(indice: number) {
-    this.perfil.idiomas.splice(indice, 1);
-  }
+  this.perfil.idiomas.push({ ...this.nuevoIdioma });
+  this.nuevoIdioma = { nombre: '', nivel: 'A1 - Principiante' };
+  this.mostrandoFormIdioma = false;
+  this.loading = false;
+}
 
   // --- NAVEGACIÓN Y EDICIÓN ---
   cambiarSeccion(seccion: string) {
@@ -369,6 +392,13 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+   eliminarIdioma(indice: number) {
+    this.perfil.idiomas.splice(indice, 1);
+  }
+
+  formatLanguageLevel(nivel: string): string {
+    return nivel || 'Básico';
+  }
 
   get isProfileEmpty(): boolean {
     if (!this.perfil) return true;

@@ -278,100 +278,158 @@
       <ng-container *ngSwitchCase="'portfolio'">
         <app-portfolio-component [emailDesarrollador]="perfil.email"></app-portfolio-component>
       </ng-container>
-      <section class="card section-container skill-language-card" *ngSwitchCase="'habilidades'">
-        <div class="section-header">
-          <div class="section-intro">
-            <div class="section-icon">
-              <span class="material-icons-outlined">language</span>
-            </div>
-            <div class="section-copy">
-              <h2 class="section-title">Habilidades</h2>
-              <p class="section-subtitle" *ngIf="isOwnProfile">Añade tus conocimientos para que los reclutadores te encuentren.</p>
-            </div>
+
+      <!-- SECCIÓN DE HABILIDADES -->
+      <section class="profile-card-section" *ngSwitchCase="'habilidades'">
+        <h2 class="sr-only">Gestionar habilidades</h2>
+
+        <div class="languages-header">
+          <div class="languages-title-wrapper">
+            <h3 class="languages-main-title">Habilidades</h3>
+            <span class="material-icons-outlined languages-icon">bolt</span>
           </div>
-          <div class="section-actions">
-            <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue" (click)="toggleEdit()">
-              <span class="material-icons-outlined">edit</span> Añadir habilidades
-            </button>
-          </div>
-        </div>
-        <div class="skills-list-preview" *ngIf="perfil?.habilidades?.length > 0">
-          <div *ngFor="let hab of perfil.habilidades; let i = index" class="skill-tag">
-            <div class="tag-label">
-              <span class="material-icons-outlined">bolt</span>
-              {{ hab.nombre }}
-            </div>
-            <span class="tag-meta">{{ hab.nivel }}</span>
-            <button class="btn-remove" (click)="eliminarHabilidad(i); handleUpdate()" *ngIf="isOwnProfile">✕</button>
-          </div>
+          <button *ngIf="!isEditing && isOwnProfile && perfil?.habilidades?.length > 0" class="languages-edit-btn"
+            aria-label="Editar habilidades" (click)="toggleEdit()">
+            Editar
+          </button>
         </div>
 
-        <div *ngIf="isEditing" class="edit-content">
-          <div class="skill-form">
-            <div class="form-grid">
-              <div class="input-group">
-                <label>Habilidad:</label>
-                <input type="text" [(ngModel)]="nuevaHabilidad.nombre" name="habNombre" class="custom-input"
-                  placeholder="Ej: JavaScript">
+        <p class="languages-description">Añade tus conocimientos para que los reclutadores te encuentren.</p>
+
+        <hr class="languages-divider">
+
+        <ng-container *ngIf="perfil?.habilidades?.length === 0 && !isEditing">
+          <div class="languages-decoration-container" aria-hidden="true">
+            <div class="languages-decoration-container" aria-hidden="true">
+              <div style="
+    width: 80px; height: 80px; border-radius: 50%;
+    background: color-mix(in srgb, var(--accent-primary) 10%, var(--card-bg));
+    display: flex; align-items: center; justify-content: center;">
+                <span class="material-icons-outlined" style="font-size: 36px; color: var(--accent-primary);">
+                  school
+                </span>
               </div>
-              <div class="input-group">
-                <label>Nivel:</label>
-                <select [(ngModel)]="nuevaHabilidad.nivel" name="habNivel" class="custom-input">
+            </div>
+          </div>
+          <div class="languages-cta-container">
+            <button *ngIf="isOwnProfile" class="btn-add-languages" (click)="toggleEdit()">
+              <span class="plus-circle">+</span>
+              <span>Añadir habilidades</span>
+            </button>
+          </div>
+        </ng-container>
+
+        <div *ngIf="isEditing" class="languages-form-wrapper">
+          <div class="languages-form">
+            <div class="form-row-two-cols">
+              <div class="form-field">
+                <label for="hab-input">Habilidad</label>
+                <input id="hab-input" type="text" [(ngModel)]="nuevaHabilidad.nombre" name="habNombre"
+                  class="custom-input" placeholder="Ej: JavaScript">
+              </div>
+              <div class="form-field">
+                <label for="hab-nivel">Nivel</label>
+                <select id="hab-nivel" [(ngModel)]="nuevaHabilidad.nivel" name="habNivel" class="custom-input">
                   <option value="principiante">Principiante</option>
                   <option value="intermedio">Intermedio</option>
                   <option value="avanzado">Avanzado</option>
                 </select>
               </div>
             </div>
-            <div class="form-actions">
-              <button class="btn-save" [disabled]="loading"
+            <div class="form-actions-row">
+              <button class="btn-form-save" [disabled]="loading"
                 (click)="guardarHabilidad(); handleUpdate()">Guardar</button>
-              <button type="button" class="btn-cancel-link" [disabled]="loading"
+              <button type="button" class="btn-form-cancel" [disabled]="loading"
                 (click)="toggleEdit()">Cancelar</button>
             </div>
           </div>
         </div>
+
+        <div *ngIf="perfil?.habilidades?.length > 0" class="languages-list-wrapper">
+          <div class="languages-list">
+            <div *ngFor="let hab of perfil.habilidades; let i = index; let last = last" class="language-item"
+              [class.last-item]="last">
+              <div class="language-content">
+                <span class="language-name">{{ hab.nombre }}</span>
+                <span class="language-level-badge">{{ hab.nivel }}</span>
+              </div>
+              <button *ngIf="isOwnProfile" class="btn-remove-language" (click)="eliminarHabilidad(i); handleUpdate()"
+                [attr.aria-label]="'Eliminar ' + hab.nombre">✕</button>
+            </div>
+          </div>
+          <button *ngIf="isOwnProfile" class="btn-add-another-language" (click)="toggleEdit()">
+            <span class="plus-icon">+</span> Añadir otra habilidad
+          </button>
+        </div>
       </section>
 
-      <section class="card section-container skill-language-card" *ngSwitchCase="'idiomas'">
-        <div class="section-header">
-          <div class="section-intro">
-            <div class="section-icon">
-              <span class="material-icons-outlined">public</span>
-            </div>
-            <div class="section-copy">
-              <h2 class="section-title">Idiomas</h2>
-              <p class="section-subtitle" *ngIf="isOwnProfile">Añade los idiomas que dominas para expandir tus oportunidades profesionales.</p>
-            </div>
+      <!-- SECCIÓN DE IDIOMAS -->
+      <section class="profile-card-section" *ngSwitchCase="'idiomas'">
+        <h2 class="sr-only">Gestionar idiomas - Añade los idiomas que dominas para expandir tus oportunidades
+          profesionales</h2>
+
+        <!-- ENCABEZADO -->
+        <div class="languages-header">
+          <div class="languages-title-wrapper">
+            <span class="material-icons-outlined languages-icon">public</span>
+            <h3 class="languages-main-title">Idiomas</h3>
           </div>
-          <div class="section-actions">
-            <button *ngIf="!isEditing && isOwnProfile" class="btn-edit-blue" (click)="toggleEdit()">
-              <span class="material-icons-outlined">edit</span> Añadir idiomas
-            </button>
-          </div>
-        </div>
-        <div class="skills-list-preview" *ngIf="perfil?.idiomas?.length > 0">
-          <div *ngFor="let idioma of perfil.idiomas; let i = index" class="skill-tag">
-            <div class="tag-label">
-              <span class="material-icons-outlined">translate</span>
-              {{ idioma.nombre }}
-            </div>
-            <span class="tag-meta">{{ idioma.nivel }}</span>
-            <button class="btn-remove" (click)="eliminarIdioma(i); handleUpdate()" *ngIf="isOwnProfile">✕</button>
-          </div>
+          <button *ngIf="!isEditing && isOwnProfile && perfil?.idiomas?.length > 0"
+            class="btn-edit-ghost languages-edit-btn" aria-label="Editar idiomas" (click)="toggleEdit()">
+            Editar
+          </button>
         </div>
 
-        <div *ngIf="isEditing" class="edit-content">
-          <div class="skill-form">
-            <div class="form-grid">
-              <div class="input-group">
-                <label>Idioma:</label>
-                <input type="text" [(ngModel)]="nuevoIdioma.nombre" name="idiomaNombre" class="custom-input"
-                  placeholder="Ej: Inglés, Alemán...">
+        <!-- DESCRIPCIÓN -->
+        <p class="languages-description">Añade los idiomas que dominas para expandir tus oportunidades profesionales.
+        </p>
+
+        <!-- DIVISOR -->
+        <hr class="languages-divider">
+
+        <!-- ESTADO VACÍO: sin idiomas ni formulario -->
+        <ng-container *ngIf="perfil?.idiomas?.length === 0 && !isEditing">
+          <!-- Ilustración decorativa -->
+          <div class="languages-decoration-container" aria-hidden="true">
+            <svg class="languages-decoration-svg" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          
+              <g class="bubble-large">
+                <path
+                  d="M 10 20 Q 10 10 20 10 L 70 10 Q 80 10 80 20 L 80 60 Q 80 70 70 70 L 30 70 L 20 85 L 25 70 L 20 70 Q 10 70 10 60 Z"
+                  fill="none" stroke="#A5D6A7" stroke-width="2" />
+                <text x="40" y="45" font-size="28" font-weight="bold" fill="#A5D6A7" text-anchor="middle"
+                  dominant-baseline="middle">A</text>
+              </g>
+              <!-- Burbuja pequeña -->
+              <g class="bubble-small">
+                <circle cx="90" cy="35" r="18" fill="none" stroke="#A5D6A7" stroke-width="2" />
+                <text x="90" y="40" font-size="18" font-weight="bold" fill="#A5D6A7" text-anchor="middle"
+                  dominant-baseline="middle">文</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Botón añadir idiomas -->
+          <div class="languages-cta-container">
+            <button *ngIf="isOwnProfile" class="btn-add-languages" (click)="toggleEdit()">
+              <span class="plus-circle">+</span>
+              <span>Añadir idiomas</span>
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- FORMULARIO: cuando isEditing es true -->
+        <div *ngIf="isEditing" class="languages-form-wrapper">
+          <div class="languages-form">
+            <div class="form-row-two-cols">
+              <div class="form-field">
+                <label for="idioma-input">Idioma</label>
+                <input id="idioma-input" type="text" [(ngModel)]="nuevoIdioma.nombre" name="idiomaNombre"
+                  class="custom-input" placeholder="Ej: Inglés, Alemán...">
               </div>
-              <div class="input-group">
-                <label>Nivel de fluidez:</label>
-                <select [(ngModel)]="nuevoIdioma.nivel" name="idiomaNivel" class="custom-input">
+              <div class="form-field">
+                <label for="nivel-select">Nivel de fluidez</label>
+                <select id="nivel-select" [(ngModel)]="nuevoIdioma.nivel" name="idiomaNivel" class="custom-input">
                   <option value="A1 - Principiante">A1 - Principiante</option>
                   <option value="A2 - Básico">A2 - Básico</option>
                   <option value="B1 - Intermedio">B1 - Intermedio</option>
@@ -381,12 +439,38 @@
                 </select>
               </div>
             </div>
-            <div class="form-actions">
-              <button class="btn-save" [disabled]="loading" (click)="guardarIdioma(); handleUpdate()">Guardar</button>
-              <button type="button" [disabled]="loading" class="btn-cancel-link"
-                (click)="toggleEdit()">Cancelar</button>
+            <div class="form-actions-row">
+              <button class="btn-form-save" [disabled]="loading" (click)="guardarIdioma(); handleUpdate()">
+                Guardar
+              </button>
+              <button type="button" class="btn-form-cancel" [disabled]="loading" (click)="toggleEdit()">
+                Cancelar
+              </button>
             </div>
           </div>
+        </div>
+
+        <!-- ESTADO CON IDIOMAS CARGADOS -->
+        <div *ngIf="perfil?.idiomas?.length > 0" class="languages-list-wrapper">
+          <div class="languages-list">
+            <div *ngFor="let idioma of perfil.idiomas; let i = index; let last = last" class="language-item"
+              [class.last-item]="last">
+              <div class="language-content">
+                <span class="language-name">{{ idioma.nombre }}</span>
+                <span class="language-level-badge">{{ formatLanguageLevel(idioma.nivel) }}</span>
+              </div>
+              <button *ngIf="isOwnProfile" class="btn-remove-language" (click)="eliminarIdioma(i); handleUpdate()"
+                [attr.aria-label]="'Eliminar ' + idioma.nombre">
+                ✕
+              </button>
+            </div>
+          </div>
+
+          <!-- Botón para añadir otro idioma -->
+          <button *ngIf="isOwnProfile" class="btn-add-another-language" (click)="toggleEdit()">
+            <span class="plus-icon">+</span>
+            Añadir otro idioma
+          </button>
         </div>
       </section>
 
