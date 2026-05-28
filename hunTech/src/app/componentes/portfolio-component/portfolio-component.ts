@@ -231,39 +231,47 @@ export class PortfolioComponent implements OnInit {
   }
 
   async eliminarTodoElPortfolio() {
-    if (confirm('¿Estás seguro de que querés borrar todo el portfolio y sus imágenes asociadas?')) {
-      try {
 
-        const payload = {
-          imagenes1: this.portfolio?.imagenes1 || [],
-          imagenes2: this.portfolio?.imagenes2 || [],
-          imagenes3: this.portfolio?.imagenes3 || [],
-        };
+    // uso el alert service que cree
+    const confirmado = await this.alertService.confirm(
+      '¿Estás seguro de que querés borrar todo el portfolio y sus imágenes asociadas?',
+      'Eliminar portfolio'
+    );
 
-        // 1. Limpieza física en AWS S3 de los strings que tengan URLs
-        await this.portfolioService.deleteAllImagesFromPortfolio(payload);
+    if (!confirmado) return;
+    
+    try {
 
-        // 2. Procede con la lógica para eliminar el Portfolio de la Base de Datos
-        //console.log('Paso 1 completado. Ahora borrando datos de la BD...');
+      const payload = {
+        imagenes1: this.portfolio?.imagenes1 || [],
+        imagenes2: this.portfolio?.imagenes2 || [],
+        imagenes3: this.portfolio?.imagenes3 || [],
+      };
 
-        this.portfolioService.deletePortfolio(this.emailDesarrollador).subscribe({
-          next: (res) => {
-            console.log('Portfolio eliminado de la base de datos con éxito');
-            // limpia la vista
-            this.cargarPortfolio();
-          },
-          error: (dbErr) => {
-            console.error('Las imágenes se borraron de S3, pero falló la Base de Datos:', dbErr);
-            alert('Se borraron las imágenes pero hubo un error al actualizar los datos.');
-          }
-        });
+      // 1. Limpieza física en AWS S3 de los strings que tengan URLs
+      await this.portfolioService.deleteAllImagesFromPortfolio(payload);
 
-      } catch (s3Error) {
-        // Si S3 falló, el código saltó directo acá. La línea de la BBDD nunca se ejecutó.
-        console.error('Operación cancelada. Falló el borrado de imágenes en S3:', s3Error);
-        alert('No se pudo eliminar el portfolio porque falló la eliminación de archivos en el servidor de AWS.');
-      }
+      // 2. Procede con la lógica para eliminar el Portfolio de la Base de Datos
+      //console.log('Paso 1 completado. Ahora borrando datos de la BD...');
+
+      this.portfolioService.deletePortfolio(this.emailDesarrollador).subscribe({
+        next: (res) => {
+          console.log('Portfolio eliminado de la base de datos con éxito');
+          // limpia la vista
+          this.cargarPortfolio();
+        },
+        error: (dbErr) => {
+          console.error('Las imágenes se borraron de S3, pero falló la Base de Datos:', dbErr);
+          this.alertService.error('Se borraron las imágenes pero hubo un error al actualizar los datos.');
+        }
+      });
+
+    } catch (s3Error) {
+      // Si S3 falló, el código saltó directo acá. La línea de la BBDD nunca se ejecutó.
+      console.error('Operación cancelada. Falló el borrado de imágenes en S3:', s3Error);
+      this.alertService.error('No se pudo eliminar el portfolio porque falló la eliminación de archivos en el servidor de AWS.');
     }
+    
   }
 
   cancelarEdicion() {
