@@ -33,7 +33,7 @@
         <h3>{{ portfolio.titulo1 }}</h3>
         <p>{{ portfolio.descripcion1 || 'Sin descripción' }}</p>
         <div class="images-preview" *ngIf="hasImages(portfolio.imagenes1)">
-          <img *ngFor="let img of imagenes1Validas" [src]="img" class="portfolio-img" />
+          <img *ngFor="let img of imagenes1Validas" [src]="img" class="portfolio-img"  (click)="abrirImagen(img)"/>
         </div>
         <a *ngIf="portfolio.repositorio1" [href]="portfolio.repositorio1" target="_blank" class="repo-link">Ver
           repositorio</a>
@@ -45,7 +45,7 @@
         <p>{{ portfolio.descripcion2 || 'Sin descripción' }}</p>
 
         <div class="images-preview" *ngIf="hasImages(portfolio.imagenes2)">
-          <img *ngFor="let img of imagenes2Validas" [src]="img" class="portfolio-img" />
+          <img *ngFor="let img of imagenes2Validas" [src]="img" class="portfolio-img"  (click)="abrirImagen(img)"/>
         </div>
 
         <a *ngIf="portfolio.repositorio2" [href]="portfolio.repositorio2" target="_blank" class="repo-link">Ver
@@ -57,7 +57,7 @@
         <p>{{ portfolio.descripcion3 || 'Sin descripción' }}</p>
 
         <div class="images-preview" *ngIf="hasImages(portfolio.imagenes3)">
-          <img *ngFor="let img of imagenes3Validas" [src]="img" class="portfolio-img" />
+          <img *ngFor="let img of imagenes3Validas" [src]="img" class="portfolio-img"  (click)="abrirImagen(img)"/>
         </div>
 
         <a *ngIf="portfolio.repositorio3" [href]="portfolio.repositorio3" target="_blank" class="repo-link">Ver
