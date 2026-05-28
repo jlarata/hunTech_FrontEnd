@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Users } from '../../servicios/users';
 import { Observable } from 'rxjs';
 import { User } from '@supabase/supabase-js';
 import { AuthService } from '../../servicios/AuthService';
-
-
+import { filter, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   imports: [RouterModule, CommonModule],
@@ -24,6 +23,7 @@ export class Home {
   loading = false;
   activeTab: 'desarrolladores' | 'empresas' = 'desarrolladores';
   openFaq: number | null = null;
+  rolActual: string | null = null;
 
   perks = [
     { icon: 'attach_money', iconClass: 'g', title: '100% gratuito', desc: 'Publicar ofertas básicas no tiene costo.' },
@@ -56,10 +56,19 @@ export class Home {
        this.loadUser();
     } */
 
-  constructor(private authService: AuthService) {
-    // Assign the observable from the service
-    this.user$ = this.authService.user$;
-  }
+
+constructor(private authService: AuthService, private router: Router, private usersService: Users) {
+  this.user$ = this.authService.user$;
+}
+
+ngOnInit(): void {
+  this.usersService.userProfile$.pipe(
+    filter(data => !!data),
+    tap(data => {
+      this.rolActual = data.rol || '';
+    })
+  ).subscribe();
+}
 
   setActiveTab(tab: 'desarrolladores' | 'empresas'): void {
     this.activeTab = tab;
@@ -84,6 +93,20 @@ export class Home {
     window.open('https://www.ifts11.edu.ar', '_blank');
   }
 
+  irAContratos() {
+  if (this.rolActual === 'gerente') {
+    this.router.navigate(['/profile']);
+  } else {
+    alert('Esta sección es exclusiva para empresas. Registrate como empresa para acceder.');
+  }
+}
+irAlPerfil(): void {
+  if (this.rolActual === 'desarrollador') {
+    this.router.navigate(['/profile']);
+  } else {
+    alert('Esta sección es exclusiva para desarrolladores. Registrate como desarrollador para acceder.');
+  }
+}
   /* private loadUser(): void {
     // user$ ya tiene el objeto que guardamos enCognito y data de la db si hay
     this._usersService.user$.subscribe({

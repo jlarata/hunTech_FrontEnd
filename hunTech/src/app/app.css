@@ -13,6 +13,11 @@
   --bg-split: linear-gradient(to right, #d9f9d2 50%, #e2fdbe 50%);
   --accent-secondary: #f59e0b;
   --danger-primary: #a00c0c;
+  --match-col: #C4B5F4;
+  --match-badge: #FFD166;
+  --match-btn: #FFD166;
+  --tags:#ecfdf5;
+  --tags-seniority:#fef3c7;
 }
 
 .dark-theme {
@@ -24,6 +29,11 @@
   --border-color: #333333;
   --navbar-bg: rgba(20, 10, 40, 0.85);
   --accent-primary: #a855f7;
+  --match-col:#67309b;
+  --match-badge: #D946EF;
+  --match-btn: #8b5cf6;
+  --tags:#e5d7ff;
+  --tags-seniority:#fed67a;
   --bg-split: linear-gradient(to right, #111111 50%, #000000 50%);
 }
 
@@ -814,13 +824,12 @@ input {
   box-sizing: border-box;
   color: var(--text-main);
 }
-
 input:focus {
   outline: none;
-  border-color: var(--accent-primary);
+  border-color: var(--border-color);
   background-color: var(--bg-primary);
-  box-shadow: 0 0 0 4px rgba(48, 10, 110, 0.1);
-}
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+} 
 
 button[type="submit"] {
   background: var(--accent-primary);
@@ -846,8 +855,7 @@ button[type="submit"]:hover {
 
 button:hover {
   background-color: var(--accent-primary);
-}
-
+} 
 button:hover:not(:disabled) {
   transform: translateY(-2px);
   filter: brightness(1.1);
@@ -1401,6 +1409,9 @@ button:disabled {
   color: #ffffff;
  font-size:24px;
  font-weight: bold;
+  width: fit-content; 
+  display: inline-block;
+ 
 }
 
 
@@ -1574,406 +1585,313 @@ button:disabled {
 }
 
 /* RESPONSIVE */
+
 @media (max-width: 992px) {
-
-  html,
-  body {
-
-
-    html,
-    body {
-      overflow-x: hidden;
-    }
-
-    .ifts-banner-container {
-      position: relative;
-      left: auto;
-      top: auto;
-      display: flex;
-      justify-content: center;
-      margin: 20px auto;
-      order: -1;
-    }
-
-    .ifts-banner-img {
-      width: 100px;
-      height: 100px;
-      filter: grayscale(100%) contrast(1.1) brightness(0.9);
-      transform: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    /*desactivar cualquier hover/active en mobile */
-    .ifts-banner-container:hover .ifts-banner-img,
-    .ifts-banner-img:hover,
-    .ifts-banner-container:active .ifts-banner-img,
-    .ifts-banner-img:active {
-      transform: none;
-      filter: grayscale(100%) contrast(1.1) brightness(0.9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .features-grid {
-      grid-template-columns: 1fr;
-      gap: 60px;
-    }
-
-    .features-grid::after {
-      display: none;
-    }
-
-    .recruiter-column {
-      padding-left: 0;
-      padding-top: 60px;
-      border-top: 1px solid #f0f0f0;
-    }
-
-    .feature-title {
-      font-size: 2.2rem;
-    }
+  html, body {
+    overflow-x: hidden;
   }
 
-  @media (max-width: 992px) {
-
-    .hero {
-      flex-direction: column;
-      height: auto;
-    }
-
-    .hero-right {
-      flex: none;
-      width: 100%;
-      height: auto;
-      min-height: unset;
-      padding: 30px 20px 50px 20px;
-      border-radius: 0;
-      margin-top: 0;
-    }
-
-    .tags-cloud {
-      position: static;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
-      align-items: center;
-      max-width: 95%;
-      margin: 0 auto;
-    }
-
-    .floating-tag {
-      position: static !important;
-      animation: none !important;
-      transform: none !important;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
-      padding: 10px 18px !important;
-      font-size: 0.88rem !important;
-    }
-
-    .floating-tag:hover {
-      transform: scale(1.08) !important;
-    }
-
-    .navbar {
-      padding: 15px 20px;
-      flex-direction: column;
-      gap: 10px;
-      position: relative;
-      background: white;
-    }
-
-    .nav-links {
-      width: 100%;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .descripcion-container {
-      flex-direction: column;
-      padding-top: 80px;
-    }
-
-    .logo-header-global {
-      position: relative;
-      top: 0;
-      left: 0;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .header-divider {
-      display: none;
-    }
-
-    .hero-left {
-      padding: 100px 20px 40px 20px !important;
-      flex: none;
-      width: 100%;
-      text-align: center;
-      align-items: center;
-    }
-
-    .hero-badge {
-      margin-left: auto !important;
-      margin-right: auto !important;
-      font-size: 0.75rem;
-      padding: 6px 14px;
-    }
-
-    /* ajustar el tamaño del título para que no quede alto */
-    .hero-left h1 {
-      font-size: clamp(2rem, 8vw, 2.8rem);
-      margin-bottom: 16px;
-    }
-
-    /* descripción más compacta */
-    .hero-description {
-      margin-left: auto;
-      margin-right: auto;
-      font-size: 0.95rem;
-      margin-bottom: 24px;
-    }
-
-    /* beneficios centrados y más compactos */
-    .beneficios {
-      align-items: center;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .beneficios li {
-      justify-content: center;
-      text-align: center;
-      padding: 10px 16px;
-    }
-
-    .hero {
-      flex-direction: column !important;
-      flex-wrap: nowrap !important;
-    }
-
-    .hero-left {
-      flex: none !important;
-      width: 100% !important;
-      padding: 90px 20px 30px 20px !important;
-      text-align: center;
-      align-items: center;
-    }
-
-    .hero-right {
-      flex: none !important;
-      width: 100% !important;
-      min-height: auto !important;
-      padding: 10px 20px 40px 20px !important;
-    }
-
-    .hero-badge {
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
-    .hero-left h1,
-    .hero-description,
-    .beneficios {
-      margin-left: auto;
-      margin-right: auto;
-    }
+  .ifts-banner-container {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    order: -1;
   }
 
-  @media (max-width: 768px) {
-    .hiw-title {
-      font-size: 2.2rem !important;
-    }
-
-    .hiw-grid {
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .hiw-card {
-      padding: 2.5rem 1.8rem;
-    }
-
-    .how-it-works-section {
-      padding: 3.5rem 5%;
-      margin: 2.5rem auto;
-      border-radius: 20px;
-    }
-
-    .feature-columna {
-      padding: 40px 20px !important;
-    }
-
-    .feature-title {
-      font-size: 2.2rem !important;
-      margin-bottom: 30px !important;
-    }
-
-    .feature-list {
-      gap: 20px !important;
-    }
-
-    .huntech-footer {
-      padding: 60px 20px 30px 20px !important;
-    }
-
-    .footer-top {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2.5rem;
-    }
-
-    .footer-links {
-      gap: 2.5rem;
-      width: 100%;
-    }
-
-    .footer-bottom {
-      flex-direction: column-reverse;
-      gap: 1.5rem;
-      text-align: center;
-    }
+  .ifts-banner-img {
+    width: 100px;
+    height: 100px;
+    filter: grayscale(100%) contrast(1.1) brightness(0.9);
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  @media (max-width: 576px) {
-    .modal-card {
-      padding: 35px 20px 20px 20px;
-      border-radius: 20px;
-      width: 95%;
-    }
-
-    .btn-close {
-      top: 12px;
-      right: 12px;
-      width: 28px;
-      height: 28px;
-      font-size: 18px;
-    }
-
-
-    .hero-left {
-      padding-top: 80px !important;
-      padding-bottom: 30px;
-    }
-
-
-    .hero-badge {
-      margin-bottom: 20px;
-    }
-
-    .hero-left {
-      padding-top: 80px !important;
-      padding-bottom: 20px !important;
-    }
-
-
-    .floating-tag {
-      font-size: 0.8rem !important;
-      padding: 8px 12px !important;
-    }
+  .ifts-banner-container:hover .ifts-banner-img,
+  .ifts-banner-img:hover,
+  .ifts-banner-container:active .ifts-banner-img,
+  .ifts-banner-img:active {
+    transform: none;
+    filter: grayscale(100%) contrast(1.1) brightness(0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  @media (max-width: 480px) {
-    .hero-right {
-      display: none;
-    }
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 60px;
   }
 
-  @media (max-width: 992px) {
-    .hero-left {
-      display: block !important;
-      text-align: center !important;
-      padding: 90px 20px 30px 20px !important;
-      width: 100% !important;
-      box-sizing: border-box;
-    }
-
-    /* Centrar todos los textos del hero */
-    .hero-left h1,
-    .hero-left .hero-description,
-    .hero-left .beneficios {
-      text-align: center !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-
-    .hero-left h1 {
-      font-size: clamp(1.9rem, 7vw, 2.6rem) !important;
-      line-height: 1.15 !important;
-    }
-
-    /* Beneficios: centrar cada item */
-    .hero-left .beneficios {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      gap: 10px !important;
-      padding: 0 !important;
-    }
-
-    .hero-left .beneficios li {
-      justify-content: center !important;
-      text-align: center !important;
-      width: 80% !important;
-      max-width: 400px;
-      margin: 0 auto !important;
-      font-size: 0.9rem !important;
-      padding: 10px 14px !important;
-    }
+  .features-grid::after {
+    display: none;
   }
 
-  @media (max-width: 576px) {
-    .hero-left {
-      padding: 80px 15px 25px 15px !important;
-    }
+  .recruiter-column {
+    padding-left: 0;
+    padding-top: 60px;
+    border-top: 1px solid #f0f0f0;
   }
 
-  /*MODO OSCURO: FOOTER */
-  .dark-theme .huntech-footer::before {
-    background: rgba(15, 23, 42, 0.85);
+  .feature-title {
+    font-size: 2.2rem;
   }
 
-  .dark-theme .footer-logo,
-  .dark-theme .footer-column h4,
-  .dark-theme .social-links a {
-    color: #ffffff !important;
+  .hero {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    height: auto;
   }
 
-  .dark-theme .footer-desc,
-  .dark-theme .footer-column a {
-    color: #94a3b8;
+  .hero-left {
+    display: block !important;
+    flex: none !important;
+    width: 100% !important;
+    padding: 90px 20px 30px 20px !important;
+    text-align: center !important;
+    align-items: center;
+    box-sizing: border-box;
   }
 
-  .dark-theme .footer-bottom {
-    border-top: 1px solid rgba(218, 214, 214, 0.1);
-    color: #64748b;
+  .hero-left h1 {
+    font-size: clamp(1.9rem, 7vw, 2.6rem) !important;
+    line-height: 1.15 !important;
+    margin-bottom: 16px;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
-  /* modo oscuro: como funciona HUNTECH*/
-  .dark-theme .how-it-works-section {
-    background-color: #000000;
-    background-image:
-      radial-gradient(circle at top right, rgba(168, 85, 247, 0.2), transparent 50%),
-      radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.1), transparent 50%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  .hero-right {
+    flex: none !important;
+    width: 100% !important;
+    height: auto;
+    min-height: unset !important;
+    padding: 10px 20px 40px 20px !important;
+    border-radius: 0;
+    margin-top: 0;
   }
 
-  .dark-theme .step-1-box,
-  .dark-theme .step-2-box,
-  .dark-theme .step-3-box {
-    background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
-    box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+  .hero-badge {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 0.75rem;
+    padding: 6px 14px;
   }
 
-  /*modo oscuro scroll infinito */
-  .dark-theme .huntech-ticker {
-    background-color: #01020b;
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
-  .dark-theme .ticker-item {
-    color: #f4f4f4;
+  .beneficios {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    max-width: 400px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
+
+  .beneficios li {
+    justify-content: center !important;
+    text-align: center !important;
+    width: 80% !important;
+    max-width: 400px;
+    margin: 0 auto !important;
+    font-size: 0.9rem !important;
+    padding: 10px 14px !important;
+  }
+
+  .tags-cloud {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    max-width: 95%;
+    margin: 0 auto;
+  }
+
+  .floating-tag {
+    position: static !important;
+    animation: none !important;
+    transform: none !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+    padding: 10px 18px !important;
+    font-size: 0.88rem !important;
+  }
+
+  .floating-tag:hover {
+    transform: scale(1.08) !important;
+  }
+
+  .descripcion-container {
+    flex-direction: column;
+    padding-top: 80px;
+  }
+
+  .logo-header-global {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .header-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hiw-title {
+    font-size: 2.2rem !important;
+  }
+
+  .hiw-grid {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .hiw-card {
+    padding: 2.5rem 1.8rem;
+  }
+
+  .how-it-works-section {
+    padding: 3.5rem 5%;
+    margin: 2.5rem auto;
+    border-radius: 20px;
+  }
+
+  .feature-columna {
+    padding: 40px 20px !important;
+  }
+
+  .feature-title {
+    font-size: 2.2rem !important;
+    margin-bottom: 30px !important;
+  }
+
+  .feature-list {
+    gap: 20px !important;
+  }
+
+  .huntech-footer {
+    padding: 60px 20px 30px 20px !important;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
+
+  .footer-links {
+    gap: 2.5rem;
+    width: 100%;
+  }
+
+  .footer-bottom {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-card {
+    padding: 35px 20px 20px 20px;
+    border-radius: 20px;
+    width: 95%;
+  }
+
+  .btn-close {
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  .hero-left {
+    padding: 80px 15px 25px 15px !important;
+  }
+
+  .hero-badge {
+    margin-bottom: 20px;
+  }
+
+  .floating-tag {
+    font-size: 0.8rem !important;
+    padding: 8px 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-right {
+    display: none;
+  }
+}
+
+/* MODO OSCURO: FOOTER */
+.dark-theme .huntech-footer::before {
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.dark-theme .footer-logo,
+.dark-theme .footer-column h4,
+.dark-theme .social-links a {
+  color: #ffffff !important;
+}
+
+.dark-theme .footer-desc,
+.dark-theme .footer-column a {
+  color: #94a3b8;
+}
+
+.dark-theme .footer-bottom {
+  border-top: 1px solid rgba(218, 214, 214, 0.1);
+  color: #64748b;
+}
+
+/* MODO OSCURO: COMO FUNCIONA HUNTECH */
+.dark-theme .how-it-works-section {
+  background-color: #000000;
+  background-image:
+    radial-gradient(circle at top right, rgba(168, 85, 247, 0.2), transparent 50%),
+    radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.1), transparent 50%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark-theme .step-1-box,
+.dark-theme .step-2-box,
+.dark-theme .step-3-box {
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+  border-radius: 8px;
+  padding: 0.2rem 0.8rem;
+  width: fit-content;
+  height: auto;
+}
+
+/* MODO OSCURO: SCROLL INFINITO */
+.dark-theme .huntech-ticker {
+  background-color: #01020b;
+}
+
+.dark-theme .ticker-item {
+  color: #f4f4f4;
 }
