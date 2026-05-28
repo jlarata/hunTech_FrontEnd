@@ -1,8 +1,9 @@
 .appearance-page {
-  background: #f0faf0;
+  background: var(--bg-secondary);
   padding: 32px 24px;
   min-height: auto;
   font-family: 'Inter', sans-serif;
+  border-radius:20px;
 }
 
 .appearance-card {
