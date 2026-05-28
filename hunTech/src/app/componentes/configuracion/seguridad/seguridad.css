@@ -3,6 +3,7 @@
   padding: 32px 24px;
   min-height: auto;
   font-family: 'Inter', sans-serif;
+  border-radius:20px;
 }
 
 .security-card {

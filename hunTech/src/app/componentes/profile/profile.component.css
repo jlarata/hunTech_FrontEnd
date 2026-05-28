@@ -1551,116 +1551,6 @@ label {
   border-width: 0;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .dashboard-wrapper {
-    flex-direction: column;
-    width: 100%;
-    padding: 100px 15px 30px 15px;
-    gap: 20px;
-  }
-
-  .sidebar {
-    width: 100%;
-    order: 2;
-    display: none;
-  }
-
-  .sidebar.open {
-    display: block;
-  }
-
-  .btn-toggle-sidebar {
-    display: block;
-    background: var(--accent-primary);
-    color: var(--bg-secondary);
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-
-
-  .profile-top {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .data-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .gender-options {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .form-actions {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .btn-edit-blue,
-  .btn-save,
-  .btn-upload,
-  .btn-add,
-  .btn-cancel-link {
-    width: 100%;
-    padding: 15px;
-  }
-
-  .form-container>.btn-save,
-  .section-header>.btn-edit-blue {
-    width: fit-content;
-    align-self: center;
-    padding: 9px 16px;
-  }
-  .oferta-pills-row,
-  .oferta-skills-badges {
-    margin-left: 0;
-  }
-
-  .oferta-card-header {
-    flex-wrap: wrap;
-  }
-
-  .oferta-header-meta {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .form-row-two-cols {
-    flex-direction: column;
-  }
-
-  .profile-hero-visual {
-    display: none;
-  }
-
-  .section-container,
-  .section-style {
-    padding: 20px 16px !important;
-  }
-
-  .profile-card {
-    padding: 20px 16px !important;
-  }
-} /*aca cierra 768%*/
-
 .error-message {
   color: var(--danger-primary);
   font-size: 0.85rem;
@@ -1725,35 +1615,182 @@ label {
   color: #fff;
 }
 
-@media (max-width: 480px) {
-  .user-h3 {
-    font-size: 1.2rem;
+/*  RESPONSIVE 
+ */
+@media (max-width: 1024px) {
+  .dashboard-wrapper {
+    gap: 32px;
+    padding: 100px 3% 40px 3%;
   }
 
-  .ofertas-card {
-    padding: 16px 16px 0 16px;
+  .sidebar {
+    width: 260px;
   }
 
-  .oferta-card-footer {
-    margin: 0 -16px;
-    padding: 12px 16px;
+  .card,
+  .profile-card-section {
+    max-width: 100%;
   }
+}
 
-  .pill-badge {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-  }
-
-  .btn-add-another-language {
+/* Tablets (≤ 900px) */
+@media (max-width: 900px) {
+  .dashboard-wrapper {
+    flex-direction: column;
     width: 100%;
-    justify-content: center;
+    padding: 100px 15px 30px 15px;
+    gap: 20px;
   }
+
+  .sidebar {
+    width: 100%;
+    flex-shrink: 1;
+    order: -1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .menu-card {
+    padding: 8px 10px;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 6px;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .nav-list::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .nav-list::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+    border-radius: 10px;
+  }
+
+  .nav-list li {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .nav-list li:hover {
+    border-left: none;
+    border-bottom: 3px solid color-mix(in srgb, var(--accent-primary) 35%, transparent);
+  }
+
+  .nav-list li.active {
+    border-left: none;
+    border-bottom: 3px solid var(--accent-primary);
+  }
+
+  .profile-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .data-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .gender-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-edit-blue,
+  .btn-save,
+  .btn-upload,
+  .btn-add,
+  .btn-cancel-link {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .form-container>.btn-save,
+  .section-header>.btn-edit-blue {
+    width: fit-content;
+    align-self: center;
+    padding: 9px 16px;
+  }
+
+  .oferta-pills-row,
+  .oferta-skills-badges {
+    margin-left: 0;
+  }
+
+  .oferta-card-header {
+    flex-wrap: wrap;
+  }
+
+  .oferta-header-meta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .form-row-two-cols {
+    flex-direction: column;
+  }
+
+  .profile-hero-visual {
+    display: none;
+  }
+
+  .section-container,
+  .section-style {
+    padding: 20px 16px !important;
+  }
+
+  .profile-card {
+    padding: 20px 16px !important;
+  }
+}
+
+/*celular chico (≤ 480px) */
+@media (max-width: 480px) {
   .dashboard-wrapper {
     padding: 90px 10px 20px 10px;
   }
 
   .card {
     padding: 15px;
+  }
+
+  .user-h3 {
+    font-size: 1.2rem;
   }
 
   .user-meta {
@@ -1776,8 +1813,10 @@ label {
   .sidebar-text {
     font-size: 0.8rem;
   }
-  .user-h3 {
-    font-size: 1.2rem;
+
+  .nav-list li {
+    padding: 8px 14px;
+    font-size: 0.85rem;
   }
 
   .ofertas-card {
@@ -1798,20 +1837,4 @@ label {
     width: 100%;
     justify-content: center;
   }
-
-} /*aca termina 480%*/
-@media (max-width: 1024px) {
-  .dashboard-wrapper {
-    gap: 32px;
-    padding: 100px 3% 40px 3%;
-  }
-
-  .sidebar {
-    width: 260px;
-  }
-
-  .card,
-  .profile-card-section {
-    max-width: 100%;
-  }
-} /*aca termina 1024%*/
+}

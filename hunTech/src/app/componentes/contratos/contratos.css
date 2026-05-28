@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-
 .contratos-split-layout {
   display: flex;
   height: calc(100vh - 64px);
@@ -400,7 +399,7 @@
 }
 
 .drawer-bottom {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   z-index: 5;
   background: var(--card-bg);
@@ -409,8 +408,14 @@
   margin: auto -16px 0 -16px;
   border-radius: 20px 20px 0 0;
   backdrop-filter: blur(8px);
+   left: 220px;
+  width: 400px; 
+  max-height: 52px;
+  overflow: hidden;
 }
-
+.drawer-bottom.drawer-open {
+  max-height: 400px;
+}
 .dark-theme .drawer-bottom {
   box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.2);
 }
@@ -480,9 +485,9 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0 8px;
+  padding: 0 8px; 
+  overflow-y: auto;
 }
-
 .drawer-open .drawer-content {
   max-height: 55vh;
   overflow-y: auto;
@@ -623,8 +628,8 @@
 @media (max-width: 900px) {
   .contratos-split-layout {
     flex-direction: column;
-    margin-left: 0;
     height: auto;
+    margin-left:0;
   }
 
   .contratos-list-panel {
@@ -639,5 +644,17 @@
   .contrato-detail-panel {
     height: 55vh;
     padding: 1rem;
+  }
+   .drawer-bottom {
+    left: 0;
+    width: 100%;
+    max-height: 52px;
+}
+  .drawer-bottom.drawer-open {
+    max-height: 55vh;
+  }
+
+  .drawer-content {
+    max-height: calc(55vh - 52px);
   }
 }
