@@ -15,6 +15,7 @@ export class PortfolioComponent implements OnInit {
 
   portfolio: Portfolio | null = null;
   mostrarFormulario = false;
+  formularioEsEdicion = false;
   cargando = false;
   guardando = false;
   formData: any = {
@@ -52,7 +53,7 @@ export class PortfolioComponent implements OnInit {
     }
   }
 
-  editarPortfolio() {
+  abrircrearPortfolio() {
     // Cargar datos existentes en el formulario
     this.formData = {
       titulo1: this.portfolio?.titulo1 || '',
@@ -74,6 +75,78 @@ export class PortfolioComponent implements OnInit {
     // Limpiar previsualizaciones
     this.previews = { imagenes1: [], imagenes2: [], imagenes3: [] };
     this.mostrarFormulario = true;
+    //esto no debería ser necesario pero por las dudas...
+    this.formularioEsEdicion = false;
+  }
+
+  abrireditarPortfolio() {
+    // Cargar datos existentes en el formulario
+    this.formData = {
+      titulo1: this.portfolio?.titulo1 || '',
+      descripcion1: this.portfolio?.descripcion1 || '',
+      repositorio1: this.portfolio?.repositorio1 || '',
+      imagenes1: this.portfolio?.imagenes1 || [],
+      files1: [],
+      titulo2: this.portfolio?.titulo2 || '',
+      descripcion2: this.portfolio?.descripcion2 || '',
+      repositorio2: this.portfolio?.repositorio2 || '',
+      imagenes2: this.portfolio?.imagenes2 || [],
+      files2: [],
+      titulo3: this.portfolio?.titulo3 || '',
+      descripcion3: this.portfolio?.descripcion3 || '',
+      repositorio3: this.portfolio?.repositorio3 || '',
+      imagenes3: this.portfolio?.imagenes3 || [],
+      files3: []
+    };
+    // Limpiar previsualizaciones
+    this.previews = { imagenes1: [], imagenes2: [], imagenes3: [] };
+    this.mostrarFormulario = true;
+    this.formularioEsEdicion = true;
+  }
+
+  async editarPortfolio() {
+
+    if (!this.formData.titulo1?.trim()) {
+      this.alertService.warning('El primer proyecto debe tener un título');
+      return;
+    }
+
+    this.guardando = true;
+    try {
+      //ACÁ HAY QUE AGREGAR UNA LÓGICA QUE 
+      // A) CHEQUEE SI LAS URL DE LAS IMÁGENES DEL FORM CAMBIARON RESPECTO DE LAS DE THIS.PORFTOLIO
+      // B) Y EN CASO DE QUE HAYA CAMBIADO ALGUNA, RECIÉN ENTONCES EJECUTE LO QUE CORRESPONDA DE LO QUE SIGUE:
+      // Subir imágenes de cada proyecto a S3 y obtener URLs
+      const imagenesUrls1 = await this.subirImagenesProyecto(1);
+      const imagenesUrls2 = await this.subirImagenesProyecto(2);
+      const imagenesUrls3 = await this.subirImagenesProyecto(3);
+
+      const payload = {
+        titulo1: this.formData.titulo1,
+        descripcion1: this.formData.descripcion1,
+        repositorio1: this.formData.repositorio1,
+        imagenes1: imagenesUrls1,
+        titulo2: this.formData.titulo2,
+        descripcion2: this.formData.descripcion2,
+        repositorio2: this.formData.repositorio2,
+        imagenes2: imagenesUrls2,
+        titulo3: this.formData.titulo3,
+        descripcion3: this.formData.descripcion3,
+        repositorio3: this.formData.repositorio3,
+        imagenes3: imagenesUrls3
+      };
+
+      await this.portfolioService.updatePortfolio(this.emailDesarrollador, payload).toPromise();
+      this.alertService.success('Portfolio guardado correctamente');
+      await this.cargarPortfolio();
+      this.mostrarFormulario = false;
+      this.formularioEsEdicion = false;
+    } catch (error: any) {
+      console.error(error);
+      this.alertService.error(error?.error?.error || 'Error al guardar el portfolio');
+    } finally {
+      this.guardando = false;
+    }
   }
 
   // Manejar selección de archivos para un proyecto específico
@@ -162,23 +235,10 @@ export class PortfolioComponent implements OnInit {
       try {
 
         const payload = {
-          /* titulo1: this.portfolio?.titulo1 || '',
-          descripcion1: this.portfolio?.descripcion1 || '',
-          repositorio1: this.portfolio?.repositorio1 || '', */
           imagenes1: this.portfolio?.imagenes1 || [],
-          /* files1: [],
-          titulo2: this.portfolio?.titulo2 || '',
-          descripcion2: this.portfolio?.descripcion2 || '',
-          repositorio2: this.portfolio?.repositorio2 || '', */
           imagenes2: this.portfolio?.imagenes2 || [],
-          /* files2: [],
-          titulo3: this.portfolio?.titulo3 || '',
-          descripcion3: this.portfolio?.descripcion3 || '',
-          repositorio3: this.portfolio?.repositorio3 || '', */
           imagenes3: this.portfolio?.imagenes3 || [],
-          /* files3: [] */
         };
-
 
         // 1. Limpieza física en AWS S3 de los strings que tengan URLs
         await this.portfolioService.deleteAllImagesFromPortfolio(payload);
@@ -206,10 +266,9 @@ export class PortfolioComponent implements OnInit {
     }
   }
 
-
-
   cancelarEdicion() {
     this.mostrarFormulario = false;
+    this.formularioEsEdicion = false;
     this.formData = {};
     this.previews = { imagenes1: [], imagenes2: [], imagenes3: [] };
   }

@@ -138,5 +138,27 @@ export class PortfolioService {
     }
   }
 
+  updatePortfolio(email: string, portfolioData: any): Observable<any> {
+        
+      // Validación de seguridad
+      if (!email) {
+        console.error("Faltan datos críticos. Email: ", email);
+        throw new Error("No se puede actualizar sin email");
+      }
+      const url = `${this.apiUrl}updateportfolio/${email}`;
+      //console.log("URL: ", url)
+      //console.log("data: ", portfolioData)
+      return this.http.put<any>(url, portfolioData)
+      //lo que sigue es cómo está handleado en la edición de usuarios:
+      /* .pipe(
+            tap(() => {
+              // Actualiza el estado local para que los cambios se vean al instante
+              // const current = this.getUserProfileValue(); 
+              const current = this.userProfileSubject.value;
+              this.setUserProfile({ ...current, ...userData });
+            })
+          ); */
+    }
+
 
 }
