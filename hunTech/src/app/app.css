@@ -13,6 +13,11 @@
   --bg-split: linear-gradient(to right, #d9f9d2 50%, #e2fdbe 50%);
   --accent-secondary: #f59e0b;
   --danger-primary: #a00c0c;
+  --match-col: #C4B5F4;
+  --match-badge: #FFD166;
+  --match-btn: #FFD166;
+  --tags:#ecfdf5;
+  --tags-seniority:#fef3c7;
 }
 
 .dark-theme {
@@ -24,6 +29,11 @@
   --border-color: #333333;
   --navbar-bg: rgba(20, 10, 40, 0.85);
   --accent-primary: #a855f7;
+  --match-col:#67309b;
+  --match-badge: #D946EF;
+  --match-btn: #8b5cf6;
+  --tags:#e5d7ff;
+  --tags-seniority:#fed67a;
   --bg-split: linear-gradient(to right, #111111 50%, #000000 50%);
 }
 
@@ -1401,6 +1411,9 @@ button:disabled {
   color: #ffffff;
  font-size:24px;
  font-weight: bold;
+  width: fit-content; 
+  display: inline-block;
+ 
 }
 
 
@@ -1966,6 +1979,10 @@ button:disabled {
   .dark-theme .step-3-box {
     background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
     box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+    border-radius: 8px;
+  padding: 0.2rem 0.8rem;
+  width: fit-content;
+  height: auto;
   }
 
   /*modo oscuro scroll infinito */

@@ -18,15 +18,15 @@
 
     <hr class="header-divider" />
 
-
     <div class="menu-toggle" (click)="toggleMenu()">
       <span class="bar"></span>
       <span class="bar"></span>
       <span class="bar"></span>
     </div>
 
-
     <ul class="nav-links" [class.active]="menuActive">
+
+      <!-- BOTÓN CERRAR MENÚ -->
       <!-- <li class="nav-close">
         <button class="material-icons-outlined btn-menu-close" type="button" (click)="closeMenu()"
           aria-label="Cerrar menú">&times;</button>
@@ -37,6 +37,7 @@
         </button>
       </li>
 
+      <!-- LINKS PARA USUARIOS LOGUEADOS -->
       <ng-container *ngIf="user$ | async; else guestLinks">
 
         <li class="nav-item-with-dropdown" *ngIf="rolActual === 'desarrollador'">
@@ -44,27 +45,6 @@
             <span class="material-icons-outlined">search</span>
             Buscar Empleo
           </a>
-          <!--
-          <ul class="dropdown-menu">
-            <li>
-              <a (click)="navigateToFragment('sin-postular')" [class.active]="activeFragment === 'sin-postular'">
-                <span class="material-icons-outlined">assignment_late</span>
-                Sin postular
-              </a>
-            </li>
-            <li>
-              <a (click)="navigateToFragment('pendientes')" [class.active]="activeFragment === 'pendientes'">
-                <span class="material-icons-outlined">history</span>
-                Pendientes
-              </a>
-            </li>
-            <li>
-              <a (click)="navigateToFragment('asignados')" [class.active]="activeFragment === 'asignados'">
-                <span class="material-icons-outlined">assignment_turned_in</span>
-                Asignados
-              </a>
-            </li>
-          </ul>-->
         </li>
 
         <li class="nav-item-with-dropdown" *ngIf="rolActual === 'gerente'">
@@ -72,24 +52,6 @@
             <span class="material-icons-outlined">search</span>
             Ver mis contratos
           </a>
-
-          <!-- <ul class="dropdown-menu" *ngIf="isOnContratos">
-            <li>
-              <a [routerLink]="['/contratos']" [fragment]="'sin-postular'" (click)="closeMenu()">
-                Sin postular
-              </a>
-            </li>
-            <li>
-              <a [routerLink]="['/contratos']" [fragment]="'pendientes'" (click)="closeMenu()">
-                Pendientes
-              </a>
-            </li>
-            <li>
-              <a [routerLink]="['/contratos']" [fragment]="'asignados'" (click)="closeMenu()">
-                Asignados
-              </a>
-            </li>
-          </ul> -->
         </li>
 
         <li class="nav-item" *ngIf="isgests">
@@ -114,22 +76,18 @@
           </a>
         </li>
 
-      </ng-container>
+        <!-- ICONOS PARA USUARIOS LOGUEADOS -->
+        <li class="nav-icons-row">
+          <button class="btn-book-nav" (click)="openBook()" title="Ver libro HunTech">
+            <span class="material-icons-outlined">menu_book</span>
+          </button>
+          <button class="btn-theme-toggle-nav" (click)="toggleModoOscuro()"
+            [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
+            <span class="material-icons-outlined">{{ isModoOscuro ? 'light_mode' : 'dark_mode' }}</span>
+          </button>
+        </li>
 
-      <li>
-        <button class="btn-book-nav" (click)="openBook()" title="Ver libro HunTech">
-          <span class="material-icons-outlined">menu_book</span>
-        </button>
-      </li>
-
-      <li>
-        <button class="btn-theme-toggle-nav" (click)="toggleModoOscuro()"
-          [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
-          <span class="material-icons-outlined">{{ isModoOscuro ? 'light_mode' : 'dark_mode' }}</span>
-        </button>
-      </li>
-
-      <ng-container *ngIf="user$ | async">
+        <!-- DROPDOWN CUENTA -->
         <li class="nav-item-with-dropdown">
           <button class="btn-account">
             <span class="material-icons-outlined">account_circle</span>
@@ -157,31 +115,32 @@
             </li>
           </ul>
         </li>
+
       </ng-container>
 
+      <!-- LINKS PARA GUESTS (NO LOGUEADOS) -->
       <ng-template #guestLinks>
-        <li>
+
+        <!-- BOTONES LOGIN Y REGISTRO uno al lado del otro -->
+        <li class="guest-btns-row">
           <button class="btn-login-nav" (click)="onLogin.emit(); closeMenu()">Iniciar Sesión</button>
-        </li>
-        <li>
           <button class="btn-registro-nav" (click)="onRegister.emit(); closeMenu()">Registrate</button>
         </li>
-      </ng-template>
-    </ul>
 
-    <!-- <div class="navbar-subindex" *ngIf="isOnContratos">
-      <a class="subindex-btn" (click)="navigateToFragment('sin-postular')"
-        [class.active]="activeFragment === 'sin-postular'">
-        Sin postular
-      </a>
-      <a class="subindex-btn" (click)="navigateToFragment('pendientes')"
-        [class.active]="activeFragment === 'pendientes'">
-        Pendientes
-      </a>
-      <a class="subindex-btn" (click)="navigateToFragment('asignados')" [class.active]="activeFragment === 'asignados'">
-        Asignados
-      </a>
-    </div> -->
+        <!-- ICONOS PARA GUESTS uno al lado del otro -->
+        <li class="nav-icons-row">
+          <button class="btn-book-nav" (click)="openBook()" title="Ver libro HunTech">
+            <span class="material-icons-outlined">menu_book</span>
+          </button>
+          <button class="btn-theme-toggle-nav" (click)="toggleModoOscuro()"
+            [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
+            <span class="material-icons-outlined">{{ isModoOscuro ? 'light_mode' : 'dark_mode' }}</span>
+          </button>
+        </li>
+
+      </ng-template>
+
+    </ul>
   </nav>
 
   <!-- MODAL DEL LIBRO -->
@@ -194,6 +153,7 @@
         <!-- LIBRO -->
         <div class="mini-book-scene">
           <div class="mini-book" [class.is-closed]="bookSpread === 0" [class.is-animating]="bookAnimating">
+
             <!-- PÁGINA IZQUIERDA (O CONTRATAPA) -->
             <div class="mini-page mini-left-page" (click)="bookPrev()" *ngIf="bookSpreads[bookSpread][0] !== -1"
               [style.background]="bookPages[bookSpreads[bookSpread][0]].bg"
@@ -243,6 +203,7 @@
                 </ng-container>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -257,8 +218,10 @@
             <span class="material-icons-outlined">chevron_right</span>
           </button>
         </div>
+
       </div>
     </div>
   </div>
   }
+
 </main>
