@@ -16,8 +16,8 @@
   --match-col: #C4B5F4;
   --match-badge: #FFD166;
   --match-btn: #FFD166;
-  --tags:#ecfdf5;
-  --tags-seniority:#fef3c7;
+  --tags: #ecfdf5;
+  --tags-seniority: #fef3c7;
 }
 
 .dark-theme {
@@ -29,11 +29,11 @@
   --border-color: #333333;
   --navbar-bg: rgba(20, 10, 40, 0.85);
   --accent-primary: #a855f7;
-  --match-col:#67309b;
+  --match-col: #67309b;
   --match-badge: #D946EF;
   --match-btn: #8b5cf6;
-  --tags:#e5d7ff;
-  --tags-seniority:#fed67a;
+  --tags: #e5d7ff;
+  --tags-seniority: #fed67a;
   --bg-split: linear-gradient(to right, #111111 50%, #000000 50%);
 }
 
@@ -824,12 +824,13 @@ input {
   box-sizing: border-box;
   color: var(--text-main);
 }
+
 input:focus {
   outline: none;
   border-color: var(--border-color);
   background-color: var(--bg-primary);
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
-} 
+}
 
 button[type="submit"] {
   background: var(--accent-primary);
@@ -855,7 +856,8 @@ button[type="submit"]:hover {
 
 button:hover {
   background-color: var(--accent-primary);
-} 
+}
+
 button:hover:not(:disabled) {
   transform: translateY(-2px);
   filter: brightness(1.1);
@@ -1407,11 +1409,11 @@ button:disabled {
 .step-2-box,
 .step-3-box {
   color: #ffffff;
- font-size:24px;
- font-weight: bold;
-  width: fit-content; 
+  font-size: 24px;
+  font-weight: bold;
+  width: fit-content;
   display: inline-block;
- 
+
 }
 
 
@@ -1454,7 +1456,6 @@ button:disabled {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle, transparent 30%, var(--vignette-color) 100%);
   z-index: -1;
   pointer-events: none;
 }
@@ -1479,23 +1480,35 @@ button:disabled {
   font-size: 2rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  margin: 0 0 0.8rem 0;
+  margin: 0 0 1rem 0;
   color: #ffffff !important;
-  ;
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  width: fit-content;
+  padding: 4px 10px;
 }
 
 .footer-desc {
-  color: #f1f5f9;
+  color: #e2e8f0;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.7;
   margin: 0;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 16px 24px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
 /* ENLACES EN PARALELO (Nosotros y legales)*/
-.footer-links {
+/*.footer-links {
   display: flex;
   gap: 3rem;
 }
@@ -1504,6 +1517,26 @@ button:disabled {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.footer-logo:hover,
+.footer-desc:hover,
+.footer-column:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
 }
 
 .footer-column h4 {
@@ -1513,6 +1546,8 @@ button:disabled {
   font-size: 1.1rem;
   margin: 0 0 0.3rem 0;
   letter-spacing: 0.5px;
+ 
+
 }
 
 .footer-column a {
@@ -1523,8 +1558,8 @@ button:disabled {
   transition: all 0.3s ease;
   position: relative;
   width: fit-content;
-}
-
+  
+} 
 .footer-column a::after {
   content: '';
   position: absolute;
@@ -1543,7 +1578,7 @@ button:disabled {
 
 .footer-column a:hover::after {
   width: 100%;
-}
+} */
 
 /* --- BARRA INFERIOR (Redes) --- */
 .footer-bottom {
@@ -1554,9 +1589,11 @@ button:disabled {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #475569;
+  color: #000000;
   font-size: 0.85rem;
   font-family: 'Inter', sans-serif;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(15%);
 }
 
 .social-links {
@@ -1587,7 +1624,9 @@ button:disabled {
 /* RESPONSIVE */
 
 @media (max-width: 992px) {
-  html, body {
+
+  html,
+  body {
     overflow-x: hidden;
   }
 

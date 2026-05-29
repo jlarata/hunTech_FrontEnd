@@ -1621,6 +1621,7 @@
 .btn-cta-outline {
   background: transparent;
   color: #ffffff;
+  backdrop-filter: blur(8px);
 }
 
 .btn-cta-outline:hover {
@@ -2092,6 +2093,10 @@
 
   .ft-huntech-text {
     font-size: clamp(60px, 18vw, 120px);
+    transform: translateX(0%);
+    text-align: center;
+    width: 100%;
+    display: block;
   }
 
   .ft-bottom {
@@ -2189,5 +2194,12 @@
 
   .cards-grid-5 {
     grid-template-columns: repeat(2, 1fr);
+  }
+   .ft-huntech-text {
+    font-size: clamp(40px, 18vw, 100px);
+    transform: translateX(0%);
+    text-align: center;
+    width: 100%;
+    display: block;
   }
 }
