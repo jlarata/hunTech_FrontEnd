@@ -141,10 +141,11 @@
               <div *ngIf="rolActual === 'gerente'" class="form-grid">
                 <div class="input-group">
                   <label>Nombre de la Empresa</label>
-                  <input type="text" [(ngModel)]="perfil.proyecto.nombre" name="empresa_nombre" class="custom-input">
+                  <input type="text" [(ngModel)]="perfil.proyecto.nombre" name="empresa_nombre" class="custom-input"
+                    maxlength="20">
                 </div>
                 <div class="input-group">
-                  <label>Sitio Web</label>
+                  <label>Sitio Web (URL)</label>
                   <input type="url" [(ngModel)]="perfil.proyecto.info_link" name="web_empresa" class="custom-input">
                 </div>
               </div>
@@ -152,11 +153,13 @@
               <div class="form-grid">
                 <div class="input-group">
                   <label>{{ rolActual === 'gerente' ? 'Nombre del Responsable' : 'Nombre' }}</label>
-                  <input type="text" [(ngModel)]="perfil.nombre" name="nombre" class="custom-input">
+                  <input type="text" [(ngModel)]="perfil.nombre" name="nombre" class="custom-input" maxlength="15"
+                    pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+" title="Por favor, ingresa solo letras y espacios." (keypress)="permitirSoloLetras($event)"  >
                 </div>
                 <div class="input-group">
                   <label>Apellido</label>
-                  <input type="text" [(ngModel)]="perfil.apellido" name="apellido" class="custom-input">
+                  <input type="text" [(ngModel)]="perfil.apellido" name="apellido" class="custom-input" maxlength="15"
+                    pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+" title="Por favor, ingresa solo letras y espacios." (keypress)="permitirSoloLetras($event)">
                 </div>
               </div>
 
@@ -173,8 +176,9 @@
                 </div>
                 <div class="input-container">
                   <label class="field-label">Teléfono</label>
-                  <input type="tel" [(ngModel)]="perfil.telefono" name="telefono" class="custom-input" pattern="[0-9]*"
-                    inputmode="numeric" maxlength="10" placeholder="Ej: 1123456789" (keypress)="soloNumeros($event)">
+                  <input type="number   " [(ngModel)]="perfil.telefono" name="telefono" class="custom-input"
+                    pattern="[0-9]*" inputmode="numeric" maxlength="10" placeholder="Ej: 1123456789"
+                    (keypress)="soloNumeros($event)">
                 </div>
 
                 <div class="form-group-full" *ngIf="rolActual === 'gerente'">
@@ -205,12 +209,11 @@
                 <div class="form-grid">
                   <div class="input-group">
                     <label>Fecha de nacimiento</label>
-                    <input type="date" [(ngModel)]="perfil.fecha_nacimiento" name="fecha_nacimiento"
-                      class="custom-input">
+                    <input type="date" [(ngModel)]="perfil.fecha_nacimiento" name="fecha_nacimiento" class="custom-input" [max]="maxDate" [min]="minDate">
                   </div>
                   <div class="input-group">
                     <label>Puesto Actual</label>
-                    <input type="text" [(ngModel)]="perfil.posicion" name="posicion" class="custom-input">
+                    <input type="text" [(ngModel)]="perfil.posicion" name="posicion" class="custom-input" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                   </div>
                   <div class="form-group-full">
                     <label class="label-pro" style="display: flex; align-items: center; gap: 4px;"><span
@@ -388,7 +391,7 @@
           <!-- Ilustración decorativa -->
           <div class="languages-decoration-container" aria-hidden="true">
             <svg class="languages-decoration-svg" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
-          
+
               <g class="bubble-large">
                 <path
                   d="M 10 20 Q 10 10 20 10 L 70 10 Q 80 10 80 20 L 80 60 Q 80 70 70 70 L 30 70 L 20 85 L 25 70 L 20 70 Q 10 70 10 60 Z"

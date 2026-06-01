@@ -215,6 +215,63 @@ html, body {
   order: -1;
 }
 
+/* =========================================
+   BLOQUE: IDENTIFICADOR DE ROL EN NAVBAR
+   ========================================= */
+.nav-welcome-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  list-style: none;
+
+  /* Estilo base para el contenedor del rol */
+  & .badge-rol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: "Plus Jakarta Sans", "Inter", sans-serif; /* ← Tipografía actualizada */
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    /* 1. Definimos una transición rápida y limpia (200 milisegundos) */
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+    
+    /* 2. Bloque Hover: cambia la sombra y desplaza apenas 1 píxel hacia arriba */
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      cursor: default; /* Mantiene el cursor normal si no es un botón cliqueable */
+    }
+    
+    /* RESET CRÍTICO: quita los márgenes del <p> interno */
+    & p {
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+  }
+
+  /* Modificador específico para Gerente */
+  & .badge-gerente {
+    background-color: #f59e0b;
+    color: #ffffff;
+    border-radius: 50px solid rgba(255, 152, 0, 0.2);
+  }
+
+  /* Modificador específico para Desarrollador */
+  & .badge-dev {
+    background-color: #f59e0b;
+    color: #ffffff;
+    border-radius: 50px solid rgba(76, 175, 80, 0.2);
+  }
+}
+
 .material-icons-outlined {
   font-size: 20px;
   line-height: 1;
