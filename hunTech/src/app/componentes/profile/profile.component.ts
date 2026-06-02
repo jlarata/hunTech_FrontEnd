@@ -29,6 +29,8 @@ export class ProfileComponent implements OnInit {
   rolActual: string = '';
   isEditing: boolean = false;
   loading: boolean = false;
+  maxDate: string = '';
+  minDate: string = '';
 
   // --- VARIABLES PARA ARCHIVOS ---
   archivoCV: File | null = null;            // Para el Currículum
@@ -61,7 +63,10 @@ export class ProfileComponent implements OnInit {
 
 
   async ngOnInit() {
-    //ontener email de la url si viniera
+    //obtener email de la url si viniera
+
+    this.calcularLimitesFechas();
+
     const emailDesdeUrl = this.route.snapshot.paramMap.get('email');
 
     this.usersService.userProfile$.subscribe(async data => {
@@ -151,6 +156,18 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+  //El metodo "calularLimiteFechas()" esta oara ni poner datos por fuera de los parametros de edad.
+  calcularLimitesFechas() {
+  const hoy = new Date();
+
+  // Fecha máxima: Hoy menos 18 años
+  const fechaMax = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate());
+  this.maxDate = fechaMax.toISOString().split('T')[0];
+
+  // Fecha mínima: Hoy menos 100 años (límite razonable de edad)
+  const fechaMin = new Date(hoy.getFullYear() - 100, hoy.getMonth(), hoy.getDate());
+  this.minDate = fechaMin.toISOString().split('T')[0];
+}
 
   // --- MÉTODOS PARA ARCHIVOS ---
 
@@ -161,6 +178,21 @@ export class ProfileComponent implements OnInit {
       this.archivoCV = file;
     }
   }
+  // Bloque los numeros dentro de los campos NOMBRE y APELLIDO. 
+  permitirSoloLetras(event: KeyboardEvent): boolean {
+  const regex = new RegExp("^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$");
+  const tecla = event.key;
+
+  if (!regex.test(tecla)) {
+    event.preventDefault(); // Bloquea la escritura de la tecla
+    return false;
+  }
+  return true;
+
+  
+  
+  
+}
 
   // Para el Portfolio 
   onFileSelected(event: any) {

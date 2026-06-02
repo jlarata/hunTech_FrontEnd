@@ -31,6 +31,16 @@
         <button class="material-icons-outlined btn-menu-close" type="button" (click)="closeMenu()"
           aria-label="Cerrar menú">&times;</button>
       </li> -->
+      <li class="nav-welcome-item">
+          <span *ngIf="rolActual === 'gerente'" class="badge-rol badge-gerente">
+            <p>GERENTE</p>
+          </span>
+
+          <span *ngIf="rolActual === 'desarrollador'" class="badge-rol badge-dev">
+            <p>DESARROLLADOR</p>
+          </span>
+        </li>
+
       <li class="nav-close">
         <button class="btn-menu-close" type="button" (click)="closeMenu()" aria-label="Cerrar menú">
           <span class="material-icons-outlined">close</span>
