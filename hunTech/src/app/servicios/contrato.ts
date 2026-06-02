@@ -49,11 +49,15 @@ export class ContratoService {
   }
 
   asignarPostulante(idContrato: string, email: string): Observable<ContratoResponse> {
-  const body = { pasante_email: email };
-  return this._httpClient.put<ContratoResponse>(
-    `${this._contratosUrl}contrato/asignar/${idContrato}`,
-    body
-  );
-}
+    const body = { pasante_email: email };
+    return this._httpClient.put<ContratoResponse>(
+      `${this._contratosUrl}contrato/asignar/${idContrato}`,
+      body
+    );
+  }
+
+  deleteContrato(id: string): Observable<any> {
+    return this._httpClient.delete(`${this._contratosUrl}contrato/${id}`);
+  }
 
 }

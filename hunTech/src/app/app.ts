@@ -10,6 +10,8 @@ import { User } from '@supabase/supabase-js';
 import { AuthService } from './servicios/AuthService';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from './models/users/usuario';
+import { Alertas } from './componentes/alertas/alertas';
+import { AlertService } from './servicios/alertService';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,7 @@ import { Usuario } from './models/users/usuario';
     CommonModule,
     Spinner,
     FormsModule,
+    Alertas
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
@@ -51,40 +54,16 @@ export class App {
 
   cargandoData = true;
 
-  /* ---- MINI LIBRO 3D ---- */
-  bookSpread = 0;
-  bookFlipState: 'idle' | 'forward' = 'idle';
-  bookAnimating = false;
-  bookSpreads = [[0, 1], [2, 3]];
-  bookPages = [
-    { label: 'HunTech', title: '¿Qué es HunTech?', body: 'Nuestro objetivo es facilitar el contacto con empresas que valoran la innovación, la curiosidad y el potencial de los estudiantes de IT.', bg: '#f5f3ff' },
-    { label: 'Para vos', title: 'Tu perfil, tu marca', body: 'Completá tu perfil y destacate ante cientos de reclutadores activos.', bg: '#eff6ff' },
-    { label: 'Empresas', title: 'Talento a un click', body: 'Publicá ofertas y encontrá al desarrollador que tu equipo necesita.', bg: '#f0fdf4' },
-    { label: 'Comunidad', title: 'Crecé con nosotros', body: 'Accedé a recursos y una comunidad de profesionales de tecnología.', bg: '#fff7ed' }
-  ];
-  bookNext() {
-    if (this.bookSpread >= this.bookSpreads.length - 1 || this.bookAnimating) return;
-    this.bookAnimating = true;
-    this.bookFlipState = 'forward';
-    setTimeout(() => {
-      this.bookSpread++;
-      this.bookFlipState = 'idle';
-      setTimeout(() => { this.bookAnimating = false; }, 50);
-    }, 650);
-  }
-  bookPrev() {
-    if (this.bookSpread <= 0 || this.bookAnimating) return;
-    this.bookAnimating = true;
-    this.bookSpread--;
-    setTimeout(() => { this.bookAnimating = false; }, 100);
-  }
+
+
 
 
   constructor(
     /* private _loaderService: LoadingService, */
     protected usersService: Users,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertService: AlertService
   ) {
 
     this.user$ = this.authService.user$;
@@ -99,9 +78,9 @@ export class App {
   async ngOnInit() {
 
     //this.userEmail = this.authService.getCurrentUser()?.email || '';
-   
+
     // Pausamos la ejecucion hasta que Supabase lea la sesion del navegador
-    await this.authService.session; 
+    await this.authService.session;
     this.checkInitialTheme();
     await this.inicializarDatos();
   }
@@ -157,7 +136,7 @@ export class App {
           this.usuarioRol = '';
           console.log("Usuario no hallado, mostrando selector de rol")
         }
-      }else {
+      } else {
         //para cuando no hay sesión activa
         this.usuarioRol = '';
       }
@@ -198,37 +177,13 @@ export class App {
       const { data, error } = await this.authService.signIn(this.login_email, this.login_password);
       if (error) throw error;
 
-
-      /*if (data.user?.email) {
-          this.closeModals(); //aca lo puso originalmente nadine,
-        const usuarioExistente = await this.checkUserExists(data.user.email)
-
-        if (usuarioExistente.data.existe == 1) {
-
-          this.usuarioRol = usuarioExistente.data.tabla;
-
-
-          const usuarioHalladoEnBBDD = await this.getUser(data.user.email, usuarioExistente.data.tabla)
-
-
-          this.usersService.setUserProfile({
-            ...usuarioHalladoEnBBDD,
-            email: data.user.email,
-            rol: usuarioExistente.data.tabla
-
-          })
-
-        } else {
-          this.usuarioRol = '';
-        }
-      }*/
     } catch (error: any) {
-      alert(error.error_description || error.message);
       this.cargandoData = false;
+      this.alertService.error(error.error_description || error.message);
     } finally {
       this.loading = false;
     }
-    //this.cargandoData = false;
+    
   }
 
   async handleSignUp(event: Event) {
@@ -243,10 +198,14 @@ export class App {
 
       if (data.user && !data.session) {
         this.confirmationSent = true;
-
+        
       }
+
+      this.alertService.success("Sesión iniciada correctamente");
+      
     } catch (error: any) {
-      alert(error.message || 'Hubo problemas al crear tu cuenta');
+      this.alertService.error(error.message || 'Hubo problemas al crear tu cuenta');
+
     } finally {
       this.loading = false;
     }
@@ -255,7 +214,7 @@ export class App {
 
   async handleCreateUser() {
     this.cargandoData = true;
-    if (!this.selectedRole) return alert('Por favor selecciona un rol');
+    if (!this.selectedRole) this.alertService.warning('Por favor selecciona un rol');
 
     try {
       this.loading = true;
@@ -267,7 +226,7 @@ export class App {
 
     } catch (error) {
       console.error('Error al crear:', error);
-      alert('No se pudo crear el perfil');
+      this.alertService.error('No se pudo crear el perfil');
     } finally {
       this.loading = false;
     }
@@ -289,8 +248,10 @@ export class App {
       await this.router.navigate(['/']);
 
       console.log("Sesión cerrada correctamente");
+      this.alertService.success("Sesión cerrada correctamente");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
+      this.alertService.error("Error al cerrar sesión: " + error);
     } finally {
       this.cargandoData = false;
     }
@@ -337,12 +298,31 @@ export class App {
       if (error) throw error;
       this.resetSent = true;
     } catch (error: any) {
-      alert(error.message || 'Error al enviar el correo de recuperación');
+      this.alertService.error(error.message || 'Error al enviar el correo de recuperación');
     } finally {
       this.loading = false;
     }
   }
+
+  //login social handle
+  async handleSocialLogin(provider: 'google') {
+    this.loading = true;
+    this.cargandoData = true;
+    try {
+      const { data, error } = await this.authService.signInWithSocial(provider);
+      if (error) throw error;
+      // Supabase redirigirá al proveedor, luego del auth vuelve a la app al .com.ar
+    } catch (error: any) {
+      this.cargandoData = false;
+      this.alertService.error(error.message || 'Error en el inicio de sesión');
+    } finally {
+      this.loading = false;
+    }
+  }
+
 }
+
+
 
 
 

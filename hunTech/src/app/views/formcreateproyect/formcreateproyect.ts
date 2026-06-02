@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Observable, of, switchMap } from 'rxjs';
 import { User } from '@supabase/supabase-js';
 import { AuthService } from '../../servicios/AuthService';
+import { AlertService } from '../../servicios/alertService';
 
 
 @Component({
@@ -41,7 +42,8 @@ export class Formcreateproyect {
     private route: ActivatedRoute,
 
     private authService: AuthService,
-    private usersService: Users
+    private usersService: Users,
+    private alertService: AlertService
   ) {
     // Assign the observable from the service
     this.user$ = this.authService.user$;
@@ -117,10 +119,11 @@ async inicializarDatos() {
       next: (res) => {
         console.log(res.message)
         this.router.navigate(['/miproyecto']);
-
+        this.alertService.success('Proyecto creado con éxito');
       },
       error: (error: string) => {
         console.log(error)
+        this.alertService.error('Error al crear el proyecto');
       }
     });
 
@@ -139,10 +142,11 @@ async inicializarDatos() {
       next: (res) => {
         console.log(res.message)
         this.router.navigate(['/miproyecto']);
-
+        this.alertService.success('Proyecto actualizado con éxito');
       },
       error: (error: string) => {
         console.log(error)
+        this.alertService.error('Error al actualizar el proyecto');
       }
     });
 
