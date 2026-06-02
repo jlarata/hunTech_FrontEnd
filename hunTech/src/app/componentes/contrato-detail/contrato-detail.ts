@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Contrato } from '../../models/contrato';
 import { CommonModule } from '@angular/common';
 import { ContratoService } from '../../servicios/contrato';
 import { Router } from '@angular/router';
 import { AlertService } from '../../servicios/alertService';
+import { WhitelistEmailService } from '../../servicios/whitelist-email';
 
 @Component({
   selector: 'app-contrato-detail',
@@ -12,7 +13,7 @@ import { AlertService } from '../../servicios/alertService';
   templateUrl: './contrato-detail.html',
   styleUrl: './contrato-detail.css'
 })
-export class ContratoDetail {
+export class ContratoDetail implements OnChanges {
 
   @Input() contrato?: Contrato;
   //@Output() contratoChange = new EventEmitter<Contrato>;
@@ -24,12 +25,14 @@ export class ContratoDetail {
 
   modalVisible = false;
   emailSeleccionado: string | null = null;
+  verificadosMap: Record<string, boolean> = {};
 
   constructor(
     private route: ActivatedRoute,
     private _apiService: ContratoService,
     private router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private whitelistService: WhitelistEmailService
   ) { }
 
   abrirModal(email: string) {
@@ -44,6 +47,30 @@ export class ContratoDetail {
 
   ngOnInit(): void {
 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['contrato'] && this.contrato && this.rol === 'gerente') {
+      this.cargarVerificaciones();
+    }
+  }
+
+  private cargarVerificaciones(): void {
+    const emails = this.postulacionesNormalizadas;
+    if (emails.length === 0) return;
+
+    this.whitelistService.verificarBatch(emails).subscribe({
+      next: (res) => {
+        this.verificadosMap = {};
+        for (const item of res.data) {
+          this.verificadosMap[item.email] = item.verificado;
+        }
+      },
+      error: () => {
+        // Si falla la verificación, no bloquear la UI
+        this.verificadosMap = {};
+      }
+    });
   }
 
   asignarPostulante() {

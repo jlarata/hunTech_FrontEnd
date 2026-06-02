@@ -487,6 +487,31 @@
   letter-spacing: 1px;
 }
 
+/* ── Badge Verificado ── */
+.verificado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #10b981;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.verificado-badge svg {
+  flex-shrink: 0;
+}
+
+.verificado-text {
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+}
+
+:host-context(.dark-theme) .verificado-badge {
+  color: #a855f7;
+}
+
 .btn-outline {
   border: 1px solid var(--border-color);
   background: var(--bg-secondary);
