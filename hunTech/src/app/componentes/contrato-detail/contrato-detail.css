@@ -735,3 +735,18 @@ h2 {
     display: none;
   }
 }
+
+/* ── Badge Verificado ── */
+.verificado-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #10b981;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+.dark-theme .verificado-badge,
+:host-context(.dark-theme) .verificado-badge {
+  color: #a855f7;
+}

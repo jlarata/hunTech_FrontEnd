@@ -90,6 +90,12 @@
                     {{ rolActual === 'gerente' ? (perfil.proyecto.nombre || 'Nombre de la empresa...') : (perfil.nombre
                     + ' ' + perfil.apellido) }}
                     <span class="badge-new" *ngIf="isProfileEmpty">Casi terminado</span>
+                    <span class="verificado-badge" *ngIf="rolActual === 'desarrollador' && perfil.verificado" title="Perfil verificado">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                      </svg>
+                      <span class="verificado-text">Verificado</span>
+                    </span>
                   </h3>
                   <p class="role-tag">{{ rolActual | titlecase }}</p>
                 </div>
