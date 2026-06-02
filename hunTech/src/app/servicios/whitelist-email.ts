@@ -56,6 +56,27 @@ export interface UploadWhitelistEmailResponse {
   errores: { count: number; detalle: Array<{ fila?: number; email?: string; motivo: string }> };
 }
 
+export interface VerificarEmailResponse {
+  message: string;
+  data: {
+    verificado: boolean;
+    tipo_usuario?: string | null;
+  };
+}
+
+export interface VerificarBatchItem {
+  email: string;
+  verificado: boolean;
+  tipo_usuario: string | null;
+}
+
+export interface VerificarBatchResponse {
+  message: string;
+  total: number;
+  verificados_count: number;
+  data: VerificarBatchItem[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class WhitelistEmailService {
   private readonly baseUrl = `${environment.apiUrl}whitelist-email`;
@@ -86,5 +107,15 @@ export class WhitelistEmailService {
     if (query.page_size != null) params = params.set('page_size', String(query.page_size));
 
     return this.http.get<ListWhitelistEmailResponse>(this.baseUrl, { params });
+  }
+
+  /** Verifica si un email está en la whitelist con estado activo. */
+  verificarEmail(email: string): Observable<VerificarEmailResponse> {
+    return this.http.get<VerificarEmailResponse>(`${this.baseUrl}/verificar/${encodeURIComponent(email)}`);
+  }
+
+  /** Verifica múltiples emails en batch. */
+  verificarBatch(emails: string[]): Observable<VerificarBatchResponse> {
+    return this.http.post<VerificarBatchResponse>(`${this.baseUrl}/verificar-batch`, { emails });
   }
 }
