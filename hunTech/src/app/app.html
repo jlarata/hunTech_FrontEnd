@@ -1,4 +1,3 @@
-<app-alertas></app-alertas>
 <main>
   @if (cargandoData) {
 
@@ -6,68 +5,86 @@
 
   }@else {
 
-  @if (userEmail) {
+  
 
-  <!-- <div *ngIf="user$ | async as user; else loggedOut"> -->
-  <div>
-    @if (usuarioRol && usuarioRol !== '') {
+    @if (userEmail) {
+
+    <!-- <div *ngIf="user$ | async as user; else loggedOut"> -->
     <div>
+      @if (usuarioRol && usuarioRol !== '') {
+      <div>
 
-      <div class="main-content">
-        <app-navbar></app-navbar>
-        <router-outlet></router-outlet>
+        <div class="main-content">
+          <app-navbar></app-navbar>
+          <router-outlet></router-outlet>
+        </div>
       </div>
+      }
+      @else {
+      <div class="descripcion-container">
+
+        <div class="logo-header-global">
+          <div class="logo-with-pulse">
+            <span class="logo-text">HUNTECH</span>
+            <span class="status-pulse"></span>
+          </div>
+        </div>
+        <hr class="header-divider">
+
+        <div class="card">
+          <h3 class="titulo">Bienvenido a Huntech</h3>
+          <p class="subtitulo">
+            Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
+          </p>
+
+          <div class="form-group">
+            <label for="role" class="label-pro">Selecciona tu rol *</label>
+            <select id="role" [(ngModel)]="selectedRole" class="form-control">
+              <option value="" disabled selected>-- Elige una opción --</option>
+              <option value="desarrollador">Desarrollador</option>
+              <option value="gerente">Empresa / Reclutador</option>
+              <option value="institucion">Institución Educativa</option>
+            </select>
+          </div>
+
+          <div class="actions">
+            <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
+              {{ loading ? 'Guardando...' : 'Salvar' }}
+            </button>
+
+            <button type="button" (click)="logout()" class="btn-secondary">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+      }
     </div>
     }
+
     @else {
-    <div class="descripcion-container">
+    <div class="guest-container">
 
-      <div class="logo-header-global">
-        <div class="logo-with-pulse">
-          <span class="logo-text">HUNTECH</span>
-          <span class="status-pulse"></span>
-        </div>
+    <nav class="navbar guest-nav">
+      <div class="logo-with-pulse">
+        <span class="logo">HUNTECH</span>
+        <span class="status-pulse"></span>
       </div>
-      <hr class="header-divider">
-
-      <div class="card">
-        <h3 class="titulo">Bienvenido a Huntech</h3>
-        <p class="subtitulo">
-          Elegí tu rol y empezá a conectar con las mejores oportunidades en tecnología.
-        </p>
-
-        <div class="form-group">
-          <label for="role" class="label-pro">Selecciona tu rol *</label>
-          <select id="role" [(ngModel)]="selectedRole" class="form-control">
-            <option value="" disabled selected>-- Elige una opción --</option>
-            <option value="desarrollador">Desarrollador</option>
-            <option value="gerente">Empresa / Reclutador</option>
-            <option value="institucion">Institución Educativa</option>
-          </select>
-        </div>
-
-        <div class="actions">
-          <button (click)="handleCreateUser()" [disabled]="!selectedRole || loading" class="btn-primary">
-            {{ loading ? 'Guardando...' : 'Salvar' }}
-          </button>
-
-          <button type="button" (click)="logout()" class="btn-secondary">
-            Cancelar
-          </button>
-        </div>
+      <!--<ul class="nav-links">
+        <li><a class="nav-btn" (click)="scrollTo('hero-left')"></a></li>
+        <li><a class="nav-btn" href="#"></a></li>
+        <li><a class="nav-btn" href="#"></a></li>
+      </ul>-->
+      <div class="nav-auth-buttons">
+        <button class="btn-theme-toggle" (click)="toggleModoOscuro()"
+          [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
+          <span class="material-icons-outlined toggle-icon" style="font-size: 20px; line-height: 1;">{{ isModoOscuro ?
+            'light_mode' : 'dark_mode' }}</span>
+        </button>
+        <button class="btn-guest-login" (click)="toggleLoginModal()">Iniciar Sesión</button>
+        <button class="btn-guest-register" (click)="toggleRegisterModal()">Registrate</button>
       </div>
-    </div>
-    }
-  </div>
-  }
-
-  @else {
-  <div class="guest-container">
-    <app-navbar (onLogin)="toggleLoginModal()" (onRegister)="toggleRegisterModal()"></app-navbar>
-    <div class="ifts-banner-container">
-      <img src="assets/ifts-navbar.jpg" alt="IFTS N 11" class="ifts-banner-img">
-    </div>
-
+    </nav>
     <!-- HERO -->
     <section class="hero">
 
@@ -75,16 +92,15 @@
         <div class="hero-badge">
           Impulsando el futuro IT
         </div>
-        <h1>Huntech: una herramienta del <span class="highlight"> IFTS N°11</span></h1>
+        <h1>Encontrá tu primer trabajo en <span class="highlight">tecnología</span></h1>
         <p class="hero-description">
           Conectamos desarrolladores con <span class="text-highlight">oportunidades reales</span>
         </p>
 
         <ul class="beneficios">
-          <li><span class="material-icons-outlined beneficio-icon">track_changes</span> Oportunidades para ganar
-            experiencia</li>
-          <li><span class="material-icons-outlined beneficio-icon">contact_mail</span> Contacto directo con empresas
-          </li>
+          <li><span class="material-icons-outlined beneficio-icon">track_changes</span> Vacantes personalizadas</li>
+          <li><span class="material-icons-outlined beneficio-icon">notifications_active</span> Notificaciones de
+            empresas</li>
           <li><span class="material-icons-outlined beneficio-icon">business_center</span> Mostrá tus proyectos</li>
         </ul>
       </div>
@@ -105,51 +121,7 @@
       </div>
     </section>
 
-    <div class="huntech-ticker">
-      <div class="ticker-track">
-        <div class="ticker-item">
-          <span> HUNTECH - INSTITUTO DE FORMACIÓN TÉCNICA SUPERIOR Nº 11</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECCIÓN: CÓMO FUNCIONA -->
-
-    <section class="how-it-works-section">
-      <div class="hiw-header">
-        <span class="hiw-tag">Tu camino en 3 pasos</span>
-        <h2 class="hiw-title">Cómo funciona Huntech</h2>
-      </div>
-
-      <div class="hiw-grid">
-        <!-- PASO 1 -->
-        <div class="hiw-card">
-          <div class="step-1-box">1.</div>
-          <h3><strong>Armá tu perfil profesional</strong></h3>
-          <p>Registrate y completa tu perfil detallando tus habilidades. Es fundamental que dejes tus datos de contacto
-            actualizados para que puedan ubicarte.</p>
-        </div>
-
-        <!-- PASO 2 -->
-        <div class="hiw-card">
-          <div class="step-2-box">2.</div>
-          <h3><strong>Explorá y postulate</strong></h3>
-          <p>Buscá entre las ofertas publicadas y postulate a los proyectos que te interesen. Al hacerlo, le darás
-            acceso a la empresa para que pueda ver tu perfil y evaluar tu candidatura.</p>
-        </div>
-
-        <!-- PASO 3 -->
-        <div class="hiw-card">
-          <div class="step-3-box">3.</div>
-          <h3><strong>Contacto directo</strong></h3>
-          <p>Nosotros no intermediamos. Si a una empresa le interesa tu perfil y cree que sos apto para su proyecto, se
-            comunicará con vos directamente a través del contacto que dejaste.</p>
-        </div>
-      </div>
-    </section>
-
     <!-- SECCIÓN DE CARACTERÍSTICAS (TALENTO) -->
-
     <section class="features-section">
       <div class="circulo-flecha">
         <span class="flecha-icon">↓</span>
@@ -227,52 +199,7 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="huntech-footer">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="logo-container">
-            <h3 class="footer-logo">Huntech</h3>
-          </div>
-          <p class="footer-desc">El puente entre tu talento y tu primer trabajo IT. Oportunidades exclusivas para
-            estudiantes del Instituto de Formación Técnica Superior N° 11.</p>
-        </div>
-
-        <!-- <div class="footer-links">
-          <div class="footer-column">
-            <h4>Nosotros</h4>
-            <a href="#">Contacto</a>
-            <a href="#">Ayuda</a>
-          </div>
-          <div class="footer-column">
-            <h4>Legales</h4>
-            <a href="#">Términos y Condiciones</a>
-            <a href="#">Privacidad</a>
-          </div>
-        </div> -->
-      </div>
-
-      <div class="footer-bottom">
-        <div class="social-links">
-          <a href="https://ifts11.edu.ar/" target="_blank" rel="noopener noreferrer" aria-label="Sitio Web IFTS 11">
-            <span class="material-icons-outlined">share</span>
-          </a>
-          <a href="https://www.instagram.com/iftsonce/" target="_blank" rel="noopener noreferrer"
-            aria-label="Instagram">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="social-icon">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </footer>
-
     <!-- AUTENTICACIÓN -->
-
-
     @if (showLoginModal) {
     <div class="modal-overlay" (click)="closeModals()">
       <div class="modal-card card" (click)="$event.stopPropagation()">
@@ -295,17 +222,6 @@
             <button type="submit" [disabled]="loading" class="btn-submit">
               {{ loading ? 'Ingresando...' : 'Entrar' }}
             </button>
-
-            <!-- AUTENTICACIÓN login social -->
-            <div class="divider">O continuá con</div>
-            <div class="social-login-container" style="display: flex; gap: 10px; margin-bottom: 15px;">
-              <button type="button" class="btn-secondary" style="width: 100%;" (click)="handleSocialLogin('google')"
-                [disabled]="loading">
-                Google
-              </button>
-            </div>
-            <!-- FINAUTENTICACIÓN login social -->
-
           </form>
         </div>
       </div>
@@ -334,16 +250,6 @@
             <button type="submit" [disabled]="loading" class="btn-submit">
               {{ loading ? 'Registrando...' : 'Registrarse' }}
             </button>
-            <!-- AUTENTICACIÓN login social -->
-            <div class="divider">O continuá con</div>
-            <div class="social-login-container" style="display: flex; gap: 10px; margin-bottom: 15px;">
-              <button type="button" class="btn-secondary" style="width: 100%;" (click)="handleSocialLogin('google')"
-                [disabled]="loading">
-                Google
-              </button>
-            </div>
-            <!-- FIN AUTENTICACIÓN login social -->
-
           </form>
         </div>
         } @else {
@@ -397,8 +303,89 @@
     }
   </div>
 
+  <!--  LIBRO -->
+  @if (!userEmail) {
+  <div class="mini-book-wrapper">
 
-  }
+    <!-- LIBRO -->
+    <div class="mini-book-scene">
+      <div class="mini-book">
+
+        <!-- PÁGINA IZQUIERDA -->
+        <div class="mini-page mini-left-page" [style.background]="bookPages[bookSpreads[bookSpread][0]].bg">
+          <div class="mini-page-inner">
+            <div class="mini-page-num">{{ bookSpreads[bookSpread][0] + 1 }}</div>
+            <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread][0]].label }}</p>
+            <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread][0]].title }}</h4>
+            <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread][0]].body }}</p>
+          </div>
+        </div>
+
+
+        <div class="mini-spine"></div>
+
+        <!-- SECCIÓN DERECHA -->
+        <div class="mini-right-section">
+
+          <!-- Página de fondo (siguiente spread - derecha) -->
+          <div class="mini-page mini-right-bg" *ngIf="bookSpread < bookSpreads.length - 1"
+            [style.background]="bookPages[bookSpreads[bookSpread + 1][1]].bg">
+            <div class="mini-page-inner">
+              <div class="mini-page-num right">{{ bookSpreads[bookSpread + 1][1] + 1 }}</div>
+              <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread + 1][1]].label }}</p>
+              <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread + 1][1]].title }}</h4>
+              <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread + 1][1]].body }}</p>
+            </div>
+          </div>
+
+          <!-- PÁGINA QUE SE VOLTEA -->
+          <div class="mini-flip-page" [class.mini-flip-forward]="bookFlipState === 'forward'">
+
+            <!-- Cara front: página derecha actual -->
+            <div class="mini-flip-face mini-front" [style.background]="bookPages[bookSpreads[bookSpread][1]].bg">
+              <div class="mini-page-inner">
+                <div class="mini-page-num right">{{ bookSpreads[bookSpread][1] + 1 }}</div>
+                <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread][1]].label }}</p>
+                <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread][1]].title }}</h4>
+                <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread][1]].body }}</p>
+              </div>
+            </div>
+
+            <!-- Cara back: próxima página izquierda -->
+            <div class="mini-flip-face mini-back" *ngIf="bookSpread < bookSpreads.length - 1"
+              [style.background]="bookPages[bookSpreads[bookSpread + 1][0]].bg">
+              <div class="mini-page-inner mirrored">
+                <div class="mini-page-num">{{ bookSpreads[bookSpread + 1][0] + 1 }}</div>
+                <p class="mini-page-label">{{ bookPages[bookSpreads[bookSpread + 1][0]].label }}</p>
+                <h4 class="mini-page-title">{{ bookPages[bookSpreads[bookSpread + 1][0]].title }}</h4>
+                <p class="mini-page-body">{{ bookPages[bookSpreads[bookSpread + 1][0]].body }}</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /mini-right-section -->
+
+      </div>
+    </div>
+
+    <!-- NAVEGACIÓN INFERIOR -->
+    <div class="mini-book-nav">
+      <button class="mini-nav-btn" (click)="bookPrev()" [disabled]="bookSpread === 0 || bookAnimating">
+        <span class="material-icons-outlined">chevron_left</span>
+      </button>
+      <span class="mini-nav-text">{{ bookSpread + 1 }} / {{ bookSpreads.length }}</span>
+      <button class="mini-nav-btn" (click)="bookNext()"
+        [disabled]="bookSpread >= bookSpreads.length - 1 || bookAnimating">
+        <span class="material-icons-outlined">chevron_right</span>
+      </button>
+    </div>
+
+  </div>
+  } <!-- aca termina el libro :0 -->
+
+
+    }
   }
 
 

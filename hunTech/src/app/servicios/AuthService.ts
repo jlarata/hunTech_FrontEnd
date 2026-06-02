@@ -105,15 +105,5 @@ export class AuthService {
     map(user => user?.email ?? null)
   );
 }
-
-  //login social
-  async signInWithSocial(provider: 'google') {
-    return await this.supabase.auth.signInWithOAuth({
-      provider: provider,
-      options: {
-        redirectTo: window.location.origin
-      }
-    });
-  }
 }
 

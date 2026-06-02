@@ -34,9 +34,10 @@ export class Dashboard {
 
   async inicializarDatos() {
     this.usersService.userProfile$.pipe(
-      // 1. esperamos que los datos sean validos
+      // 1. Wait for valid profile data
       filter(data => !!data),
       tap(data => {
+        // Usa tap para "side effects" como asignar variables
         this.perfil = { ...data };
         this.rolActual = data.rol || '';
       })

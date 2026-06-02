@@ -55,11 +55,6 @@
   background-color: #f6fff8;
 }
 
-:host-context(.dark-theme) .is-valid {
-  border-color: #a855f7 !important;
-  background-color: rgba(168, 85, 247, 0.12);
-}
-
 /* ====== Mensajes de error ====== */
 .text-danger {
   color: #dc3545;

@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContratoService } from '../../servicios/contrato';
 import { Contrato } from '../../models/contrato';
-import { AlertService } from '../../servicios/alertService';
 
 
 @Component({
@@ -18,8 +17,7 @@ export class Formcreatecontract {
   constructor(
     private _apiService: ContratoService,
     private router: Router,
-    private route: ActivatedRoute,
-    private alertService: AlertService
+    private route: ActivatedRoute
   ) { }
 
   espost = false;
@@ -48,10 +46,6 @@ export class Formcreatecontract {
     this.proyecto = { nombre: proyecto_nombre }
     this.contrato.proyecto_id = proyecto_id!
 
-  }
-
-  cancelar(): void {
-    this.router.navigate(['/profile'], { queryParams: { tab: 'ofertas' } });
   }
 
   // probablemente por project id const email = this.route.snapshot.paramMap.get('email');
@@ -98,10 +92,6 @@ export class Formcreatecontract {
       return;
     }
 
-    if (!this.contrato.start_date) {
-      this.contrato.start_date = new Date().toISOString().split('T')[0];
-    }
-
     const dataParaEnviar = {
       ...this.contrato,
     };
@@ -112,11 +102,9 @@ export class Formcreatecontract {
       next: (res) => {
         console.log(res.message)
         this.router.navigate(['/contratos']);
-        this.alertService.success('Contrato creado con éxito');
       },
       error: (error: string) => {
         console.log(error)
-        this.alertService.error('Error al crear el contrato');
       }
     });
 

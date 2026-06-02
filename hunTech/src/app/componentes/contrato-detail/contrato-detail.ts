@@ -4,7 +4,6 @@ import { Contrato } from '../../models/contrato';
 import { CommonModule } from '@angular/common';
 import { ContratoService } from '../../servicios/contrato';
 import { Router } from '@angular/router';
-import { AlertService } from '../../servicios/alertService';
 
 @Component({
   selector: 'app-contrato-detail',
@@ -28,8 +27,7 @@ export class ContratoDetail {
   constructor(
     private route: ActivatedRoute,
     private _apiService: ContratoService,
-    private router: Router,
-    private alertService: AlertService
+    private router: Router
   ) { }
 
   abrirModal(email: string) {
@@ -59,12 +57,8 @@ export class ContratoDetail {
           this.contrato = res.data[0];
           this.contratoAssigned.emit(this.contrato ?? null);
           this.cerrarModal();
-          this.alertService.success('Postulante asignado con éxito');
         },
-        error: (e) =>{
-          console.log(e);
-          this.alertService.error('Error al asignar el postulante, '+ e);
-        } 
+        error: (e) => console.log(e)
       });
   }
 
@@ -84,19 +78,11 @@ export class ContratoDetail {
 
         this._apiService.updateContrato(updateContrato)
           .subscribe({
-            next: res => {
-              this.contrato = res.data;
-              this.alertService.success('Postulación realizada con éxito');
-            },
-            error: err => {
-              console.error('Error al actualizar contrato:', err);
-            }
+            next: res => (this.contrato = res.data),
+            error: err => console.error('Error al actualizar contrato:', err)
           });
       },
-      error: (err) => {
-        console.error("Error al postular: ", err);
-        this.alertService.error('Error al realizar la postulación, ' + err);
-      }
+      error: (err) => console.error("Error al postular: ", err)
     });
 
   }
