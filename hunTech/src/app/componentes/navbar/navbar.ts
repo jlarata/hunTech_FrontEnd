@@ -6,6 +6,7 @@ import { User } from '@supabase/supabase-js';
 import { distinctUntilChanged, filter, Observable, tap } from 'rxjs';
 import { Users } from '../../servicios/users';
 import { environment } from '../../environments/environment';
+import { HelpService } from '../../servicios/help.service';
 
 interface BookPage {
   label?: string;
@@ -84,12 +85,18 @@ export class Navbar {
 
   constructor(
     private authService: AuthService,
-    private usersService: Users
+    private usersService: Users,
+    private helpService: HelpService
   ) {
 
     this.user$ = this.authService.user$;
     this.gests = environment.gests;
+  
   }
+    abrirAyuda() {
+  this.helpService.abrir();
+  this.closeMenu();
+}
 
   async ngOnInit(): Promise<void> {
     await this.inicializarDatos();

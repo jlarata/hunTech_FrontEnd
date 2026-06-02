@@ -1,0 +1,224 @@
+.help-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 24px;
+}
+
+.help-panel {
+  width: 370px;
+  max-height: 580px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+}
+
+.help-header {
+  background: linear-gradient(135deg, #FF8C00, #FFD166);
+  padding: 18px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.help-header-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.help-header-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  flex: 1;
+}
+
+.help-header-sub {
+  color: rgba(255,255,255,0.85);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.help-close {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: background 0.15s;
+  margin-left: auto;
+}
+
+.help-close:hover {
+  background: var(--danger-primary);
+}
+
+.help-body {
+  background: #fdf6ee;
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+
+.bubble-bot {
+  background: #fff;
+  border-radius: 4px 16px 16px 16px;
+  padding: 11px 15px;
+  font-size: 13px;
+  color: #1a1a1a;
+  max-width: 85%;
+  line-height: 1.5;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.bubble-user {
+  background: linear-gradient(135deg, #FF8C00, #FFD166);
+  color: #fff;
+  border-radius: 16px 4px 16px 16px;
+  padding: 11px 15px;
+  font-size: 13px;
+  align-self: flex-end;
+  max-width: 85%;
+  line-height: 1.5;
+  box-shadow: 0 1px 4px rgba(255,140,0,0.25);
+}
+
+.bubble-answer {
+  background: #fff8ee;
+  border: 1.5px solid #FFD166;
+  border-radius: 4px 16px 16px 16px;
+  padding: 11px 15px;
+  font-size: 13px;
+  color: #7a4500;
+  max-width: 90%;
+  line-height: 1.5;
+  box-shadow: 0 1px 4px rgba(255,140,0,0.1);
+}
+
+.opciones-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.opt-btn {
+  background: #fff;
+  border: 1.5px solid #FF8C00;
+  color: #FF8C00;
+  border-radius: 14px;
+  padding: 11px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.opt-btn::after {
+  content: '›';
+  font-size: 18px;
+  line-height: 1;
+}
+
+.opt-btn:hover {
+  background: #FF8C00;
+  color: #fff;
+}
+
+.opt-btn:active {
+  transform: scale(0.98);
+}
+
+.acciones-wrap {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.restart-btn {
+  background: none;
+  border: 1.5px solid #FF8C00;
+  color: #FF8C00;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.restart-btn:hover {
+  background: #FF8C00;
+  color: #fff;
+}
+
+.restart-btn:active {
+  transform: scale(0.97);
+}
+
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 16px;
+  width: fit-content;
+}
+
+.typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FF8C00;
+  animation: bounce 1s infinite;
+}
+
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+.bubble-bot, .bubble-user, .bubble-answer {
+  animation: fadeSlide 0.2s ease-out;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.help-panel {
+  animation: slideUp 0.22s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

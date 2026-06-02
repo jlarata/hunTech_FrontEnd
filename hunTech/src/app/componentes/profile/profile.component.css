@@ -1566,7 +1566,50 @@ label {
   font-weight: 500;
 }
 
-/* ofertas para gerente */
+/* ofertas para gerente */ 
+.alert-perfil-incompleto {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.alert-perfil-incompleto .material-icons-outlined {
+  color: #fbbf24;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.alert-perfil-incompleto strong {
+  font-size: 14px;
+}
+
+.alert-perfil-incompleto p {
+  margin: 3px 0 0;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.btn-ir-perfil {
+  margin-left: auto;
+  white-space: nowrap;
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #fbbf24;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.btn-ir-perfil:hover {
+  background: rgba(251, 191, 36, 0.28);
+}
 .ofertas-list {
   display: flex;
   flex-direction: column;

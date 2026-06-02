@@ -58,7 +58,7 @@ export class ProfileComponent implements OnInit {
   private alertService = inject(AlertService); // inyeccion servicio alertas
 
   isOwnProfile = true; // para saber si es el perfil gerente o desarrollador
-
+proyectoCargado = false;
 
   async ngOnInit() {
     //ontener email de la url si viniera
@@ -134,7 +134,7 @@ export class ProfileComponent implements OnInit {
             //console.log(`${res.count} ${res.message}`)
             //console.log(res.data[0])
             this.perfil.proyecto = res.data[0];
-
+            this.proyectoCargado = true; 
           },
           error: (error: string) => {
             console.log('desde el componente perfil error ' + error)
@@ -405,5 +405,25 @@ export class ProfileComponent implements OnInit {
     return !this.perfil.nombre || this.perfil.nombre === '';
   }
 
+ get isPerfilGerenteCompleto(): boolean {
+  if (this.rolActual !== 'gerente') return true;
+   if (!this.proyectoCargado) return true; 
+  return !!(
+    this.perfil?.proyecto?.nombre?.trim() &&
+    this.perfil?.nombre?.trim() &&
+    this.perfil?.apellido?.trim() &&
+    this.perfil?.telefono?.trim() &&
+    this.perfil?.proyecto?.description?.trim()
+  );
+}
+
+irACrearOferta() {
+  if (!this.isPerfilGerenteCompleto) {
+    this.cambiarSeccion('info');
+    this.alertService.error('Completá tu perfil antes de crear una oferta.');
+    return;
+  }
+  this.router.navigate(['/formcreatecontract', this.perfil.proyecto]);
+}
 
 }
