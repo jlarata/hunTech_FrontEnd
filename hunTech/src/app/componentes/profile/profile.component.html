@@ -499,10 +499,24 @@
               <p class="section-subtitle">Gestioná y monitoreá todas las ofertas que tenés publicadas.</p>
             </div>
           </div>
-          <button class="btn-add-oferta" [routerLink]="['/formcreatecontract', perfil.proyecto]">
-            <span class="material-icons-outlined">add</span> Nueva Oferta
-          </button>
+        <button class="btn-add-oferta" (click)="irACrearOferta()"
+  [title]="!isPerfilGerenteCompleto ? 'Completá tu perfil para continuar' : 'Nueva oferta'">
+  <span class="material-icons-outlined">add</span> Nueva Oferta
+  <span *ngIf="!isPerfilGerenteCompleto" class="material-icons-outlined"
+    style="font-size:15px; margin-left:4px; color:#fbbf24;">warning</span>
+</button>
         </div>
+        <div *ngIf="isOwnProfile && !isPerfilGerenteCompleto" class="alert-perfil-incompleto">
+    <span class="material-icons-outlined">info</span>
+    <div>
+      <strong>Tu perfil está incompleto.</strong>
+      <p>Necesitás completar: nombre de empresa, contacto, teléfono y descripción.</p>
+    </div>
+    <button (click)="cambiarSeccion('info')" class="btn-ir-perfil">
+      Ir al perfil →
+    </button>
+  </div>
+
 
         <!-- BODY -->
         @if (ofertas.length > 0) {
@@ -583,9 +597,9 @@
           <p class="empty-subtitle">Cuando publiques una oferta, aparecerá aca para que puedas gestionarla y recibir
             postulaciones.</p>
 
-          <button class="btn-create-first" [routerLink]="['/formcreatecontract', perfil.proyecto]">
-            <span class="material-icons-outlined">add_circle_outline</span> Crear mi primera oferta
-          </button>
+          <button class="btn-create-first" (click)="irACrearOferta()">
+  <span class="material-icons-outlined">add_circle_outline</span> Crear mi primera oferta
+</button>
         </div>
         }
 

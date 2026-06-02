@@ -1,0 +1,41 @@
+<div class="help-overlay" *ngIf="isOpen" (click)="cerrarOverlay($event)">
+  <div class="help-panel">
+    <div class="help-header">
+      <div class="help-header-dot"></div>
+      <div>
+        <div class="help-header-title">Asistente Virtual</div>
+        <div class="help-header-sub">IFTS N°11 · Bolsa de trabajo</div>
+      </div>
+      <button class="help-close" (click)="cerrar()">
+        <span class="material-icons-outlined">close</span>
+      </button>
+    </div>
+    <div class="help-body" #bodyRef>
+      <div *ngFor="let item of historial"
+        [class.bubble-bot]="item.type === 'bot'"
+        [class.bubble-user]="item.type === 'user'">
+        {{ item.text }}
+      </div>
+      <div class="bubble-bot" *ngIf="nodoActual.id !== 'fin' && !isTyping">{{ nodoActual.msg }}</div>
+      <div class="bubble-answer" *ngIf="nodoActual.id === 'fin'">{{ nodoActual.msg }}</div>
+      <div class="bubble-bot typing" *ngIf="isTyping">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="opciones-wrap" *ngIf="nodoActual.id !== 'fin' && !isTyping">
+        <button class="opt-btn" *ngFor="let op of nodoActual.opciones" (click)="elegirOpcion(op)">
+          {{ op.texto }}
+        </button>
+      </div>
+     <div class="acciones-wrap" *ngIf="!isTyping && nodoActual.id === 'fin'">
+        <button class="restart-btn" (click)="volverAtras()">
+          <span class="material-icons-outlined" style="font-size:14px">arrow_back</span>
+          Hacer otra pregunta
+        </button>
+        <button class="restart-btn" (click)="reiniciar()">
+          <span class="material-icons-outlined" style="font-size:14px">refresh</span>
+          Volver al inicio
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

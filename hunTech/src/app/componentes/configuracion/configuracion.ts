@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HelpService } from '../../servicios/help.service';
 
 @Component({
   selector: 'app-configuracion',
@@ -16,4 +17,7 @@ export class Configuracion {
     { label: 'Apariencia', icon: 'palette', ruta: 'apariencia' },
     { label: 'Seguridad', icon: 'shield', ruta: 'seguridad' },
   ];
+
+    constructor(private helpService: HelpService) {}
+     abrirAyuda() { this.helpService.abrir(); }
 }

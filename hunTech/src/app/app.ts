@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Navbar } from './componentes/navbar/navbar';
@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { Usuario } from './models/users/usuario';
 import { Alertas } from './componentes/alertas/alertas';
 import { AlertService } from './servicios/alertService';
+import { HelpChatComponent } from './componentes/help-chat/chatbot.component';
+import { HelpService } from './servicios/help.service'; 
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,8 @@ import { AlertService } from './servicios/alertService';
     CommonModule,
     Spinner,
     FormsModule,
-    Alertas
+    Alertas,
+    HelpChatComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
@@ -52,24 +55,17 @@ export class App {
   resetSent = false;
   title = 'hunTech';
 
+
   cargandoData = true;
 
-
-
-
-
-  constructor(
-    /* private _loaderService: LoadingService, */
-    protected usersService: Users,
-    private router: Router,
-    private authService: AuthService,
-    private alertService: AlertService
-  ) {
-
-    this.user$ = this.authService.user$;
-  }
-
-
+constructor(
+  protected usersService: Users,
+  private router: Router,
+  private authService: AuthService,
+  private alertService: AlertService,
+) {
+  this.user$ = this.authService.user$;
+}
 
   get esSoloPerfil(): boolean {
     return this.router.url.startsWith('/profile/');
