@@ -60,7 +60,7 @@
         <li class="nav-item-with-dropdown" *ngIf="rolActual === 'gerente'">
           <a class="btn-halo" routerLink="/contratos" routerLinkActive="active" (click)="closeMenu()">
             <span class="material-icons-outlined">search</span>
-            Ver mis contratos
+            Ver mis ofertas
           </a>
         </li>
 
@@ -79,22 +79,24 @@
           </a>
         </li>
 
-        <li class="nav-item">
-          <a class="btn-halo" routerLink="/profile" routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">
+        <!-- LINKS PARA CELULARES (FUERA DEL DROPDOWN) -->
+        <li class="nav-item hide-on-desktop">
+          <a class="btn-halo" routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">
+            <span class="material-icons-outlined">person</span>
             Perfil
           </a>
         </li>
-
-        <!-- ICONOS PARA USUARIOS LOGUEADOS -->
-        <li class="nav-icons-row">
-          <button class="btn-book-nav" (click)="openBook()" title="Ver libro HunTech">
-            <span class="material-icons-outlined">menu_book</span>
-          </button>
-          <button class="btn-theme-toggle-nav" (click)="toggleModoOscuro()"
-            [title]="isModoOscuro ? 'Activar modo claro' : 'Activar modo oscuro'">
+        <li class="nav-item hide-on-desktop">
+          <a class="btn-halo" (click)="toggleModoOscuro()">
             <span class="material-icons-outlined">{{ isModoOscuro ? 'light_mode' : 'dark_mode' }}</span>
-          </button>
+            Modo {{ isModoOscuro ? 'Claro' : 'Oscuro' }}
+          </a>
+        </li>
+        <li class="nav-item hide-on-desktop">
+          <a class="btn-halo" (click)="openBook()" title="Ver libro Huntech">
+            <span class="material-icons-outlined">menu_book</span>
+            Libro Huntech
+          </a>
         </li>
 
         <!-- DROPDOWN CUENTA -->
@@ -104,6 +106,25 @@
             <span class="material-icons-outlined arrow">expand_more</span>
           </button>
           <ul class="dropdown-menu account-dropdown">
+            <li class="hide-on-mobile">
+              <a routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">
+                <span class="material-icons-outlined">person</span>
+                Perfil
+              </a>
+            </li>
+            <li class="hide-on-mobile">
+              <a (click)="toggleModoOscuro()">
+                <span class="material-icons-outlined">{{ isModoOscuro ? 'light_mode' : 'dark_mode' }}</span>
+                Modo {{ isModoOscuro ? 'Claro' : 'Oscuro' }}
+              </a>
+            </li>
+            <li class="hide-on-mobile">
+              <a (click)="openBook()">
+                <span class="material-icons-outlined">menu_book</span>
+                Libro HunTech
+              </a>
+            </li>
+            <li class="divider"></li>
             <li>
               <a (click)="navigateTo('configuracion')">
                 <span class="material-icons-outlined">settings</span>

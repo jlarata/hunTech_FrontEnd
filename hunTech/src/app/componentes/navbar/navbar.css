@@ -51,6 +51,7 @@ html, body {
   text-transform: uppercase;
   font-family: 'Inter', sans-serif;
   margin-right: 12px;
+  white-space: nowrap;
 }
 
 .logo-with-pulse {
@@ -1407,3 +1408,14 @@ main {
   padding-top: 100px;
 }
 
+@media (max-width: 1200px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1201px) {
+  .hide-on-desktop {
+    display: none !important;
+  }
+}
